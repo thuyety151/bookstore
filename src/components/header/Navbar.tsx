@@ -1,10 +1,5 @@
-import { Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import { Paper } from '@material-ui/core'
-import { Typography } from '@material-ui/core'
-import React from 'react'
-import { Grid } from '@material-ui/core';
 import SettingsCellOutlinedIcon from '@material-ui/icons/SettingsCellOutlined';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import SwapHorizOutlinedIcon from '@material-ui/icons/SwapHorizOutlined';
@@ -12,7 +7,6 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import { ListItem } from '@material-ui/core';
-import { ListItemText } from '@material-ui/core';
 import { Divider } from '@material-ui/core';
 import { Badge } from '@material-ui/core';
 
@@ -38,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
     listItem:{
         display:'flex',
         width:'auto'
-    }
+    },
+    
   }));
 
 function Navbar(){
