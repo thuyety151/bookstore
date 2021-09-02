@@ -1,14 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import ContainedButtons from './components/ContainedButtons'
-function App() {
+import "./App.css";
+import routes from "./routers/routes";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  RouteComponentProps,
+} from "react-router-dom";
+
+const App: React.FunctionComponent<{}> = (props) => {
   return (
-    <div className="App">
-      <h3>hihi</h3>
-      <ContainedButtons />
+    <div>
+      <BrowserRouter>
+        <Switch>
+          {routes.map((route, index) => {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                render={(propss: RouteComponentProps<any>) => (
+                  <route.component {...props} {...route.props} />
+                )}
+              />
+            );
+          })}
+        </Switch>
+      </BrowserRouter>
     </div>
   );
-}
-
+};
 export default App;
