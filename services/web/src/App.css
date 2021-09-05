@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap');
 .App {
   text-align: center;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .App-logo {
@@ -7,6 +9,9 @@
   pointer-events: none;
 }
 
+body{
+  font-family: 'Noto Sans JP', sans-serif;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

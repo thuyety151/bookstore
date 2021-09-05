@@ -1,18 +1,19 @@
-import "./App.css";
-import {routes} from "./routers/routes";
 import {
-  BrowserRouter,
   Route,
-  Switch,
   RouteComponentProps,
+  Switch,
 } from "react-router-dom";
+import HeaderComponent from "../components/navbar/HeaderComponent";
+import NavBarComponent from "../components/navbar/NavBarComponent";
+import { routeMainLayout } from "../routers/routes";
 
-const App: React.FunctionComponent<{}> = (props) => {
+const MainLayout: React.FC = () => {
   return (
     <div>
-      <BrowserRouter>
-        <Switch>
-          {routes.map((route, index) => {
+      <HeaderComponent />
+      <NavBarComponent />
+      <Switch>
+        {routeMainLayout.map((route, index) => {
             return (
               <Route
                 key={index}
@@ -23,9 +24,9 @@ const App: React.FunctionComponent<{}> = (props) => {
               />
             );
           })}
-        </Switch>
-      </BrowserRouter>
+      </Switch>
     </div>
   );
 };
-export default App;
+
+export default MainLayout;
