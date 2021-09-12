@@ -1,13 +1,11 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
 import { lstCurrency, lstLanguage } from "../../mocks/sidebar";
 import { ILanguage } from "../../model/sidebar";
-import { Button, Grid, List, ListItem } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import facebook from "../../assets/icons/facebook.svg";
 import google from "../../assets/icons/google.svg";
 import github from "../../assets/icons/github.svg";
@@ -39,19 +37,15 @@ export default function NativeSelects() {
     currency: string;
   }>({
     language: "",
-    currency: "hai",
+    currency: "",
   });
 
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
-    const name = event.target.name as keyof typeof state;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+  const handleChangeLanguage = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setState({...state,language: event.target.value as string});
   };
-
+  const handleChangeCurrency = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setState({...state,currency: event.target.value as string});
+  };
   return (
     <div className={classes.root}>
       <Grid
@@ -59,7 +53,6 @@ export default function NativeSelects() {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        spacing={2}
       >
         <Grid item>
           <FormControl variant="outlined" className={classes.formControl}>
@@ -69,7 +62,7 @@ export default function NativeSelects() {
             <Select
               native
               value={state.language}
-              onChange={handleChange}
+              onChange={handleChangeLanguage}
               label="Language"
               inputProps={{
                 name: "age",
@@ -94,7 +87,7 @@ export default function NativeSelects() {
             <Select
               native
               value={state.currency}
-              onChange={handleChange}
+              onChange={handleChangeCurrency}
               label="Currency"
               inputProps={{
                 name: "age",
@@ -117,7 +110,6 @@ export default function NativeSelects() {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        spacing={1}
       >
         <Grid item  >
           <Button>

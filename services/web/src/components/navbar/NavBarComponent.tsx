@@ -11,12 +11,10 @@ import logo from "../../assets/images/book-worm.png";
 import { Divider } from "@material-ui/core";
 import icon from "../../assets/icons/menu-bar.svg";
 
-const NavBarComponent: React.FC = () => {
+const NavBarComponent: React.FC<{openSideBar:boolean,setOpenSidebar:any}> = ({openSideBar,setOpenSidebar}) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
+  const handleOpenSideBar = () => {
+    setOpenSidebar(!openSideBar)
   };
   const hanleSearch = (key: any) => {
     console.log(key);
@@ -30,7 +28,7 @@ const NavBarComponent: React.FC = () => {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-            onClick={handleClick}
+            onClick={handleOpenSideBar}
           >
             {/* <MenuIcon /> */}
             <img src={icon} style={{ height: 30 }} alt="icon" />
