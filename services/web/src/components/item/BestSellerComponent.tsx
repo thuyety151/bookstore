@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: theme.spacing(2),
       margin: "auto",
-      maxWidth: 500,
+      // maxWidth: 500,
       textAlign: "left",
       "&:hover": {
         borderColor: "#000",

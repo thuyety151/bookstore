@@ -1,4 +1,4 @@
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
@@ -6,6 +6,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import data from "../../mocks/bestsaling";
 import BestSellerComponent from "./BestSellerComponent";
 import "./slideEffect.css";
+import { ReactComponent as Icon } from "../../assets/images/themifyIcon/angle-right.svg";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
@@ -13,8 +14,8 @@ const responsive = {
 };
 
 const items = data.map((item, index) => {
-return (
-    <div  data-value="1" key={index}>
+  return (
+    <div data-value="1" key={index}>
       <BestSellerComponent item={item} />
     </div>
   );
@@ -25,9 +26,24 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     paper: {
-      padding: theme.spacing(2),
+      // padding: theme.spacing(2),
       textAlign: "center",
       color: theme.palette.text.secondary,
+    },
+    title: {
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    viewAll: {
+      display: "flex",
+      alignItems: "center",
+      "&:hover": {
+        cursor: "pointer",
+        color: "red",
+        "& .icon": {
+          fill: "red",
+        },
+      },
     },
   })
 );
@@ -42,15 +58,27 @@ const SlideEffect: React.FC = () => {
         alignItems="center"
         spacing={1}
       >
-        <Grid item xs={10} spacing={3}>
-          <Paper className={classes.paper} elevation={0} >
-            {" "}
+        <Grid item xs={9} container className={classes.title}>
+          <Grid item>
+            <Grid item>
+              <Typography variant="h4" gutterBottom>
+                Bestselling Books
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item className={classes.viewAll}>
+            <Typography variant="subtitle1" gutterBottom>
+              View All
+            </Typography>
+            <SvgIcon component={Icon} className="icon" />
+          </Grid>
+        </Grid>
+        <Grid item xs={9}>
+          <Paper className={classes.paper} elevation={0}>
             <AliceCarousel
               mouseTracking
               disableDotsControls
               items={items}
-              paddingLeft={50}
-              paddingRight={50}
               responsive={responsive}
             />
           </Paper>
