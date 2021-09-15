@@ -1,12 +1,15 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Attribute
+    public class Author
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Slug { get; set; }
         public bool IsDeleted { get; set; }
+
+        public ICollection<Book> Books { get; set; }
     }
 }

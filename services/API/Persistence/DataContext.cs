@@ -26,9 +26,15 @@ namespace Persistence
                 .HasOne(x => x.Category)
                 .WithMany(x => x.Books)
                 .HasForeignKey(x => x.CategoryId);
+
+            builder.Entity<Category>()
+                .HasOne(x => x.ParentCategory)
+                .WithMany(x => x.SubCategories)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Author> Authors { get; set; }
         public DbSet<Attribute> Attributes { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<Book> Books { get; set; }
@@ -41,5 +47,6 @@ namespace Persistence
         public DbSet<Order> Orders { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<WishList> WishLists { get; set; }
+        public DbSet<BookCategory> BooksCategories { get; set; }
     }
 }

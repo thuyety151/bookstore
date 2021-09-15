@@ -15,6 +15,7 @@ namespace Domain
         public double MinSpend { get; set; }
         public double MaxSpend { get; set; }
         public bool IsIndividualOnly { get; set; }
+        public bool IsDeleted { get; set; }
 
         public ICollection<Book> Books { get; set; }
         public ICollection<Book> ExcludeBooks { get; set; }
