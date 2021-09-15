@@ -7,6 +7,8 @@ namespace Domain
         public Guid Id { get; set; }
         public Address Address { get; set; }
         public string OrderNote { get; set; }
+        public bool IsDeleted { get; set; }
+        
         
     }
 }

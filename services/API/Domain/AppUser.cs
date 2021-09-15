@@ -10,6 +10,7 @@ namespace Domain
         public string LastName { get; set; }
         public Media Photo { get; set; }
         public ICollection<Address> Address { get; set; }
+        public bool IsDeleted { get; set; }
 
         public string Role { get; set; }
     }
