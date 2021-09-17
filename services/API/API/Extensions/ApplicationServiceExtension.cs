@@ -1,4 +1,5 @@
 using Application.Authors;
+using Application.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace API.Extensions
             });
 
             services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             return services;
         }
