@@ -2,7 +2,8 @@ import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import { dataCategories, color } from "./type";
+import { dataCategories, color } from "../../../model/category";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,7 +43,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Categories() {
   const classes = useStyles();
-
+  const history = useHistory();
+  const handleNavigateToCate=(id?:string)=>{
+    if(id){
+      history.push(`/category/${id}`)
+    } else {
+      history.push(`/category`);
+    }
+    
+  }
   return (
     <div>
       <Grid
@@ -55,7 +64,7 @@ function Categories() {
         <Grid item xs={9}>
           <div className={classes.subHeader}>
             <h1 style={{ fontWeight: 400 }}>Featured Categories</h1>
-            <span className={classes.allCategory}>
+            <span className={classes.allCategory} onClick={()=>handleNavigateToCate()}>
               <span>All Categories</span>
               <i
                 className="material-icons-outlined"
@@ -69,7 +78,7 @@ function Categories() {
         <Grid item xs={9}>
           <Grid container justifyContent="space-between" >
             {dataCategories.map((value, index) => (
-              <Grid key={index} item>
+              <Grid key={index} item onClick={()=>handleNavigateToCate(value.id)}>
                 <Paper
                   className={classes.paper}
                   style={{ backgroundColor: `${color[index]}` }}

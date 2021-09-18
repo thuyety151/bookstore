@@ -8,10 +8,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { IBestSellerType } from "../../model";
+import { IBestSellerType } from "../../../model";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 const BestSellerComponent: React.FC<{ item: IBestSellerType }> = (item) => {
   const classes = useStyles();
+  const history= useHistory()
+  const handleNavBook=(id?:string)=>{
+    if(id){
+      history.push(`/book/${id}`)
+    } else {
+      history.push(`/book`)
+    }
+  }
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} variant="outlined" square>
@@ -23,7 +32,7 @@ const BestSellerComponent: React.FC<{ item: IBestSellerType }> = (item) => {
           spacing={3}
         >
           <Grid item>
-            <ButtonBase className={classes.image}>
+            <ButtonBase className={classes.image} onClick={()=>handleNavBook(item.item.id)}>
               <img
                 className={classes.image}
                 src={item.item.imageUrl}
@@ -44,6 +53,7 @@ const BestSellerComponent: React.FC<{ item: IBestSellerType }> = (item) => {
                 gutterBottom
                 variant="subtitle1"
                 className={classes.name}
+                onClick={()=>handleNavBook(item.item.id)}
               >
                 {item.item.name}
               </Typography>

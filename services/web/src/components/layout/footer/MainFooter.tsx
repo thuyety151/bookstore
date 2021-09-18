@@ -4,14 +4,14 @@ import {
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
-import logo from "../../assets/images/book-worm.png";
-import FooterContactComponent from "./FooterContactComponent";
-import footerData from "../../mocks/footer";
-import FooterBottomComponent from "./FooterBottomComponent";
+import logo from "../../../assets/images/book-worm.png";
+import FooterContactComponent from "./FooterContactInfo";
+import footerData from "../../../mocks/footer";
+import FooterBottomComponent from "./FooterBottom";
 
 const FooterComponent: React.FC = () => {
   const classes = useStyles();
-
+  
   return (
     <div className={classes.root}>
       <Divider />

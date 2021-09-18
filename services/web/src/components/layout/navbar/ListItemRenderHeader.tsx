@@ -1,5 +1,5 @@
 import React from "react";
-import { IHeaderTypes } from "../../model/navbar";
+import { IHeaderTypes } from "../../../model/navbar";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import ListItem from "@material-ui/core/ListItem";
 import { Box, Collapse, List, Theme } from "@material-ui/core";

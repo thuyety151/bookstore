@@ -7,11 +7,11 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import CloseIcon from "@material-ui/icons/Close";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import data, { dataHelpSetting } from "../../mocks/sidebar";
+import data, { dataHelpSetting } from "../../../mocks/sidebar";
 import SwipeableViews from "react-swipeable-views";
 import Box from "@material-ui/core/Box";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import ChildSideBarComponent from "../mainLayout/ChildSideBarComponent";
+import ChildSideBarComponent from "./SideBarItem";
 import BottomSidebar from "./BottomSidebar";
 
 interface TabPanelProps {

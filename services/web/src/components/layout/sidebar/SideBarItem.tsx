@@ -1,7 +1,7 @@
 import { List, ListItem, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
-import data from "../../mocks/sidebar";
-import { ISideBarChildren } from "../../model/sidebar";
+import data from "../../../mocks/sidebar";
+import { ISideBarChildren } from "../../../model/sidebar";
 
 const ChildSideBarComponent: React.FC<{
   idCategory: string;

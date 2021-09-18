@@ -3,10 +3,11 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import data from "../../mocks/bestsaling";
-import BestSellerComponent from "./BestSellerComponent";
+import BestSellerComponent from "./BestSellerBanner";
 import "./slideEffect.css";
-import { ReactComponent as Icon } from "../../assets/images/themifyIcon/angle-right.svg";
+import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
+import { useHistory } from "react-router-dom";
+import data from "../../../mocks/bestsaling";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
@@ -49,6 +50,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 const SlideEffect: React.FC = () => {
   const classes = useStyles();
+  const history= useHistory();
+  const handleNavBook=(id?:string)=>{
+    if(id){
+      history.push(`/book/${id}`)
+    } else {
+      history.push(`/book`)
+    }
+  }
   return (
     <div className={classes.root}>
       <Grid
@@ -56,7 +65,6 @@ const SlideEffect: React.FC = () => {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        spacing={1}
       >
         <Grid item xs={9} container className={classes.title}>
           <Grid item>
@@ -66,7 +74,7 @@ const SlideEffect: React.FC = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid item className={classes.viewAll}>
+          <Grid item className={classes.viewAll} onClick={()=>handleNavBook()}>
             <Typography variant="subtitle1" gutterBottom>
               View All
             </Typography>

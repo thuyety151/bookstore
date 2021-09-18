@@ -1,3 +1,4 @@
+import React from "react"
 import {
   createStyles,
   Grid,
@@ -6,7 +7,7 @@ import {
   makeStyles,
   Theme,
 } from "@material-ui/core";
-import { IFooterType } from "../../model/footer";
+import { IFooterType } from "../../../model/footer";
 
 const FooterContactComponent: React.FC<{ data: IFooterType }> = (data) => {
   const classes = useStyles();
