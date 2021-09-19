@@ -1,5 +1,5 @@
 import "./App.css";
-import routes from "./routers/routes";
+import {routes} from "./routers/routes";
 import {
   BrowserRouter,
   Route,
@@ -17,8 +17,7 @@ const App: React.FunctionComponent<{}> = (props) => {
               <Route
                 key={index}
                 path={route.path}
-                exact={route.exact}
-                render={(propss: RouteComponentProps<any>) => (
+                render={(props: RouteComponentProps<any>) => (
                   <route.component {...props} {...route.props} />
                 )}
               />
