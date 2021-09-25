@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Application.Categories
         public class Query : IRequest<Result<PagedList<CategoryDto>>>
         {
             public PagingParams Params { get; set; }
-            public string Id { get; set; }
+            public Guid Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<CategoryDto>>>
@@ -30,7 +31,7 @@ namespace Application.Categories
             }
             public async Task<Result<PagedList<CategoryDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var subCategories = _context.Categories.Where(x => x.IsDeleted == false && x.Id.ToString() == request.Id)
+                var subCategories = _context.Categories.Where(x => x.IsDeleted == false && x.Id == request.Id)
                         .Select(x => new CategoryDto()
                         {
                             Id = x.Id,
