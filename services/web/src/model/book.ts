@@ -6,9 +6,9 @@ export interface IBestSellerType {
   id: string;
   name: string;
   attribute: string;
-  attriuteId:string;
+  attriuteId: string;
   author: string;
-  authorId:string;
+  authorId: string;
   regularPrice: string;
   salePrice: string;
   imageUrl: string;
