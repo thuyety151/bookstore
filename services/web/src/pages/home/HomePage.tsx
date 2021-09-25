@@ -3,7 +3,7 @@ import React from "react";
 // import DealItem from "../../components/DealItem";
 // import SlideShow from './components/SlideShow';
 // import TabBar from './components/TabBar';
-const HomePage: React.FunctionComponent<{}> = (props) => {
+const HomePage: React.FC<{}> = (props) => {
   return (
     <div className="App">
       {/* <HeaderComponent/>

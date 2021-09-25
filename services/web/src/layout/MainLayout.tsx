@@ -1,3 +1,4 @@
+import React from "react"
 import {
   Route,
   RouteComponentProps,
@@ -8,14 +9,17 @@ import HeaderComponent from "../components/navbar/HeaderComponent";
 import NavBarComponent from "../components/navbar/NavBarComponent";
 import { routeMainLayout } from "../routers/routes";
 import { useState } from "react";
+import MainShoppingCart from "../components/shoppingcart/MainShoppingCart";
 
 const MainLayout: React.FC = () => {
   const [openSidebar,setOpenSidebar] = useState(false)
+  const [openCart,setOpenCart] = useState(false)
   return (
     <div>
-      <HeaderComponent />
+      <HeaderComponent  setOpenCart={setOpenCart}/>
       <NavBarComponent openSideBar={openSidebar} setOpenSidebar={setOpenSidebar} />
       <SideBarComponent openSideBar={openSidebar} setOpenSidebar={setOpenSidebar} />
+      <MainShoppingCart openCart={openCart} setOpenCart={setOpenCart}/>
       <Switch>
         {routeMainLayout.map((route, index) => {
             return (
