@@ -3,9 +3,9 @@ import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";
 import ProfilePage from "../pages/profile/ProfilePage";
 import LoginPage from "../pages/login/LoginPage";
-import MainLayout from "../components/layout/MainLayout";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
+import MainLayout from "../layout/MainLayout";
 
 const isLogged: boolean = false;
 
@@ -22,7 +22,6 @@ export const routes: IRoute[] = [
     component: Error404,
     exact: true,
   },
- 
 ];
 
 export const routeMainLayout: IRoute[] = [
@@ -35,7 +34,7 @@ export const routeMainLayout: IRoute[] = [
   {
     path: "/profile",
     name: "Example",
-    component: isLogged?ProfilePage:LoginPage,
+    component: isLogged ? ProfilePage : LoginPage,
     exact: false,
   },
   {

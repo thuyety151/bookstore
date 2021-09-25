@@ -58,7 +58,7 @@ const MainShoppingCart: React.FC<{
         <Grid item xs={12}>
           {data.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <CartItem item={item} />
                 <Divider />
               </div>
