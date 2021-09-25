@@ -3,7 +3,7 @@ import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";
 import ProfilePage from "../pages/profile/ProfilePage";
 import LoginPage from "../pages/login/LoginPage";
-import MainLayout from "../layout/MainLayout";
+import MainLayout from "../components/layout/MainLayout";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
 
@@ -27,7 +27,7 @@ export const routes: IRoute[] = [
 
 export const routeMainLayout: IRoute[] = [
   {
-    path: "/home",
+    path: "/",
     name: "Home",
     component: Home,
     exact: true,
@@ -36,30 +36,54 @@ export const routeMainLayout: IRoute[] = [
     path: "/profile",
     name: "Example",
     component: isLogged?ProfilePage:LoginPage,
-    exact: true,
+    exact: false,
+  },
+  {
+    path: "/author",
+    name: "Author",
+    component: CategoryPage,
+    exact: false,
+  },
+  {
+    path: "/book",
+    name: "Book",
+    component: CategoryPage,
+    exact: false,
+  },
+  {
+    path: "/category",
+    name: "Category",
+    component: CategoryPage,
+    exact: false,
   },
   {
     path: "/category/:id",
     name: "Category",
     component: CategoryPage,
-    exact: true,
+    exact: false,
   },
   {
     path: "/blogs/:id",
     name: "Blog",
     component: Example,
-    exact: true,
+    exact: false,
   },
   {
     path: "/others/:id",
     name: "Others",
     component: Example,
-    exact: true,
+    exact: false,
   },
   {
     path: "/shops/:id",
     name: "Shop",
     component: Example,
+    exact: false,
+  },
+  {
+    path: "*",
+    name: "Error",
+    component: Error404,
     exact: true,
   },
 ];

@@ -6,10 +6,10 @@ import { AppBar } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { List } from "@material-ui/core";
 import React from "react";
-import ListItemRender from "./ListItemRender";
-import logo from "../../assets/images/book-worm.png";
+import ListItemRender from "./ListItemRenderHeader";
+import logo from "../../../assets/images/book-worm.png";
 import { Divider } from "@material-ui/core";
-import icon from "../../assets/icons/menu-bar.svg";
+import icon from "../../../assets/icons/menu-bar.svg";
 
 const NavBarComponent: React.FC<{openSideBar:boolean,setOpenSidebar:any}> = ({openSideBar,setOpenSidebar}) => {
   const classes = useStyles();

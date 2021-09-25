@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderComponent: React.FC<{
   setOpenCart: any;
-}> = ({  setOpenCart })  => {
+}> = ({ setOpenCart }) => {
   const classes = useStyles();
-  const handleOpenCart=()=>{
-    setOpenCart(true)
-  }
+  const handleOpenCart = () => {
+    setOpenCart(true);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -71,7 +71,7 @@ const HeaderComponent: React.FC<{
           </ListItem>
           <ListItem button onClick={handleOpenCart}>
             <Badge badgeContent={4} overlap="circular" color="error">
-              <LocalMallOutlinedIcon  />
+              <LocalMallOutlinedIcon />
             </Badge>
           </ListItem>
         </div>

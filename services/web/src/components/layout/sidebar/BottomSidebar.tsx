@@ -3,13 +3,13 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { lstCurrency, lstLanguage } from "../../mocks/sidebar";
-import { ILanguage } from "../../model/sidebar";
+import { lstCurrency, lstLanguage } from "../../../mocks/sidebar";
+import { ILanguage } from "../../../model/sidebar";
 import { Button, Grid } from "@material-ui/core";
-import facebook from "../../assets/icons/facebook.svg";
-import google from "../../assets/icons/google.svg";
-import github from "../../assets/icons/github.svg";
-import twitter from "../../assets/icons/twitter.svg";
+import facebook from "../../../assets/icons/facebook.svg";
+import google from "../../../assets/icons/google.svg";
+import github from "../../../assets/icons/github.svg";
+import twitter from "../../../assets/icons/twitter.svg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
