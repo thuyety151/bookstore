@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Application.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("sub/{id}")]
-        public async Task<IActionResult> GetSubCategories([FromQuery] PagingParams pagingParams, string id)
+        public async Task<IActionResult> GetSubCategories([FromQuery] PagingParams pagingParams, Guid id)
         {
             return HandlePagedResult(await Mediator.Send(new ListSubCategories.Query() { Params = pagingParams, Id = id }));
         }
