@@ -1,4 +1,5 @@
 using Application.Authors;
+using Application.Categories;
 using AutoMapper;
 using Domain;
 
@@ -9,7 +10,7 @@ namespace Application.Core
         public MappingProfile()
         {
             CreateMap<Author, AuthorDto>();
-
+            CreateMap<Category, CategoryDto>();
         }
     }
 }
