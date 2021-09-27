@@ -20,12 +20,12 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-            
+
             if (result.IsSuccess == true && result.Value != null)
             {
                 return Ok(result);
             }
-            
+
             if (result.IsSuccess == true && result.Value == null)
             {
                 return NotFound();
@@ -33,20 +33,25 @@ namespace API.Controllers
 
             return BadRequest(result.Error);
         }
-        
+
         protected ActionResult HandlePagedResult<T>(Result<PagedList<T>> result)
         {
             if (result == null)
             {
                 return NotFound();
             }
-            
+
+            if (result.Value.Count == 0)
+            {
+                return BadRequest(result.Error);
+            }
+
             if (result.IsSuccess == true && result.Value != null)
             {
-                Response.AddPaginationHeader(result.Value.CurrentPage, result.Value.PageSize, result.Value.TotalPage, result.Value.TotalCount );
+                Response.AddPaginationHeader(result.Value.CurrentPage, result.Value.PageSize, result.Value.TotalPage, result.Value.TotalCount);
                 return Ok(result);
             }
-            
+
             if (result.IsSuccess == true && result.Value == null)
             {
                 return NotFound();

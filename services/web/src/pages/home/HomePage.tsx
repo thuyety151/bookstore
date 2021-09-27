@@ -6,14 +6,11 @@ import ListFavoriteAuthorComponent from "../../components/homepage/favourite-aut
 import ListDealOfWeekComponent from "../../components/homepage/deal-of-week/ListDealOfWeekRender";
 import SlideMenu from "../../components/homepage/slide-menu/SlideShow"
 const HomePage: React.FunctionComponent<{}> = (props) => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <div className="App">
       <Grid container>
-        <Grid item xs={12} className={classes.item} >
-          <SlideMenu />
-        </Grid>
-        <Grid item xs={12} className={classes.item} >
+        <Grid item xs={12} className={classes.item}>
           <Categories />
         </Grid>
         <Grid item xs={12} className={classes.item}>

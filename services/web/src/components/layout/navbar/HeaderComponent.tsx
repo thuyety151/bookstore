@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
@@ -10,6 +10,7 @@ import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import { ListItem } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexDirection: "row",
@@ -35,8 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HeaderComponent: React.FC = () => {
+const HeaderComponent: React.FC<{
+  setOpenCart: any;
+}> = ({ setOpenCart }) => {
   const classes = useStyles();
+  const handleOpenCart = () => {
+    setOpenCart(true);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -63,7 +69,7 @@ const HeaderComponent: React.FC = () => {
           <ListItem button>
             <PersonOutlineOutlinedIcon />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={handleOpenCart}>
             <Badge badgeContent={4} overlap="circular" color="error">
               <LocalMallOutlinedIcon />
             </Badge>
