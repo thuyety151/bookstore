@@ -3,21 +3,21 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import BestSellerComponent from "./BestSellerBanner";
-import "./slideEffect.css";
+import AuthorItem from "./AuthorItem";
+import "../bestseller/slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
-import data from "../../../mocks/bestsaling";
+import data from "../../../mocks/author";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
-  1024: { items: 4 },
+  1024: { items: 5 },
 };
 
 const items = data.map((item, index) => {
   return (
     <div data-value="1" key={index}>
-      <BestSellerComponent item={item} />
+      <AuthorItem author={item} />
     </div>
   );
 });
@@ -70,7 +70,7 @@ const SlideEffect: React.FC = () => {
           <Grid item>
             <Grid item>
               <Typography variant="h4" gutterBottom>
-                Bestselling Books
+                Favorite Authors
               </Typography>
             </Grid>
           </Grid>

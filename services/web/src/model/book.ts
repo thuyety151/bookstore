@@ -2,7 +2,7 @@ export interface IBookType {
   id: string;
   name: string;
 }
-export interface IBestSellerType {
+export interface Book {
   id: string;
   name: string;
   attribute: string;
