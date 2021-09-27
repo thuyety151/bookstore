@@ -8,10 +8,10 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { IBestSellerType } from "../../model";
+import { Book } from "../../model";
 import CloseIcon from "@material-ui/icons/Close";
 
-const CartItem: React.FC<{ item: IBestSellerType }> = (item) => {
+const CartItem: React.FC<{ item: Book }> = (item) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>

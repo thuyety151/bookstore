@@ -4,7 +4,6 @@ import { createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import ListBestSellingComponent from "../../components/homepage/bestseller/ListBestSellerRender";
 import ListFavoriteAuthorComponent from "../../components/homepage/favourite-author/ListFavouriteAuthorRender";
 import ListDealOfWeekComponent from "../../components/homepage/deal-of-week/ListDealOfWeekRender";
-import SlideMenu from "../../components/homepage/slide-menu/SlideShow"
 const HomePage: React.FunctionComponent<{}> = (props) => {
   const classes = useStyles();
   return (
