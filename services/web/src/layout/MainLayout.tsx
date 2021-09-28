@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import { routeMainLayout } from "../routers/routes";
@@ -10,6 +12,7 @@ import SideBarComponent from "../components/layout/sidebar/MainSideBar";
 const MainLayout: React.FC = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openCart, setOpenCart] = useState(false);
+
   return (
     <div>
       <HeaderComponent setOpenCart={setOpenCart} />
