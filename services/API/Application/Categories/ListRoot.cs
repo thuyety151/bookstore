@@ -28,8 +28,7 @@ namespace Application.Categories
                 _mapper = mapper;
             }
 
-            public async Task<Result<PagedList<CategoryDto>>>
-            Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<CategoryDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var rootCategories =
                     _context
@@ -44,9 +43,7 @@ namespace Application.Categories
                                 ParentId = x.ParentId,
                                 SubTotal = x.SubCategories.Count()
                             });
-                return Result<PagedList<CategoryDto>>
-                    .Success(await PagedList<CategoryDto>
-                        .CreatePage(rootCategories,
+                return Result<PagedList<CategoryDto>>.Success(await PagedList<CategoryDto>.CreatePage(rootCategories,
                         request.Params.PageIndex,
                         request.Params.PageSize));
             }
