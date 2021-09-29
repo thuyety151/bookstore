@@ -12,13 +12,12 @@ namespace Application.Categories
 {
     public class ListSubCategories
     {
-        public class Query : IRequest<Result<PagedList<CategoryDto>>>
+        public class Query : IRequest<Result<CategoryDto>>
         {
-            public PagingParams Params { get; set; }
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<PagedList<CategoryDto>>>
+        public class Handler : IRequestHandler<Query, Result<CategoryDto>>
         {
             private readonly DataContext _context;
 
@@ -29,7 +28,7 @@ namespace Application.Categories
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Result<PagedList<CategoryDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<CategoryDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var subCategories = _context.Categories.Where(x => x.IsDeleted == false && x.Id == request.Id)
                         .Select(x => new CategoryDto()
@@ -46,8 +45,8 @@ namespace Application.Categories
                                 ParentId = x.ParentId,
                                 SubTotal = x.SubCategories.Count()
                             }).ToList()
-                        });
-                return Result<PagedList<CategoryDto>>.Success(await PagedList<CategoryDto>.CreatePage(subCategories, request.Params.PageIndex, request.Params.PageSize));
+                        }).SingleOrDefault();
+                return Result<CategoryDto>.Success(subCategories);
             }
         }
     }
