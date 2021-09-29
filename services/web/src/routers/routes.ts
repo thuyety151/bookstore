@@ -26,6 +26,12 @@ export const routes: IRoute[] = [
 
 export const routeMainLayout: IRoute[] = [
   {
+    path: "/login",
+    name: "Login",
+    component: LoginPage,
+    exact: false,
+  },
+  {
     path: "/",
     name: "Home",
     component: Home,
@@ -85,4 +91,5 @@ export const routeMainLayout: IRoute[] = [
     component: Error404,
     exact: true,
   },
+  
 ];
