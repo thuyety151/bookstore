@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
@@ -18,7 +16,7 @@ import BottomSidebar from "./BottomSidebar";
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoot } from "../../../redux/actions/category/getAction";
-import { SideBarItem } from "../../../model/category";
+import { SidebarCategoryResponse } from "../../../model/category";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +44,24 @@ function TabPanel(props: TabPanelProps) {
 
 type Anchor = "left" | "right";
 
-const SideBarComponent: React.FC<{
+const MainSideBar: React.FC<{
   openSideBar: boolean;
   setOpenSidebar: any;
 }> = ({ openSideBar, setOpenSidebar }) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const data = useSelector((state: RootStore) => state.category.data);
+  const dataRoot: SidebarCategoryResponse[] = useSelector(
+    (state: RootStore) => state.category.data.root
+  );
   const [currentId, setCurrentId] = useState<string>("");
 
   useEffect(() => {
-    dispatch(getRoot());
-  }, [dispatch]); // Only re-run the effect if dispatch changes
+    if (dataRoot.length === 0) {
+      dispatch(getRoot());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataRoot]);
 
   const [categoryName, setCategoryName] = React.useState("");
   const toggleDrawer =
@@ -74,14 +77,18 @@ const SideBarComponent: React.FC<{
       setOpenSidebar(!openSideBar);
     };
 
-  const [value, setValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(0);
   const handleBack = () => {
-    setValue(0);
+    setTabValue(0);
   };
   const handleNext = (id: string, name: string) => {
-    setValue(1);
+    setTabValue(1);
     setCategoryName(name);
     setCurrentId(id);
+  };
+  const handleChildNavigate = () => {
+    setTabValue(0);
+    setOpenSidebar(false);
   };
 
   const list = (anchor: Anchor) => (
@@ -100,13 +107,13 @@ const SideBarComponent: React.FC<{
       <Divider />
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
+        index={tabValue}
         style={{ minHeight: "50vh" }}
       >
         {/* Tab all categories */}
-        <TabPanel value={value} index={0} dir={theme.direction}>
+        <TabPanel value={tabValue} index={0} dir={theme.direction}>
           <List style={{ paddingTop: 0 }}>
-            {data.map((item: SideBarItem, index: number) => (
+            {dataRoot.map((item: SidebarCategoryResponse, index: number) => (
               <ListItem
                 button
                 key={index}
@@ -122,7 +129,7 @@ const SideBarComponent: React.FC<{
           </List>
         </TabPanel>
         {/* Tab expand of specific category */}
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel value={tabValue} index={1} dir={theme.direction}>
           <div
             className={classes.header}
             style={{ backgroundColor: "#ffebed" }}
@@ -134,10 +141,10 @@ const SideBarComponent: React.FC<{
             <span>{categoryName} </span>
             {/* <ListItemText primary={categoryName} style={{ paddingLeft: 10 }} /> */}
           </div>
-          <List onClick={handleBack} style={{ paddingTop: 0 }}>
+          <List style={{ paddingTop: 0 }}>
             <ChildSideBarComponent
               idCategory={currentId}
-              closeSideBar={toggleDrawer(anchor, false)}
+              handleChildNavigate={handleChildNavigate}
             />
           </List>
         </TabPanel>
@@ -197,7 +204,7 @@ const SideBarComponent: React.FC<{
     </div>
   );
 };
-export default SideBarComponent;
+export default MainSideBar;
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {
@@ -238,6 +245,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   iconNavigate: {
     fontSize: 20,
     cursor: "pointer",
+    padding: theme.spacing(0, 1),
   },
   helpSession: {
     fontSize: 14,
