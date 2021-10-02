@@ -17,6 +17,8 @@ import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoot } from "../../../redux/actions/category/getAction";
 import { SidebarCategoryResponse } from "../../../model/category";
+import Skeleton from "@material-ui/lab/Skeleton";
+import NegativeAlert from "../../core/alert/NegativeAlert";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,6 +57,12 @@ const MainSideBar: React.FC<{
     (state: RootStore) => state.category.data.root
   );
   const [currentId, setCurrentId] = useState<string>("");
+  const { success, message } = useSelector(
+    (state: RootStore) => state.category
+  );
+  const loading: Boolean = useSelector(
+    (state: RootStore) => state.category.requesting
+  );
 
   useEffect(() => {
     if (dataRoot.length === 0) {
@@ -113,19 +121,23 @@ const MainSideBar: React.FC<{
         {/* Tab all categories */}
         <TabPanel value={tabValue} index={0} dir={theme.direction}>
           <List style={{ paddingTop: 0 }}>
-            {dataRoot.map((item: SidebarCategoryResponse, index: number) => (
-              <ListItem
-                button
-                key={index}
-                onClick={() => handleNext(item.id, item.name)}
-                className={classes.items}
-              >
-                <span>{item.name}</span>
-                {item.subTotal > 0 ? (
-                  <NavigateNextIcon className={classes.iconNavigate} />
-                ) : null}
-              </ListItem>
-            ))}
+            {loading ? (
+              <Skeleton />
+            ) : (
+              dataRoot.map((item: SidebarCategoryResponse, index: number) => (
+                <ListItem
+                  button
+                  key={index}
+                  onClick={() => handleNext(item.id, item.name)}
+                  className={classes.items}
+                >
+                  <span>{item.name}</span>
+                  {item.subTotal > 0 ? (
+                    <NavigateNextIcon className={classes.iconNavigate} />
+                  ) : null}
+                </ListItem>
+              ))
+            )}
           </List>
         </TabPanel>
         {/* Tab expand of specific category */}
@@ -173,6 +185,7 @@ const MainSideBar: React.FC<{
   );
   return (
     <div>
+      {!success ? <NegativeAlert message={message || ""} /> : null}
       <React.Fragment key="left">
         <Drawer
           anchor="left"

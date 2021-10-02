@@ -1,5 +1,3 @@
-/** @format */
-
 import { SidebarCategoryResponse } from "../../model/category";
 import { NAME_ACTIONS } from "../constants/category/actionTypes";
 
@@ -13,8 +11,8 @@ export type CategoryState = {
   };
 };
 const initState: CategoryState = {
-  requesting: true,
-  success: false,
+  requesting: false,
+  success: true,
   message: null,
   data: {
     root: [],
@@ -43,6 +41,7 @@ const categoryReducer = (
     case NAME_ACTIONS.SIDEBAR.GET_ROOT_FAIL:
       return {
         ...state,
+        success: false,
         requesting: false,
         message: payload.message,
       };
@@ -65,6 +64,7 @@ const categoryReducer = (
     case NAME_ACTIONS.SIDEBAR.GET_SUB_FAIL:
       return {
         ...state,
+        success: false,
         requesting: false,
         message: payload.message,
       };
