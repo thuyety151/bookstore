@@ -19,7 +19,7 @@ namespace Persistence
             List<Attribute> attributes = new List<Attribute>();
             List<Language> languages = new List<Language>();
             List<Category> categories = new List<Category>();
-            
+
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -378,7 +378,7 @@ namespace Persistence
                 categories.AddRange(categorieList);
                 await context.Categories.AddRangeAsync(categories);
             }
-            
+
             if (!context.Books.Any())
             {
                 var books = new List<Book>()
@@ -399,13 +399,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories.IndexOf(1)
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category =  categories[0].SubCategories.ElementAt(0)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -423,13 +423,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories[1]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -447,13 +447,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories[2]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -471,13 +471,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories[0]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -495,13 +495,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -519,13 +519,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[14]
-                        //     }
-                        // }
+                       Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -543,13 +543,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[14]
-                        //     }
-                        // }
+                       Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -567,13 +567,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[10]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -591,13 +591,13 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[20]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     },
                     new Book()
                     {
@@ -615,19 +615,19 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[15]
-                        //     }
-                        // }
+                       Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        }
                     }
                 };
 
                 await context.Books.AddRangeAsync(books);
             }
-            
+
             await context.SaveChangesAsync();
         }
     }

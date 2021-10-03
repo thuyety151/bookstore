@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Domain;
 
 namespace Application.Categories
 {
+    [AutoMap(typeof(Category))]
     public class CategoryDto
     {
         public Guid Id { get; set; }
