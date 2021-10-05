@@ -1,6 +1,6 @@
-import { IBestSellerType } from "../model/book";
+import { Book } from "../model/book";
 
-const data: IBestSellerType[] = [
+const data: Book[] = [
   {
     id: "B1",
     name: "Angry God (All Saints High Book 3)",
