@@ -1,18 +1,15 @@
-import React from "react";
-import { Formik } from 'formik';
+import React, { useEffect } from "react";
+import LoginComponent from "../../components/authenticate/Login"
+
+
+
 
 const LoginPage: React.FunctionComponent<{}> = (props) => {
+  
   return (
     <div className="App">
-      <h3>Login page</h3>
-      <Formik
-        initialValues={{email: '' , password:'', error = null}}
-        
-      >
-        
-      </Formik>
+      <LoginComponent />
     </div>
   );
 };
-
 export default LoginPage;
