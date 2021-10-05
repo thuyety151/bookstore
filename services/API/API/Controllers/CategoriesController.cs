@@ -20,10 +20,10 @@ namespace API.Controllers
             return HandlePagedResult(await Mediator.Send(new ListRoot.Query() { Params = pagingParams }));
         }
         [HttpGet]
-        [Route("sub/{id}")]
-        public async Task<IActionResult> GetSubCategories([FromQuery] PagingParams pagingParams, Guid id)
+        [Route("sub")]
+        public async Task<IActionResult> GetSubCategories([FromQuery] Guid id)
         {
-            return HandlePagedResult(await Mediator.Send(new ListSubCategories.Query() { Params = pagingParams, Id = id }));
+            return HandleResult(await Mediator.Send(new ListSubCategories.Query() { Id = id }));
         }
 
     }
