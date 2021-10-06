@@ -10,6 +10,7 @@ import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import { ListItem } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +41,15 @@ const HeaderComponent: React.FC<{
   setOpenCart: any;
 }> = ({ setOpenCart }) => {
   const classes = useStyles();
+
+  const history = useHistory();
   const handleOpenCart = () => {
     setOpenCart(true);
   };
+
+  const handlePersonOutLine = () => {
+      history.push('/login');
+  }
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -66,7 +73,7 @@ const HeaderComponent: React.FC<{
           <ListItem button>
             <FavoriteBorderOutlinedIcon />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick = {handlePersonOutLine}>
             <PersonOutlineOutlinedIcon />
           </ListItem>
           <ListItem button onClick={handleOpenCart}>

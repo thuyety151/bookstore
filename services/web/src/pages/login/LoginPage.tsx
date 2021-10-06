@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import LoginComponent from "../../components/authenticate/Login"
+
+
+
 
 const LoginPage: React.FunctionComponent<{}> = (props) => {
+  
   return (
     <div className="App">
-      <h3>Login page</h3>
+      <LoginComponent />
     </div>
   );
 };
-
 export default LoginPage;

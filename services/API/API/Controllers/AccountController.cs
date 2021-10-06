@@ -60,6 +60,8 @@ namespace API.Controllers
             {
                 Email = registerDto.Email,
                 UserName = registerDto.Email,
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
                 Role = Role.Customer
             };
 

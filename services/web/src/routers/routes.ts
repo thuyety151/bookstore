@@ -8,9 +8,15 @@ import LoginPage from "../pages/login/LoginPage";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
 import MainLayout from "../layout/MainLayout";
+import RegisterPage from "../pages/login/RegisterPage";
 
-const isLogged: boolean = false;
+//const isLogged: boolean = false;
 
+function isLogin(){
+  if(localStorage.getItem('user'))
+    return true;
+  return false
+} 
 export const routes: IRoute[] = [
   {
     path: "/",
@@ -28,6 +34,18 @@ export const routes: IRoute[] = [
 
 export const routeMainLayout: IRoute[] = [
   {
+    path: "/login",
+    name: "Login",
+    component: LoginPage,
+    exact: false,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: RegisterPage,
+    exact: false,
+  },
+  {
     path: "/",
     name: "Home",
     component: Home,
@@ -36,7 +54,7 @@ export const routeMainLayout: IRoute[] = [
   {
     path: "/profile",
     name: "Example",
-    component: isLogged ? ProfilePage : LoginPage,
+    component: isLogin() ? ProfilePage : LoginPage,
     exact: false,
   },
   {
@@ -87,4 +105,5 @@ export const routeMainLayout: IRoute[] = [
     component: Error404,
     exact: true,
   },
+  
 ];
