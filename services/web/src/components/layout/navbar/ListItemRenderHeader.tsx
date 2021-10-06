@@ -72,7 +72,7 @@ const ListItemRender: React.FC = () => {
   };
   const headers: any = headerItems.map((item, index) => {
     return (
-      <div key={index} >
+      <div key={index}>
         {typeof item.child === "undefined" ? (
           <div>
             <ListItem

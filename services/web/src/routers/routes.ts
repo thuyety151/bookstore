@@ -1,3 +1,5 @@
+/** @format */
+
 import IRoute from "../model/route";
 import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";

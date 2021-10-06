@@ -9,6 +9,16 @@ export interface ICategoryType {
   icon_color: string;
 }
 
+export interface SidebarCategoryResponse {
+  id: string;
+  name: string;
+  slug: string;
+  subTotal: number;
+  media?: string;
+  parentId?: string;
+  subCategories: SidebarCategoryResponse[];
+}
+
 export interface SideBarItem {
   id: string;
   name: string;
