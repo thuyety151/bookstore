@@ -30,6 +30,7 @@ const MainLayout: React.FC = () => {
           return (
             <Route
               key={index}
+              exact={route.exact}
               path={route.path}
               render={(props: RouteComponentProps<any>) => (
                 <route.component {...props} {...route.props} />
