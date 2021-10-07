@@ -6,6 +6,7 @@ import LoginPage from "../pages/login/LoginPage";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
 import MainLayout from "../layout/MainLayout";
+import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 
 const isLogged: boolean = false;
 
@@ -77,6 +78,12 @@ export const routeMainLayout: IRoute[] = [
     path: "/shops/:id",
     name: "Shop",
     component: Example,
+    exact: false,
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: ShoppingCartPage,
     exact: false,
   },
   {

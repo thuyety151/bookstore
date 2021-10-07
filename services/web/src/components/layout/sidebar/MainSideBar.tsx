@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
@@ -8,17 +6,14 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import CloseIcon from "@material-ui/icons/Close";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { dataHelpSetting } from "../../../mocks/sidebar";
 import SwipeableViews from "react-swipeable-views";
 import Box from "@material-ui/core/Box";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import ChildSideBarComponent from "./SideBarItem";
 import BottomSidebar from "./BottomSidebar";
-import { RootStore } from "../../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getRoot } from "../../../redux/actions/category/getAction";
-import { SideBarItem } from "../../../model/category";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,7 +48,7 @@ const SideBarComponent: React.FC<{
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const data = useSelector((state: RootStore) => state.category.data);
+  // const data = useSelector((state: RootStore) => state.category.data);
   const [currentId, setCurrentId] = useState<string>("");
 
   useEffect(() => {
@@ -78,11 +73,11 @@ const SideBarComponent: React.FC<{
   const handleBack = () => {
     setValue(0);
   };
-  const handleNext = (id: string, name: string) => {
-    setValue(1);
-    setCategoryName(name);
-    setCurrentId(id);
-  };
+  // const handleNext = (id: string, name: string) => {
+  //   setValue(1);
+  //   setCategoryName(name);
+  //   setCurrentId(id);
+  // };
 
   const list = (anchor: Anchor) => (
     <div
@@ -106,7 +101,7 @@ const SideBarComponent: React.FC<{
         {/* Tab all categories */}
         <TabPanel value={value} index={0} dir={theme.direction}>
           <List style={{ paddingTop: 0 }}>
-            {data.map((item: SideBarItem, index: number) => (
+            {/* {data.map((item: SideBarItem, index: number) => (
               <ListItem
                 button
                 key={index}
@@ -118,7 +113,7 @@ const SideBarComponent: React.FC<{
                   <NavigateNextIcon className={classes.iconNavigate} />
                 ) : null}
               </ListItem>
-            ))}
+            ))} */}
           </List>
         </TabPanel>
         {/* Tab expand of specific category */}
