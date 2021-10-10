@@ -28,6 +28,7 @@ namespace Persistence
             List<Media> medias = new List<Media>();
             List<CartItem> cartItems = new List<CartItem>();
             List<Item> items = new List<Item>();
+            List<Book> books = new List<Book>();
 
             if (!userManager.Users.Any())
             {
@@ -295,6 +296,46 @@ namespace Persistence
                 await context.Languages.AddRangeAsync(languages);
             }
 
+            if (!context.Media.Any())
+            {
+                var mediaList = new List<Media>()
+                {
+                    new Media()
+                    {
+                        Id= "The Subtle Art of Not Giving a F`*Ck",
+                        Name="The Subtle Art of Not Giving a F*Ck",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "The Overdue Life of Amy Byler",
+                        Name="The Overdue Life of Amy Byler",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id="Harry Potter Part 4",
+                        Name="Harry Potter Part 4",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "The Alchemist",
+                        Name="The Alchemist",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                };
+                medias.AddRange(mediaList);
+                await context.Media.AddRangeAsync(mediaList);
+            }
             if (!context.Categories.Any())
             {
                 var categorieList = new List<Category>()
@@ -465,7 +506,7 @@ namespace Persistence
 
             if (!context.Books.Any())
             {
-                var books = new List<Book>()
+                var bookList = new List<Book>()
                 {
                     new Book()
                     {
@@ -489,7 +530,8 @@ namespace Persistence
                             {
                                 Category =  categories[0].SubCategories.ElementAt(0)
                             }
-                        }
+                        },
+                        Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList()
                     },
                     new Book()
                     {
@@ -513,7 +555,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList()
                     },
                     new Book()
                     {
@@ -537,7 +580,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        Media =medias.Where(x=>x.Name=="The Alchemist").ToList()
                     },
                     new Book()
                     {
@@ -561,7 +605,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList()
                     },
                     new Book()
                     {
@@ -603,7 +648,7 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                       Categories = new List<BookCategory>()
+                        Categories = new List<BookCategory>()
                         {
                             new BookCategory()
                             {
@@ -627,7 +672,7 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                       Categories = new List<BookCategory>()
+                        Categories = new List<BookCategory>()
                         {
                             new BookCategory()
                             {
@@ -708,8 +753,8 @@ namespace Persistence
                         }
                     }
                 };
-
-                await context.Books.AddRangeAsync(books);
+                books.AddRange(bookList);
+                await context.Books.AddRangeAsync(bookList);
             }
 
             if (!context.Coupons.Any())
@@ -828,21 +873,21 @@ namespace Persistence
             //     };
             //     await context.Carts.AddRangeAsync(cartList);
             // }
-            if (!context.Media.Any())
-            {
-                var mediaList = new List<Media>()
-                {
-                    new Media()
-                    {
-                        Id= "LuatTamThuc",
-                        Name="LuatTamThuc",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/luat-tam-thuc.jpeg?alt=media&token=40221ba7-c0a2-48b9-b2d1-348f16e024c7",
-                        IsMain=true,
-                        IsVideo=false,
-                    }
-                };
-                await context.Media.AddRangeAsync(mediaList);
-            }
+            // if (!context.Media.Any())
+            // {
+            //     var mediaList = new List<Media>()
+            //     {
+            //         new Media()
+            //         {
+            //             Id= "LuatTamThuc",
+            //             Name="LuatTamThuc",
+            //             Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/luat-tam-thuc.jpeg?alt=media&token=40221ba7-c0a2-48b9-b2d1-348f16e024c7",
+            //             IsMain=true,
+            //             IsVideo=false,
+            //         }
+            //     };
+            //     await context.Media.AddRangeAsync(mediaList);
+            // }
             // if (!context.Items.Any())    // add here to have data to add to cart
             // {
             //     var itemsList = new List<Item>()
@@ -850,7 +895,7 @@ namespace Persistence
             //         new Item()
             //         {
             //             Id = new Guid(),
-            //             Book= context.Books.Where(x=>x.Id==Guid.Parse("866245b3-c025-42a6-b7d8-08d98bb007cc")).SingleOrDefault(),
+            //             Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
             //             Cost=1000,
             //             Quantity=10,
             //             Total=10000
@@ -858,7 +903,7 @@ namespace Persistence
             //         new Item()
             //         {
             //             Id = new Guid(),
-            //             Book= context.Books.Where(x=>x.Id==Guid.Parse("1fbeef62-281c-425f-b7d9-08d98bb007cc")).SingleOrDefault(),
+            //             Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
             //             Cost=1000,
             //             Quantity=5,
             //             Total=10000
@@ -866,7 +911,7 @@ namespace Persistence
             //         new Item()
             //         {
             //             Id = new Guid(),
-            //             Book= context.Books.Where(x=>x.Id==Guid.Parse("45b4f077-9460-45d2-b7da-08d98bb007cc")).SingleOrDefault(),
+            //             Book= books.Where(x=>x.Name=="Homo Deus: A Brief History Of Tomorrow").SingleOrDefault(),
             //             Cost=1000,
             //             Quantity=3,
             //             Total=10000
@@ -885,7 +930,7 @@ namespace Persistence
                         Item =  new Item()
                         {
                             Id= new Guid(),
-                            Book= context.Books.Where(x=>x.Name=="The Overdue Life of Amy Byler").SingleOrDefault(),
+                            Book= books.Where(x=>x.Name=="The Overdue Life of Amy Byler").SingleOrDefault(),
                             Cost=1000,
                             Quantity=12,
                             Total=12000
@@ -897,7 +942,7 @@ namespace Persistence
                         Item =  new Item()
                         {
                             Id= new Guid(),
-                            Book= context.Books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                            Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
                             Cost=1000,
                             Quantity=20,
                             Total=12000
@@ -909,7 +954,7 @@ namespace Persistence
                         Item =  new Item()
                         {
                             Id= new Guid(),
-                            Book= context.Books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                            Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
                             Cost=1000,
                             Quantity=10,
                             Total=12000
