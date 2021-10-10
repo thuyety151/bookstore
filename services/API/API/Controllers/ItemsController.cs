@@ -12,5 +12,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Query() { Id = id }));
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateQuantity(Guid id, [FromQuery] int quantity)
+        {
+            return HandleResult(await Mediator.Send(new UpdateQuantity.Query() { Id = id, Quantity = quantity }));
+        }
     }
 }
