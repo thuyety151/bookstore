@@ -8,14 +8,14 @@ namespace Persistence
     {
         public DataContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<BookCategory>(x => x.HasKey(bc => new {bc.BookId, bc.CategoryId}));
+            builder.Entity<BookCategory>(x => x.HasKey(bc => new { bc.BookId, bc.CategoryId }));
 
             builder.Entity<BookCategory>()
                 .HasOne(x => x.Book)
@@ -31,6 +31,26 @@ namespace Persistence
                 .HasOne(x => x.ParentCategory)
                 .WithMany(x => x.SubCategories)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<BookCoupon>(x => x.HasKey(bc => new { bc.BookId, bc.CouponId }));
+
+            builder.Entity<BookCoupon>()
+                .HasOne(x => x.Book)
+                .WithMany(x => x.Coupons)
+                .HasForeignKey(x => x.BookId);
+            builder.Entity<BookCoupon>()
+                .HasOne(x => x.Coupon)
+                .WithMany(x => x.Books)
+                .HasForeignKey(x => x.CouponId);
+
+            builder.Entity<CartItem>(x => x.HasKey(ci => new { ci.CartId, ci.ItemId }));
+            builder.Entity<CartItem>()
+                .HasOne(x => x.Cart)
+                .WithMany(x => x.Items)
+                .HasForeignKey(x => x.CartId);
+            builder.Entity<CartItem>()
+                .HasOne(x => x.Item)
+                .WithMany(x => x.Carts)
+                .HasForeignKey(x => x.ItemId);
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -48,5 +68,7 @@ namespace Persistence
         public DbSet<Review> Reviews { get; set; }
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<BookCategory> BooksCategories { get; set; }
+        public DbSet<BookCoupon> BookCoupons { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
     }
 }

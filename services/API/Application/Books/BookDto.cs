@@ -4,7 +4,6 @@ using Domain;
 
 namespace Application.Books
 {
-    [AutoMap(typeof(Book))]
     public class BookDto
     {
         public System.Guid Id { get; set; }

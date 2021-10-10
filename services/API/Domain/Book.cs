@@ -20,13 +20,14 @@ namespace Domain
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public bool IsDeleted { get; set; }
-
+        public int ViewCount { get; set; }
         public ICollection<BookCategory> Categories { get; set; }
         public ICollection<Media> Media { get; set; }
+        public ICollection<BookCoupon> Coupons { get; set; }
         public Author Author { get; set; }
         public Attribute Attribute { get; set; }
         public Language Language { get; set; }
-        
-        
+
+
     }
 }

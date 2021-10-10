@@ -1,11 +1,14 @@
-﻿using System;
+﻿using System.Globalization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Constant;
+using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Attribute = Domain.Attribute;
 
@@ -19,6 +22,12 @@ namespace Persistence
             List<Attribute> attributes = new List<Attribute>();
             List<Language> languages = new List<Language>();
             List<Category> categories = new List<Category>();
+            List<Coupon> coupons = new List<Coupon>();
+            List<Bill> bills = new List<Bill>();
+            List<Cart> carts = new List<Cart>();
+            List<Media> medias = new List<Media>();
+            List<CartItem> cartItems = new List<CartItem>();
+            List<Item> items = new List<Item>();
 
             if (!userManager.Users.Any())
             {
@@ -45,7 +54,8 @@ namespace Persistence
                                 PostCode = "11000",
                                 IsMain = true
                             }
-                        }
+                        },
+                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -68,7 +78,8 @@ namespace Persistence
                                 PostCode = "11000",
                                 IsMain = true
                             }
-                        }
+                        },
+                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -91,7 +102,80 @@ namespace Persistence
                                 PostCode = "75000",
                                 IsMain = true
                             }
-                        }
+                        },
+                        Cart= new Cart()
+                    },
+                    new AppUser()
+                    {
+                        UserName = "thuyety15",
+                        Email = "thuyety15@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Y",
+                                LastName = "Nguyen",
+                                Phone = "1234567890",
+                                ApartmentNumber = "10",
+                                Street = "719",
+                                Wards = "Trung Lap Thuong",
+                                District = "Cu Chi",
+                                CityTown = "HCM",
+                                PostCode = "70000",
+                                IsMain = true
+                              }
+                        },
+                        Cart= new Cart()
+                    },
+                    new AppUser()
+                    {
+                        UserName = "truongnguyen",
+                        Email = "truongnguyen1232000@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Nguyen",
+                                LastName = "Truong",
+                                Phone = "1234567890",
+                                ApartmentNumber = "1179",
+                                Street = "Huynh Van Luy",
+                                Wards = "Phu My",
+                                District = "Thu Dau Mot",
+                                CityTown = "Binh Duong",
+                                PostCode = "75000",
+                                IsMain = true
+                              }
+                        },
+                        Cart= new Cart()
+                    },
+                    new AppUser()
+                    {
+                        UserName = "thuyety15",
+                        Email = "thuyety15@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Y",
+                                LastName = "Nguyen",
+                                Phone = "1234567890",
+                                ApartmentNumber = "10",
+                                Street = "719",
+                                Wards = "Trung Lap Thuong",
+                                District = "Cu Chi",
+                                CityTown = "HCM",
+                                PostCode = "70000",
+                                IsMain = true
+                              }
+                        },
+                        Cart= new Cart()
                     }
                 };
 
@@ -628,6 +712,213 @@ namespace Persistence
                 await context.Books.AddRangeAsync(books);
             }
 
+            if (!context.Coupons.Any())
+            {
+                var couponList = new List<Coupon>()
+                {
+                    new Coupon()
+                    {
+                        Id= new Guid(),
+                        Code="HOT30",
+                        Description="Nothing",
+                        DiscountType=1,
+                        IsAllowFreeShipping=false,
+                        ExpireDate= DateTime.Now.AddMonths(1),
+                        MinSpend=0,
+                        MaxSpend=1,
+                        IsIndividualOnly=false,
+                        IsDeleted=false
+                    },
+                    new Coupon()
+                    {
+                        Id= new Guid(),
+                        Code="HOT50",
+                        Description="50K",
+                        DiscountType=1,
+                        IsAllowFreeShipping=false,
+                        ExpireDate= DateTime.Now.AddMonths(2),
+                        MinSpend=0,
+                        MaxSpend=1,
+                        IsIndividualOnly=false,
+                        IsDeleted=false
+                    },
+                    new Coupon()
+                    {
+                        Id= new Guid(),
+                        Code="30PER",
+                        Description="30%",
+                        DiscountType=1,
+                        IsAllowFreeShipping=false,
+                        ExpireDate= DateTime.Now,
+                        MinSpend=0,
+                        MaxSpend=1,
+                        IsIndividualOnly=false,
+                        IsDeleted=false
+                    }
+                };
+                await context.Coupons.AddRangeAsync(couponList);
+            }
+            // if (!context.Bills.Any())
+            // {
+            //     var billList = new List<Bill>()
+            //     {
+            //         new Bill()
+            //         {
+            //             Id= new Guid(),
+            //             Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+            //             .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+            //         }
+            //     };
+            //     await context.Bills.AddRangeAsync(billList);
+
+            // }
+            if (!context.Orders.Any())
+            {
+                var orderList = new List<Order>()
+                {
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= new DateTime(),
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= context.Books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                                Quantity=1,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                            },
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= context.Books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                                Quantity=1,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                              }
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    }
+                };
+                await context.Orders.AddRangeAsync(orderList);
+            }
+            // if (!context.Carts.Any())
+            // {
+            //     var cartList = new List<Cart>()
+            //     {
+            //         new Cart()
+            //         {
+            //             Id= new Guid(),
+            //             Items=context.Items.ToList(),
+            //             SubTotal=0,
+            //         }
+            //     };
+            //     await context.Carts.AddRangeAsync(cartList);
+            // }
+            if (!context.Media.Any())
+            {
+                var mediaList = new List<Media>()
+                {
+                    new Media()
+                    {
+                        Id= "LuatTamThuc",
+                        Name="LuatTamThuc",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/luat-tam-thuc.jpeg?alt=media&token=40221ba7-c0a2-48b9-b2d1-348f16e024c7",
+                        IsMain=true,
+                        IsVideo=false,
+                    }
+                };
+                await context.Media.AddRangeAsync(mediaList);
+            }
+            // if (!context.Items.Any())    // add here to have data to add to cart
+            // {
+            //     var itemsList = new List<Item>()
+            //     {
+            //         new Item()
+            //         {
+            //             Id = new Guid(),
+            //             Book= context.Books.Where(x=>x.Id==Guid.Parse("866245b3-c025-42a6-b7d8-08d98bb007cc")).SingleOrDefault(),
+            //             Cost=1000,
+            //             Quantity=10,
+            //             Total=10000
+            //         },
+            //         new Item()
+            //         {
+            //             Id = new Guid(),
+            //             Book= context.Books.Where(x=>x.Id==Guid.Parse("1fbeef62-281c-425f-b7d9-08d98bb007cc")).SingleOrDefault(),
+            //             Cost=1000,
+            //             Quantity=5,
+            //             Total=10000
+            //         },
+            //         new Item()
+            //         {
+            //             Id = new Guid(),
+            //             Book= context.Books.Where(x=>x.Id==Guid.Parse("45b4f077-9460-45d2-b7da-08d98bb007cc")).SingleOrDefault(),
+            //             Cost=1000,
+            //             Quantity=3,
+            //             Total=10000
+            //         },
+            //     };
+            //     items.AddRange(itemsList);
+            //     await context.Items.AddRangeAsync(items);
+            // }
+            if (!context.CartItems.Any())
+            {
+                var cartItemList = new List<CartItem>()
+                {
+                    new CartItem()
+                    {
+                        Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
+                        Item =  new Item()
+                        {
+                            Id= new Guid(),
+                            Book= context.Books.Where(x=>x.Name=="The Overdue Life of Amy Byler").SingleOrDefault(),
+                            Cost=1000,
+                            Quantity=12,
+                            Total=12000
+                        }
+                    },
+                    new CartItem()
+                    {
+                        Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
+                        Item =  new Item()
+                        {
+                            Id= new Guid(),
+                            Book= context.Books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                            Cost=1000,
+                            Quantity=20,
+                            Total=12000
+                        }
+                    },
+                     new CartItem()
+                    {
+                        Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
+                        Item =  new Item()
+                        {
+                            Id= new Guid(),
+                            Book= context.Books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                            Cost=1000,
+                            Quantity=10,
+                            Total=12000
+                        }
+                    }
+                };
+                cartItems.AddRange(cartItemList);
+                await context.CartItems.AddRangeAsync(cartItemList);
+            }
             await context.SaveChangesAsync();
         }
     }
