@@ -10,6 +10,7 @@ using Persistence;
 using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Application.Authors;
 
 namespace Application.Books
 {
@@ -51,7 +52,7 @@ namespace Application.Books
                                 Price = x.Book.Price,
                                 SalePrice = x.Book.SalePrice,
                                 Media = x.Book.Media,
-                                Author = x.Book.Author,
+                                Author = _mapper.Map<AuthorDto>(x.Book.Author),
                                 Attribute = x.Book.Attribute,
                                 Language = x.Book.Language
                             })

@@ -531,7 +531,8 @@ namespace Persistence
                                 Category =  categories[0].SubCategories.ElementAt(0)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList()
+                        Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
+                        ViewCount=1
                     },
                     new Book()
                     {
@@ -556,7 +557,8 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList()
+                        Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
+                        ViewCount=100
                     },
                     new Book()
                     {
@@ -581,7 +583,8 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="The Alchemist").ToList()
+                        Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
+                        ViewCount=10
                     },
                     new Book()
                     {
@@ -606,7 +609,8 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList()
+                        Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
+                        ViewCount=11
                     },
                     new Book()
                     {
@@ -630,7 +634,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        ViewCount=20
                     },
                     new Book()
                     {
@@ -654,7 +659,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        ViewCount=25
                     },
                     new Book()
                     {
@@ -678,7 +684,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        ViewCount=19
                     },
                     new Book()
                     {
@@ -702,7 +709,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        ViewCount=36
                     },
                     new Book()
                     {
@@ -726,7 +734,8 @@ namespace Persistence
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        ViewCount=102
                     },
                     new Book()
                     {
@@ -744,19 +753,19 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                       Categories = new List<BookCategory>()
+                            Categories = new List<BookCategory>()
                         {
                             new BookCategory()
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
-                        }
+                        },
+                        ViewCount=15
                     }
                 };
                 books.AddRange(bookList);
                 await context.Books.AddRangeAsync(bookList);
             }
-
             if (!context.Coupons.Any())
             {
                 var couponList = new List<Coupon>()
@@ -803,20 +812,6 @@ namespace Persistence
                 };
                 await context.Coupons.AddRangeAsync(couponList);
             }
-            // if (!context.Bills.Any())
-            // {
-            //     var billList = new List<Bill>()
-            //     {
-            //         new Bill()
-            //         {
-            //             Id= new Guid(),
-            //             Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
-            //             .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
-            //         }
-            //     };
-            //     await context.Bills.AddRangeAsync(billList);
-
-            // }
             if (!context.Orders.Any())
             {
                 var orderList = new List<Order>()
@@ -860,66 +855,6 @@ namespace Persistence
                 };
                 await context.Orders.AddRangeAsync(orderList);
             }
-            // if (!context.Carts.Any())
-            // {
-            //     var cartList = new List<Cart>()
-            //     {
-            //         new Cart()
-            //         {
-            //             Id= new Guid(),
-            //             Items=context.Items.ToList(),
-            //             SubTotal=0,
-            //         }
-            //     };
-            //     await context.Carts.AddRangeAsync(cartList);
-            // }
-            // if (!context.Media.Any())
-            // {
-            //     var mediaList = new List<Media>()
-            //     {
-            //         new Media()
-            //         {
-            //             Id= "LuatTamThuc",
-            //             Name="LuatTamThuc",
-            //             Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/luat-tam-thuc.jpeg?alt=media&token=40221ba7-c0a2-48b9-b2d1-348f16e024c7",
-            //             IsMain=true,
-            //             IsVideo=false,
-            //         }
-            //     };
-            //     await context.Media.AddRangeAsync(mediaList);
-            // }
-            // if (!context.Items.Any())    // add here to have data to add to cart
-            // {
-            //     var itemsList = new List<Item>()
-            //     {
-            //         new Item()
-            //         {
-            //             Id = new Guid(),
-            //             Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
-            //             Cost=1000,
-            //             Quantity=10,
-            //             Total=10000
-            //         },
-            //         new Item()
-            //         {
-            //             Id = new Guid(),
-            //             Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-            //             Cost=1000,
-            //             Quantity=5,
-            //             Total=10000
-            //         },
-            //         new Item()
-            //         {
-            //             Id = new Guid(),
-            //             Book= books.Where(x=>x.Name=="Homo Deus: A Brief History Of Tomorrow").SingleOrDefault(),
-            //             Cost=1000,
-            //             Quantity=3,
-            //             Total=10000
-            //         },
-            //     };
-            //     items.AddRange(itemsList);
-            //     await context.Items.AddRangeAsync(items);
-            // }
             if (!context.CartItems.Any())
             {
                 var cartItemList = new List<CartItem>()
@@ -946,11 +881,11 @@ namespace Persistence
                             Cost=1000,
                             Quantity=20,
                             Total=12000
-                        }
+                         }
                     },
                      new CartItem()
                     {
-                        Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
+                    Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
                         Item =  new Item()
                         {
                             Id= new Guid(),

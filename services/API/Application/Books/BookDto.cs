@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Application.Authors;
 using AutoMapper;
 using Domain;
 
@@ -11,7 +12,7 @@ namespace Application.Books
         public double Price { get; set; }
         public double SalePrice { get; set; }
         public ICollection<Media> Media { get; set; }
-        public Author Author { get; set; }
+        public AuthorDto Author { get; set; }
         public Attribute Attribute { get; set; }
         public Language Language { get; set; }
     }
