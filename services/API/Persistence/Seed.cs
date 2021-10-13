@@ -819,7 +819,7 @@ namespace Persistence
                     new Order()
                     {
                         Id = new Guid(),
-                        CreateDate= new DateTime(),
+                        CreateDate= DateTime.Now,
                         Status=(int)Status.Processing,
                         Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
                         Bill= new Bill()
@@ -834,7 +834,7 @@ namespace Persistence
                             new Item()
                             {
                                 Id= new Guid(),
-                                Book= context.Books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                                Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
                                 Quantity=1,
                                 Cost=500000, //temp,
                                 Total= 500000, // temp
@@ -842,7 +842,115 @@ namespace Persistence
                             new Item()
                             {
                                 Id= new Guid(),
-                                Book= context.Books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                                Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                                Quantity=1,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                              }
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    },
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                                Quantity=3,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                            },
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                                Quantity=1,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                              }
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    },
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="truongnguyen1232000@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="truongnguyen1232000@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                                Quantity=3,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                            },
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                                Quantity=1,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                              }
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    },
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="customer@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="customer@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                                Quantity=3,
+                                Cost=500000, //temp,
+                                Total= 500000, // temp
+                            },
+                            new Item()
+                            {
+                                Id= new Guid(),
+                                Book= books.Where(x=>x.Name=="Me Before You").SingleOrDefault(),
                                 Quantity=1,
                                 Cost=500000, //temp,
                                 Total= 500000, // temp

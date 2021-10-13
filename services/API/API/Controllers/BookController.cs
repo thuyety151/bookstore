@@ -20,5 +20,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new TopView.Query() { Quantity = quantity }));
         }
+        [HttpGet]
+        [Route("best-week/{quantity}")]
+        public async Task<IActionResult> GetBestOfWeek(int quantity)
+        {
+            return HandleResult(await Mediator.Send(new BestOfWeek.Query() { Quantity = quantity }));
+        }
     }
 }
