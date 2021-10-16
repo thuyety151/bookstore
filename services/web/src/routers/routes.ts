@@ -9,6 +9,7 @@ import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
 import MainLayout from "../layout/MainLayout";
 import RegisterPage from "../pages/login/RegisterPage";
+import BookDetailPage from "../pages/book-detail/BookDetailPage";
 
 //const isLogged: boolean = false;
 
@@ -43,6 +44,12 @@ export const routeMainLayout: IRoute[] = [
     path: "/register",
     name: "Register",
     component: RegisterPage,
+    exact: false,
+  },
+  {
+    path: "/book-detail",
+    name: "Book Detail",
+    component: BookDetailPage,
     exact: false,
   },
   {
