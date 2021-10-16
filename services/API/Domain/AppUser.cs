@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain
-{ 
+{
     public class AppUser : IdentityUser
     {
         public string FirstName { get; set; }
@@ -11,7 +12,7 @@ namespace Domain
         public Media Photo { get; set; }
         public ICollection<Address> Address { get; set; }
         public bool IsDeleted { get; set; }
-
+        public Cart Cart { get; set; }
         public string Role { get; set; }
     }
 }
