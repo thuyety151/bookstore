@@ -15,13 +15,13 @@ namespace Application.Carts
 {
     public class GetCart
     {
-        public class Query : IRequest<Result<PagedList<ItemDto>>>
+        public class Query : IRequest<Result<PagedList<CartDto>>>
         {
             public PagingParams Params { get; set; }
             public Guid Id { get; set; }
 
         }
-        public class Handler : IRequestHandler<Query, Result<PagedList<ItemDto>>>
+        public class Handler : IRequestHandler<Query, Result<PagedList<CartDto>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -30,18 +30,24 @@ namespace Application.Carts
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Result<PagedList<ItemDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<CartDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = _context.CartItems.Include(x => x.Item).ThenInclude(x => x.Book)
-                .Where(x => x.CartId == request.Id).Select(x => new ItemDto()
+                var items = _context.Carts
+                .Where(x => x.Id == request.Id)
+                .Select(x => new CartDto()
                 {
-                    Id = x.ItemId,
-                    Cost = x.Item.Cost,
-                    Quantity = x.Item.Quantity,
-                    Total = x.Item.Total,
-                    Book = _mapper.Map<BookDto>(x.Item.Book)
+                    Id = x.Id,
+                    SubTotal = x.SubTotal,
+                    Items = x.Items.Select(x => new ItemDto()
+                    {
+                        Id = x.Id,
+                        Cost = x.Cost,
+                        Quantity = x.Quantity,
+                        Total = x.Total,
+                        Book = _mapper.Map<BookDto>(x.Book)
+                    }).ToList()
                 }).AsQueryable();
-                return Result<PagedList<ItemDto>>.Success(await PagedList<ItemDto>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));
+                return Result<PagedList<CartDto>>.Success(await PagedList<CartDto>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));
             }
         }
     }

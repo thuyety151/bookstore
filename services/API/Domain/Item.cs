@@ -10,7 +10,7 @@ namespace Domain
         public int Quantity { get; set; }
         public double Total { get; set; }
         public Book Book { get; set; }
-        public ICollection<CartItem> Carts { get; set; }
+        public Cart Cart { get; set; }
 
     }
 }

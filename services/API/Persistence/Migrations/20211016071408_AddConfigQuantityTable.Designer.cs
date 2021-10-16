@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211016071408_AddConfigQuantityTable")]
+    partial class AddConfigQuantityTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,6 +340,21 @@ namespace Persistence.Migrations
                     b.ToTable("Carts");
                 });
 
+            modelBuilder.Entity("Domain.CartItem", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("Domain.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -448,9 +465,6 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<double>("Cost")
                         .HasColumnType("float");
 
@@ -469,8 +483,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("CartId");
 
                     b.HasIndex("OrderId");
 
@@ -829,6 +841,21 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.CartItem", b =>
+                {
+                    b.HasOne("Domain.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Item", "Item")
+                        .WithMany("Carts")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Category", b =>
                 {
                     b.HasOne("Domain.Coupon", null)
@@ -854,10 +881,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId");
-
-                    b.HasOne("Domain.Cart", "Cart")
-                        .WithMany("Items")
-                        .HasForeignKey("CartId");
 
                     b.HasOne("Domain.Order", null)
                         .WithMany("Items")

@@ -26,10 +26,97 @@ namespace Persistence
             List<Bill> bills = new List<Bill>();
             List<Cart> carts = new List<Cart>();
             List<Media> medias = new List<Media>();
-            List<CartItem> cartItems = new List<CartItem>();
             List<Item> items = new List<Item>();
             List<Book> books = new List<Book>();
 
+            if (!context.Items.Any())
+            {
+                var itemList = new List<Item>()
+                {
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Me Before You").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    }
+                };
+                items.AddRange(itemList);
+                await context.Items.AddRangeAsync(items);
+            }
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -129,6 +216,11 @@ namespace Persistence
                               }
                         },
                         Cart= new Cart()
+                        {
+                            Id= new Guid(),
+                            SubTotal=1,
+                            Items= items.Take(5).ToList()
+                        }
                     },
                     new AppUser()
                     {
@@ -153,6 +245,11 @@ namespace Persistence
                               }
                         },
                         Cart= new Cart()
+                        {
+                            Id= new Guid(),
+                            SubTotal=1,
+                            Items= items.Skip(5).Take(3).ToList()
+                        }
                     },
                     new AppUser()
                     {
@@ -177,6 +274,11 @@ namespace Persistence
                               }
                         },
                         Cart= new Cart()
+                        {
+                            Id= new Guid(),
+                            SubTotal=1,
+                            Items= items.Skip(8).Take(2).ToList()
+                        }
                     }
                 };
 
@@ -503,7 +605,6 @@ namespace Persistence
                 categories.AddRange(categorieList);
                 await context.Categories.AddRangeAsync(categories);
             }
-
             if (!context.Books.Any())
             {
                 var bookList = new List<Book>()
@@ -812,6 +913,7 @@ namespace Persistence
                 };
                 await context.Coupons.AddRangeAsync(couponList);
             }
+
             if (!context.Orders.Any())
             {
                 var orderList = new List<Order>()
@@ -831,22 +933,7 @@ namespace Persistence
                         PaymentMethod= (int)PaymentMethod.CashOnDelivery,
                         Items= new List<Item>()
                         {
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
-                                Quantity=1,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                            },
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
-                                Quantity=1,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                              }
+
                         },
                         SubTotal= 500000 ,//temp,
                         OrderTotal=500000,
@@ -867,22 +954,7 @@ namespace Persistence
                         PaymentMethod= (int)PaymentMethod.CashOnDelivery,
                         Items= new List<Item>()
                         {
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                                Quantity=3,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                            },
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
-                                Quantity=1,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                              }
+
                         },
                         SubTotal= 500000 ,//temp,
                         OrderTotal=500000,
@@ -903,22 +975,7 @@ namespace Persistence
                         PaymentMethod= (int)PaymentMethod.CashOnDelivery,
                         Items= new List<Item>()
                         {
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                                Quantity=3,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                            },
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
-                                Quantity=1,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                              }
+
                         },
                         SubTotal= 500000 ,//temp,
                         OrderTotal=500000,
@@ -939,22 +996,7 @@ namespace Persistence
                         PaymentMethod= (int)PaymentMethod.CashOnDelivery,
                         Items= new List<Item>()
                         {
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                                Quantity=3,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                            },
-                            new Item()
-                            {
-                                Id= new Guid(),
-                                Book= books.Where(x=>x.Name=="Me Before You").SingleOrDefault(),
-                                Quantity=1,
-                                Cost=500000, //temp,
-                                Total= 500000, // temp
-                              }
+
                         },
                         SubTotal= 500000 ,//temp,
                         OrderTotal=500000,
@@ -963,49 +1005,60 @@ namespace Persistence
                 };
                 await context.Orders.AddRangeAsync(orderList);
             }
-            if (!context.CartItems.Any())
+            if (!context.ConfigQuantities.Any())
             {
-                var cartItemList = new List<CartItem>()
+                var configs = new List<ConfigQuantity>()
                 {
-                    new CartItem()
+                    new ConfigQuantity()
                     {
-                        Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
-                        Item =  new Item()
-                        {
-                            Id= new Guid(),
-                            Book= books.Where(x=>x.Name=="The Overdue Life of Amy Byler").SingleOrDefault(),
-                            Cost=1000,
-                            Quantity=12,
-                            Total=12000
-                        }
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BestSelling.ToString(),
+                        Quantity=10
                     },
-                    new CartItem()
+                    new ConfigQuantity()
                     {
-                        Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
-                        Item =  new Item()
-                        {
-                            Id= new Guid(),
-                            Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
-                            Cost=1000,
-                            Quantity=20,
-                            Total=12000
-                         }
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.DealsOdWeek.ToString(),
+                        Quantity=10
                     },
-                     new CartItem()
+                    new ConfigQuantity()
                     {
-                    Cart = context.Users.Where(x => x.Email == "thuyety15@gmail.com").Select(x => x.Cart).SingleOrDefault(),
-                        Item =  new Item()
-                        {
-                            Id= new Guid(),
-                            Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                            Cost=1000,
-                            Quantity=10,
-                            Total=12000
-                        }
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BiographyBook.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.MostView.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.OnSale.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BookByCategory.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.TopCategory.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.Highlight.ToString(),
+                        Quantity=10
                     }
                 };
-                cartItems.AddRange(cartItemList);
-                await context.CartItems.AddRangeAsync(cartItemList);
+                await context.ConfigQuantities.AddRangeAsync(configs);
             }
             await context.SaveChangesAsync();
         }

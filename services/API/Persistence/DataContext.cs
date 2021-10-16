@@ -41,18 +41,7 @@ namespace Persistence
                 .HasOne(x => x.Coupon)
                 .WithMany(x => x.Books)
                 .HasForeignKey(x => x.CouponId);
-
-            builder.Entity<CartItem>(x => x.HasKey(ci => new { ci.CartId, ci.ItemId }));
-            builder.Entity<CartItem>()
-                .HasOne(x => x.Cart)
-                .WithMany(x => x.Items)
-                .HasForeignKey(x => x.CartId);
-            builder.Entity<CartItem>()
-                .HasOne(x => x.Item)
-                .WithMany(x => x.Carts)
-                .HasForeignKey(x => x.ItemId);
         }
-
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attribute> Attributes { get; set; }
@@ -69,6 +58,6 @@ namespace Persistence
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<BookCategory> BooksCategories { get; set; }
         public DbSet<BookCoupon> BookCoupons { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<ConfigQuantity> ConfigQuantities { get; set; }
     }
 }
