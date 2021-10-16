@@ -11,14 +11,15 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Application.Authors;
+using Domain.Enum;
 
 namespace Application.Books
 {
-    public class ListNewRelease
+    public class NewRelease
     {
         public class Query : IRequest<Result<List<BooksCategoriesDto>>>
         {
-            public NewReleaseQuery Params { get; set; }
+            public List<string> IdCategories { get; set; }
         }
         public class Handler : IRequestHandler<Query, Result<List<BooksCategoriesDto>>>
         {
@@ -32,14 +33,17 @@ namespace Application.Books
             public async Task<Result<List<BooksCategoriesDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // check valid request params
-                var actualQuantity = _context.Categories.Where(x => request.Params.IdCategories.Contains(x.Id.ToString()) && x.IsDeleted == false).ToList().Count;
-                if (request.Params.IdCategories.Count != actualQuantity)
+                var actualQuantity = _context.Categories.Where(x => request.IdCategories.Contains(x.Id.ToString()) && x.IsDeleted == false).ToList().Count;
+                if (request.IdCategories.Count != actualQuantity)
                 {
                     //return BadReuqest
                     //please review these codes
                     return Result<List<BooksCategoriesDto>>.Failure("Bad request");
                 }
-                var results = await _context.Categories.Include(x => x.Books).Where(x => request.Params.IdCategories.Contains(x.Id.ToString()))
+                var quantity = await _context.ConfigQuantities
+                                    .Where(x => x.Key == ConfigQuantityName.NewRelease.ToString()).Select(x => x.Quantity).SingleOrDefaultAsync();
+
+                var results = await _context.Categories.Include(x => x.Books).Where(x => request.IdCategories.Contains(x.Id.ToString()))
                         .Select(x => new BooksCategoriesDto()
                         {
                             CategoryId = x.Id,
@@ -56,7 +60,7 @@ namespace Application.Books
                                 Attribute = x.Book.Attribute,
                                 Language = x.Book.Language
                             })
-                            .Take(request.Params.Quantity).ToList()
+                            .Take(quantity).ToList()
                         }).ToListAsync();
                 return Result<List<BooksCategoriesDto>>.Success(results);
             }

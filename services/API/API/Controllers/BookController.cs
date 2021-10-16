@@ -10,28 +10,28 @@ namespace API.Controllers
     public class BookController : BaseApiController
     {
         [HttpGet]
-        [Route("bycategory")]
-        public async Task<IActionResult> GetBooksByCategories([FromBody] NewReleaseQuery Params)
+        [Route("new-release")]
+        public async Task<IActionResult> GetBooksByCategories([FromBody] List<string> idCategories)
         {
-            return HandleResult(await Mediator.Send(new ListNewRelease.Query() { Params = Params }));
+            return HandleResult(await Mediator.Send(new NewRelease.Query() { IdCategories = idCategories }));
         }
         [HttpGet]
-        [Route("top-view/{quantity}")]
-        public async Task<IActionResult> GetTopView(int quantity)
+        [Route("most-view")]
+        public async Task<IActionResult> GetTopView()
         {
-            return HandleResult(await Mediator.Send(new TopView.Query() { Quantity = quantity }));
+            return HandleResult(await Mediator.Send(new TopView()));
         }
         [HttpGet]
-        [Route("best-week/{quantity}")]
-        public async Task<IActionResult> GetBestOfWeek(int quantity)
+        [Route("best-week")]
+        public async Task<IActionResult> GetBestOfWeek()
         {
-            return HandleResult(await Mediator.Send(new BestOfWeek.Query() { Quantity = quantity }));
+            return HandleResult(await Mediator.Send(new BestOfWeek()));
         }
         [HttpGet]
-        [Route("deals-of-week/{quantity}")]
-        public async Task<IActionResult> GetDealsOfWeek(int quantity)
+        [Route("deals-of-week")]
+        public async Task<IActionResult> GetDealsOfWeek()
         {
-            return HandleResult(await Mediator.Send(new DealsOfWeek.Query() { Quantity = quantity }));
+            return HandleResult(await Mediator.Send(new DealsOfWeek()));
         }
         [HttpGet]
         [Route("on-sale")]

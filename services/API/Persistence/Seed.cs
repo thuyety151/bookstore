@@ -1018,7 +1018,7 @@ namespace Persistence
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
-                        Key=ConfigQuantityName.DealsOdWeek.ToString(),
+                        Key=ConfigQuantityName.DealsOfWeek.ToString(),
                         Quantity=10
                     },
                     new ConfigQuantity()
@@ -1042,7 +1042,7 @@ namespace Persistence
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
-                        Key=ConfigQuantityName.BookByCategory.ToString(),
+                        Key=ConfigQuantityName.NewRelease.ToString(),
                         Quantity=10
                     },
                     new ConfigQuantity()
@@ -1055,6 +1055,12 @@ namespace Persistence
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.Highlight.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BestOfWeek.ToString(),
                         Quantity=10
                     }
                 };

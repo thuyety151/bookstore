@@ -3,12 +3,13 @@ namespace Domain.Enum
     public enum ConfigQuantityName
     {
         BestSelling,
-        DealsOdWeek,
+        DealsOfWeek,
         MostView,
         BiographyBook,
         OnSale,
-        BookByCategory,
+        NewRelease,
         TopCategory,
-        Highlight
+        Highlight,
+        BestOfWeek
     }
 }

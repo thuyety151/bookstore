@@ -7,19 +7,16 @@ using Application.Authors;
 using Application.Core;
 using AutoMapper;
 using Domain;
+using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Books
 {
-    public class DealsOfWeek
+    public class DealsOfWeek : IRequest<Result<List<BookDto>>>
     {
-        public class Query : IRequest<Result<List<BookDto>>>
-        {
-            public int Quantity { get; set; }
-        }
-        public class Handler : IRequestHandler<Query, Result<List<BookDto>>>
+        public class Handler : IRequestHandler<DealsOfWeek, Result<List<BookDto>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -28,13 +25,10 @@ namespace Application.Books
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Result<List<BookDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<BookDto>>> Handle(DealsOfWeek request, CancellationToken cancellationToken)
             {
-                if (request.Quantity <= 0)
-                {
-                    return Result<List<BookDto>>.Failure("Quantity is not valid");
-                }
-
+                var quantity = await _context.ConfigQuantities
+                                    .Where(x => x.Key == ConfigQuantityName.DealsOfWeek.ToString()).Select(x => x.Quantity).SingleOrDefaultAsync();
                 var books = await _context.Coupons
                             .Where(x => (DateTime.Now <= (DateTime?)x.ExpireDate.AddDays(7)) == true)
                             .OrderByDescending(x => x.ExpireDate)
@@ -48,7 +42,7 @@ namespace Application.Books
                                 Attribute = x.Book.Attribute,
                                 Language = x.Book.Language,
                                 Media = x.Book.Media
-                            }).Take(request.Quantity).ToListAsync();
+                            }).Take(quantity).ToListAsync();
                 return Result<List<BookDto>>.Success(books);
             }
         }
