@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Books;
+using Application.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -25,6 +26,18 @@ namespace API.Controllers
         public async Task<IActionResult> GetBestOfWeek(int quantity)
         {
             return HandleResult(await Mediator.Send(new BestOfWeek.Query() { Quantity = quantity }));
+        }
+        [HttpGet]
+        [Route("deals-of-week/{quantity}")]
+        public async Task<IActionResult> GetDealsOfWeek(int quantity)
+        {
+            return HandleResult(await Mediator.Send(new DealsOfWeek.Query() { Quantity = quantity }));
+        }
+        [HttpGet]
+        [Route("on-sale")]
+        public async Task<IActionResult> GetOnSale([FromQuery] PagingParams pagingParams)
+        {
+            return HandleResult(await Mediator.Send(new OnSale.Query() { Params = pagingParams }));
         }
     }
 }
