@@ -39,5 +39,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new OnSale.Query() { Params = pagingParams }));
         }
+        [HttpGet]
+        [Route("highlight")]
+        public async Task<IActionResult> GetHighLight()
+        {
+            return HandleResult(await Mediator.Send(new Highlight()));
+        }
     }
 }
