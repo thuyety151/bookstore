@@ -1,11 +1,11 @@
 import React from "react"
 import Typography from "@material-ui/core/Typography";
-import book from "../assets/images/luat-tam-thuc.jpeg";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Slider from "./Slider";
+import { Book } from "../../../model";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,12 +15,9 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: theme.spacing(2),
       margin: "auto",
-      maxWidth: 600,
+      maxWidth: 500,
+      maxHeight: 300,
       textAlign: "left",
-    },
-    image: {
-      width: 250,
-      height: 250,
     },
     img: {
       margin: "auto",
@@ -28,43 +25,53 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: "100%",
       maxHeight: "100%",
     },
+    attribute: {
+      color: "red",
+      "&:hover": {
+        color: "red",
+        cursor: "pointer",
+        fontWeight: 700
+      }
+    }
   })
 );
-export default function ComplexGrid() {
+
+interface Props{
+  item : Book
+}
+export default function DealItem({item} : Props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src={book} />
+        <Grid container spacing={1}>
+          <Grid item xs={4} alignItems="stretch">
+            <ButtonBase>
+              <img className={classes.img} alt="complex" src = {item.imageUrl} />
             </ButtonBase>
           </Grid>
-          <Grid item xs={12} sm container>
+          <Grid item xs={8} container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography
                   gutterBottom
-                  variant="caption"
-                  color="error"
-                  component="p"
+                  variant="overline"
+                  className={classes.attribute}
                 >
-                  KINDLE EDITION
+                  {item.attribute}
                 </Typography>
                 <Typography gutterBottom variant="h5">
-                  Dark in Death: An Eva Dallas Novel (In Death. Book 46)
+                  {item.name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Nora Roberts
+                  {item.author}
                 </Typography>
                 <Typography gutterBottom variant="h6" component="h2">
-                  $99.00
+                  ${item.regularPrice}
                 </Typography>
               </Grid>
               <Grid
                 item
-                xs
                 container
                 direction="row"
                 justifyContent="space-between"
@@ -86,32 +93,3 @@ export default function ComplexGrid() {
   );
 }
 
-// export default function MediaCard() {
-//   const classes = useStyles();
-
-//   return (
-//     <Card className={classes.root}>
-//       <CardActionArea className={classes.content}>
-//         <CardMedia
-//           className={classes.media}
-//           image={book}
-//           title="Contemplative Reptile"
-//         />
-//         <CardContent>
-//         <Typography gutterBottom variant="subtitle2" color="error" component="p">
-//           KINDLE EDITION
-//           </Typography>
-//           <Typography gutterBottom variant="inherit" component="h2" >
-//           Dark in Death: An Eva Dallas Novel (In Death. Book 46)
-//           </Typography>
-//           <Typography variant="body2" color="textSecondary" component="p">
-//             Nora Roberts
-//           </Typography>
-//           <Typography gutterBottom variant="inherit" component="h2" >
-//             $99.00
-//           </Typography>
-//         </CardContent>
-//       </CardActionArea>
-//     </Card>
-//   );
-// }

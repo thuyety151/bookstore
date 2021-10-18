@@ -11,4 +11,5 @@ const middleware = [thunk];
 const store = createStore(reducers, applyMiddleware(...middleware));
 
 export type RootStore = ReturnType<typeof rootReducer>;
+
 export default store;
