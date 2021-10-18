@@ -1,11 +1,14 @@
-﻿using System;
+﻿using System.Globalization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Constant;
+using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Attribute = Domain.Attribute;
 
@@ -19,7 +22,101 @@ namespace Persistence
             List<Attribute> attributes = new List<Attribute>();
             List<Language> languages = new List<Language>();
             List<Category> categories = new List<Category>();
-            
+            List<Coupon> coupons = new List<Coupon>();
+            List<Bill> bills = new List<Bill>();
+            List<Cart> carts = new List<Cart>();
+            List<Media> medias = new List<Media>();
+            List<Item> items = new List<Item>();
+            List<Book> books = new List<Book>();
+
+            if (!context.Items.Any())
+            {
+                var itemList = new List<Item>()
+                {
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
+                        Quantity=3,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    },
+                    new Item()
+                    {
+                        Id= new Guid(),
+                        Book= books.Where(x=>x.Name=="Me Before You").SingleOrDefault(),
+                        Quantity=1,
+                        Cost=500000, //temp,
+                        Total= 500000, // temp
+                    }
+                };
+                items.AddRange(itemList);
+                await context.Items.AddRangeAsync(items);
+            }
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -45,7 +142,8 @@ namespace Persistence
                                 PostCode = "11000",
                                 IsMain = true
                             }
-                        }
+                        },
+                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -68,7 +166,8 @@ namespace Persistence
                                 PostCode = "11000",
                                 IsMain = true
                             }
-                        }
+                        },
+                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -91,6 +190,94 @@ namespace Persistence
                                 PostCode = "75000",
                                 IsMain = true
                             }
+                        },
+                        Cart= new Cart()
+                    },
+                    new AppUser()
+                    {
+                        UserName = "thuyety15",
+                        Email = "thuyety15@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Y",
+                                LastName = "Nguyen",
+                                Phone = "1234567890",
+                                ApartmentNumber = "10",
+                                Street = "719",
+                                Wards = "Trung Lap Thuong",
+                                District = "Cu Chi",
+                                CityTown = "HCM",
+                                PostCode = "70000",
+                                IsMain = true
+                              }
+                        },
+                        Cart= new Cart()
+                        {
+                            Id= new Guid(),
+                            SubTotal=1,
+                            Items= items.Take(5).ToList()
+                        }
+                    },
+                    new AppUser()
+                    {
+                        UserName = "truongnguyen",
+                        Email = "truongnguyen1232000@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Nguyen",
+                                LastName = "Truong",
+                                Phone = "1234567890",
+                                ApartmentNumber = "1179",
+                                Street = "Huynh Van Luy",
+                                Wards = "Phu My",
+                                District = "Thu Dau Mot",
+                                CityTown = "Binh Duong",
+                                PostCode = "75000",
+                                IsMain = true
+                              }
+                        },
+                        Cart= new Cart()
+                        {
+                            Id= new Guid(),
+                            SubTotal=1,
+                            Items= items.Skip(5).Take(3).ToList()
+                        }
+                    },
+                    new AppUser()
+                    {
+                        UserName = "thuyety15",
+                        Email = "thuyety15@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Y",
+                                LastName = "Nguyen",
+                                Phone = "1234567890",
+                                ApartmentNumber = "10",
+                                Street = "719",
+                                Wards = "Trung Lap Thuong",
+                                District = "Cu Chi",
+                                CityTown = "HCM",
+                                PostCode = "70000",
+                                IsMain = true
+                              }
+                        },
+                        Cart= new Cart()
+                        {
+                            Id= new Guid(),
+                            SubTotal=1,
+                            Items= items.Skip(8).Take(2).ToList()
                         }
                     }
                 };
@@ -211,6 +398,46 @@ namespace Persistence
                 await context.Languages.AddRangeAsync(languages);
             }
 
+            if (!context.Media.Any())
+            {
+                var mediaList = new List<Media>()
+                {
+                    new Media()
+                    {
+                        Id= "The Subtle Art of Not Giving a F`*Ck",
+                        Name="The Subtle Art of Not Giving a F*Ck",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "The Overdue Life of Amy Byler",
+                        Name="The Overdue Life of Amy Byler",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id="Harry Potter Part 4",
+                        Name="Harry Potter Part 4",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "The Alchemist",
+                        Name="The Alchemist",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                };
+                medias.AddRange(mediaList);
+                await context.Media.AddRangeAsync(mediaList);
+            }
             if (!context.Categories.Any())
             {
                 var categorieList = new List<Category>()
@@ -378,10 +605,9 @@ namespace Persistence
                 categories.AddRange(categorieList);
                 await context.Categories.AddRangeAsync(categories);
             }
-            
             if (!context.Books.Any())
             {
-                var books = new List<Book>()
+                var bookList = new List<Book>()
                 {
                     new Book()
                     {
@@ -399,13 +625,15 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories.IndexOf(1)
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category =  categories[0].SubCategories.ElementAt(0)
+                            }
+                        },
+                        Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
+                        ViewCount=1
                     },
                     new Book()
                     {
@@ -423,13 +651,15 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories[1]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
+                        ViewCount=100
                     },
                     new Book()
                     {
@@ -447,13 +677,15 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories[2]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
+                        ViewCount=10
                     },
                     new Book()
                     {
@@ -471,13 +703,15 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0].SubCategories[0]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
+                        ViewCount=11
                     },
                     new Book()
                     {
@@ -495,13 +729,14 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[0]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        ViewCount=20
                     },
                     new Book()
                     {
@@ -519,13 +754,14 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[14]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        ViewCount=25
                     },
                     new Book()
                     {
@@ -543,13 +779,14 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[14]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        ViewCount=19
                     },
                     new Book()
                     {
@@ -567,13 +804,14 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[10]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        ViewCount=36
                     },
                     new Book()
                     {
@@ -591,13 +829,14 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[20]
-                        //     }
-                        // }
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        ViewCount=102
                     },
                     new Book()
                     {
@@ -615,19 +854,218 @@ namespace Persistence
                         Language = languages[0],
                         Price = 29,
                         UpdateDate = DateTime.Now,
-                        // Categories = new List<BookCategory>()
-                        // {
-                        //     new BookCategory()
-                        //     {
-                        //         Category = categories[15]
-                        //     }
-                        // }
+                            Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        ViewCount=15
                     }
                 };
-
-                await context.Books.AddRangeAsync(books);
+                books.AddRange(bookList);
+                await context.Books.AddRangeAsync(bookList);
             }
-            
+            if (!context.Coupons.Any())
+            {
+                var couponList = new List<Coupon>()
+                {
+                    new Coupon()
+                    {
+                        Id= new Guid(),
+                        Code="HOT30",
+                        Description="Nothing",
+                        DiscountType=1,
+                        IsAllowFreeShipping=false,
+                        ExpireDate= DateTime.Now.AddMonths(1),
+                        MinSpend=0,
+                        MaxSpend=1,
+                        IsIndividualOnly=false,
+                        IsDeleted=false
+                    },
+                    new Coupon()
+                    {
+                        Id= new Guid(),
+                        Code="HOT50",
+                        Description="50K",
+                        DiscountType=1,
+                        IsAllowFreeShipping=false,
+                        ExpireDate= DateTime.Now.AddMonths(2),
+                        MinSpend=0,
+                        MaxSpend=1,
+                        IsIndividualOnly=false,
+                        IsDeleted=false
+                    },
+                    new Coupon()
+                    {
+                        Id= new Guid(),
+                        Code="30PER",
+                        Description="30%",
+                        DiscountType=1,
+                        IsAllowFreeShipping=false,
+                        ExpireDate= DateTime.Now,
+                        MinSpend=0,
+                        MaxSpend=1,
+                        IsIndividualOnly=false,
+                        IsDeleted=false
+                    }
+                };
+                await context.Coupons.AddRangeAsync(couponList);
+            }
+
+            if (!context.Orders.Any())
+            {
+                var orderList = new List<Order>()
+                {
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    },
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    },
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="truongnguyen1232000@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="truongnguyen1232000@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    },
+                    new Order()
+                    {
+                        Id = new Guid(),
+                        CreateDate= DateTime.Now,
+                        Status=(int)Status.Processing,
+                        Customer=context.Users.Where(x=>x.Email=="customer@gmail.com").SingleOrDefault(),
+                        Bill= new Bill()
+                        {
+                            Id= new Guid(),
+                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="customer@gmail.com")
+                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+                        },
+                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+                        Items= new List<Item>()
+                        {
+
+                        },
+                        SubTotal= 500000 ,//temp,
+                        OrderTotal=500000,
+                        ShippingFee=15000
+                    }
+                };
+                await context.Orders.AddRangeAsync(orderList);
+            }
+            if (!context.ConfigQuantities.Any())
+            {
+                var configs = new List<ConfigQuantity>()
+                {
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BestSelling.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.DealsOfWeek.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BiographyBook.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.MostView.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.OnSale.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.NewRelease.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.TopCategory.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.Highlight.ToString(),
+                        Quantity=10
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id= new Guid(),
+                        Key=ConfigQuantityName.BestOfWeek.ToString(),
+                        Quantity=10
+                    }
+                };
+                await context.ConfigQuantities.AddRangeAsync(configs);
+            }
             await context.SaveChangesAsync();
         }
     }

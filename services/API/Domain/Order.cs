@@ -16,7 +16,5 @@ namespace Domain
         public AppUser Customer { get; set; }
         public Bill Bill { get; set; }
         public ICollection<Item> Items { get; set; }
-
-
     }
 }

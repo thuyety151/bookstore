@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211008171926_AddRelationshipUserCart")]
+    partial class AddRelationshipUserCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,6 +238,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("CouponId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CouponId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -289,6 +294,8 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CouponId");
 
+                    b.HasIndex("CouponId1");
+
                     b.HasIndex("LanguageId");
 
                     b.ToTable("Books");
@@ -307,21 +314,6 @@ namespace Persistence.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("BooksCategories");
-                });
-
-            modelBuilder.Entity("Domain.BookCoupon", b =>
-                {
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CouponId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BookId", "CouponId");
-
-                    b.HasIndex("CouponId");
-
-                    b.ToTable("BookCoupons");
                 });
 
             modelBuilder.Entity("Domain.Cart", b =>
@@ -381,30 +373,10 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.ConfigQuantity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConfigQuantities");
-                });
-
             modelBuilder.Entity("Domain.Coupon", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -791,8 +763,12 @@ namespace Persistence.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.HasOne("Domain.Coupon", null)
-                        .WithMany("ExcludeBooks")
+                        .WithMany("Books")
                         .HasForeignKey("CouponId");
+
+                    b.HasOne("Domain.Coupon", null)
+                        .WithMany("ExcludeBooks")
+                        .HasForeignKey("CouponId1");
 
                     b.HasOne("Domain.Language", "Language")
                         .WithMany()
@@ -810,21 +786,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Category", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.BookCoupon", b =>
-                {
-                    b.HasOne("Domain.Book", "Book")
-                        .WithMany("Coupons")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Coupon", "Coupon")
-                        .WithMany("Books")
-                        .HasForeignKey("CouponId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -855,7 +816,7 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("BookId");
 
-                    b.HasOne("Domain.Cart", "Cart")
+                    b.HasOne("Domain.Cart", null)
                         .WithMany("Items")
                         .HasForeignKey("CartId");
 
