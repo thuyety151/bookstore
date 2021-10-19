@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211016084327_UpdateReviews")]
+    partial class UpdateReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,6 +121,12 @@ namespace Persistence.Migrations
                     b.Property<string>("PhotoId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid?>("ReviewId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ReviewId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
@@ -143,6 +151,10 @@ namespace Persistence.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("PhotoId");
+
+                    b.HasIndex("ReviewId");
+
+                    b.HasIndex("ReviewId1");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -711,6 +723,14 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Media", "Photo")
                         .WithMany()
                         .HasForeignKey("PhotoId");
+
+                    b.HasOne("Domain.Review", null)
+                        .WithMany("DisLikes")
+                        .HasForeignKey("ReviewId");
+
+                    b.HasOne("Domain.Review", null)
+                        .WithMany("Likes")
+                        .HasForeignKey("ReviewId1");
                 });
 
             modelBuilder.Entity("Domain.Bill", b =>

@@ -8,6 +8,9 @@ import { Button, ButtonGroup, FormControl, MenuItem, Select } from "@material-ui
 import { FavoriteBorderOutlined } from "@material-ui/icons";
 import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
 import Rating from '@mui/material/Rating';
+import {getReviews } from "../../redux/actions/review/reviewAction";
+
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -64,6 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Detail() {
     const classes = useStyles();
+    const dispatch = useDispatch();
     //const displayCounter = this.state.counter > 0;
     const displayCounter = true;
     const [rateValue, setRateValue] = React.useState<number | null>(5);
@@ -73,6 +77,9 @@ export default function Detail() {
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setAge(event.target.value as string);
     };
+    const bookId = "ED8B02D5-44EB-4F55-B45B-08D98C5E3B4D";
+    dispatch(getReviews(bookId));
+    
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>

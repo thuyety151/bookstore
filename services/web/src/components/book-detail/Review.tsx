@@ -2,10 +2,18 @@ import React, { useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { AppBar, Box, Button, Divider, LinearProgress, Tab, Tabs, TextField, Typography, withStyles } from '@material-ui/core';
-import StarIcon from '@material-ui/icons/Star';
 import ReviewItem from './ReviewItem';
-import reviews from '../../mocks/review';
+
 import Rating from '@mui/material/Rating';
+import { RootStore } from "../../redux/store";
+import { useDispatch, useSelector } from 'react-redux';
+import {Review, CreateReview} from "../../model/review";
+import {addReview} from "../../redux/actions/review/reviewAction";
+import { v4 as uuidv4 } from 'uuid';
+
+import NegativeAlert from "../core/alert/NegativeAlert";
+
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,17 +61,39 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
 
 export default function CenteredGrid() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const [value, setValue] = React.useState(3);
 
-  const [rateValue, setRateValue] = React.useState<number | null>(5);
+  const [rateValue, setRateValue] = React.useState<number|null>(5);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  const bookId = "ED8B02D5-44EB-4F55-B45B-08D98C5E3B4D";
+  const {success, message} = useSelector((state: RootStore) => state.review);
+  const reviews: Review[] | null = useSelector((state: RootStore) => state.review.data);
+
+
+  const handleSubmit = () => {
+      const review : CreateReview = {
+        id: uuidv4(),
+        title: title,
+        content: content,
+        rate: rateValue,
+        bookId: bookId,
+      };
+      dispatch(addReview(review));
+
+      setTitle("");
+      setContent("");
+      setRateValue(5);
+      
+      }
 
   return (
     <div className={classes.root}>
@@ -176,17 +206,15 @@ export default function CenteredGrid() {
 
           </Grid>
 
-
           <Grid item>
+            {!success ? <NegativeAlert message={message || ""} /> : null}
             <Typography variant="h4">1-5 of 44 reviews</Typography>
-            {reviews.map((review) => (<ReviewItem key={review.id} review={review} />)
+            { reviews ?
+                reviews.map((review) => (<ReviewItem key={review.id} review={review} />)
 
-            )}
+            ) : null}
           </Grid>
         
-
-
-
         <Grid item container>
           <Typography variant="h4"> Write a review</Typography>
           <Grid item container spacing={2}>
@@ -218,7 +246,7 @@ export default function CenteredGrid() {
                 <TextField minRows={5} fullWidth label="Content" variant="filled" multiline value={content} onChange={e => setContent(e.target.value)} />
               </Grid>
               <Grid item className={classes.button}>
-                <Button type="submit" variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleSubmit}>
                   Submit Review
                 </Button>
               </Grid>

@@ -1,5 +1,6 @@
 using Application.Authors;
 using Application.Categories;
+using Application.Review;
 using AutoMapper;
 using Domain;
 
@@ -11,6 +12,7 @@ namespace Application.Core
         {
             CreateMap<Author, AuthorDto>();
             CreateMap<Category, CategoryDto>();
+            CreateMap<Domain.Review, ReviewDto>();
         }
     }
 }

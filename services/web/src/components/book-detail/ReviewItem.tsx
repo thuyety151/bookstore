@@ -27,7 +27,6 @@ interface Props {
 }
 export default function ReviewItem({ review }: Props) {
     const classes = useStyles();
-    const [rateValue, setRateValue] = React.useState<number | null>(4);
     return (
         <div className={classes.root}>
             <Grid container direction="column" spacing={2}>
@@ -37,7 +36,7 @@ export default function ReviewItem({ review }: Props) {
 
                     </Grid>
                     <Grid item alignItems="center">
-                        <Rating name="read-only" value={rateValue} readOnly size="small" />
+                        <Rating name="read-only" value={review.rate} readOnly size="small" />
                     </Grid>
                 </Grid>
 
@@ -47,7 +46,7 @@ export default function ReviewItem({ review }: Props) {
 
                 <Grid item>
                     <Typography variant="body2" color="textSecondary">
-                        {review.createDate}
+                        {review.createDate?.split('T')[0]}
                     </Typography>
 
                 </Grid>
