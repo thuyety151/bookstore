@@ -6,6 +6,7 @@ using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Categories
@@ -30,7 +31,7 @@ namespace Application.Categories
             }
             public async Task<Result<CategoryDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var subCategories = _context.Categories.Where(x => x.IsDeleted == false && x.Id == request.Id)
+                var subCategories = await _context.Categories.Include(x => x.SubCategories).Where(x => x.IsDeleted == false && x.Id == request.Id)
                         .Select(x => new CategoryDto()
                         {
                             Id = x.Id,
@@ -45,7 +46,7 @@ namespace Application.Categories
                                 ParentId = x.ParentId,
                                 SubTotal = x.SubCategories.Count()
                             }).ToList()
-                        }).SingleOrDefault();
+                        }).SingleOrDefaultAsync();
                 return Result<CategoryDto>.Success(subCategories);
             }
         }
