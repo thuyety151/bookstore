@@ -77,7 +77,7 @@ export default function Detail() {
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setAge(event.target.value as string);
     };
-    const bookId = "ED8B02D5-44EB-4F55-B45B-08D98C5E3B4D";
+    const bookId = "C0264CC0-9AFB-4CB4-9B80-08D993D1F90A";
     dispatch(getReviews(bookId));
     
     return (

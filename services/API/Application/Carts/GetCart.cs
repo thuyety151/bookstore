@@ -36,7 +36,7 @@ namespace Application.Carts
 
             public async Task<Result<PagedList<Item>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = _context.Carts.Where(x =>
+                var items = _context.Carts.Where(x => 
                         x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier))
                     .SelectMany(x => x.Items);
 
@@ -51,6 +51,11 @@ namespace Application.Carts
                         {
                             item.Price = book.SalePrice;
                         }
+                        else
+                        {
+                            item.Price = book.Price;
+                        }
+                        
                         if (item.Quantity > stock)
                         {
                             item.StockStatus = (int) StockStatus.OutOfStock;

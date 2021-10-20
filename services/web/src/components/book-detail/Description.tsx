@@ -16,10 +16,14 @@ const useStyles = makeStyles({
   },
   text: {
     color: "#e91e63",
-    '&:hover':{
+    '&:hover': {
       cursor: "pointer"
     }
-},
+  },
+  textDes: {
+    textAlign: "left" 
+  }
+
 });
 
 export default function Types() {

@@ -525,7 +525,12 @@ namespace Persistence
                         Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
                         ViewCount=1,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
+
                     },
                     new Book()
                     {
@@ -553,7 +558,11 @@ namespace Persistence
                         Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
                         ViewCount=100,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -581,7 +590,11 @@ namespace Persistence
                         Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
                         ViewCount=10,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -609,7 +622,11 @@ namespace Persistence
                         Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
                         ViewCount=11,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -636,7 +653,11 @@ namespace Persistence
                         },
                         ViewCount=20,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -663,7 +684,11 @@ namespace Persistence
                         },
                         ViewCount=25,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -717,7 +742,11 @@ namespace Persistence
                         },
                         ViewCount=36,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -744,7 +773,11 @@ namespace Persistence
                         },
                         ViewCount=102,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -771,12 +804,57 @@ namespace Persistence
                         },
                         ViewCount=15,
                         TotalStock = 100,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     }
                 };
                 books.AddRange(bookList);
                 await context.Books.AddRangeAsync(bookList);
             }
+
+            if (!context.Reviews.Any())
+            {
+                var reviewList = new List<Review>()
+                {
+                    new Review()
+                    {
+                        Id = new Guid(),
+                        BookId = books[0].Id,
+                        Title = "Amazing Story! You will love it",
+                        Content =
+                            "Such an incredibly complex story! I had to buy it because there was a waiting list of 30+ at the local library for this book. Thrilled that I made the purchase",
+                        Rate = 4,
+                        UserId = userManager.Users.FirstOrDefault(x => x.Email == "truongnguyen1232000@gmail.com")?.Id,
+                        CreateDate = DateTime.Now
+                    },
+                    new Review()
+                    {
+                        Id = new Guid(),
+                        BookId = books[0].Id,
+                        Title = "Get the best seller at a great price.",
+                        Content = "Awesome book, great price, fast delivery. Thanks so much.",
+                        Rate = 5,
+                        UserId = userManager.Users.FirstOrDefault(x => x.Email == "truongnguyen1232000@gmail.com")?.Id,
+                        CreateDate = DateTime.Now
+                    },
+                    new Review()
+                    {
+                        Id = new Guid(),
+                        BookId = books[0].Id,
+                        Title = "I read this book short...",
+                        Content = "I read this book shortly after I got it and didn't just put it on my TBR shelf mainly because I saw it on Reese Witherspoon's bookclub September read. It was one of the best books I've read this year, and reminded me some of Kristen Hannah's The Great Alone.",
+                        Rate = 5,
+                        UserId = userManager.Users.FirstOrDefault(x => x.Email == "truongnguyen1232000@gmail.com")?.Id,
+                        CreateDate = DateTime.Now
+                    },
+                };
+
+                await context.Reviews.AddRangeAsync(reviewList);
+            }
+            
             if (!context.Coupons.Any())
             {
                 var couponList = new List<Coupon>()

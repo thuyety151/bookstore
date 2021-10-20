@@ -28,6 +28,11 @@ namespace Domain
         public Author Author { get; set; }
         public Attribute Attribute { get; set; }
         public Language Language { get; set; }
+        public string Dimensions { get; set; }
+        public DateTime PublicationDate { get; set; }
+        public string Publisher { get; set; }
+        public string PublicationCountry { get; set; }
+        
 
 
     }
