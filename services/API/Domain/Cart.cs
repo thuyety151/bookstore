@@ -6,8 +6,7 @@ namespace Domain
 {
     public class Cart
     {
-        public Guid Id { get; set; }
-        public double SubTotal { get; set; }
+        public string Id { get; set; }
         public ICollection<Item> Items { get; set; }
     }
 }

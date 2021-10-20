@@ -23,100 +23,11 @@ namespace Persistence
             List<Language> languages = new List<Language>();
             List<Category> categories = new List<Category>();
             List<Coupon> coupons = new List<Coupon>();
-            List<Bill> bills = new List<Bill>();
             List<Cart> carts = new List<Cart>();
             List<Media> medias = new List<Media>();
             List<Item> items = new List<Item>();
             List<Book> books = new List<Book>();
-
-            if (!context.Items.Any())
-            {
-                var itemList = new List<Item>()
-                {
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
-                        Quantity=1,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Harry Potter Part 4: Harry Potter And The Goblet Of Fire").SingleOrDefault(),
-                        Quantity=1,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                        Quantity=3,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
-                        Quantity=1,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                        Quantity=3,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
-                        Quantity=1,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                        Quantity=3,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Sapiens : A Brief History Of Humankind").SingleOrDefault(),
-                        Quantity=1,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").SingleOrDefault(),
-                        Quantity=3,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    },
-                    new Item()
-                    {
-                        Id= new Guid(),
-                        Book= books.Where(x=>x.Name=="Me Before You").SingleOrDefault(),
-                        Quantity=1,
-                        Cost=500000, //temp,
-                        Total= 500000, // temp
-                    }
-                };
-                items.AddRange(itemList);
-                await context.Items.AddRangeAsync(items);
-            }
+            
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -143,7 +54,6 @@ namespace Persistence
                                 IsMain = true
                             }
                         },
-                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -167,7 +77,6 @@ namespace Persistence
                                 IsMain = true
                             }
                         },
-                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -191,7 +100,6 @@ namespace Persistence
                                 IsMain = true
                             }
                         },
-                        Cart= new Cart()
                     },
                     new AppUser()
                     {
@@ -215,12 +123,6 @@ namespace Persistence
                                 IsMain = true
                               }
                         },
-                        Cart= new Cart()
-                        {
-                            Id= new Guid(),
-                            SubTotal=1,
-                            Items= items.Take(5).ToList()
-                        }
                     },
                     new AppUser()
                     {
@@ -244,12 +146,6 @@ namespace Persistence
                                 IsMain = true
                               }
                         },
-                        Cart= new Cart()
-                        {
-                            Id= new Guid(),
-                            SubTotal=1,
-                            Items= items.Skip(5).Take(3).ToList()
-                        }
                     },
                     new AppUser()
                     {
@@ -273,12 +169,6 @@ namespace Persistence
                                 IsMain = true
                               }
                         },
-                        Cart= new Cart()
-                        {
-                            Id= new Guid(),
-                            SubTotal=1,
-                            Items= items.Skip(8).Take(2).ToList()
-                        }
                     }
                 };
 
@@ -633,7 +523,9 @@ namespace Persistence
                             }
                         },
                         Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
-                        ViewCount=1
+                        ViewCount=1,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -659,7 +551,9 @@ namespace Persistence
                             }
                         },
                         Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
-                        ViewCount=100
+                        ViewCount=100,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -685,7 +579,9 @@ namespace Persistence
                             }
                         },
                         Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
-                        ViewCount=10
+                        ViewCount=10,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -711,7 +607,9 @@ namespace Persistence
                             }
                         },
                         Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
-                        ViewCount=11
+                        ViewCount=11,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -736,7 +634,9 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        ViewCount=20
+                        ViewCount=20,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -761,7 +661,9 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        ViewCount=25
+                        ViewCount=25,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -786,7 +688,9 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        ViewCount=19
+                        ViewCount=19,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -811,7 +715,9 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        ViewCount=36
+                        ViewCount=36,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -836,7 +742,9 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        ViewCount=102
+                        ViewCount=102,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
                     {
@@ -861,7 +769,9 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        ViewCount=15
+                        ViewCount=15,
+                        TotalStock = 100,
+                        StockStatus = (int) StockStatus.InStock
                     }
                 };
                 books.AddRange(bookList);
@@ -914,97 +824,130 @@ namespace Persistence
                 await context.Coupons.AddRangeAsync(couponList);
             }
 
-            if (!context.Orders.Any())
+            if (!context.Items.Any())
             {
-                var orderList = new List<Order>()
+                var itemList = new List<Item>()
                 {
-                    new Order()
+                    new Item()
                     {
                         Id = new Guid(),
-                        CreateDate= DateTime.Now,
-                        Status=(int)Status.Processing,
-                        Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
-                        Bill= new Bill()
-                        {
-                            Id= new Guid(),
-                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
-                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
-                        },
-                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
-                        Items= new List<Item>()
-                        {
-
-                        },
-                        SubTotal= 500000 ,//temp,
-                        OrderTotal=500000,
-                        ShippingFee=15000
-                    },
-                    new Order()
-                    {
-                        Id = new Guid(),
-                        CreateDate= DateTime.Now,
-                        Status=(int)Status.Processing,
-                        Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
-                        Bill= new Bill()
-                        {
-                            Id= new Guid(),
-                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
-                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
-                        },
-                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
-                        Items= new List<Item>()
-                        {
-
-                        },
-                        SubTotal= 500000 ,//temp,
-                        OrderTotal=500000,
-                        ShippingFee=15000
-                    },
-                    new Order()
-                    {
-                        Id = new Guid(),
-                        CreateDate= DateTime.Now,
-                        Status=(int)Status.Processing,
-                        Customer=context.Users.Where(x=>x.Email=="truongnguyen1232000@gmail.com").SingleOrDefault(),
-                        Bill= new Bill()
-                        {
-                            Id= new Guid(),
-                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="truongnguyen1232000@gmail.com")
-                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
-                        },
-                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
-                        Items= new List<Item>()
-                        {
-
-                        },
-                        SubTotal= 500000 ,//temp,
-                        OrderTotal=500000,
-                        ShippingFee=15000
-                    },
-                    new Order()
-                    {
-                        Id = new Guid(),
-                        CreateDate= DateTime.Now,
-                        Status=(int)Status.Processing,
-                        Customer=context.Users.Where(x=>x.Email=="customer@gmail.com").SingleOrDefault(),
-                        Bill= new Bill()
-                        {
-                            Id= new Guid(),
-                            Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="customer@gmail.com")
-                            .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
-                        },
-                        PaymentMethod= (int)PaymentMethod.CashOnDelivery,
-                        Items= new List<Item>()
-                        {
-
-                        },
-                        SubTotal= 500000 ,//temp,
-                        OrderTotal=500000,
-                        ShippingFee=15000
+                        ProductId = books[0].Id,
+                        ProductName = books[0].Name,
+                        AuthorId = books[0].Author.Id,
+                        AuthorName = books[0].Author.Name,
+                        PictureUrl = books[0].Media.FirstOrDefault(x => x.IsMain)?.Url,
+                        Price = books[0].Price,
+                        Quantity = 2,
+                        StockStatus = (int) StockStatus.InStock
                     }
                 };
-                await context.Orders.AddRangeAsync(orderList);
+                
+                items.AddRange(itemList);
+                await context.Items.AddRangeAsync(items);
             }
+            
+            if (!context.Carts.Any())
+            {
+                var cart = new Cart()
+                {
+                    Id = userManager.Users.FirstOrDefault(x => x.Email == "truongnguyen1232000@gmail.com")?.Id,
+                    Items = items
+                };
+                
+                await context.Carts.AddAsync(cart);
+            }
+
+            // if (!context.Orders.Any())
+            // {
+            //     var orderList = new List<Order>()
+            //     {
+            //         new Order()
+            //         {
+            //             Id = new Guid(),
+            //             CreateDate= DateTime.Now,
+            //             Status=(int)Status.Processing,
+            //             Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
+            //             Bill= new Bill()
+            //             {
+            //                 Id= new Guid(),
+            //                 Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+            //                 .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+            //             },
+            //             PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+            //             Items= new List<Item>()
+            //             {
+            //
+            //             },
+            //             SubTotal= 500000 ,//temp,
+            //             OrderTotal=500000,
+            //             ShippingFee=15000
+            //         },
+            //         new Order()
+            //         {
+            //             Id = new Guid(),
+            //             CreateDate= DateTime.Now,
+            //             Status=(int)Status.Processing,
+            //             Customer=context.Users.Where(x=>x.Email=="thuyety15@gmail.com").SingleOrDefault(),
+            //             Bill= new Bill()
+            //             {
+            //                 Id= new Guid(),
+            //                 Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="thuyety15@gmail.com")
+            //                 .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+            //             },
+            //             PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+            //             Items= new List<Item>()
+            //             {
+            //
+            //             },
+            //             SubTotal= 500000 ,//temp,
+            //             OrderTotal=500000,
+            //             ShippingFee=15000
+            //         },
+            //         new Order()
+            //         {
+            //             Id = new Guid(),
+            //             CreateDate= DateTime.Now,
+            //             Status=(int)Status.Processing,
+            //             Customer=context.Users.Where(x=>x.Email=="truongnguyen1232000@gmail.com").SingleOrDefault(),
+            //             Bill= new Bill()
+            //             {
+            //                 Id= new Guid(),
+            //                 Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="truongnguyen1232000@gmail.com")
+            //                 .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+            //             },
+            //             PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+            //             Items= new List<Item>()
+            //             {
+            //
+            //             },
+            //             SubTotal= 500000 ,//temp,
+            //             OrderTotal=500000,
+            //             ShippingFee=15000
+            //         },
+            //         new Order()
+            //         {
+            //             Id = new Guid(),
+            //             CreateDate= DateTime.Now,
+            //             Status=(int)Status.Processing,
+            //             Customer=context.Users.Where(x=>x.Email=="customer@gmail.com").SingleOrDefault(),
+            //             Bill= new Bill()
+            //             {
+            //                 Id= new Guid(),
+            //                 Address= context.Users.Include(x=>x.Address).Where(x=>x.Email=="customer@gmail.com")
+            //                 .Select(x=>x.Address.FirstOrDefault()).FirstOrDefault(),
+            //             },
+            //             PaymentMethod= (int)PaymentMethod.CashOnDelivery,
+            //             Items= new List<Item>()
+            //             {
+            //
+            //             },
+            //             SubTotal= 500000 ,//temp,
+            //             OrderTotal=500000,
+            //             ShippingFee=15000
+            //         }
+            //     };
+            //     await context.Orders.AddRangeAsync(orderList);
+            // }
             if (!context.ConfigQuantities.Any())
             {
                 var configs = new List<ConfigQuantity>()

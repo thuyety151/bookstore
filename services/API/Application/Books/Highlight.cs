@@ -11,13 +11,14 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Application.Authors;
+using Domain;
 using Domain.Enum;
 
 namespace Application.Books
 {
-    public class Highlight : IRequest<Result<List<BookDto>>>
+    public class Highlight : IRequest<Result<List<Item>>>
     {
-        public class Handler : IRequestHandler<Highlight, Result<List<BookDto>>>
+        public class Handler : IRequestHandler<Highlight, Result<List<Item>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -26,16 +27,14 @@ namespace Application.Books
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Result<List<BookDto>>> Handle(Highlight request, CancellationToken cancellationToken)
+            public async Task<Result<List<Item>>> Handle(Highlight request, CancellationToken cancellationToken)
             {
                 var quantity = _context.ConfigQuantities
                                 .Where(x => x.Key == ConfigQuantityName.Highlight.ToString())
                                 .Select(x => x.Quantity)
                                 .SingleOrDefault();
-                var items = await _context.WishLists.SelectMany(x => x.Items)
-                            .Where(x => x.Book.IsDeleted == false)
-                            .Select(x => _mapper.Map<BookDto>(x.Book)).Take(quantity).ToListAsync();
-                return Result<List<BookDto>>.Success(items);
+                var items = await _context.WishLists.SelectMany(x => x.Items).Take(quantity).ToListAsync();
+                return Result<List<Item>>.Success(items);
             }
         }
     }

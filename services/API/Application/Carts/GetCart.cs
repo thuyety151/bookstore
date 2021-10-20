@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Books;
 using Application.Core;
 using AutoMapper;
 using Domain;
+using Domain.Enum;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -15,33 +18,48 @@ namespace Application.Carts
 {
     public class GetCart
     {
-        public class Query : IRequest<Result<PagedList<ItemDto>>>
+        public class Query : IRequest<Result<PagedList<Item>>>
         {
             public PagingParams Params { get; set; }
-            public Guid Id { get; set; }
-
         }
-        public class Handler : IRequestHandler<Query, Result<PagedList<ItemDto>>>
+
+        public class Handler : IRequestHandler<Query, Result<PagedList<Item>>>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IHttpContextAccessor _httpContext;
+
+            public Handler(DataContext context, IHttpContextAccessor httpContext)
             {
                 _context = context;
-                _mapper = mapper;
+                _httpContext = httpContext;
             }
-            public async Task<Result<PagedList<ItemDto>>> Handle(Query request, CancellationToken cancellationToken)
+
+            public async Task<Result<PagedList<Item>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = _context.Carts.Where(x => x.Id == request.Id)
-                .Select(x => new ItemDto()
+                var items = _context.Carts.Where(x =>
+                        x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    .SelectMany(x => x.Items);
+
+                foreach (var item in items)
                 {
-                    Id = x.Id,
-                    Cost = x.Items.First().Cost,
-                    Quantity = x.Items.First().Quantity,
-                    Total = x.Items.First().Total,
-                    Book = _mapper.Map<BookDto>(x.Items.First().Book)
-                }).AsQueryable();
-                return Result<PagedList<ItemDto>>.Success(await PagedList<ItemDto>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));
+                    var book = _context.Books.FirstOrDefault(x => x.Id == item.ProductId);
+
+                    if (book != null)
+                    {
+                        var stock = book.TotalStock;
+                        if (DateTime.Now >= book.SalePriceStartDate && DateTime.Now <= book.SalePriceEndDate)
+                        {
+                            item.Price = book.SalePrice;
+                        }
+                        if (item.Quantity > stock)
+                        {
+                            item.StockStatus = (int) StockStatus.OutOfStock;
+                        }
+                    }
+                }
+
+                return Result<PagedList<Item>>.Success(
+                    await PagedList<Item>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));
             }
         }
     }
