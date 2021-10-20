@@ -16,10 +16,9 @@ namespace Domain
         public double MaxSpend { get; set; }
         public bool IsIndividualOnly { get; set; }
         public bool IsDeleted { get; set; }
-        public Guid BookId { get; set; }
         public ICollection<BookCoupon> Books{ get; set; }
-        public ICollection<Book> ExcludeBooks { get; set; }
+        //public ICollection<Book> ExcludeBooks { get; set; }
         public ICollection<Category> Categories { get; set; }
-        public ICollection<Category> ExcludeCategories { get; set; }
+        //public ICollection<Category> ExcludeCategories { get; set; }
     }
 }

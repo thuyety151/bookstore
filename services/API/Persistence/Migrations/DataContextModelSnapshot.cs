@@ -73,9 +73,6 @@ namespace Persistence.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -122,12 +119,6 @@ namespace Persistence.Migrations
                     b.Property<string>("PhotoId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("ReviewId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ReviewId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
@@ -143,8 +134,6 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -154,10 +143,6 @@ namespace Persistence.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("PhotoId");
-
-                    b.HasIndex("ReviewId");
-
-                    b.HasIndex("ReviewId1");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -199,28 +184,6 @@ namespace Persistence.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Domain.Bill", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OrderNote")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
-
-                    b.ToTable("Bills");
-                });
-
             modelBuilder.Entity("Domain.Book", b =>
                 {
                     b.Property<Guid>("Id")
@@ -231,9 +194,6 @@ namespace Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CouponId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
@@ -287,8 +247,6 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("CouponId");
-
                     b.HasIndex("LanguageId");
 
                     b.ToTable("Books");
@@ -326,12 +284,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Cart", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("SubTotal")
-                        .HasColumnType("float");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -345,9 +299,6 @@ namespace Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CouponId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CouponId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -371,8 +322,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CouponId");
-
-                    b.HasIndex("CouponId1");
 
                     b.HasIndex("MediaId");
 
@@ -402,9 +351,6 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -439,36 +385,72 @@ namespace Persistence.Migrations
                     b.ToTable("Coupons");
                 });
 
+            modelBuilder.Entity("Domain.DeliveryMethod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeliveryTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryMethods");
+                });
+
             modelBuilder.Entity("Domain.Item", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BookId")
+                    b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CartId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
+                    b.Property<string>("CartId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<double>("Total")
-                        .HasColumnType("float");
+                    b.Property<int>("StockStatus")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("WishListId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.HasIndex("CartId");
 
@@ -531,23 +513,20 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BillId")
+                    b.Property<Guid?>("AddressToShipId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<Guid>("DeliveryMethodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("OrderTotal")
-                        .HasColumnType("float");
+                    b.Property<string>("OrderNote")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
-
-                    b.Property<double>("ShippingFee")
-                        .HasColumnType("float");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -555,11 +534,14 @@ namespace Persistence.Migrations
                     b.Property<double>("SubTotal")
                         .HasColumnType("float");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BillId");
+                    b.HasIndex("AddressToShipId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("DeliveryMethodId");
 
                     b.ToTable("Orders");
                 });
@@ -570,7 +552,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BookId")
+                    b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -606,12 +588,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("WishLists");
                 });
@@ -756,28 +733,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
-                    b.HasOne("Domain.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId");
-
                     b.HasOne("Domain.Media", "Photo")
                         .WithMany()
                         .HasForeignKey("PhotoId");
-
-                    b.HasOne("Domain.Review", null)
-                        .WithMany("DisLikes")
-                        .HasForeignKey("ReviewId");
-
-                    b.HasOne("Domain.Review", null)
-                        .WithMany("Likes")
-                        .HasForeignKey("ReviewId1");
-                });
-
-            modelBuilder.Entity("Domain.Bill", b =>
-                {
-                    b.HasOne("Domain.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
                 });
 
             modelBuilder.Entity("Domain.Book", b =>
@@ -789,10 +747,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId");
-
-                    b.HasOne("Domain.Coupon", null)
-                        .WithMany("ExcludeBooks")
-                        .HasForeignKey("CouponId");
 
                     b.HasOne("Domain.Language", "Language")
                         .WithMany()
@@ -835,10 +789,6 @@ namespace Persistence.Migrations
                         .WithMany("Categories")
                         .HasForeignKey("CouponId");
 
-                    b.HasOne("Domain.Coupon", null)
-                        .WithMany("ExcludeCategories")
-                        .HasForeignKey("CouponId1");
-
                     b.HasOne("Domain.Media", "Media")
                         .WithMany()
                         .HasForeignKey("MediaId");
@@ -851,11 +801,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Item", b =>
                 {
-                    b.HasOne("Domain.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId");
-
-                    b.HasOne("Domain.Cart", "Cart")
+                    b.HasOne("Domain.Cart", null)
                         .WithMany("Items")
                         .HasForeignKey("CartId");
 
@@ -881,28 +827,25 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Order", b =>
                 {
-                    b.HasOne("Domain.Bill", "Bill")
+                    b.HasOne("Domain.Address", "AddressToShip")
                         .WithMany()
-                        .HasForeignKey("BillId");
+                        .HasForeignKey("AddressToShipId");
 
-                    b.HasOne("Domain.AppUser", "Customer")
+                    b.HasOne("Domain.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Review", b =>
                 {
                     b.HasOne("Domain.Book", "Book")
                         .WithMany()
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Domain.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Domain.WishList", b =>
-                {
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

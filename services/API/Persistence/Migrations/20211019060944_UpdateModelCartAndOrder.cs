@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class UpdateModelCartAndOrder : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,8 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Slug = table.Column<string>(nullable: true)
+                    Slug = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,15 +36,40 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
+                name: "Authors",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    SubTotal = table.Column<double>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Authors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ConfigQuantities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Key = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConfigQuantities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,11 +84,28 @@ namespace Persistence.Migrations
                     ExpireDate = table.Column<DateTime>(nullable: false),
                     MinSpend = table.Column<double>(nullable: false),
                     MaxSpend = table.Column<double>(nullable: false),
-                    IsIndividualOnly = table.Column<bool>(nullable: false)
+                    IsIndividualOnly = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Coupons", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeliveryMethods",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    DeliveryTime = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<double>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryMethods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,6 +118,17 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WishLists",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WishLists", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,16 +153,137 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bills",
+                name: "Books",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AddressId = table.Column<Guid>(nullable: true),
-                    OrderNote = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    IsPublic = table.Column<bool>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    SalePrice = table.Column<double>(nullable: false),
+                    SalePriceStartDate = table.Column<DateTime>(nullable: false),
+                    SalePriceEndDate = table.Column<DateTime>(nullable: false),
+                    StockStatus = table.Column<int>(nullable: false),
+                    TotalStock = table.Column<int>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ViewCount = table.Column<int>(nullable: false),
+                    AuthorId = table.Column<Guid>(nullable: true),
+                    AttributeId = table.Column<Guid>(nullable: true),
+                    LanguageId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bills", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Books_Attributes_AttributeId",
+                        column: x => x.AttributeId,
+                        principalTable: "Attributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Books_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Books_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookCoupons",
+                columns: table => new
+                {
+                    BookId = table.Column<Guid>(nullable: false),
+                    CouponId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookCoupons", x => new { x.BookId, x.CouponId });
+                    table.ForeignKey(
+                        name: "FK_BookCoupons_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookCoupons_Coupons_CouponId",
+                        column: x => x.CouponId,
+                        principalTable: "Coupons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    PaymentMethod = table.Column<int>(nullable: false),
+                    SubTotal = table.Column<double>(nullable: false),
+                    OrderNote = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    DeliveryMethodId = table.Column<Guid>(nullable: false),
+                    AddressToShipId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_DeliveryMethods_DeliveryMethodId",
+                        column: x => x.DeliveryMethodId,
+                        principalTable: "DeliveryMethods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<Guid>(nullable: false),
+                    AuthorName = table.Column<string>(nullable: true),
+                    PictureUrl = table.Column<string>(nullable: true),
+                    Price = table.Column<double>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    CartId = table.Column<string>(nullable: true),
+                    OrderId = table.Column<Guid>(nullable: true),
+                    WishListId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Items_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Items_WishLists_WishListId",
+                        column: x => x.WishListId,
+                        principalTable: "WishLists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,9 +311,11 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    CompanyName = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    StreetAddress = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    ApartmentNumber = table.Column<string>(nullable: true),
+                    Street = table.Column<string>(nullable: true),
+                    Wards = table.Column<string>(nullable: true),
+                    District = table.Column<string>(nullable: true),
                     CityTown = table.Column<string>(nullable: true),
                     PostCode = table.Column<string>(nullable: true),
                     IsMain = table.Column<bool>(nullable: false),
@@ -193,83 +370,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    ShortDescription = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    IsPublic = table.Column<bool>(nullable: false),
-                    Price = table.Column<double>(nullable: false),
-                    SalePrice = table.Column<double>(nullable: false),
-                    SalePriceStartDate = table.Column<DateTime>(nullable: false),
-                    SalePriceEndDate = table.Column<DateTime>(nullable: false),
-                    StockStatus = table.Column<int>(nullable: false),
-                    TotalStock = table.Column<int>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    UpdateDate = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    AttributeId = table.Column<Guid>(nullable: true),
-                    LanguageId = table.Column<Guid>(nullable: true),
-                    CouponId = table.Column<Guid>(nullable: true),
-                    CouponId1 = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Books_Attributes_AttributeId",
-                        column: x => x.AttributeId,
-                        principalTable: "Attributes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Books_Coupons_CouponId",
-                        column: x => x.CouponId,
-                        principalTable: "Coupons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Books_Coupons_CouponId1",
-                        column: x => x.CouponId1,
-                        principalTable: "Coupons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Books_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    PaymentMethod = table.Column<int>(nullable: false),
-                    SubTotal = table.Column<double>(nullable: false),
-                    ShippingFee = table.Column<double>(nullable: false),
-                    OrderTotal = table.Column<double>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<string>(nullable: true),
-                    BillId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Bills_BillId",
-                        column: x => x.BillId,
-                        principalTable: "Bills",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
@@ -279,7 +379,7 @@ namespace Persistence.Migrations
                     Rate = table.Column<double>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
-                    BookId = table.Column<Guid>(nullable: true),
+                    BookId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -290,7 +390,7 @@ namespace Persistence.Migrations
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -344,9 +444,8 @@ namespace Persistence.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     PhotoId = table.Column<string>(nullable: true),
-                    Role = table.Column<string>(nullable: true),
-                    ReviewId = table.Column<Guid>(nullable: true),
-                    ReviewId1 = table.Column<Guid>(nullable: true)
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Role = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -355,18 +454,6 @@ namespace Persistence.Migrations
                         name: "FK_AspNetUsers_Media_PhotoId",
                         column: x => x.PhotoId,
                         principalTable: "Media",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Reviews_ReviewId",
-                        column: x => x.ReviewId,
-                        principalTable: "Reviews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Reviews_ReviewId1",
-                        column: x => x.ReviewId1,
-                        principalTable: "Reviews",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -380,8 +467,9 @@ namespace Persistence.Migrations
                     Slug = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     MediaId = table.Column<string>(nullable: true),
-                    CouponId = table.Column<Guid>(nullable: true),
-                    CouponId1 = table.Column<Guid>(nullable: true)
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ParentId = table.Column<Guid>(nullable: true),
+                    CouponId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -393,39 +481,21 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Categories_Coupons_CouponId1",
-                        column: x => x.CouponId1,
-                        principalTable: "Coupons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Categories_Media_MediaId",
                         column: x => x.MediaId,
                         principalTable: "Media",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WishLists",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WishLists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WishLists_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookCategory",
+                name: "BooksCategories",
                 columns: table => new
                 {
                     BookId = table.Column<Guid>(nullable: false),
@@ -433,61 +503,19 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookCategory", x => new { x.BookId, x.CategoryId });
+                    table.PrimaryKey("PK_BooksCategories", x => new { x.BookId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_BookCategory_Books_BookId",
+                        name: "FK_BooksCategories_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookCategory_Categories_CategoryId",
+                        name: "FK_BooksCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Cost = table.Column<double>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    Total = table.Column<double>(nullable: false),
-                    BookId = table.Column<Guid>(nullable: true),
-                    CartId = table.Column<Guid>(nullable: true),
-                    OrderId = table.Column<Guid>(nullable: true),
-                    WishListId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Items_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_Carts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Carts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_WishLists_WishListId",
-                        column: x => x.WishListId,
-                        principalTable: "WishLists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -540,24 +568,9 @@ namespace Persistence.Migrations
                 column: "PhotoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_ReviewId",
-                table: "AspNetUsers",
-                column: "ReviewId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_ReviewId1",
-                table: "AspNetUsers",
-                column: "ReviewId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bills_AddressId",
-                table: "Bills",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookCategory_CategoryId",
-                table: "BookCategory",
-                column: "CategoryId");
+                name: "IX_BookCoupons_CouponId",
+                table: "BookCoupons",
+                column: "CouponId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AttributeId",
@@ -570,19 +583,14 @@ namespace Persistence.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_CouponId",
-                table: "Books",
-                column: "CouponId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_CouponId1",
-                table: "Books",
-                column: "CouponId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Books_LanguageId",
                 table: "Books",
                 column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BooksCategories_CategoryId",
+                table: "BooksCategories",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CouponId",
@@ -590,19 +598,14 @@ namespace Persistence.Migrations
                 column: "CouponId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CouponId1",
-                table: "Categories",
-                column: "CouponId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Categories_MediaId",
                 table: "Categories",
                 column: "MediaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_BookId",
-                table: "Items",
-                column: "BookId");
+                name: "IX_Categories_ParentId",
+                table: "Categories",
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_CartId",
@@ -630,14 +633,14 @@ namespace Persistence.Migrations
                 column: "ReviewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_BillId",
+                name: "IX_Orders_AddressToShipId",
                 table: "Orders",
-                column: "BillId");
+                column: "AddressToShipId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerId",
+                name: "IX_Orders_DeliveryMethodId",
                 table: "Orders",
-                column: "CustomerId");
+                column: "DeliveryMethodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookId",
@@ -649,15 +652,10 @@ namespace Persistence.Migrations
                 table: "Reviews",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_WishLists_UserId",
-                table: "WishLists",
-                column: "UserId");
-
             migrationBuilder.AddForeignKey(
-                name: "FK_Bills_Addresses_AddressId",
-                table: "Bills",
-                column: "AddressId",
+                name: "FK_Orders_Addresses_AddressToShipId",
+                table: "Orders",
+                column: "AddressToShipId",
                 principalTable: "Addresses",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -703,22 +701,6 @@ namespace Persistence.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Books_AspNetUsers_AuthorId",
-                table: "Books",
-                column: "AuthorId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Orders_AspNetUsers_CustomerId",
-                table: "Orders",
-                column: "CustomerId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_AspNetUsers_UserId",
                 table: "Reviews",
                 column: "UserId",
@@ -729,10 +711,6 @@ namespace Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Books_AspNetUsers_AuthorId",
-                table: "Books");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_AspNetUsers_UserId",
                 table: "Reviews");
@@ -753,7 +731,13 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BookCategory");
+                name: "BookCoupons");
+
+            migrationBuilder.DropTable(
+                name: "BooksCategories");
+
+            migrationBuilder.DropTable(
+                name: "ConfigQuantities");
 
             migrationBuilder.DropTable(
                 name: "Items");
@@ -774,10 +758,13 @@ namespace Persistence.Migrations
                 name: "WishLists");
 
             migrationBuilder.DropTable(
-                name: "Bills");
+                name: "Coupons");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "DeliveryMethods");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -795,7 +782,7 @@ namespace Persistence.Migrations
                 name: "Attributes");
 
             migrationBuilder.DropTable(
-                name: "Coupons");
+                name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Languages");

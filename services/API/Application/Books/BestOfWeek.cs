@@ -30,23 +30,29 @@ namespace Application.Books
                 var quantity = await _context.ConfigQuantities
                                     .Where(x => x.Key == ConfigQuantityName.BestOfWeek.ToString()).Select(x => x.Quantity).SingleOrDefaultAsync();
 
-                var book = await _context.Orders
-                                 .Where(x => (DateTime.Now <= (DateTime?)x.CreateDate.AddDays(7)) == true)
-                                 .SelectMany(x => x.Items)
-                                 .Where(x => x.Book.IsDeleted == false)
-                                 .Select(x => new BookDto()
-                                 {
-                                     Id = x.Book.Id,
-                                     Name = x.Book.Name,
-                                     Author = _mapper.Map<AuthorDto>(x.Book.Author),
-                                     Attribute = x.Book.Attribute,
-                                     Language = x.Book.Language,
-                                     Media = x.Book.Media
-                                 }).ToListAsync();
-                var items = book.GroupBy(x => x.Id).OrderByDescending(x => x.Count())
-                            .Select(x => x.First()).Take(quantity)
-                            .ToList();
-                return Result<List<BookDto>>.Success(items);
+                var orderItem = _context.Orders
+                    .Where(x => (DateTime.Now <= (DateTime?) x.OrderDate.AddDays(7)) == true)
+                    .SelectMany(x => x.Items).ToList();
+
+                var books = orderItem.GroupBy(x => x.ProductId).OrderByDescending(x => x.Count())
+                    .Select(x => x.First()).Take(quantity);
+
+                List<BookDto> bookDtos = new List<BookDto>();
+                foreach (var book in books)
+                {
+                    var bookDto = _context.Books.Where(x => x.Id == book.Id)
+                        .Select(x => new BookDto()
+                        {
+                            Id = x.Id,
+                            Name = x.Name,
+                            Author = _mapper.Map<AuthorDto>(x.Author),
+                            Attribute = x.Attribute,
+                            Language = x.Language,
+                            Media = x.Media
+                        }).FirstOrDefault();
+                    bookDtos.Add(bookDto);
+                }
+                return Result<List<BookDto>>.Success(bookDtos);
             }
         }
     }

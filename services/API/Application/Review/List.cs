@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper.QueryableExtensions;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Persistence;
@@ -14,6 +15,14 @@ namespace Application.Review
         public class Query : IRequest<Result<PagedList<ReviewDto>>>
         {
             public ReviewParams Params { get; set; }
+        }
+        
+        public class QueryValidator : AbstractValidator<Query>
+        {
+            public QueryValidator()
+            {
+                RuleFor(x => x.Params).SetValidator(new ReviewParamsValidator());
+            }
         }
         
         public class Handler : IRequestHandler<Query, Result<PagedList<ReviewDto>>>
