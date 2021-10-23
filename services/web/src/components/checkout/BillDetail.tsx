@@ -29,7 +29,7 @@ export default function BillDetail() {
                                 <Typography className ={classes.text} >First Name</Typography>
                             </Grid>
                             <Grid item >
-                                <TextField fullWidth variant="outlined" value="hehe" />
+                                <TextField InputProps={{readOnly : true}} fullWidth variant="outlined" value="hehe" />
                             </Grid>
                         </Grid>
 
@@ -38,7 +38,7 @@ export default function BillDetail() {
                                 <Typography className ={classes.text} >Last Name</Typography>
                             </Grid>
                             <Grid item >
-                                <TextField fullWidth variant="outlined" value="hehe" />
+                                <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -48,7 +48,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text} >Phone</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -57,7 +57,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text} >Apartment number</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -66,7 +66,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text}>Street address</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -75,7 +75,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text} >Wards</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -84,7 +84,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text}>District</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -93,7 +93,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text}>City / Town</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -102,7 +102,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text}>Email address</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
@@ -111,7 +111,7 @@ export default function BillDetail() {
                             <Typography className ={classes.text}>Postcode</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" value="hehe" />
+                            <TextField InputProps={{readOnly : true}}  fullWidth variant="outlined" value="hehe" />
                         </Grid>
                     </Grid>
 
