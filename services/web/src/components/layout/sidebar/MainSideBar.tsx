@@ -6,19 +6,19 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import CloseIcon from "@material-ui/icons/Close";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { dataHelpSetting } from "../../../mocks/sidebar";
 import SwipeableViews from "react-swipeable-views";
 import Box from "@material-ui/core/Box";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import ChildSideBarComponent from "./SideBarItem";
 import BottomSidebar from "./BottomSidebar";
-import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoot } from "../../../redux/actions/category/getAction";
 import { SidebarCategoryResponse } from "../../../model/category";
 import Skeleton from "@material-ui/lab/Skeleton";
 import NegativeAlert from "../../core/alert/NegativeAlert";
+import { RootStore } from "../../../redux/store";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,9 +53,7 @@ const MainSideBar: React.FC<{
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const dataRoot: SidebarCategoryResponse[] = useSelector(
-    (state: RootStore) => state.category.data.root
-  );
+  const data = useSelector((state: RootStore) => state.category.data);
   const [currentId, setCurrentId] = useState<string>("");
   const { success, message } = useSelector(
     (state: RootStore) => state.category
@@ -65,11 +63,11 @@ const MainSideBar: React.FC<{
   );
 
   useEffect(() => {
-    if (dataRoot.length === 0) {
+    if (data.root?.length === 0) {
       dispatch(getRoot());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataRoot]);
+  }, []);
 
   const [categoryName, setCategoryName] = React.useState("");
   const toggleDrawer =
@@ -124,7 +122,7 @@ const MainSideBar: React.FC<{
             {loading ? (
               <Skeleton />
             ) : (
-              dataRoot.map((item: SidebarCategoryResponse, index: number) => (
+              data.root?.map((item: SidebarCategoryResponse, index: number) => (
                 <ListItem
                   button
                   key={index}

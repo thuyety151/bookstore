@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import { routeMainLayout } from "../routers/routes";

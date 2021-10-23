@@ -1,34 +1,35 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import DescriptionComponent from './Description';
-import ProductDetailsComponent from './ProductDetails';
-import VideoComponent from './Video';
-import ReviewComponent from './Review';
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import DescriptionComponent from "./Description";
+import ProductDetailsComponent from "./ProductDetails";
+import VideoComponent from "./Video";
+import ReviewComponent from "./Review";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        flexGrow: 1,
-    },
+  root: {
+    flexGrow: 1,
+  },
 
-    text: {
-        color: "#e91e63"
-    },
-    tab: {
-        padding: "50px 250px 20px 250px"
-    },
+  text: {
+    color: "#e91e63",
+  },
+  tab: {
+    padding: "50px 250px 20px 250px",
+  },
 }));
 
 export default function SimpleTabs() {
-    const classes = useStyles();
-    
-    return (
-        <div className={classes.root}>
-            <DescriptionComponent />
+  const classes = useStyles();
 
-            <ProductDetailsComponent />
+  return (
+    <div className={classes.root}>
+      <DescriptionComponent />
 
-            <VideoComponent />
+      <ProductDetailsComponent />
 
-            <ReviewComponent />
-        </div>
-    );
+      <VideoComponent />
+
+      <ReviewComponent />
+    </div>
+  );
 }
