@@ -1,5 +1,3 @@
-/** @format */
-
 export const NAME_ACTIONS = {
   SIDEBAR: {
     GET_ROOT_CATEGORY: "GET_ROOT_CATEGORY",

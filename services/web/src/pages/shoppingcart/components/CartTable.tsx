@@ -46,11 +46,7 @@ const CartTable: React.FC = () => {
                     alignItems="center"
                     spacing={2}
                   >
-                    <img
-                      className={classes.image}
-                      src={row.imgUrl}
-                      alt="image"
-                    />
+                    <img className={classes.image} src={row.imgUrl} alt="img" />
                     <Grid>
                       <Grid>
                         <span className={classes.bookname}>{row.name}</span>

@@ -28,5 +28,4 @@ const api = axios.create({ baseURL: Config.apiHost });
 //     }
 //   }
 // );
-export default  api ;
-
+export default api;

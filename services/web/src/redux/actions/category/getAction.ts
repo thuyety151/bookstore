@@ -1,5 +1,3 @@
-/** @format */
-
 import api from "../../../boot/axios";
 import { NAME_ACTIONS } from "../../constants/category/actionTypes";
 

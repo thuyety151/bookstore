@@ -4,15 +4,23 @@ import { Grid, Theme, Typography } from "@material-ui/core";
 import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
+import { RootStore } from "../../redux/store";
+import { useSelector } from "react-redux";
+// import { getPageCart } from "../../redux/actions/cart/getAction";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
+  // const dispatch = useDispatch();
+  const items = useSelector((state: RootStore) => state.cart.data);
+  // useEffect(() => {
+  //   dispatch(getPageCart())
+  // }, [dispatch])
   return (
     <div className={classes.root}>
       <Grid container justifyContent="center" alignContent="center">
         <Grid item>
           <Typography variant="h4" className={classes.title}>
-            Your cart: 3 items
+            Your cart: {items.length} items
           </Typography>
         </Grid>
         <Grid
