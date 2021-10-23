@@ -13,18 +13,16 @@ namespace Domain
         public double Rate { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
-
-        public ICollection<AppUser> Likes { get; set; }
-        public ICollection<AppUser> DisLikes { get; set; }
-        public ICollection<Media> Media { get; set; }
+        
+        [ForeignKey("Book")]
+        public Guid BookId { get; set; }
         public Book Book { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
         public AppUser User { get; set; }
+        
+        public ICollection<Media> Media { get; set; }
 
-        [NotMapped]
-        public int TotalLikes { get; set; }
-        [NotMapped]
-        public int TotalDisLikes { get; set; }
-        
-        
+
     }
 }

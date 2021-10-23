@@ -7,11 +7,11 @@ import BestSellerComponent from "./BestSellerBanner";
 import "./slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
-import data from "../../../mocks/bestsaling";
+import data from "../../../mocks/bestselling";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
-  1024: { items: 5 },
+  1024: { items: 4 },
 };
 
 const items = data.map((item, index) => {

@@ -20,18 +20,20 @@ export const getRoot = () => async (dispatch: any) => {
 
 export const getSub = (obj: any) => async (dispatch: any) => {
   try {
-    console.log("test id", obj.id);
-    const response = await api.get("/categories/sub/", {
-      params: {
-        id: obj.id,
-      },
+    dispatch({ type: NAME_ACTIONS.SIDEBAR.GET_SUB_CATEGORY });
+    const response = await api.get(`/categories/sub?id=${obj.idCategory}`);
+    dispatch({
+      type: NAME_ACTIONS.SIDEBAR.GET_SUB_SUCCESS,
+      data: response.data.value,
     });
-    dispatch(obj.onSuccess(response));
   } catch (error: any) {
-    console.log(error);
-    // dispatch({
-    //   type: NAME_ACTIONS.SIDEBAR.GET_SUB_FAIL,
-    //   message: error,
-    // });
+    dispatch({
+      type: NAME_ACTIONS.SIDEBAR.GET_SUB_FAIL,
+      message: error,
+    });
   }
+};
+
+export const refreshSideBar = () => (dispatch: any) => {
+  dispatch({ type: NAME_ACTIONS.SIDEBAR.REFRESH_SIDEBAR });
 };

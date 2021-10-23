@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { IBestSellerType } from "../../../model";
+import { Book } from "../../../model";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-const BestSellerComponent: React.FC<{ item: IBestSellerType }> = (item) => {
+const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
   const classes = useStyles();
   const history= useHistory()
   const handleNavBook=(id?:string)=>{

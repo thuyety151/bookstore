@@ -3,13 +3,14 @@ import Config from "../config/config";
 
 const api = axios.create({ baseURL: Config.apiHost });
 // Authentication
-// api.interceptors.request.use((config) => {
-//   const accessToken = Cookies.get("access_token");
-//   if (accessToken) {
-//     config.headers.common["Authorization"] = `bearer ${accessToken}`;
-//   }
-//   return config;
-// });
+api.interceptors.request.use((config) => {
+  const user = localStorage.getItem('user');
+  if (user) {
+    const token = JSON.parse(user).token;
+    config.headers.common["Authorization"] = `bearer ${token}`;
+  }
+  return config;
+});
 
 // api.interceptors.response.use(
 //   (response) => {

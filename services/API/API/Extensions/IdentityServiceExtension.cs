@@ -35,9 +35,9 @@ namespace API.Extensions
                         ValidateAudience = false
                     };
                 });
-
-            services.AddScoped<TokenService>();
             services.AddAuthorization();
+            services.AddScoped<TokenService>();
+            
             
             return services;
         }

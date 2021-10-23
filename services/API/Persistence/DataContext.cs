@@ -45,7 +45,7 @@ namespace Persistence
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attribute> Attributes { get; set; }
-        public DbSet<Bill> Bills { get; set; }
+
         public DbSet<Book> Books { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -59,5 +59,6 @@ namespace Persistence
         public DbSet<BookCategory> BooksCategories { get; set; }
         public DbSet<BookCoupon> BookCoupons { get; set; }
         public DbSet<ConfigQuantity> ConfigQuantities { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
     }
 }
