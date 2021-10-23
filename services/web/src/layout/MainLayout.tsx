@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import { routeMainLayout } from "../routers/routes";
@@ -32,7 +30,6 @@ const MainLayout: React.FC = () => {
               key={index}
               exact={route.exact}
               path={route.path}
-              exact={route.exact}
               render={(props: RouteComponentProps<any>) => (
                 <route.component {...props} {...route.props} />
               )}

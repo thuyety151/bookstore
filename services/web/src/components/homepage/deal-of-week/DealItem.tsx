@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -30,24 +30,24 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         color: "red",
         cursor: "pointer",
-        fontWeight: 700
-      }
-    }
+        fontWeight: 700,
+      },
+    },
   })
 );
 
-interface Props{
-  item : Book
+interface Props {
+  item: Book;
 }
-export default function DealItem({item} : Props) {
+export default function DealItem({ item }: Props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Grid container spacing={1}>
-          <Grid item xs={4} alignItems="stretch">
+          <Grid item container xs={4} alignItems="stretch">
             <ButtonBase>
-              <img className={classes.img} alt="complex" src = {item.imageUrl} />
+              <img className={classes.img} alt="complex" src={item.imageUrl} />
             </ButtonBase>
           </Grid>
           <Grid item xs={8} container>
@@ -92,4 +92,3 @@ export default function DealItem({item} : Props) {
     </div>
   );
 }
-
