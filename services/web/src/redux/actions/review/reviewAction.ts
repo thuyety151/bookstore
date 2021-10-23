@@ -18,7 +18,7 @@ export const getReviews = (bookId: any) => async (dispatch: any ) => {
     } catch(error: any) {
         dispatch({
             type: reviewConstants.GET_FAILURE,
-            message: error
+            message: error.messages
         })
     }
 }

@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function SimpleTabs() {
     const classes = useStyles();
     
+    
     return (
         <div className={classes.root}>
             <DescriptionComponent />

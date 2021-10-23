@@ -2,6 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Box, Divider, Grid, Tab, Tabs } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { RootStore } from '../../redux/store';
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +32,8 @@ export default function Types() {
     setValue(newValue);
   };
 
+  const { data } = useSelector((state: RootStore) => state.book);
+
   return (
     <div className={classes.rootAppBar}>
       <AppBar id="/description" position="static" color="default">
@@ -38,7 +42,7 @@ export default function Types() {
           textColor="primary"
           onChange={handleChange}
           aria-label="disabled tabs example">
-          <Tab label="Description" href="/description"  disabled/>
+          <Tab label="Description" href="/description" disabled />
           <Tab label="Product Details" href="/detail" className={classes.text} />
           <Tab label="Videos" href="/video" disabled />
 
@@ -47,49 +51,64 @@ export default function Types() {
         <Divider />
       </AppBar>
       <Box p={3} className={classes.tab}>
-        <Grid container spacing={3} >
+        {data && 
+          <Grid container spacing={3} >
           <Grid item container justifyContent="space-between">
-            <Grid item ></Grid>
-            <Typography className={classes.textDetail}>Format:</Typography>
-            <Grid item>Paperback</Grid>
-            <Typography></Typography>
+            <Grid item >
+              <Typography className={classes.textDetail}>Format:</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>{data.attribute}</Typography>
+            </Grid>
           </Grid>
 
           <Grid item container justifyContent="space-between">
-            <Grid item alignItems="flex-start"></Grid>
-            <Typography className={classes.textDetail}>Dimensions:</Typography>
-            <Grid item>Paperback</Grid>
-            <Typography></Typography>
+            <Grid item >
+              <Typography className={classes.textDetail}>Dimensions:</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>{data.dimensions}</Typography>
+            </Grid>
           </Grid>
 
           <Grid item container justifyContent="space-between">
-            <Grid item></Grid>
-            <Typography className={classes.textDetail}>Publication date:</Typography>
-            <Grid item>Paperback</Grid>
-            <Typography></Typography>
+            <Grid item >
+              <Typography className={classes.textDetail}>Publication date:</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>{data.publicationDate}</Typography>
+            </Grid>
           </Grid>
 
           <Grid item container justifyContent="space-between">
-            <Grid item></Grid>
-            <Typography className={classes.textDetail}>Publisher:</Typography>
-            <Grid item>Paperback</Grid>
-            <Typography></Typography>
+            <Grid item >
+              <Typography className={classes.textDetail}>Publisher:</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>{data.publisher}</Typography>
+            </Grid>
           </Grid>
 
           <Grid item container justifyContent="space-between">
-            <Grid item></Grid>
-            <Typography className={classes.textDetail}>Publication Country:</Typography>
-            <Grid item>Paperback</Grid>
-            <Typography></Typography>
+            <Grid item >
+              <Typography className={classes.textDetail}>Publication Country::</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>{data.publicationCountry}</Typography>
+            </Grid>
           </Grid>
 
           <Grid item container justifyContent="space-between">
-            <Grid item></Grid>
-            <Typography className={classes.textDetail}>Language:</Typography>
-            <Grid item>Paperback</Grid>
-            <Typography></Typography>
+            <Grid item >
+              <Typography className={classes.textDetail}>Language:</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>{data.language}</Typography>
+            </Grid>
           </Grid>
         </Grid>
+        }
+      
       </Box>
 
     </div>
