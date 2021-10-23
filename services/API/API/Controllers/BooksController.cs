@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class BookController : BaseApiController
+    public class BooksController : BaseApiController
     {
         [HttpGet]
         [Route("new-release")]

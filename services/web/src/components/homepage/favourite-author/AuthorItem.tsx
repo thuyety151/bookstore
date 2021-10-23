@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Author from '../../../model/author';
-
+import React from "react";
 
 const useStyles = makeStyles({
     root: {
