@@ -8,17 +8,17 @@ import LoginPage from "../pages/login/LoginPage";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
 import MainLayout from "../layout/MainLayout";
+import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 //const isLogged: boolean = false;
 
-function isLogin(){
-  if(localStorage.getItem('user'))
-    return true;
-  return false
-} 
+function isLogin() {
+  if (localStorage.getItem("user")) return true;
+  return false;
+}
 export const routes: IRoute[] = [
   {
     path: "/",
@@ -114,10 +114,15 @@ export const routeMainLayout: IRoute[] = [
     exact: false,
   },
   {
+    path: "/cart",
+    name: "Cart",
+    component: ShoppingCartPage,
+    exact: false,
+  },
+  {
     path: "*",
     name: "Error",
     component: Error404,
     exact: true,
   },
-  
 ];
