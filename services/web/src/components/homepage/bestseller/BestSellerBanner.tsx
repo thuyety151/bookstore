@@ -26,7 +26,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
       <Paper className={classes.paper} variant="outlined" square>
         <Grid
           container
-          direction="row"
+          direction="column"
           justifyContent="center"
           alignItems="center"
           spacing={3}

@@ -8,6 +8,7 @@ import data from "../../mocks/bestselling";
 import { Button, Grid } from "@material-ui/core";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import CartItem from "./CartItem";
+import { useHistory } from "react-router";
 
 type Anchor = "left" | "right";
 
@@ -16,6 +17,7 @@ const MainShoppingCart: React.FC<{
   setOpenCart: any;
 }> = ({ openCart, setOpenCart }) => {
   const classes = useStyles();
+  const history = useHistory();
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -83,7 +85,15 @@ const MainShoppingCart: React.FC<{
           alignContent="center"
           xs={12}
         >
-          <Button variant="outlined" fullWidth className={classes.btn}>
+          <Button
+            variant="outlined"
+            fullWidth
+            className={classes.btn}
+            onClick={() => {
+              history.push("/cart");
+              setOpenCart(false);
+            }}
+          >
             View Cart
           </Button>
         </Grid>

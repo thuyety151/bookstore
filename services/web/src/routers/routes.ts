@@ -6,6 +6,7 @@ import LoginPage from "../pages/login/LoginPage";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
 import MainLayout from "../layout/MainLayout";
+import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
@@ -107,6 +108,12 @@ export const routeMainLayout: IRoute[] = [
     path: "/place-order",
     name: "Place Order",
     component: PlaceOrderPage,
+    exact: false,
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: ShoppingCartPage,
     exact: false,
   },
   {

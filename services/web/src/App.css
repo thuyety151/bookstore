@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
 .App {
   text-align: center;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .App-logo {
@@ -9,8 +9,9 @@
   pointer-events: none;
 }
 
-body{
-  font-family: 'Inter', sans-serif;
+body {
+  font-family: "Inter", sans-serif;
+  --color-pink-bg: #fff6f6;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -48,4 +49,11 @@ body{
 .MuiTypography-root{
   font-family: 'Inter', sans-serif !important;
   display: inherit;
+}
+.pink-background {
+  background-color: #fff6f6;
+}
+.MuiTableCell-root {
+  font-family: "Inter", sans-serif !important;
+  --color-pink-bg: #fff6f6;
 }
