@@ -15,7 +15,7 @@ export const getRoot = () => async (dispatch: any) => {
   } catch (error: any) {
     dispatch({
       type: NAME_ACTIONS.SIDEBAR.GET_ROOT_FAIL,
-      message: error,
+      message: error.message,
     });
   }
 };
@@ -31,7 +31,7 @@ export const getSub = (obj: any) => async (dispatch: any) => {
   } catch (error: any) {
     dispatch({
       type: NAME_ACTIONS.SIDEBAR.GET_SUB_FAIL,
-      message: error,
+      message: error.message,
     });
   }
 };

@@ -1,5 +1,3 @@
-/** @format */
-
 import IRoute from "../model/route";
 import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";
@@ -10,14 +8,13 @@ import Example from "../pages/Example";
 import MainLayout from "../layout/MainLayout";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
-
+import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 //const isLogged: boolean = false;
 
-function isLogin(){
-  if(localStorage.getItem('user'))
-    return true;
-  return false
-} 
+function isLogin() {
+  if (localStorage.getItem("user")) return true;
+  return false;
+}
 export const routes: IRoute[] = [
   {
     path: "/",
@@ -107,10 +104,15 @@ export const routeMainLayout: IRoute[] = [
     exact: false,
   },
   {
+    path: "/place-order",
+    name: "Place Order",
+    component: PlaceOrderPage,
+    exact: false,
+  },
+  {
     path: "*",
     name: "Error",
     component: Error404,
     exact: true,
   },
-  
 ];
