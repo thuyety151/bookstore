@@ -6,6 +6,7 @@ import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 // import { getPageCart } from "../../redux/actions/cart/getAction";
 
 const ShoppingCartPage: React.FC = () => {
@@ -35,7 +36,9 @@ const ShoppingCartPage: React.FC = () => {
           </Grid>
           <Grid item className={classes.checkout}>
             <CartInfo />
-            <PrimaryButton text="Proceed to checkout" />
+            <Link to="/check-out">
+              <PrimaryButton text="Proceed to checkout" />
+            </Link>
           </Grid>
         </Grid>
       </Grid>

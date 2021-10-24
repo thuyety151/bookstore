@@ -1,5 +1,6 @@
 import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
-import BillDetailComponent from '../../components/checkout/BillDetail'
+import BillDetailComponent from '../../components/checkout/BillDetail';
+import BillInfoComponent from '../../components/checkout/BillInfo';
 
 const useStyles = makeStyles((theme : Theme) => 
     createStyles({
@@ -22,7 +23,7 @@ function CheckoutPage() {
                     <BillDetailComponent />
                 </Grid>
                 <Grid item xs={5}>
-                    bill sumary
+                    <BillInfoComponent />
                 </Grid>
             </Grid>
         </div>
