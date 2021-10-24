@@ -1,6 +1,4 @@
-/** @format */
-
-export interface ICategoryType {
+export interface CategoryType {
   id: string;
   icon: string;
   title: string;
@@ -30,7 +28,7 @@ export interface SideBarItem {
 }
 export const color = ["#faf1ff", "#faf4eb", "#f4e6e5", "#e6f2f4", "#fff6f6"];
 
-export const dataCategories: ICategoryType[] = [
+export const dataCategories: CategoryType[] = [
   {
     id: "1",
     icon: "perm_media",

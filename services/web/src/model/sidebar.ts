@@ -1,20 +1,20 @@
-export default interface ISideBar {
+export default interface SideBar {
   id: string;
   name: string;
   // path = category +id
-  children?: ISideBarChildren[];
+  children?: SideBarChildren[];
 }
 
-export interface ISideBarChildren {
+export interface SideBarChildren {
   id: string;
   name: string;
   path: string;
 }
-export interface ILanguage {
+export interface Language {
   id: string;
   name: string;
 }
-export interface ICurrency {
+export interface Currency {
   id: string;
   name: string;
 }

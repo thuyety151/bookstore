@@ -1,4 +1,4 @@
-export interface ISpecificRouteType {
+export interface SpecificRouteType {
   path: string;
   name: string;
   exact: boolean;
@@ -8,12 +8,12 @@ export interface ISpecificRouteType {
 
 
 
-export default interface IRoute{
+export default interface Route{
   path: string;
   name: string;
   exact: boolean;
   redirect?:string;
   component: any;
   props?: any;
-  children?:ISpecificRouteType[]
+  children?:SpecificRouteType[]
 }
