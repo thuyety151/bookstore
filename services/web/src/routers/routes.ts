@@ -1,5 +1,3 @@
-/** @format */
-
 import IRoute from "../model/route";
 import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";
@@ -11,7 +9,7 @@ import MainLayout from "../layout/MainLayout";
 import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
-
+import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 //const isLogged: boolean = false;
 
 function isLogin() {
@@ -104,6 +102,12 @@ export const routeMainLayout: IRoute[] = [
     path: "/shops/:id",
     name: "Shop",
     component: Example,
+    exact: false,
+  },
+  {
+    path: "/place-order",
+    name: "Place Order",
+    component: PlaceOrderPage,
     exact: false,
   },
   {
