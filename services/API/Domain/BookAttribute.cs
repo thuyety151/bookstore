@@ -1,4 +1,5 @@
 using System;
+using Domain.Enum;
 
 namespace Domain
 {
@@ -9,6 +10,10 @@ namespace Domain
         public Guid AttributeId { get; set; }
         public Attribute Attribute { get; set; }
         public double Price { get; set; }
+        public double SalePrice { get; set; }
+        public DateTime SalePriceStartDate { get; set; }
+        public DateTime SalePriceEndDate { get; set; }
         public int TotalStock { get; set; }
+        public StockStatus StockStatus { get; set; }
     }
 }

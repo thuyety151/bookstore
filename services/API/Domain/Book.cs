@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Domain.Enum;
 
 namespace Domain
 {
@@ -17,7 +18,7 @@ namespace Domain
         public double SalePrice { get; set; }
         public DateTime SalePriceStartDate { get; set; }
         public DateTime SalePriceEndDate { get; set; }
-        public int StockStatus { get; set; }
+        public StockStatus StockStatus { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public bool IsDeleted { get; set; }
@@ -35,7 +36,18 @@ namespace Domain
 
         public int GetTotalStock()
         {
-            return Attributes.Sum(x => x.TotalStock);
+            var totalStock =  Attributes.Sum(x => x.TotalStock);
+
+            if (totalStock > 0)
+            {
+                StockStatus = Enum.StockStatus.InStock;
+            }
+            else
+            {
+                StockStatus = Enum.StockStatus.OutOfStock;
+            }
+
+            return totalStock;
         }
         
     }

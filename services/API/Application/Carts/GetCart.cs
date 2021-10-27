@@ -36,34 +36,36 @@ namespace Application.Carts
 
             public async Task<Result<PagedList<Item>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = _context.Carts.Where(x => 
+                var items = _context.Carts.Where(x =>
                         x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier))
                     .SelectMany(x => x.Items);
 
                 foreach (var item in items)
                 {
-                    var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == item.ProductId);
+                    var bookAttribute = _context.BookAttributes.AsNoTracking()
+                        .FirstOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
 
-                    if (book != null)
+                    if (bookAttribute != null)
                     {
-                        var stock = book.GetTotalStock();
-                        if (DateTime.Now >= book.SalePriceStartDate && DateTime.Now <= book.SalePriceEndDate)
+                        var stock = bookAttribute.TotalStock;
+                        if (DateTime.Now >= bookAttribute.SalePriceStartDate && DateTime.Now <= bookAttribute.SalePriceEndDate)
                         {
-                            item.Price = book.SalePrice;
+                            item.Price = bookAttribute.SalePrice;
                         }
                         else
                         {
-                            item.Price = book.Price;
+                            item.Price = bookAttribute.Price;
                         }
-                        
+
                         if (item.Quantity > stock)
                         {
-                            item.StockStatus = (int) StockStatus.OutOfStock;
+                            item.StockStatus = StockStatus.OutOfStock.ToString();
                         }
                     }
                 }
-                
 
+                await _context.SaveChangesAsync();
+                
                 return Result<PagedList<Item>>.Success(
                     await PagedList<Item>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));
             }

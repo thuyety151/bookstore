@@ -55,43 +55,55 @@ namespace Application.Carts.Items
                         Id = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
                         Items = new List<Item>()
                     };
-
                 }
 
-                var item = cart.Items.FirstOrDefault(x => x.ProductId == request.ItemParams.ProductId && x.AttributeId == request.ItemParams.AttributeId);
-                
-                var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == request.ItemParams.ProductId);
+                var item = cart.Items.FirstOrDefault(x =>
+                    x.ProductId == request.ItemParams.ProductId && x.AttributeId == request.ItemParams.AttributeId);
 
-                if (book == null)
+                var bookAttribute = _context.BookAttributes.Include(x => x.Attribute)
+                    .Include(x => x.Book).ThenInclude(x => x.Author)
+                    .Include(x => x.Book).ThenInclude(x => x.Media)
+                    .AsNoTracking().FirstOrDefault(x =>
+                        x.BookId == request.ItemParams.ProductId && x.AttributeId == request.ItemParams.AttributeId);
+
+                if (bookAttribute == null)
                 {
                     return Result<Unit>.Failure("Book does not exist");
                 }
 
-                var totalStock = book.Attributes.FirstOrDefault(x => x.AttributeId == request.ItemParams.AttributeId)?.TotalStock;
+                var totalStock = bookAttribute.TotalStock;
 
                 if (request.ItemParams.Quantity > totalStock)
                 {
                     return Result<Unit>.Failure("Books in stock is not enough");
                 }
-                
+
                 //Add
                 if (item == null)
                 {
                     var newItem = new Item()
                     {
                         Id = new Guid(),
-                        ProductId = request.ItemParams.ProductId,
-                        ProductName = request.ItemParams.ProductName,
-                        AuthorId = request.ItemParams.AuthorId,
-                        AuthorName = request.ItemParams.AuthorName,
-                        AttributeId = request.ItemParams.AttributeId,
-                        AttributeName = request.ItemParams.AttributeName,
-                        PictureUrl = request.ItemParams.PictureUrl,
-                        Price = request.ItemParams.Price,
+                        ProductId = bookAttribute.AttributeId,
+                        ProductName = bookAttribute.Book.Name,
+                        AuthorId = bookAttribute.Book.Author.Id,
+                        AuthorName = bookAttribute.Book.Author.Name,
+                        AttributeId = bookAttribute.AttributeId,
+                        AttributeName = bookAttribute.Attribute.Name,
+                        PictureUrl = bookAttribute.Book.Media.FirstOrDefault(x => x.IsMain)?.Url,
                         Quantity = request.ItemParams.Quantity,
-                        StockStatus = (int) StockStatus.InStock
-
+                        StockStatus = StockStatus.InStock.ToString(),
                     };
+                    
+                    if (DateTime.Now >= bookAttribute.SalePriceStartDate && DateTime.Now <= bookAttribute.SalePriceEndDate)
+                    {
+                        newItem.Price = bookAttribute.SalePrice;
+                    }
+                    else
+                    {
+                        newItem.Price = bookAttribute.Price;
+                    }
+                    
                     cart.Items.Add(newItem);
                 }
                 //Update 
@@ -99,6 +111,15 @@ namespace Application.Carts.Items
                 {
                     var index = cart.Items.IndexOf(item);
                     cart.Items.ElementAt(index).Quantity = request.ItemParams.Quantity;
+                    
+                    if (DateTime.Now >= bookAttribute.SalePriceStartDate && DateTime.Now <= bookAttribute.SalePriceEndDate)
+                    {
+                        cart.Items.ElementAt(index).Price = bookAttribute.SalePrice;
+                    }
+                    else
+                    {
+                        cart.Items.ElementAt(index).Price = bookAttribute.Price;
+                    }
                 }
 
                 await _context.SaveChangesAsync();
