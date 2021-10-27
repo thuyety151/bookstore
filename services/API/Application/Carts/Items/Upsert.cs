@@ -58,16 +58,16 @@ namespace Application.Carts.Items
 
                 }
 
-                var item = cart.Items.FirstOrDefault(x => x.ProductId == request.ItemParams.ProductId);
+                var item = cart.Items.FirstOrDefault(x => x.ProductId == request.ItemParams.ProductId && x.AttributeId == request.ItemParams.AttributeId);
                 
-                var book = _context.Books.AsNoTracking().FirstOrDefault(x => x.Id == request.ItemParams.ProductId);
+                var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == request.ItemParams.ProductId);
 
                 if (book == null)
                 {
                     return Result<Unit>.Failure("Book does not exist");
                 }
 
-                var totalStock = book.TotalStock;
+                var totalStock = book.Attributes.FirstOrDefault(x => x.AttributeId == request.ItemParams.AttributeId)?.TotalStock;
 
                 if (request.ItemParams.Quantity > totalStock)
                 {
@@ -84,6 +84,8 @@ namespace Application.Carts.Items
                         ProductName = request.ItemParams.ProductName,
                         AuthorId = request.ItemParams.AuthorId,
                         AuthorName = request.ItemParams.AuthorName,
+                        AttributeId = request.ItemParams.AttributeId,
+                        AttributeName = request.ItemParams.AttributeName,
                         PictureUrl = request.ItemParams.PictureUrl,
                         Price = request.ItemParams.Price,
                         Quantity = request.ItemParams.Quantity,

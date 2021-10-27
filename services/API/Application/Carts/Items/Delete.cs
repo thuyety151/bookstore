@@ -18,6 +18,7 @@ namespace Application.Carts.Items
         public class Command : IRequest<Result<Guid>>
         {
             public Guid Id { get; set; }
+            public Guid AttributeId { get; set; }
         }
         
         public class CommandValidator : AbstractValidator<Command>
@@ -52,13 +53,19 @@ namespace Application.Carts.Items
 
                     cart.Items.Remove(item);
 
-                    var book = _context.Books.FirstOrDefault(x => x.Id == item.ProductId);
+                    var book = _context.Books.Include(x => x.Attributes).FirstOrDefault(x => x.Id == item.ProductId);
 
-                    if (book != null)
+                    var bookAttribute = _context.Books.Include(x => x.Attributes)
+                        .SelectMany(x => x.Attributes)
+                        .FirstOrDefault(x =>
+                            x.AttributeId == request.AttributeId && x.BookId == request.Id);
+                    
+
+                    if (bookAttribute != null && book != null)
                     {
-                        book.TotalStock += item.Quantity;
+                        bookAttribute.TotalStock += item.Quantity;
 
-                        if (book.TotalStock > 0)
+                        if (bookAttribute.TotalStock > 0)
                         {
                             book.StockStatus = (int) StockStatus.InStock;
                         }

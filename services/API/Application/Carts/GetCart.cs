@@ -36,27 +36,33 @@ namespace Application.Carts
 
             public async Task<Result<PagedList<Item>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = _context.Carts.Where(x =>
+                var items = _context.Carts.Where(x => 
                         x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier))
                     .SelectMany(x => x.Items);
 
                 foreach (var item in items)
                 {
-                    var book = _context.Books.FirstOrDefault(x => x.Id == item.ProductId);
+                    var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == item.ProductId);
 
                     if (book != null)
                     {
-                        var stock = book.TotalStock;
+                        var stock = book.GetTotalStock();
                         if (DateTime.Now >= book.SalePriceStartDate && DateTime.Now <= book.SalePriceEndDate)
                         {
                             item.Price = book.SalePrice;
                         }
+                        else
+                        {
+                            item.Price = book.Price;
+                        }
+                        
                         if (item.Quantity > stock)
                         {
                             item.StockStatus = (int) StockStatus.OutOfStock;
                         }
                     }
                 }
+                
 
                 return Result<PagedList<Item>>.Success(
                     await PagedList<Item>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));

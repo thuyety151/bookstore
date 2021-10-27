@@ -27,8 +27,10 @@ namespace Application.Books
                 var quantity = await _context.ConfigQuantities
                                 .Where(x => x.Key == ConfigQuantityName.MostView.ToString()).Select(x => x.Quantity).SingleOrDefaultAsync();
 
-                var items = await _context.Books.Include(x => x.Media).Include(x => x.Language).Include(x => x.Attribute)
-                .Include(x => x.Author).Where(x => x.IsDeleted == false)
+                var items = await _context.Books.Include(x => x.Media).Include(x => x.Language)
+                    .Include(x => x.Attributes)
+                    .ThenInclude(x => x.Attribute)
+                    .Include(x => x.Author).Where(x => x.IsDeleted == false)
                         .OrderByDescending(x => x.ViewCount).Take(quantity)
                         .Select(x => _mapper.Map<BookDto>(x)).ToListAsync();
                 return Result<List<BookDto>>.Success(items);

@@ -9,6 +9,8 @@ import MainLayout from "../layout/MainLayout";
 import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
+
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 //const isLogged: boolean = false;
 
@@ -49,6 +51,12 @@ export const routeMainLayout: IRoute[] = [
     name: "Book Detail",
     component: BookDetailPage,
     exact: false,
+  },
+  {
+    path: "/check-out",
+    name: "Check out",
+    component: CheckoutPage,
+    exact: false
   },
   {
     path: "/",

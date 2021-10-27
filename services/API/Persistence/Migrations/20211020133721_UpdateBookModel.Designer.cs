@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211020133721_UpdateBookModel")]
+    partial class UpdateBookModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,6 +192,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AttributeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -241,6 +246,9 @@ namespace Persistence.Migrations
                     b.Property<int>("StockStatus")
                         .HasColumnType("int");
 
+                    b.Property<int>("TotalStock")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -249,32 +257,13 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AttributeId");
+
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("LanguageId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("Domain.BookAttribute", b =>
-                {
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AttributeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TotalStock")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookId", "AttributeId");
-
-                    b.HasIndex("AttributeId");
-
-                    b.ToTable("BookAttributes");
                 });
 
             modelBuilder.Entity("Domain.BookCategory", b =>
@@ -361,9 +350,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DefaultAttributeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(max)");
 
@@ -444,12 +430,6 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AttributeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AttributeName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
@@ -774,6 +754,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Book", b =>
                 {
+                    b.HasOne("Domain.Attribute", "Attribute")
+                        .WithMany()
+                        .HasForeignKey("AttributeId");
+
                     b.HasOne("Domain.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId");
@@ -781,21 +765,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId");
-                });
-
-            modelBuilder.Entity("Domain.BookAttribute", b =>
-                {
-                    b.HasOne("Domain.Attribute", "Attribute")
-                        .WithMany()
-                        .HasForeignKey("AttributeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Book", "Book")
-                        .WithMany("Attributes")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.BookCategory", b =>

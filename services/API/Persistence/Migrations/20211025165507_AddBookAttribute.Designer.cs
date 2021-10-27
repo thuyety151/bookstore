@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211025165507_AddBookAttribute")]
+    partial class AddBookAttribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -274,7 +276,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AttributeId");
 
-                    b.ToTable("BookAttributes");
+                    b.ToTable("BookAttribute");
                 });
 
             modelBuilder.Entity("Domain.BookCategory", b =>
@@ -361,9 +363,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DefaultAttributeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(max)");
 
@@ -444,12 +443,6 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AttributeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AttributeName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");

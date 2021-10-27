@@ -1,6 +1,3 @@
-using System.ComponentModel;
-using System;
-using System.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +7,6 @@ using Persistence;
 using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Application.Authors;
 using Domain;
 using Domain.Enum;
 
