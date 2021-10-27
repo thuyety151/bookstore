@@ -1,9 +1,9 @@
+import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import DescriptionComponent from "./Description";
 import ProductDetailsComponent from "./ProductDetails";
 import VideoComponent from "./Video";
 import ReviewComponent from "./Review";
-import React from "react";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

@@ -41,6 +41,14 @@ body {
     transform: rotate(360deg);
   }
 }
+.text-bold{
+  font-weight: 500 !important;
+  display: inherit;
+}
+.MuiTypography-root{
+  font-family: 'Inter', sans-serif !important;
+  display: inherit;
+}
 .pink-background {
   background-color: #fff6f6;
 }
