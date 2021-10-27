@@ -185,15 +185,8 @@ namespace Persistence
                     new Attribute()
                     {
                         Id = new Guid(),
-                        Name = "Audio Book",
-                        Slug = "audio-book",
-                        IsDeleted = false
-                    },
-                    new Attribute()
-                    {
-                        Id = new Guid(),
-                        Name = "Hardcover",
-                        Slug = "hardcover",
+                        Name = "Paperback",
+                        Slug = "paperback",
                         IsDeleted = false
                     },
                     new Attribute()
@@ -206,10 +199,10 @@ namespace Persistence
                     new Attribute()
                     {
                         Id = new Guid(),
-                        Name = "Paperback",
-                        Slug = "paperback",
+                        Name = "Hardcover",
+                        Slug = "hardcover",
                         IsDeleted = false
-                    }
+                    },
                 };
                 attributes.AddRange(attributesList);
                 await context.Attributes.AddRangeAsync(attributes);
@@ -507,7 +500,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[0],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -524,7 +516,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
                         ViewCount=1,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -540,7 +531,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[1],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -557,7 +547,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
                         ViewCount=100,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -572,7 +561,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[2],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -589,7 +577,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
                         ViewCount=10,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -604,7 +591,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[3],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -621,7 +607,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
                         ViewCount=11,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -636,7 +621,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[0],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -652,7 +636,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=20,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -667,7 +650,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[0],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -683,7 +665,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=25,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -698,7 +679,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[0],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -714,7 +694,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=19,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock
                     },
                     new Book()
@@ -725,7 +704,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[4],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -741,7 +719,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=36,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -756,7 +733,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[1],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -772,7 +748,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=102,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -787,7 +762,6 @@ namespace Persistence
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat.",
                         Description =
                             "Planet Earth is 4.5 billion years old. In just a fraction of that time, one species among countless others has conquered it. Us.\n\nWe are the most advanced and most destructive animals ever to have lived. What makes us brilliant? What makes us deadly? What makes us Sapiens?\n\nIn this bold and provocative book, Yuval Noah Harari explores who we are, how we got here and where we’re going.\n\nSapiens is a thrilling account of humankind’s extraordinary history – from the Stone Age to the Silicon Age – and our journey from insignificant apes to rulers of the world\n\n‘It tackles the biggest questions of history and of the modern world, and it is written in unforgettably vivid language. You will love it!’ Jared Diamond, author of Guns, Germs and Steel\n\nYuval’s follow up to Sapiens, Homo Deus, is available now.",
-                        Attribute = attributes[3],
                         Author = authors[3],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
@@ -803,7 +777,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=15,
-                        TotalStock = 100,
                         StockStatus = (int) StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -815,6 +788,56 @@ namespace Persistence
                 await context.Books.AddRangeAsync(bookList);
             }
 
+            if (!context.BookAttributes.Any())
+            {
+                var bookAttribute = new List<BookAttribute>()
+                {
+                    new BookAttribute()
+                    {
+                        BookId = books[0].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 100,
+                        TotalStock = 50
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[0].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 79,
+                        TotalStock = 20
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[0].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 120,
+                        TotalStock = 6
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[1].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[1].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[1].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10
+                    }
+                };
+                
+                await context.BookAttributes.AddRangeAsync(bookAttribute);
+            }
             if (!context.Reviews.Any())
             {
                 var reviewList = new List<Review>()
@@ -914,9 +937,25 @@ namespace Persistence
                         AuthorId = books[0].Author.Id,
                         AuthorName = books[0].Author.Name,
                         PictureUrl = books[0].Media.FirstOrDefault(x => x.IsMain)?.Url,
-                        Price = books[0].Price,
+                        Price = books[0].Attributes.ElementAt(0).Price,
                         Quantity = 2,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int) StockStatus.InStock,
+                        AttributeId = attributes[0].Id,
+                        AttributeName = attributes[0].Name
+                    },
+                    new Item()
+                    {
+                        Id = new Guid(),
+                        ProductId = books[1].Id,
+                        ProductName = books[1].Name,
+                        AuthorId = books[1].Author.Id,
+                        AuthorName = books[1].Author.Name,
+                        PictureUrl = books[1].Media.FirstOrDefault(x => x.IsMain)?.Url,
+                        Price = books[1].Attributes.ElementAt(1).Price,
+                        Quantity = 1,
+                        StockStatus = (int) StockStatus.InStock,
+                        AttributeId = attributes[1].Id,
+                        AttributeName = attributes[1].Name
                     }
                 };
                 
@@ -1034,7 +1073,7 @@ namespace Persistence
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.BestSelling.ToString(),
-                        Quantity=10
+                        Quantity=10,
                     },
                     new ConfigQuantity()
                     {
@@ -1046,7 +1085,8 @@ namespace Persistence
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.BiographyBook.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[2].Id
                     },
                     new ConfigQuantity()
                     {

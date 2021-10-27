@@ -60,14 +60,14 @@ namespace Application.Carts.Items
 
                 var item = cart.Items.FirstOrDefault(x => x.ProductId == request.ItemParams.ProductId);
                 
-                var book = _context.Books.AsNoTracking().FirstOrDefault(x => x.Id == request.ItemParams.ProductId);
+                var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == request.ItemParams.ProductId);
 
                 if (book == null)
                 {
                     return Result<Unit>.Failure("Book does not exist");
                 }
 
-                var totalStock = book.TotalStock;
+                var totalStock = book.GetTotalStock();
 
                 if (request.ItemParams.Quantity > totalStock)
                 {

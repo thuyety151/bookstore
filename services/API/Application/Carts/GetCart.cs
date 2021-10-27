@@ -42,11 +42,11 @@ namespace Application.Carts
 
                 foreach (var item in items)
                 {
-                    var book = _context.Books.FirstOrDefault(x => x.Id == item.ProductId);
+                    var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == item.ProductId);
 
                     if (book != null)
                     {
-                        var stock = book.TotalStock;
+                        var stock = book.GetTotalStock();
                         if (DateTime.Now >= book.SalePriceStartDate && DateTime.Now <= book.SalePriceEndDate)
                         {
                             item.Price = book.SalePrice;
@@ -62,6 +62,7 @@ namespace Application.Carts
                         }
                     }
                 }
+                
 
                 return Result<PagedList<Item>>.Success(
                     await PagedList<Item>.CreatePage(items, request.Params.PageIndex, request.Params.PageSize));

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -29,18 +30,17 @@ namespace Application.Books.Detail
             }
             public async Task<Result<BookDetailDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var book = _context.Books.Include(x => x.Author)
+                var bookDetailDto = _context.Books.Include(x => x.Author)
                                             .Include(x => x.Language)
-                                            .Include(x => x.Attribute)
+                                            .Include(x => x.Attributes).ThenInclude(x => x.Attribute)
+                                            .ProjectTo<BookDetailDto>(_mapper.ConfigurationProvider)
                                             .FirstOrDefault(x => x.Id == request.Id);
 
-                if (book == null)
+                if (bookDetailDto == null)
                 {
                     return Result<BookDetailDto>.Failure("Book is not exist");
                 }
 
-                BookDetailDto bookDetailDto = _mapper.Map<BookDetailDto>(book);
-                
                 return Result<BookDetailDto>.Success(bookDetailDto);
             }
         }

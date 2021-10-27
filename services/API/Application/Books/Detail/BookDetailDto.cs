@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Domain;
-using Attribute = System.Attribute;
 
 namespace Application.Books.Detail
 {
@@ -19,7 +18,7 @@ namespace Application.Books.Detail
         public ICollection<Media> Media { get; set; }
         public Guid AuthorId { get; set; }
         public string AuthorName { get; set; }
-        public string Attribute { get; set; }
+        public ICollection<BookAttributeDto> Attributes { get; set; }
         public string Language { get; set; }
         public string Dimensions { get; set; }
         public DateTime PublicationDate { get; set; }
