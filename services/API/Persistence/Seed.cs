@@ -27,7 +27,7 @@ namespace Persistence
             List<Media> medias = new List<Media>();
             List<Item> items = new List<Item>();
             List<Book> books = new List<Book>();
-            
+
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -46,11 +46,12 @@ namespace Persistence
                                 LastName = "Nguyen",
                                 Phone = "0866944171",
                                 ApartmentNumber = "54",
-                                Street = "Duong so 8",
-                                Wards = "Linh Trung",
-                                District = "Thu Duc",
-                                CityTown = "Ho Chi Minh",
-                                PostCode = "11000",
+                                StreetAddress="So 8",
+                                ProvinceID=202,
+                                ProvinceName="Hồ Chí Minh",
+                                DistrictID=3695,
+                                DistrictName="Thành Phố Thủ Đức",
+                                WardName="Phường Linh Chiểu",
                                 IsMain = true
                             }
                         },
@@ -65,15 +66,16 @@ namespace Persistence
                             new Address()
                             {
                                 Id = new Guid(),
-                                FirstName = "Thuyet",
-                                LastName = "Y",
-                                Phone = "0987654321",
-                                ApartmentNumber = "11",
-                                Street = "Quoc lo 1A",
-                                Wards = "Linh Chieu",
-                                District = "Thu Duc",
-                                CityTown = "Ho Chi Minh",
-                                PostCode = "11000",
+                                FirstName = "Truong",
+                                LastName = "Nguyen",
+                                Phone = "0866944171",
+                                ApartmentNumber = "54",
+                                StreetAddress="So 8",
+                                ProvinceID=202,
+                                ProvinceName="Hồ Chí Minh",
+                                DistrictID=3695,
+                                DistrictName="Thành Phố Thủ Đức",
+                                WardName="Phường Linh Chiểu",
                                 IsMain = true
                             }
                         },
@@ -92,11 +94,12 @@ namespace Persistence
                                 LastName = "Long",
                                 Phone = "1234567890",
                                 ApartmentNumber = "1179",
-                                Street = "Huynh Van Luy",
-                                Wards = "Phu My",
-                                District = "Thu Dau Mot",
-                                CityTown = "Binh Duong",
-                                PostCode = "75000",
+                                StreetAddress="So 8",
+                                ProvinceID=202,
+                                ProvinceName="Hồ Chí Minh",
+                                DistrictID=3695,
+                                DistrictName="Thành Phố Thủ Đức",
+                                WardName="Phường Linh Chiểu",
                                 IsMain = true
                             }
                         },
@@ -115,11 +118,12 @@ namespace Persistence
                                 LastName = "Nguyen",
                                 Phone = "1234567890",
                                 ApartmentNumber = "10",
-                                Street = "719",
-                                Wards = "Trung Lap Thuong",
-                                District = "Cu Chi",
-                                CityTown = "HCM",
-                                PostCode = "70000",
+                                 StreetAddress="So 8",
+                                ProvinceID=202,
+                                ProvinceName="Hồ Chí Minh",
+                                DistrictID=3695,
+                                DistrictName="Thành Phố Thủ Đức",
+                                WardName="Phường Linh Chiểu",
                                 IsMain = true
                               }
                         },
@@ -138,11 +142,12 @@ namespace Persistence
                                 LastName = "Truong",
                                 Phone = "1234567890",
                                 ApartmentNumber = "1179",
-                                Street = "Huynh Van Luy",
-                                Wards = "Phu My",
-                                District = "Thu Dau Mot",
-                                CityTown = "Binh Duong",
-                                PostCode = "75000",
+                                StreetAddress="So 8",
+                                ProvinceID=202,
+                                ProvinceName="Hồ Chí Minh",
+                                DistrictID=3695,
+                                DistrictName="Thành Phố Thủ Đức",
+                                WardName="Phường Linh Chiểu",
                                 IsMain = true
                               }
                         },
@@ -161,11 +166,12 @@ namespace Persistence
                                 LastName = "Nguyen",
                                 Phone = "1234567890",
                                 ApartmentNumber = "10",
-                                Street = "719",
-                                Wards = "Trung Lap Thuong",
-                                District = "Cu Chi",
-                                CityTown = "HCM",
-                                PostCode = "70000",
+                                StreetAddress="So 8",
+                                ProvinceID=202,
+                                ProvinceName="Hồ Chí Minh",
+                                DistrictID=3695,
+                                DistrictName="Thành Phố Thủ Đức",
+                                WardName="Phường Linh Chiểu",
                                 IsMain = true
                               }
                         },
@@ -835,7 +841,7 @@ namespace Persistence
                         TotalStock = 10
                     }
                 };
-                
+
                 await context.BookAttributes.AddRangeAsync(bookAttribute);
             }
             if (!context.Reviews.Any())
@@ -877,7 +883,7 @@ namespace Persistence
 
                 await context.Reviews.AddRangeAsync(reviewList);
             }
-            
+
             if (!context.Coupons.Any())
             {
                 var couponList = new List<Coupon>()
@@ -958,11 +964,11 @@ namespace Persistence
                         AttributeName = attributes[1].Name
                     }
                 };
-                
+
                 items.AddRange(itemList);
                 await context.Items.AddRangeAsync(items);
             }
-            
+
             if (!context.Carts.Any())
             {
                 var cart = new Cart()
@@ -970,7 +976,7 @@ namespace Persistence
                     Id = userManager.Users.FirstOrDefault(x => x.Email == "truongnguyen1232000@gmail.com")?.Id,
                     Items = items
                 };
-                
+
                 await context.Carts.AddAsync(cart);
             }
 
