@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Collapse, FormControl, FormControlLabel, Grid, InputBase, Paper, Radio, RadioGroup, Theme, Typography } from "@material-ui/core";
+import { Collapse, FormControl, FormControlLabel, Grid, InputBase, Link, Paper, Radio, RadioGroup, Theme, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
@@ -156,7 +156,7 @@ const BillInfo: React.FC = () => {
             </div>
             <FormControl component="fieldset">
               <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                <FormControlLabel value="Direct bank transfer" control={<Radio />} label="Direct bank transfer"/>
+                <FormControlLabel value="Direct bank transfer" control={<Radio />} label="Direct bank transfer" />
                 <Typography className={classes.text}>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</Typography>
                 <FormControlLabel value="Check payments" control={<Radio />} label="Check payments" />
                 <Typography className={classes.text}>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</Typography>
@@ -166,6 +166,7 @@ const BillInfo: React.FC = () => {
             </FormControl>
           </Paper>
         </Collapse>
+       
       </Grid>
     </div>
   );
@@ -173,7 +174,7 @@ const BillInfo: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   payment: {
-    fontWeight:"bold" ,
+    fontWeight: "bold",
   },
   grid: {
     margin: "50px 30px 0px 30px"

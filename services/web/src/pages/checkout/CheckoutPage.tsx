@@ -1,15 +1,17 @@
-import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Box, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import PrimaryButton from '../../components/button/PrimaryButton';
 import BillDetailComponent from '../../components/checkout/BillDetail';
 import BillInfoComponent from '../../components/checkout/BillInfo';
 
-const useStyles = makeStyles((theme : Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             backgroundColor: "#fff6f6"
         },
-        text :{
+        text: {
             fontWeight: "bold"
-        }
+        },
     })
 )
 function CheckoutPage() {
@@ -22,8 +24,11 @@ function CheckoutPage() {
                 <Grid item xs={7}>
                     <BillDetailComponent />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                     <BillInfoComponent />
+                    <Link to="/place-order">
+                        <PrimaryButton text="Place order" />
+                    </Link>
                 </Grid>
             </Grid>
         </div>
