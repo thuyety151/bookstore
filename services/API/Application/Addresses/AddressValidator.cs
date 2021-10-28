@@ -17,8 +17,7 @@ namespace Application.Addresses
             RuleFor(x => x.ProvinceID).NotEmpty();
             RuleFor(x => x.ProvinceName).NotEmpty();
             RuleFor(x => x.WardName).NotEmpty();
-            RuleFor(x => x.IsMain).NotEmpty();
+            RuleFor(x => x.IsMain).Must(x => x == false || x == true);
         }
     }
-
 }

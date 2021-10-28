@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Application.Addresses;
 using Application.Core;
@@ -17,6 +18,11 @@ namespace API.Controllers
         public async Task<IActionResult> UpsertAddress(AddressParams addressParams)
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() { AddressParams = addressParams }));
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAddress([FromQuery] Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Delete.Command() { Id = id }));
         }
     }
 }
