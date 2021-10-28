@@ -13,5 +13,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new List.Query() { Params = pagingParams }));
         }
+        [HttpPost]
+        public async Task<IActionResult> UpsertAddress(AddressParams addressParams)
+        {
+            return HandleResult(await Mediator.Send(new Upsert.Command() { AddressParams = addressParams }));
+        }
     }
 }

@@ -59,7 +59,7 @@ namespace Application.Carts.Items
                 }
 
                 var item = cart.Items.FirstOrDefault(x => x.ProductId == request.ItemParams.ProductId && x.AttributeId == request.ItemParams.AttributeId);
-                
+
                 var book = _context.Books.AsNoTracking().Include(x => x.Attributes).FirstOrDefault(x => x.Id == request.ItemParams.ProductId);
 
                 if (book == null)
@@ -73,7 +73,7 @@ namespace Application.Carts.Items
                 {
                     return Result<Unit>.Failure("Books in stock is not enough");
                 }
-                
+
                 //Add
                 if (item == null)
                 {
@@ -89,7 +89,7 @@ namespace Application.Carts.Items
                         PictureUrl = request.ItemParams.PictureUrl,
                         Price = request.ItemParams.Price,
                         Quantity = request.ItemParams.Quantity,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = (int)StockStatus.InStock
 
                     };
                     cart.Items.Add(newItem);
