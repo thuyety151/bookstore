@@ -44,16 +44,6 @@ namespace Application.Addresses
                 var user = _context.Users.Include(x => x.Address)
                     .FirstOrDefault(
                         x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-
-                if (request.AddressParams.IsMain)
-                {
-                    var defaultAddress = user.Address.FirstOrDefault(x => x.IsMain == true);
-                    if (defaultAddress != null)
-                    {
-                        return Result<Unit>.Failure("IsMain is not valid");
-                    }
-                }
                 var address = await _context.Users.Where(x => x.Id == _httpContext.HttpContext.User
                         .FindFirstValue(ClaimTypes.NameIdentifier))
                     .SelectMany(x => x.Address).Where(x => x.Id == request.AddressParams.Id)
@@ -74,7 +64,7 @@ namespace Application.Addresses
                         WardName = request.AddressParams.WardName,
                         DistrictName = request.AddressParams.DistrictName,
                         ProvinceName = request.AddressParams.ProvinceName,
-                        IsMain = request.AddressParams.IsMain
+                        IsMain =  user.Address.Count>0 ? false:true
                     };
                     user.Address.Add(newAddress);
                 }

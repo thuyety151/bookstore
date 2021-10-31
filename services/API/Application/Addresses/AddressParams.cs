@@ -15,6 +15,5 @@ namespace Application.Addresses
         public string WardName { get; set; }
         public string DistrictName { get; set; }
         public string ProvinceName { get; set; }
-        public bool IsMain { get; set; }
     }
 }
