@@ -12,4 +12,5 @@ export type AddressFormSchema = {
     name: string;
   };
   street: string;
+  isDefault: boolean;
 };

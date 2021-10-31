@@ -42,12 +42,12 @@ body {
     transform: rotate(360deg);
   }
 }
-.text-bold{
+.text-bold {
   font-weight: 500 !important;
   display: inherit;
 }
-.MuiTypography-root{
-  font-family: 'Inter', sans-serif !important;
+.MuiTypography-root {
+  font-family: "Inter", sans-serif !important;
   display: inherit;
 }
 .pink-background {
@@ -56,4 +56,15 @@ body {
 .MuiTableCell-root {
   font-family: "Inter", sans-serif !important;
   --color-pink-bg: #fff6f6;
+}
+.MuiFormLabel-rootroot {
+  font-family: "Inter", sans-serif !important;
+  display: inherit;
+}
+.text-error {
+  color: red !important;
+}
+label {
+  font-family: "Inter", sans-serif !important;
+  color: black;
 }

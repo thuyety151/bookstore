@@ -7,8 +7,9 @@ import {
   FormGroup,
   createStyles,
   OutlinedInput,
+  FormHelperText,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDistrict,
@@ -18,7 +19,6 @@ import {
 import { RootStore } from "../../redux/store";
 import { get, capitalize } from "lodash";
 import { AddressFormSchema } from "../../model/address";
-
 
 interface Props {
   formValue: AddressFormSchema;
@@ -42,6 +42,12 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
     dispatch(getWard(formValue.district.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue.district.id]);
+  const [touched, setTouched] = useState({
+    province: false,
+    district: false,
+    ward: false,
+    street: false,
+  });
 
   const handleChangeForm =
     (key: string) => (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -53,11 +59,19 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
       setFormValue({
         ...formValue,
         [key]: {
-          id: data[`${capitalize(key)}ID`] || 0, //data.ProvinceID
+          id:
+            data[`${capitalize(key)}ID`] || data[`${capitalize(key)}Code`] || 0, //data.ProvinceID
           name: data[`${capitalize(key)}Name`],
         },
       });
     };
+  const validator = (key: string) => {
+    if (get(touched, key) && !get(formValue, `${key}.id`)) {
+      return { error: true, msg: "Yêu cầu không được để trống" };
+    }
+    return { error: false, msg: "" };
+  };
+
   return (
     <div style={{ width: "100%" }}>
       <Grid
@@ -67,7 +81,6 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
         alignItems="center"
       >
         <FormGroup className={classes.formControl}>
-          {/* Province */}
           <InputLabel htmlFor="outlined-age-native-simple">
             Province/City
           </InputLabel>
@@ -76,11 +89,9 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             variant="outlined"
             value={formValue.province.name}
             onChange={handleChangeForm("province")}
-            label="Province/City"
-            inputProps={{
-              name: "ProvinceID",
-              id: "outlined-age-native-simple",
-            }}
+            placeholder="hihi"
+            error={validator("province").error}
+            onBlur={() => setTouched({ ...touched, province: true })}
           >
             {sampleAddress.province.map((item: any, index: number) => {
               return (
@@ -90,30 +101,33 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
               );
             })}
           </Select>
-          {/* End Province */}
-          {/* District */}
+          {validator("province").error && (
+            <FormHelperText className="text-error">
+              {validator("province").msg}
+            </FormHelperText>
+          )}
           <InputLabel htmlFor="outlined-age-native-simple">District</InputLabel>
           <Select
             native
             variant="outlined"
             value={formValue.district.name}
             onChange={handleChangeForm("district")}
-            label="District"
-            inputProps={{
-              name: "age",
-              id: "outlined-age-native-simple",
-            }}
+            onBlur={() => setTouched({ ...touched, district: true })}
+            displayEmpty
           >
             {sampleAddress.district.map((item: any, index: number) => {
               return (
                 <option key={item.DistrictID} value={index}>
-                  {item.NameExtension[1]}
+                  {item.NameExtension[0]}
                 </option>
               );
             })}
           </Select>
-          {/* End District */}
-          {/* Ward */}
+          {validator("district").error && (
+            <FormHelperText className="text-error">
+              {validator("district").msg}
+            </FormHelperText>
+          )}
           <InputLabel htmlFor="outlined-age-native-simple">
             Ward/Commune
           </InputLabel>
@@ -122,11 +136,8 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             variant="outlined"
             value={formValue.ward.id}
             onChange={handleChangeForm("ward")}
-            label="Ward/Commune"
-            inputProps={{
-              name: "age",
-              id: "outlined-age-native-simple",
-            }}
+            error={validator("ward").error}
+            onBlur={() => setTouched({ ...touched, ward: true })}
           >
             {sampleAddress.ward.map((item: any, index: number) => {
               return (
@@ -136,8 +147,11 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
               );
             })}
           </Select>
-          {/* End Ward */}
-          {/* Street */}
+          {validator("ward").error && (
+            <FormHelperText className="text-error">
+              {validator("ward").msg}
+            </FormHelperText>
+          )}
           <InputLabel htmlFor="outlined-age-native-simple">
             Street address
           </InputLabel>
@@ -148,8 +162,8 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
               setFormValue({ ...formValue, street: e.target.value as string })
             }
             inputProps={{ "aria-label": "naked" }}
+            onBlur={() => setTouched({ ...touched, street: true })}
           />
-          {/* End Street */}
         </FormGroup>
       </Grid>
     </div>
@@ -158,11 +172,16 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formControl: {
-      margin: theme.spacing(1),
       // minWidth: "100%",
       width: "100%",
       "& option": {
         padding: theme.spacing(2),
+      },
+      "& .MuiInputLabel-root": {
+        fontWeight: 500,
+        fontSize: 16,
+        color: "#000",
+        margin: theme.spacing(1, 0),
       },
     },
     selectEmpty: {
