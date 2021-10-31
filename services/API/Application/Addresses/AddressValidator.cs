@@ -1,4 +1,3 @@
-using Application.Addresses;
 using FluentValidation;
 
 namespace Application.Addresses

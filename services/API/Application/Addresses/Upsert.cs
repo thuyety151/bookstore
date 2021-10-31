@@ -1,18 +1,14 @@
-using System.Security.Cryptography.X509Certificates;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Domain;
-using Domain.Enum;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Persistence;
 
 namespace Application.Addresses
@@ -59,9 +55,9 @@ namespace Application.Addresses
                     }
                 }
                 var address = await _context.Users.Where(x => x.Id == _httpContext.HttpContext.User
-                            .FindFirstValue(ClaimTypes.NameIdentifier))
-                            .SelectMany(x => x.Address).Where(x => x.Id == request.AddressParams.Id)
-                            .SingleOrDefaultAsync();
+                        .FindFirstValue(ClaimTypes.NameIdentifier))
+                    .SelectMany(x => x.Address).Where(x => x.Id == request.AddressParams.Id)
+                    .SingleOrDefaultAsync();
                 //Add
                 if (address == null)
                 {

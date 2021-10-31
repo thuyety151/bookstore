@@ -2,11 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Application.Addresses;
 using Application.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    // [Authorize]
+    [Authorize]
     public class AddressesController : BaseApiController
     {
         [HttpGet]
@@ -24,5 +25,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command() { Id = id }));
         }
+        [HttpPost]
+        [Route("set-default")]
+        public async Task<IActionResult> SetDefaultAddress([FromQuery] Guid id)
+        {
+            return HandleResult(await Mediator.Send(new SetDefault.Command() { Id = id }));
+        }
+
     }
 }

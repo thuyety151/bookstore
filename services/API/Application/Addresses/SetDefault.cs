@@ -12,9 +12,9 @@ using Persistence;
 
 namespace Application.Addresses
 {
-    public class Delete
+    public class SetDefault
     {
-        public class Command : IRequest<Result<Guid>>
+        public class Command : IRequest<Result<Unit>>
         {
             public Guid Id { get; set; }
         }
@@ -26,30 +26,35 @@ namespace Application.Addresses
                 RuleFor(x => x.Id).NotEmpty();
             }
         }
-        public class Handler : IRequestHandler<Command, Result<Guid>>
+
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IHttpContextAccessor _httpContext;
+
             public Handler(DataContext context, IHttpContextAccessor httpContext)
             {
                 _context = context;
                 _httpContext = httpContext;
             }
 
-            public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.Include(x => x.Address)
-                    .FirstOrDefaultAsync(
+                var user = _context.Users.Include(x => x.Address)
+                    .FirstOrDefault(
                         x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var address = user.Address.FirstOrDefault(x => x.Id == request.Id);
                 if (address == null)
                 {
-                    return Result<Guid>.Failure("Address does not exist");
+                    return Result<Unit>.Failure("Address does not exist");
                 }
-                user.Address.Remove(address);
+                foreach (var ad in user.Address)
+                {
+                    ad.IsMain = false;
+                }
+                address.IsMain = true;
                 await _context.SaveChangesAsync();
-
-                return Result<Guid>.Success(request.Id);
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }
