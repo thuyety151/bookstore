@@ -31,6 +31,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new SetDefault.Command() { Id = id }));
         }
-
+        [HttpGet]
+        [Route("get-default")]
+        public async Task<IActionResult> GetDefaultAddress()
+        {
+            return HandleResult(await Mediator.Send(new GetDefault.Query() { }));
+        }
     }
 }
