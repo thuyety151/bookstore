@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -8,12 +8,13 @@ import { Button, ButtonGroup, FormControl, MenuItem, Select } from "@material-ui
 import { FavoriteBorderOutlined } from "@material-ui/icons";
 import ShareOutlinedIcon from '@material-ui/icons/ShareOutlined';
 import Rating from '@mui/material/Rating';
-import { getReviews } from "../../redux/actions/review/reviewAction";
 import { useDispatch, useSelector } from "react-redux";
-import { getBook } from "../../redux/actions/book-detail/getAction";
 import { RootStore } from "../../redux/store";
-import { Detail } from "../../model/detail";
 import NegativeAlert from "../core/alert/NegativeAlert";
+import Attribute from "../../model/attribute";
+import AddOrUpdateItem from "../../model/AddOrUpdateItem";
+import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
+import Item from "../../model/item";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         img: {
             margin: "auto",
             display: "block",
-            maxWidth: "100%",
+            maxWidth: "80%",
             maxHeight: "100%",
         },
         attribute: {
@@ -59,7 +60,6 @@ const useStyles = makeStyles((theme: Theme) =>
         buttonAddToCart: {
             textTransform: "none",
             minWidth: 300,
-            alignItems: "center"
         },
         text: {
             fontWeight: 600
@@ -71,34 +71,71 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function DetailBook() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    //const displayCounter = this.state.counter > 0;
+    const [counter, setCounter] = useState<number>(1);
     const displayCounter = true;
-    const [rateValue, setRateValue] = React.useState<number | null>(5);
 
-    const [age, setAge] = React.useState('10');
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
-    };
-    const bookId = "68316EED-A3D1-4AD4-9DCA-08D993DF0839";
-
+    //hard data
+    // const bookId = "367B359F-CDE9-4D15-BC37-08D99961828A";
+    const attributeId = "94B5913A-2B6F-47ED-270D-08D999618231";
     const { success, message, data } = useSelector((state: RootStore) => state.book);
-    // console.log(data);
+    const myCart : Item[] = useSelector((state: RootStore) => state.cart.data);
+    const [attribute, setAttribute] = useState<Attribute | null>();
+
+    const attributeDb = data?.attributes.find(x => x.id === attributeId) as Attribute;
+
+    const rateValue = 5;
+
+    useEffect(() => {
+        if (!attribute) {
+            setAttribute(attributeDb);
+        }
+    });
+
     
-    // const test: Detail | null = useSelector((state :RootStore) => state.book.data);
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        const attributeId = event.target.value;
+        var attribute = data?.attributes.find(x => x.id === attributeId);
+        if (attribute) {
+            setAttribute(attribute);
+        }
+    };
 
-    // console.log(test);
+    function handleDecreaseCounter(){
+        if(counter > 1){
+            setCounter(counter - 1);
+        }  
+    }
 
+    function handleIncreaseCounter(){
+        if( attribute && counter < attribute.totalStock){
+            setCounter(counter +  1);
+        }  
+    }
 
-    dispatch(getReviews(bookId));
-
+    function handleAddToCart(){
+        var item : AddOrUpdateItem = {
+            productId : "367b359f-cde9-4d15-bc37-08d99961828a",
+            attributeId: "94b5913a-2b6f-47ed-270d-08d999618231",
+            quantity: counter
+        };
+        
+        const itemQuantityToUpdate = myCart.find(x => x.productId === item.productId && x.attributeId === item.attributeId)?.quantity;
+        
+        if(itemQuantityToUpdate){
+            item.quantity = itemQuantityToUpdate + counter;
+        }
+    
+        dispatch(addOrUpdateItem(item));
+        
+    }
     return (
         <div className={classes.root}>
             {!success ? <NegativeAlert message={message || ""} /> : null}
             <Paper className={classes.paper}>
-                {data && 
+                {data &&
                     <Grid container spacing={2}>
-                        <Grid item xs={5} alignItems="stretch">
+                        <Grid item xs={5}>
                             <ButtonBase>
                                 <img className={classes.img} alt="complex" src="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/luat-tam-thuc.jpeg?alt=media&token=40221ba7-c0a2-48b9-b2d1-348f16e024c7" />
                             </ButtonBase>
@@ -125,10 +162,13 @@ export default function DetailBook() {
                                 </Grid>
 
                                 <Grid item>
-                                    <Typography gutterBottom variant="h5" className={classes.text} >
-                                        {data.price} $
-                                    </Typography>
+                                    {attribute &&
+                                        <Typography gutterBottom variant="h5" className={classes.text} >
+                                            {attribute.price} $
+                                        </Typography>
+                                    }
                                 </Grid>
+
                                 <Grid item>
                                     <Typography gutterBottom variant="body2">
                                         Book Format: Choose an option
@@ -137,15 +177,15 @@ export default function DetailBook() {
                                 <Grid item>
                                     <FormControl className={classes.formControl}>
                                         <Select
-                                            value={age}
+                                            value={attribute?.id ?? ''}
                                             onChange={handleChange}
                                             displayEmpty
                                             className={classes.selectEmpty}
                                             inputProps={{ 'aria-label': 'Without label' }}
                                         >
-                                            <MenuItem value={10}>Hardcover </MenuItem>
-                                            <MenuItem value={20}>Paperback </MenuItem>
-                                            <MenuItem value={30}>Kindle </MenuItem>
+                                            {data.attributes ?
+                                                data.attributes.map((attr) => (<MenuItem key={attr.id} value={attr.id}> {attr.name} </MenuItem>)) : null
+                                            }
                                         </Select>
                                     </FormControl>
 
@@ -164,14 +204,14 @@ export default function DetailBook() {
                                 >
                                     <Grid item>
                                         <ButtonGroup size="large" aria-label="small outlined button group">
-                                            <Button>-</Button>
-                                            {displayCounter && <Button disabled>1</Button>}
-                                            {displayCounter && <Button>+</Button>}
+                                            <Button onClick={handleDecreaseCounter}>-</Button>
+                                            {displayCounter && <Button disabled>{counter}</Button>}
+                                            {displayCounter && <Button onClick={handleIncreaseCounter}>+</Button>}
                                         </ButtonGroup>
 
                                     </Grid>
                                     <Grid item>
-                                        <Button className={classes.buttonAddToCart} size="large" variant="contained" color="secondary">
+                                        <Button onClick={handleAddToCart} className={classes.buttonAddToCart} size="large" variant="contained" color="secondary">
                                             Add to cart
                                         </Button>
                                     </Grid>

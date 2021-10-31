@@ -58,7 +58,7 @@ export default function Types() {
               <Typography className={classes.textDetail}>Format:</Typography>
             </Grid>
             <Grid item>
-              <Typography>{data.attribute}</Typography>
+              <Typography>attribute</Typography>
             </Grid>
           </Grid>
 
