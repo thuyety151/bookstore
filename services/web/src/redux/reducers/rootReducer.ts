@@ -5,13 +5,15 @@ import categoryReducer from "./categoryReducer";
 import authenticateReducer from "./authenticationReducer";
 import reviewReducer from "./reviewReducer";
 import bookReducer from "./bookReducer";
+import addOrUpdateItemReducer from "./addOrUpdateItemReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
   cart: cartReducer,
   authenticate: authenticateReducer,
   review: reviewReducer,
-  book: bookReducer
+  book: bookReducer,
+  addOrUpdateItem: addOrUpdateItemReducer
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

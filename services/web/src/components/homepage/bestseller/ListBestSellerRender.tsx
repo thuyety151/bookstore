@@ -8,8 +8,6 @@ import "./slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
 import data from "../../../mocks/bestselling";
-import { useDispatch } from "react-redux";
-import { getBook } from "../../../redux/actions/book-detail/getAction";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },

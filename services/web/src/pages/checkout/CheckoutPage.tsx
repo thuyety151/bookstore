@@ -1,4 +1,4 @@
-import { Box, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
+import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PrimaryButton from '../../components/button/PrimaryButton';
 import BillDetailComponent from '../../components/checkout/BillDetail';

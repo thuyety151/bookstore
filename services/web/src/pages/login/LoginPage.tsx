@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import LoginComponent from "../../components/authenticate/Login"
-
-
 
 
 const LoginPage: React.FunctionComponent<{}> = (props) => {
