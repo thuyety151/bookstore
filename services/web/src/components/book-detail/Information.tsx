@@ -4,6 +4,7 @@ import DescriptionComponent from "./Description";
 import ProductDetailsComponent from "./ProductDetails";
 import VideoComponent from "./Video";
 import ReviewComponent from "./Review";
+import RecommendBooksComponent from "./RecommendBooks"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -30,6 +31,8 @@ export default function SimpleTabs() {
       <VideoComponent />
 
       <ReviewComponent />
+
+      <RecommendBooksComponent/>
     </div>
   );
 }
