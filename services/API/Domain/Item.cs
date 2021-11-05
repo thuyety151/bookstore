@@ -15,6 +15,6 @@ namespace Domain
         public string PictureUrl { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public int StockStatus { get; set; } 
+        public string StockStatus { get; set; } 
     }
 }

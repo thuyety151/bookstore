@@ -5,7 +5,7 @@ export const getBook = (id: any) => async (dispatch: any ) => {
     try{
         dispatch({type: bookDetailConstant.GET_REQUEST});
 
-        const response = await api.get(`/book?id=${id}`);
+        const response = await api.get(`/books?id=${id}`);
 
         console.log(response);
 
@@ -13,9 +13,6 @@ export const getBook = (id: any) => async (dispatch: any ) => {
             type: bookDetailConstant.GET_SUCCESS,
             data: response.data.value
         });
-
-        console.log("ok");
-
     }
     catch(error: any){
         dispatch({

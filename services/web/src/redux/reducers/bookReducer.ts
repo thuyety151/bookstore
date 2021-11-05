@@ -14,18 +14,12 @@ const initState: BookState = {
 };
 
 const bookReducer = (state: BookState = initState, payload: any): BookState => {
-  console.log("state",state,"p,payloadayload",payload)
   switch (payload.type) {
     case bookDetailConstant.GET_REQUEST:
       return {
         ...state,
       };
     case bookDetailConstant.GET_SUCCESS:
-      console.log("change state",{
-        ...state,
-        success: true,
-        data: payload.data,
-      });
       return {
         ...state,
         success: true,

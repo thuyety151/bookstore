@@ -1,15 +1,11 @@
-﻿using System.Globalization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Domain;
 using Domain.Constant;
 using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Attribute = Domain.Attribute;
 
 namespace Persistence
@@ -522,7 +518,7 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
                         ViewCount=1,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -553,7 +549,7 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
                         ViewCount=100,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -583,7 +579,7 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
                         ViewCount=10,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -613,7 +609,7 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
                         ViewCount=11,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -642,7 +638,7 @@ namespace Persistence
                             }
                         },
                         ViewCount=20,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -671,7 +667,7 @@ namespace Persistence
                             }
                         },
                         ViewCount=25,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -700,7 +696,11 @@ namespace Persistence
                             }
                         },
                         ViewCount=19,
-                        StockStatus = (int) StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        Dimensions = "9126 x 194 x 28mm | 301g",
+                        PublicationDate = new DateTime(2020,3,12),
+                        Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
                     },
                     new Book()
                     {
@@ -725,7 +725,7 @@ namespace Persistence
                             }
                         },
                         ViewCount=36,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -754,7 +754,7 @@ namespace Persistence
                             }
                         },
                         ViewCount=102,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -783,7 +783,7 @@ namespace Persistence
                             }
                         },
                         ViewCount=15,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -803,42 +803,240 @@ namespace Persistence
                         BookId = books[0].Id,
                         AttributeId = attributes[0].Id,
                         Price = 100,
-                        TotalStock = 50
+                        TotalStock = 50,
+                        StockStatus = StockStatus.InStock
                     },
                     new BookAttribute()
                     {
                         BookId = books[0].Id,
                         AttributeId = attributes[1].Id,
                         Price = 79,
-                        TotalStock = 20
+                        TotalStock = 20,
+                        StockStatus =  StockStatus.InStock
                     },
                     new BookAttribute()
                     {
                         BookId = books[0].Id,
                         AttributeId = attributes[2].Id,
                         Price = 120,
-                        TotalStock = 6
+                        TotalStock = 6,
+                        StockStatus = StockStatus.InStock
                     },
                     new BookAttribute()
                     {
                         BookId = books[1].Id,
                         AttributeId = attributes[0].Id,
                         Price = 200,
-                        TotalStock = 2
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
                     },
                     new BookAttribute()
                     {
                         BookId = books[1].Id,
                         AttributeId = attributes[1].Id,
                         Price = 90,
-                        TotalStock = 20
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
                     },
                     new BookAttribute()
                     {
                         BookId = books[1].Id,
                         AttributeId = attributes[2].Id,
                         Price = 255,
-                        TotalStock = 10
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[2].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[2].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[2].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[3].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[3].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[3].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[4].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[4].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[4].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[5].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[5].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[5].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[6].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[6].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[6].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[7].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[7].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[7].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[8].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[8].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[8].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[9].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 200,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[9].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[9].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 255,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock
                     }
                 };
 
@@ -945,7 +1143,7 @@ namespace Persistence
                         PictureUrl = books[0].Media.FirstOrDefault(x => x.IsMain)?.Url,
                         Price = books[0].Attributes.ElementAt(0).Price,
                         Quantity = 2,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock.ToString(),
                         AttributeId = attributes[0].Id,
                         AttributeName = attributes[0].Name
                     },
@@ -959,7 +1157,7 @@ namespace Persistence
                         PictureUrl = books[1].Media.FirstOrDefault(x => x.IsMain)?.Url,
                         Price = books[1].Attributes.ElementAt(1).Price,
                         Quantity = 1,
-                        StockStatus = (int) StockStatus.InStock,
+                        StockStatus = StockStatus.InStock.ToString(),
                         AttributeId = attributes[1].Id,
                         AttributeName = attributes[1].Name
                     }

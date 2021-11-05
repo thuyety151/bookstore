@@ -1,3 +1,5 @@
+import Attribute from "./attribute";
+
 export interface Detail {
     id: string,
     name: string,
@@ -11,7 +13,7 @@ export interface Detail {
     media: [],
     authorId: string,
     authorName: string,
-    attribute: string,
+    attributes: Attribute [],
     language: string,
     dimensions: string,
     publicationDate: string,

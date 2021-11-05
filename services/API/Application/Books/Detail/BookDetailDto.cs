@@ -12,8 +12,6 @@ namespace Application.Books.Detail
         public string Description { get; set; }
         public double Price { get; set; }
         public double SalePrice { get; set; }
-        public int StockStatus { get; set; }
-        public int TotalStock { get; set; }
         public int ViewCount { get; set; }
         public ICollection<Media> Media { get; set; }
         public Guid AuthorId { get; set; }
@@ -24,5 +22,8 @@ namespace Application.Books.Detail
         public DateTime PublicationDate { get; set; }
         public string Publisher { get; set; }
         public string PublicationCountry { get; set; }
+        public string StockStatus { get; set; }
+        public int TotalStock { get; set; }
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -40,6 +41,11 @@ namespace Application.Books.Detail
                 {
                     return Result<BookDetailDto>.Failure("Book is not exist");
                 }
+
+                bookDetailDto.TotalStock = bookDetailDto.Attributes.Sum(x => x.TotalStock);
+                bookDetailDto.StockStatus = bookDetailDto.TotalStock > 0
+                    ? StockStatus.InStock.ToString()
+                    : StockStatus.OutOfStock.ToString();
 
                 return Result<BookDetailDto>.Success(bookDetailDto);
             }
