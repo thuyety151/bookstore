@@ -36,7 +36,7 @@ export default function Types() {
 
   return (
     <div className={classes.rootAppBar}>
-      <AppBar id="/description" position="static" color="default">
+      <AppBar id="/description" position="static" color="default" >
         <Tabs centered value={value}
           indicatorColor="primary"
           textColor="primary"
