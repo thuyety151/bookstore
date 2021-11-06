@@ -8,8 +8,7 @@ export const getReviews = (bookId: any) => async (dispatch: any ) => {
         dispatch({type: reviewConstants.GET_REQUEST});
 
         const response = await api.get(`/reviews?bookId=${bookId}`);
-
-        console.log(response);
+        
         dispatch({
             type: reviewConstants.GET_SUCCESS,
             data: response.data.value
@@ -18,7 +17,7 @@ export const getReviews = (bookId: any) => async (dispatch: any ) => {
     } catch(error: any) {
         dispatch({
             type: reviewConstants.GET_FAILURE,
-            message: error
+            message: error.messages
         })
     }
 }

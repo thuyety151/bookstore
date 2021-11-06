@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
 .App {
-  text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .App-logo {
@@ -41,6 +40,14 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+.text-bold{
+  font-weight: 500 !important;
+  display: inherit;
+}
+.MuiTypography-root{
+  font-family: 'Inter', sans-serif !important;
+  display: inherit;
 }
 .pink-background {
   background-color: #fff6f6;

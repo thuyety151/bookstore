@@ -46,11 +46,17 @@ namespace Application.Books
                             Id = x.Id,
                             Name = x.Name,
                             Author = _mapper.Map<AuthorDto>(x.Author),
-                            Attribute = x.Attribute,
                             Language = x.Language,
-                            Media = x.Media
+                            Media = x.Media,
+                            Price = x.Price
                         }).FirstOrDefault();
-                    bookDtos.Add(bookDto);
+
+                    if (bookDto != null)
+                    {
+                        bookDto.AttributeId = book.AttributeId;
+                        bookDto.AttributeName = book.AttributeName;
+                        bookDtos.Add(bookDto);
+                    }
                 }
                 return Result<List<BookDto>>.Success(bookDtos);
             }

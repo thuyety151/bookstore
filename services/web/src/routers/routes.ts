@@ -9,7 +9,9 @@ import MainLayout from "../layout/MainLayout";
 import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
 
+import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 //const isLogged: boolean = false;
 
 function isLogin() {
@@ -48,6 +50,12 @@ export const routeMainLayout: Route[] = [
     path: "/book-detail",
     name: "Book Detail",
     component: BookDetailPage,
+    exact: false,
+  },
+  {
+    path: "/check-out",
+    name: "Check out",
+    component: CheckoutPage,
     exact: false,
   },
   {
@@ -102,6 +110,12 @@ export const routeMainLayout: Route[] = [
     path: "/shops/:id",
     name: "Shop",
     component: Example,
+    exact: false,
+  },
+  {
+    path: "/place-order",
+    name: "Place Order",
+    component: PlaceOrderPage,
     exact: false,
   },
   {

@@ -27,8 +27,12 @@ namespace Application.Books
             }
             public async Task<Result<List<BookDto>>> Handle(DealsOfWeek request, CancellationToken cancellationToken)
             {
-                var quantity = await _context.ConfigQuantities
-                                    .Where(x => x.Key == ConfigQuantityName.DealsOfWeek.ToString()).Select(x => x.Quantity).SingleOrDefaultAsync();
+                var config = await _context.ConfigQuantities
+                                    .Where(x => x.Key == ConfigQuantityName.DealsOfWeek.ToString()).Select(x => new
+                                    {
+                                        Quantity = x.Quantity,
+                                        DefaulAttributeId = x.DefaultAttributeId
+                                    }).SingleOrDefaultAsync();
                 var books = await _context.Coupons
                             .Where(x => (DateTime.Now <= (DateTime?)x.ExpireDate.AddDays(7)) == true)
                             .OrderByDescending(x => x.ExpireDate)
@@ -39,10 +43,11 @@ namespace Application.Books
                                 Id = x.Book.Id,
                                 Name = x.Book.Name,
                                 Author = _mapper.Map<AuthorDto>(x.Book.Author),
-                                Attribute = x.Book.Attribute,
+                                AttributeId = x.Book.Attributes.FirstOrDefault(x => x.AttributeId == config.DefaulAttributeId).AttributeId,
+                                AttributeName = x.Book.Attributes.FirstOrDefault(x => x.AttributeId == config.DefaulAttributeId).Attribute.Name,
                                 Language = x.Book.Language,
                                 Media = x.Book.Media
-                            }).Take(quantity).ToListAsync();
+                            }).Take(config.Quantity).ToListAsync();
                 return Result<List<BookDto>>.Success(books);
             }
         }
