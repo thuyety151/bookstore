@@ -8,8 +8,8 @@ export const DEFAULT_AVATARS = {
   video: "/img/icons/video-placeholder.svg",
 };
 
-export const ALLOWED_ROLE_ACCESS = [ROLE_ADMIN, ROLE_CUSTOMER];
+export const ALLOWED_ROLE_ACCESS = [ROLE_CUSTOMER];
 
-export const ROLES = [ROLE_ADMIN, ROLE_CUSTOMER, ROLE_VIEWER];
+export const ROLES = [ROLE_CUSTOMER];
 
-export type AppPermission = typeof ROLE_ADMIN | typeof ROLE_CUSTOMER;
+export type AppPermission = typeof ROLE_CUSTOMER;

@@ -1,5 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
+import { RootStore } from "../../redux/store";
 import {
   PRIVATE_ROUTES,
   RouteConfig,
@@ -7,7 +9,7 @@ import {
   ROUTE_NOT_FOUND,
   ROUTE_PERMISSION_DENIED,
 } from "../../routers/types";
-// import { AppPermission } from "../../shared/types";
+import { ROLE_CUSTOMER } from "../../shared/types";
 
 const PrivateRoute: React.FC<{
   component: any;
@@ -15,16 +17,14 @@ const PrivateRoute: React.FC<{
   exact: boolean;
 }> = (props) => {
   const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path];
-  // const user = useSelector((state: RootStore) => state.authenticate.user);
-  // const isLogin = useSelector((state: RootStore) => state.authenticate.isLogin);
   const isLogin = false;
+  const user = useSelector((state: RootStore) => state.authenticate?.user); // ~ customer
 
   const condition = () => {
     if (!routeConfig) {
       return { redirect: true, path: ROUTE_NOT_FOUND };
     }
-    // const role = store.state.global.account?.type as AppPermission;
-    const role = "admin";
+    const role = user ? ROLE_CUSTOMER : null;
     if (
       !routeConfig.permissions?.length ||
       (role && routeConfig.permissions.includes(role))

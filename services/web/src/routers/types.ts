@@ -34,13 +34,13 @@ export const PRIVATE_ROUTES = {
   [ROUTE_SHOPS]: { permissions: [] },
   [ROUTE_AUTHOR]: { permissions: [] },
   [ROUTE_PROFILE]: {
-    permissions: [sharedTypes.ROLE_ADMIN, sharedTypes.ROLE_CUSTOMER],
+    permissions: [sharedTypes.ROLE_CUSTOMER],
   },
   [ROUTE_CART]: {
-    permissions: [sharedTypes.ROLE_ADMIN, sharedTypes.ROLE_CUSTOMER],
+    permissions: [sharedTypes.ROLE_CUSTOMER],
   },
   [ROUTE_PLACE_ORDER]: {
-    permissions: [sharedTypes.ROLE_ADMIN, sharedTypes.ROLE_CUSTOMER],
+    permissions: [sharedTypes.ROLE_CUSTOMER],
   },
 };
 
