@@ -1,8 +1,8 @@
 using System;
 
-namespace Domain
+namespace Application.Addresses
 {
-    public class Address
+    public class AddressParams
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -15,6 +15,5 @@ namespace Domain
         public string WardName { get; set; }
         public string DistrictName { get; set; }
         public string ProvinceName { get; set; }
-        public bool IsMain { get; set; }
     }
 }
