@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   createStyles,
   Grid,
@@ -7,9 +7,9 @@ import {
   makeStyles,
   Theme,
 } from "@material-ui/core";
-import { IFooterType } from "../../../model/footer";
+import { FooterType } from "../../../model/footer";
 
-const FooterContactComponent: React.FC<{ data: IFooterType }> = (data) => {
+const FooterContactComponent: React.FC<{ data: FooterType }> = (data) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     info: {
       fontWeight: 400,
-      fontSize:14,
+      fontSize: 14,
       "&:hover": {
         color: "red",
         cursor: "pointer",

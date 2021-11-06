@@ -1,10 +1,6 @@
-import ISideBar, {
-  ICurrency,
-  ILanguage,
-  ISideBarChildren,
-} from "../model/sidebar";
+import SideBar, { Currency, Language, SideBarChildren } from "../model/sidebar";
 
-const data: ISideBar[] = [
+const data: SideBar[] = [
   {
     id: "1",
     name: "Arts & Photography",
@@ -33,7 +29,7 @@ const data: ISideBar[] = [
     ],
   },
 ];
-export const dataHelpSetting: ISideBarChildren[] = [
+export const dataHelpSetting: SideBarChildren[] = [
   {
     id: "1",
     name: "Your Account",
@@ -50,11 +46,11 @@ export const dataHelpSetting: ISideBarChildren[] = [
     path: "/sign-in",
   },
 ];
-export const lstLanguage: ILanguage[] = [
+export const lstLanguage: Language[] = [
   { id: "1", name: "English (United States)" },
   { id: "2", name: "English (UK)" },
 ];
-export const lstCurrency: ICurrency[] = [
+export const lstCurrency: Currency[] = [
   { id: "1", name: "$ USD" },
   { id: "2", name: "VND" },
 ];

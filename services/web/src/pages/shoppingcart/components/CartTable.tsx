@@ -37,8 +37,8 @@ const CartTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row: CartItem) => (
-              <TableRow key={row.name} className={classes.row}>
+            {rows.map((row: CartItem, index) => (
+              <TableRow key={index} className={classes.row}>
                 <TableCell key={row.name} component="th" scope="row">
                   <Grid
                     container

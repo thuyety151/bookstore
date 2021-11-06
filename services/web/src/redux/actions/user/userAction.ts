@@ -5,11 +5,10 @@ import { history } from "../../../helper/history";
 export const userActions = {
   login,
   logout,
-  register
+  register,
 };
 
 function login(email: any, password: any) {
- 
   return (dispatch: any) => {
     dispatch({
       type: userConstants.LOGIN_REQUEST,
@@ -22,7 +21,7 @@ function login(email: any, password: any) {
           type: userConstants.LOGIN_SUCCESS,
           data: user,
         });
-        history.push('/');
+        history.push("/");
       },
       (error) => {
         dispatch({
@@ -35,31 +34,30 @@ function login(email: any, password: any) {
   };
 }
 
-function register(firstName: any,lastName:any, email: any, password: any){
-    return (dispatch : any) =>  {
+function register(firstName: any, lastName: any, email: any, password: any) {
+  return (dispatch: any) => {
+    dispatch({
+      type: userConstants.REGISTER_REQUEST,
+      data: email,
+    });
+
+    userService.register(firstName, lastName, email, password).then(
+      (user) => {
         dispatch({
-          type: userConstants.REGISTER_REQUEST,
-          data: email
+          type: userConstants.REGISTER_SUCCESS,
+          data: user,
         });
-
-        userService.register(firstName, lastName, email, password).then(
-          (user) => {
-            dispatch({
-              type: userConstants.REGISTER_SUCCESS,
-              data: user
-            });
-            history.push('/')
-          },
-          (error) => {
-            dispatch({
-              type: userConstants.LOGIN_FAILURE,
-              data: error
-            });
-            dispatch(alertActions.error(error));
-          }
-        )
-
-    }
+        history.push("/");
+      },
+      (error) => {
+        dispatch({
+          type: userConstants.LOGIN_FAILURE,
+          data: error,
+        });
+        dispatch(alertActions.error(error));
+      }
+    );
+  };
 }
 
 function logout() {

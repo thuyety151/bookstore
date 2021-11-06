@@ -1,10 +1,10 @@
-export interface IHeaderTypes{
+export interface HeaderTypes{
     name:string,
     isShow:boolean,
     path?:string,
-    child?:IHeaderChildType[]
+    child?:HeaderChildType[]
 }
-export interface IHeaderChildType{
+export interface HeaderChildType{
     id:string,
     name:string,
     path:string
