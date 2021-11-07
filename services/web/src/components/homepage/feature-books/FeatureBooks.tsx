@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   grid: {
     margin: "auto"
   },
+  paper: {
+    boxShadow: "none"
+  }
 }));
 
 export default function SimpleTabs() {
@@ -63,7 +66,7 @@ export default function SimpleTabs() {
       <Typography variant="h4" gutterBottom align="center">
         Featured Books
       </Typography>
-      <Paper square >
+      <Paper square className={classes.paper}>
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Featured" {...a11yProps(0)} />
           <Tab label="On Sale" {...a11yProps(1)} />
