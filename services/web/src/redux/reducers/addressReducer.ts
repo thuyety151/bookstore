@@ -85,6 +85,25 @@ const addressReducer = (state = initState, payload: any) => {
         success: false,
         message: payload.message,
       };
+    case NAME_ACTIONS.CREATE_ADDRESS.CREATE_ADDRESS:
+      return {
+        ...state,
+        requesting: true,
+        success: false,
+      };
+    case NAME_ACTIONS.CREATE_ADDRESS.CREATE_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+      };
+    case NAME_ACTIONS.CREATE_ADDRESS.CREATE_ADDRESS_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        success: false,
+        message: payload.message,
+      };
     default:
       return state;
   }

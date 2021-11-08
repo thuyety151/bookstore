@@ -18,7 +18,7 @@ import {
 } from "../../redux/actions/address/getAction";
 import { RootStore } from "../../redux/store";
 import { get, capitalize } from "lodash";
-import { AddressFormSchema } from "../../model/address";
+import { AddressFormSchema } from "../../pages/shoppingcart/ShoppingCartPage";
 
 interface Props {
   formValue: AddressFormSchema;
