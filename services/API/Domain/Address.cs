@@ -9,11 +9,12 @@ namespace Domain
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string ApartmentNumber { get; set; }
-        public string Street { get; set; }
-        public string Wards { get; set; }
-        public string District { get; set; }
-        public string CityTown { get; set; }
-        public string PostCode { get; set; }
+        public string StreetAddress { get; set; }
+        public int DistrictID { get; set; }
+        public int ProvinceID { get; set; }
+        public string WardName { get; set; }
+        public string DistrictName { get; set; }
+        public string ProvinceName { get; set; }
         public bool IsMain { get; set; }
     }
 }

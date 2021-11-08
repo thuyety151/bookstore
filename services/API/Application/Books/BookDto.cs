@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using Application.Authors;
-using AutoMapper;
 using Domain;
 
 namespace Application.Books
@@ -13,7 +13,8 @@ namespace Application.Books
         public double SalePrice { get; set; }
         public ICollection<Media> Media { get; set; }
         public AuthorDto Author { get; set; }
-        public Attribute Attribute { get; set; }
         public Language Language { get; set; }
+        public Guid AttributeId { get; set; }
+        public string AttributeName { get; set; }
     }
 }

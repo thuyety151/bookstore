@@ -7,6 +7,8 @@ import HeaderComponent from "../components/layout/navbar/HeaderComponent";
 import NavBarComponent from "../components/layout/navbar/NavBar";
 import SideBarComponent from "../components/layout/sidebar/MainSideBar";
 import FooterComponent from "../components/layout/footer/MainFooter";
+import PrivateRoute from "../components/route/PrivateRoute";
+import LoginPage from "../pages/login/LoginPage";
 
 const MainLayout: React.FC = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -27,13 +29,11 @@ const MainLayout: React.FC = () => {
       <Switch>
         {routeMainLayout.map((route, index) => {
           return (
-            <Route
+            <PrivateRoute
               key={index}
               exact={route.exact}
               path={route.path}
-              render={(props: RouteComponentProps<any>) => (
-                <route.component {...props} {...route.props} />
-              )}
+              component={route.component}
             />
           );
         })}

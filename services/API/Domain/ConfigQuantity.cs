@@ -7,5 +7,6 @@ namespace Domain
         public Guid Id { get; set; }
         public string Key { get; set; }
         public int Quantity { get; set; }
+        public Guid DefaultAttributeId { get; set; }
     }
 }

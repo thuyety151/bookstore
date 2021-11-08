@@ -190,9 +190,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AttributeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -200,6 +197,9 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Dimensions")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -217,6 +217,15 @@ namespace Persistence.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<string>("PublicationCountry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("SalePrice")
                         .HasColumnType("float");
 
@@ -232,9 +241,6 @@ namespace Persistence.Migrations
                     b.Property<int>("StockStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalStock")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -243,13 +249,44 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttributeId");
-
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("LanguageId");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Domain.BookAttribute", b =>
+                {
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttributeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SalePrice")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("SalePriceEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SalePriceStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StockStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalStock")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookId", "AttributeId");
+
+                    b.HasIndex("AttributeId");
+
+                    b.ToTable("BookAttributes");
                 });
 
             modelBuilder.Entity("Domain.BookCategory", b =>
@@ -336,6 +373,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("DefaultAttributeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(max)");
 
@@ -417,6 +457,12 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("AttributeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AttributeName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -444,8 +490,8 @@ namespace Persistence.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("StockStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("StockStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("WishListId")
                         .HasColumnType("uniqueidentifier");
@@ -740,10 +786,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Book", b =>
                 {
-                    b.HasOne("Domain.Attribute", "Attribute")
-                        .WithMany()
-                        .HasForeignKey("AttributeId");
-
                     b.HasOne("Domain.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId");
@@ -751,6 +793,21 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId");
+                });
+
+            modelBuilder.Entity("Domain.BookAttribute", b =>
+                {
+                    b.HasOne("Domain.Attribute", "Attribute")
+                        .WithMany()
+                        .HasForeignKey("AttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Book", "Book")
+                        .WithMany("Attributes")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.BookCategory", b =>

@@ -35,7 +35,7 @@ export default function ReviewItem({ review }: Props) {
                         <Typography variant="body1" className={classes.title} >{review.title}</Typography>
 
                     </Grid>
-                    <Grid item alignItems="center">
+                    <Grid item>
                         <Rating name="read-only" value={review.rate} readOnly size="small" />
                     </Grid>
                 </Grid>

@@ -1,7 +1,6 @@
-import ILinkType from "./link";
+import LinkType from "./link";
 
-export interface IFooterType {
+export interface FooterType {
   title: string;
-  children: ILinkType[];
+  children: LinkType[];
 }
-

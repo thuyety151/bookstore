@@ -1,4 +1,4 @@
-import IRoute from "../model/route";
+import Route from "../model/route";
 import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";
 import ProfilePage from "../pages/profile/ProfilePage";
@@ -9,6 +9,8 @@ import MainLayout from "../layout/MainLayout";
 import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
+
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 //const isLogged: boolean = false;
 
@@ -16,7 +18,7 @@ function isLogin() {
   if (localStorage.getItem("user")) return true;
   return false;
 }
-export const routes: IRoute[] = [
+export const routes: Route[] = [
   {
     path: "/",
     name: "MainLayout",
@@ -31,7 +33,7 @@ export const routes: IRoute[] = [
   },
 ];
 
-export const routeMainLayout: IRoute[] = [
+export const routeMainLayout: Route[] = [
   {
     path: "/login",
     name: "Login",
@@ -48,6 +50,12 @@ export const routeMainLayout: IRoute[] = [
     path: "/book-detail",
     name: "Book Detail",
     component: BookDetailPage,
+    exact: false,
+  },
+  {
+    path: "/check-out",
+    name: "Check out",
+    component: CheckoutPage,
     exact: false,
   },
   {

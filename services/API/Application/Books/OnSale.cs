@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Authors;
 using Application.Core;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Persistence;
 
@@ -32,15 +32,8 @@ namespace Application.Books
                             .OrderByDescending(x => x.ExpireDate)
                             .SelectMany(x => x.Books)
                             .Where(x => x.Book.IsDeleted == false)
-                            .Select(x => new BookDto()
-                            {
-                                Id = x.Book.Id,
-                                Name = x.Book.Name,
-                                Author = _mapper.Map<AuthorDto>(x.Book.Author),
-                                Attribute = x.Book.Attribute,
-                                Language = x.Book.Language,
-                                Media = x.Book.Media
-                            }).AsQueryable();
+                            .ProjectTo<BookDto>(_mapper.ConfigurationProvider)
+                            .AsQueryable();
                 return Result<PagedList<BookDto>>.Success(await PagedList<BookDto>.CreatePage(books, request.Params.PageIndex, request.Params.PageSize));
             }
         }

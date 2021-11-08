@@ -4,7 +4,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { lstCurrency, lstLanguage } from "../../../mocks/sidebar";
-import { ILanguage } from "../../../model/sidebar";
+import { Language } from "../../../model/sidebar";
 import { Button, Grid } from "@material-ui/core";
 import facebook from "../../../assets/icons/facebook.svg";
 import google from "../../../assets/icons/google.svg";
@@ -40,11 +40,15 @@ export default function NativeSelects() {
     currency: "",
   });
 
-  const handleChangeLanguage = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setState({...state,language: event.target.value as string});
+  const handleChangeLanguage = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setState({ ...state, language: event.target.value as string });
   };
-  const handleChangeCurrency = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setState({...state,currency: event.target.value as string});
+  const handleChangeCurrency = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setState({ ...state, currency: event.target.value as string });
   };
   return (
     <div className={classes.root}>
@@ -69,7 +73,7 @@ export default function NativeSelects() {
                 id: "outlined-age-native-simple",
               }}
             >
-              {lstLanguage.map((item: ILanguage, index: number) => {
+              {lstLanguage.map((item: Language, index: number) => {
                 return (
                   <option key={index} value={item.id}>
                     {item.name}
@@ -94,7 +98,7 @@ export default function NativeSelects() {
                 id: "outlined-age-native-simple",
               }}
             >
-              {lstCurrency.map((item: ILanguage, index: number) => {
+              {lstCurrency.map((item: Language, index: number) => {
                 return (
                   <option key={index} value={item.id}>
                     {item.name}
@@ -111,7 +115,7 @@ export default function NativeSelects() {
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item  >
+        <Grid item>
           <Button>
             <img src={facebook} style={{ height: 20 }} alt="facebook" />
           </Button>

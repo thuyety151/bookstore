@@ -1,0 +1,5 @@
+export const bookDetailConstant ={
+    GET_REQUEST: 'BOOK_GET_REQUEST',
+    GET_SUCCESS: 'BOOK_GET_SUCCESS',
+    GET_FAILURE: 'BOOK_GET_FAILURE',
+}

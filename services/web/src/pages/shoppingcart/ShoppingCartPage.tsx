@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AddressForm from "../../components/address/AddressForm";
 import CloseIcon from "@material-ui/icons/Close";
 import { createAddress } from "../../redux/actions/address/postAction";
+import { Link } from "react-router-dom";
+// import { getPageCart } from "../../redux/actions/cart/getAction";
 
 export type AddressFormSchema = {
   firstName: string;
@@ -93,7 +95,9 @@ const ShoppingCartPage: React.FC = () => {
           </Grid>
           <Grid item className={classes.checkout}>
             <CartInfo setIsChangeAddress={setIsChangeAddress} />
-            <PrimaryButton text="Proceed to checkout" />
+            <Link to="/check-out">
+              <PrimaryButton text="Proceed to checkout" />
+            </Link>
           </Grid>
         </Grid>
       </Grid>

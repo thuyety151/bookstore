@@ -18,34 +18,50 @@ namespace Application.Books
         {
             public List<string> IdCategories { get; set; }
         }
+
         public class Handler : IRequestHandler<Query, Result<List<BooksCategoriesDto>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+
             public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Result<List<BooksCategoriesDto>>> Handle(Query request, CancellationToken cancellationToken)
+
+            public async Task<Result<List<BooksCategoriesDto>>> Handle(Query request,
+                CancellationToken cancellationToken)
             {
                 // check valid request params
-                var actualQuantity = _context.Categories.Where(x => request.IdCategories.Contains(x.Id.ToString()) && x.IsDeleted == false).ToList().Count;
+                var actualQuantity = _context.Categories
+                    .Where(x => request.IdCategories.Contains(x.Id.ToString()) && x.IsDeleted == false).ToList().Count;
                 if (request.IdCategories.Count != actualQuantity)
                 {
                     //return BadReuqest
                     //please review these codes
                     return Result<List<BooksCategoriesDto>>.Failure("Bad request");
                 }
-                var quantity = await _context.ConfigQuantities
-                                    .Where(x => x.Key == ConfigQuantityName.NewRelease.ToString()).Select(x => x.Quantity).SingleOrDefaultAsync();
 
-                var results = await _context.Categories.Include(x => x.Books).Where(x => request.IdCategories.Contains(x.Id.ToString()))
-                        .Select(x => new BooksCategoriesDto()
-                        {
-                            CategoryId = x.Id,
-                            CategoryName = x.Name,
-                            Books = x.Books.Where(x => x.Book.IsDeleted == false).OrderByDescending(x => x.Book.CreateDate)
+                var config = await _context.ConfigQuantities
+                    .Where(x => x.Key == ConfigQuantityName.NewRelease.ToString())
+                    .Select(x => new
+                    {
+                        Quantity = x.Quantity,
+                        DefaultAttributeId = x.DefaultAttributeId
+                    })
+                    .SingleOrDefaultAsync();
+
+                var results = await _context.Categories.Include(x => x.Books)
+                    .ThenInclude(x => x.Book)
+                    .ThenInclude(x => x.Attributes)
+                    .ThenInclude(x => x.Attribute)
+                    .Where(x => request.IdCategories.Contains(x.Id.ToString()))
+                    .Select(x => new BooksCategoriesDto()
+                    {
+                        CategoryId = x.Id,
+                        CategoryName = x.Name,
+                        Books = x.Books.Where(x => x.Book.IsDeleted == false).OrderByDescending(x => x.Book.CreateDate)
                             .Select(x => new BookDto()
                             {
                                 Id = x.BookId,
@@ -54,11 +70,14 @@ namespace Application.Books
                                 SalePrice = x.Book.SalePrice,
                                 Media = x.Book.Media,
                                 Author = _mapper.Map<AuthorDto>(x.Book.Author),
-                                Attribute = x.Book.Attribute,
+                                AttributeId = x.Book.Attributes
+                                    .FirstOrDefault(x => x.AttributeId == config.DefaultAttributeId).AttributeId,
+                                AttributeName = x.Book.Attributes
+                                    .FirstOrDefault(x => x.AttributeId == config.DefaultAttributeId).Attribute.Name,
                                 Language = x.Book.Language
                             })
-                            .Take(quantity).ToList()
-                        }).ToListAsync();
+                            .Take(config.Quantity).ToList()
+                    }).ToListAsync();
                 return Result<List<BooksCategoriesDto>>.Success(results);
             }
         }
