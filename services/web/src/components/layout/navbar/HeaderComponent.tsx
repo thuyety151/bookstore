@@ -48,7 +48,7 @@ const HeaderComponent: React.FC<{
   };
 
   const handlePersonOutLine = () => {
-      history.push('/login');
+      history.push('/profile');
   }
   return (
     <div className={classes.root}>
