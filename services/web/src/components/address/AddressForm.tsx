@@ -67,7 +67,7 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
     };
   const validator = (key: string) => {
     if (get(touched, key) && !get(formValue, `${key}.id`)) {
-      return { error: true, msg: "Yêu cầu không được để trống" };
+      return { error: true, msg: "This field is required" };
     }
     return { error: false, msg: "" };
   };

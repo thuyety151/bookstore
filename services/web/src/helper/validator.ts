@@ -1,3 +1,5 @@
+import { String } from "lodash";
+
 export const ruleEmail = (values: string) => {
   if (!values) {
     return "Required";
@@ -6,10 +8,10 @@ export const ruleEmail = (values: string) => {
   }
 };
 export const validator = () => {
-  const required = () => {
+  const required = (message?: String) => {
     return (value: any) => {
       if (!value) {
-        return "Yêu cầu không được để trống";
+        return message || "This field is required";
       }
     };
   };
