@@ -1,3 +1,4 @@
+import { Address } from "../../model/address";
 import { NAME_ACTIONS } from "../constants/address/actionTypes";
 
 const initState = {
@@ -9,6 +10,7 @@ const initState = {
     district: [],
     ward: [],
   },
+  defaultAddress: {} as Address,
 };
 
 const addressReducer = (state = initState, payload: any) => {
@@ -98,6 +100,26 @@ const addressReducer = (state = initState, payload: any) => {
         success: true,
       };
     case NAME_ACTIONS.CREATE_ADDRESS.CREATE_ADDRESS_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        success: false,
+        message: payload.message,
+      };
+    case NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT:
+      return {
+        ...state,
+        requesting: true,
+        success: false,
+      };
+    case NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+        defaultAddress: payload.data,
+      };
+    case NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_FAIL:
       return {
         ...state,
         requesting: false,

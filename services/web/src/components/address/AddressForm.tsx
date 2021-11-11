@@ -18,8 +18,7 @@ import {
 } from "../../redux/actions/address/getAction";
 import { RootStore } from "../../redux/store";
 import { get, capitalize } from "lodash";
-import { AddressFormSchema } from "../../pages/shoppingcart/ShoppingCartPage";
-
+import { AddressFormSchema } from "../../model/address";
 interface Props {
   formValue: AddressFormSchema;
   setFormValue: React.Dispatch<React.SetStateAction<AddressFormSchema>>;
@@ -95,8 +94,8 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
           >
             {sampleAddress.province.map((item: any, index: number) => {
               return (
-                <option key={item.ProvinceID} value={index}>
-                  {item.NameExtension[1]}
+                <option key={item?.ProvinceID} value={index}>
+                  {item?.NameExtension[1]}
                 </option>
               );
             })}
@@ -117,8 +116,8 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
           >
             {sampleAddress.district.map((item: any, index: number) => {
               return (
-                <option key={item.DistrictID} value={index}>
-                  {item.NameExtension[0]}
+                <option key={item?.DistrictID} value={index}>
+                  {item?.NameExtension[0]}
                 </option>
               );
             })}
@@ -141,8 +140,8 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
           >
             {sampleAddress.ward.map((item: any, index: number) => {
               return (
-                <option key={item.WardCode} value={index}>
-                  {item.WardName}
+                <option key={item?.WardCode} value={index}>
+                  {item?.WardName}
                 </option>
               );
             })}

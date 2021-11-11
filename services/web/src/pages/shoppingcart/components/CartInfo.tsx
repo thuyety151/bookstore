@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Collapse, Grid, InputBase, Paper, Theme } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { getDefaultAddress } from "../../../redux/actions/address/getAction";
+import { RootStore } from "../../../redux/store";
+import { formatAddress } from "../../../helper/format";
 
 const CartInfo: React.FC<{ setIsChangeAddress: any }> = ({
   setIsChangeAddress,
@@ -13,9 +17,17 @@ const CartInfo: React.FC<{ setIsChangeAddress: any }> = ({
     shipping: true,
     coupon: true,
   });
+  const defaultAddress = useSelector(
+    (state: RootStore) => state.address?.defaultAddress
+  );
+  const dispatch = useDispatch();
   const handleChangeAddress = () => {
     setIsChangeAddress(true);
   };
+
+  useEffect(() => {
+    dispatch(getDefaultAddress());
+  });
   return (
     <div className={classes.root}>
       <Grid
@@ -69,7 +81,9 @@ const CartInfo: React.FC<{ setIsChangeAddress: any }> = ({
             <Grid item container direction="column">
               <div className="row">
                 <span>Shipping to</span>
-                <span>--</span>
+                <span style={{ textAlign: "end" }}>
+                  {formatAddress(defaultAddress)}
+                </span>
               </div>
               <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>

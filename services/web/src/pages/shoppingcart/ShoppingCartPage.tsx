@@ -7,74 +7,32 @@ import {
   DialogActions,
   Button,
   DialogContent,
-  FormControlLabel,
-  Checkbox,
   Theme,
   createStyles,
   makeStyles,
-  InputLabel,
-  OutlinedInput,
-  CircularProgress,
 } from "@material-ui/core";
 import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import AddressForm from "../../components/address/AddressForm";
+import { useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
-import { createAddress } from "../../redux/actions/address/postAction";
 import { Link } from "react-router-dom";
+import CreateAddressForm from "./components/address/CreateAddressForm";
 // import { getPageCart } from "../../redux/actions/cart/getAction";
 
-export type AddressFormSchema = {
-  firstName: string;
-  lastName: string;
-  province: {
-    id: number;
-    name: string;
-  };
-  district: {
-    id: number;
-    name: string;
-  };
-  ward: {
-    id: number;
-    name: string;
-  };
-  street: string;
-  isDefault: boolean;
-};
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
   const items = useSelector((state: RootStore) => state.cart);
-  const [isChangeAddress, setIsChangeAddress] = React.useState(false);
-  const dispatch = useDispatch();
 
-  const getInitValue = (): AddressFormSchema => ({
-    firstName: "",
-    lastName: "",
-    province: {
-      id: 0,
-      name: "",
-    },
-    district: {
-      id: 0,
-      name: "",
-    },
-    ward: {
-      id: 0,
-      name: "",
-    },
-    street: "",
-    isDefault: false,
-  });
-  const [formValue, setFormValue] = React.useState<AddressFormSchema>(
-    getInitValue()
-  );
-  const handleCreateAddress = () => {
-    dispatch(createAddress(formValue));
-  };
+  const [isChangeAddress, setIsChangeAddress] = React.useState(false);
+
+  // useEffect(() => {
+  //   console.log("need to close dialog", addressState.success);
+  //   if (addressState.success) {
+  //     setIsChangeAddress(false);
+  //   }
+  // }, [addressState.success]);
   return (
     <div className={classes.root}>
       <Grid container justifyContent="center" alignContent="center">
@@ -119,7 +77,8 @@ const ShoppingCartPage: React.FC = () => {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <Grid item container xs={12}>
+          <CreateAddressForm />
+          {/* <Grid item container xs={12}>
             <Grid
               item
               container
@@ -176,27 +135,9 @@ const ShoppingCartPage: React.FC = () => {
               }
               label="Default"
             />
-          </Grid>
+          </Grid> */}
         </DialogContent>
-        <DialogActions className={classes.actions}>
-          <Button
-            className={classes.nevBtn}
-            onClick={() => setIsChangeAddress(false)}
-          >
-            Cancel
-          </Button>
-          <Button className={classes.posBtn} onClick={handleCreateAddress}>
-            {items.requesting ? (
-              <CircularProgress
-                size={26}
-                color="inherit"
-                style={{ color: "#fff" }}
-              />
-            ) : (
-              <Typography>Create</Typography>
-            )}
-          </Button>
-        </DialogActions>
+        <DialogActions className={classes.actions}></DialogActions>
       </Dialog>
     </div>
   );

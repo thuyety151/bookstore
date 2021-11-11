@@ -16,8 +16,7 @@ const PrivateRoute: React.FC<{
   path: string;
   exact: boolean;
 }> = (props) => {
-  const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path];
-  const isLogin = false;
+  const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path]; 
   const user = useSelector((state: RootStore) => state.authenticate?.user); // ~ customer
 
   const condition = () => {
@@ -29,9 +28,8 @@ const PrivateRoute: React.FC<{
       !routeConfig.permissions?.length ||
       (role && routeConfig.permissions.includes(role))
     ) {
-      if (isLogin || routeConfig.permissions?.length === 0) {
-        return { redirect: false, path: props.path }; // publish path
-      }
+      return { redirect: false, path: props.path }; // publish path || isLogin = true
+    } else if (routeConfig.permissions.length) {
       return { redirect: true, path: ROUTE_LOGIN };
     }
     return { redirect: true, path: ROUTE_PERMISSION_DENIED };

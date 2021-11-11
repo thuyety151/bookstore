@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { routeMainLayout } from "../routers/routes";
 import { useState } from "react";
 import MainShoppingCart from "../components/shoppingcart/MainShoppingCart";
@@ -8,7 +8,6 @@ import NavBarComponent from "../components/layout/navbar/NavBar";
 import SideBarComponent from "../components/layout/sidebar/MainSideBar";
 import FooterComponent from "../components/layout/footer/MainFooter";
 import PrivateRoute from "../components/route/PrivateRoute";
-import LoginPage from "../pages/login/LoginPage";
 
 const MainLayout: React.FC = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
