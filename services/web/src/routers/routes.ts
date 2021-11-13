@@ -1,7 +1,7 @@
 import Route from "../model/route";
 import Home from "../pages/home/HomePage";
 import Error404 from "../pages/Error404";
-import ProfilePage from "../pages/profile/ProfilePage";
+import ProfilePage from "../pages/profile/AccountPage";
 import LoginPage from "../pages/login/LoginPage";
 import CategoryPage from "../pages/category/CategoryPage";
 import Example from "../pages/Example";
@@ -14,10 +14,10 @@ import CheckoutPage from "../pages/checkout/CheckoutPage";
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 //const isLogged: boolean = false;
 
-function isLogin() {
-  if (localStorage.getItem("user")) return true;
-  return false;
-}
+// function isLogin() {
+//   if (localStorage.getItem("user")) return true;
+//   return false;
+// }
 export const routes: Route[] = [
   {
     path: "/",
@@ -66,8 +66,8 @@ export const routeMainLayout: Route[] = [
   },
   {
     path: "/profile",
-    name: "Example",
-    component: isLogin() ? ProfilePage : LoginPage,
+    name: "My Account",
+    component: ProfilePage,
     exact: false,
   },
   {
