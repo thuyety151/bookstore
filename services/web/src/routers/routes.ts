@@ -12,6 +12,7 @@ import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
+import { ROUTE_AUTHOR, ROUTE_BOOK } from "./types";
 //const isLogged: boolean = false;
 
 // function isLogin() {
@@ -71,13 +72,13 @@ export const routeMainLayout: Route[] = [
     exact: false,
   },
   {
-    path: "/author",
+    path: ROUTE_AUTHOR,
     name: "Author",
     component: CategoryPage,
     exact: false,
   },
   {
-    path: "/book",
+    path: ROUTE_BOOK,
     name: "Book",
     component: CategoryPage,
     exact: false,

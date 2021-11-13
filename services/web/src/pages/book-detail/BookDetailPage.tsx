@@ -1,12 +1,11 @@
-
-import BreadcrumbComponent from "../../components/Breadcrumb"
-import BookComponent from "../../components/book-detail/Book"
-import InformationComponent from "../../components/book-detail/Information"
+import React from "react";
+import BreadcrumbComponent from "../../components/Breadcrumb";
+import BookComponent from "../../components/book-detail/Book";
+import InformationComponent from "../../components/book-detail/Information";
 import { getBook } from "../../redux/actions/book-detail/getAction";
 import { useDispatch } from "react-redux";
 import { getReviews } from "../../redux/actions/review/reviewAction";
 import { getPageCart } from "../../redux/actions/cart/getAction";
-
 
 const BookDetailPage: React.FunctionComponent<{}> = (props) => {
   const dispatch = useDispatch();

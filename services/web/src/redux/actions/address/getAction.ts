@@ -1,4 +1,5 @@
 import apiGHN from "../../../boot/apiGHN";
+import api from "../../../boot/axios";
 import { NAME_ACTIONS } from "../../constants/address/actionTypes";
 
 export const getProvince = () => async (dispatch: any) => {
@@ -68,6 +69,42 @@ export const getWard = (districtId: number) => async (dispatch: any) => {
       type: NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
         .GET_DISTRICT_BY_PROVINCE_ID_FAIL,
       message: response.data.message,
+    });
+  }
+};
+
+export const getDefaultAddress = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT });
+    const response = await api.get("/addresses/get-default");
+    if (response.data) {
+      dispatch({
+        type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
+        data: response.data?.value,
+      });
+    }
+  } catch (error: any) {
+    dispatch({
+      type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_FAIL,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllAddresses = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: NAME_ACTIONS.GET_ALL.GET_ALL });
+    const response = await api.get("/addresses");
+    if (response.data) {
+      dispatch({
+        type: NAME_ACTIONS.GET_ALL.GET_ALL_SUCCESS,
+        data: response.data?.value,
+      });
+    }
+  } catch (error: any) {
+    dispatch({
+      type: NAME_ACTIONS.GET_ALL.GET_ALL_FAIL,
+      message: error.message,
     });
   }
 };

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
 .App {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .App-logo {
@@ -66,4 +66,7 @@ body {
 label {
   font-family: "Inter", sans-serif !important;
   color: black;
+}
+.text-gray {
+  color: "gray";
 }

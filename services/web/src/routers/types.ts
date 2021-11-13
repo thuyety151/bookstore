@@ -43,18 +43,3 @@ export const PRIVATE_ROUTES = {
     permissions: [sharedTypes.ROLE_CUSTOMER],
   },
 };
-
-export type AppRoute =
-  | keyof typeof PRIVATE_ROUTES
-  | typeof ROUTE_LOGIN
-  | typeof ROUTE_PERMISSION_DENIED
-  | typeof ROUTE_NOT_FOUND;
-
-export type NavigationItem = {
-  title: string;
-  pathName?: AppRoute;
-  key?: string;
-  icon?: any;
-  permissions?: sharedTypes.AppPermission[];
-  subMenus?: NavigationItem[];
-};

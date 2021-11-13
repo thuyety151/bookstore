@@ -1,80 +1,31 @@
 import React from "react";
 import {
-  Dialog,
   Grid,
   Typography,
-  DialogTitle,
-  DialogActions,
-  Button,
-  DialogContent,
-  FormControlLabel,
-  Checkbox,
   Theme,
   createStyles,
   makeStyles,
-  InputLabel,
-  OutlinedInput,
-  CircularProgress,
 } from "@material-ui/core";
 import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import AddressForm from "../../components/address/AddressForm";
-import CloseIcon from "@material-ui/icons/Close";
-import { createAddress } from "../../redux/actions/address/postAction";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 // import { getPageCart } from "../../redux/actions/cart/getAction";
 
-export type AddressFormSchema = {
-  firstName: string;
-  lastName: string;
-  province: {
-    id: number;
-    name: string;
-  };
-  district: {
-    id: number;
-    name: string;
-  };
-  ward: {
-    id: number;
-    name: string;
-  };
-  street: string;
-  isDefault: boolean;
-};
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
   const items = useSelector((state: RootStore) => state.cart);
-  const [isChangeAddress, setIsChangeAddress] = React.useState(false);
-  const dispatch = useDispatch();
 
-  const getInitValue = (): AddressFormSchema => ({
-    firstName: "",
-    lastName: "",
-    province: {
-      id: 0,
-      name: "",
-    },
-    district: {
-      id: 0,
-      name: "",
-    },
-    ward: {
-      id: 0,
-      name: "",
-    },
-    street: "",
-    isDefault: false,
-  });
-  const [formValue, setFormValue] = React.useState<AddressFormSchema>(
-    getInitValue()
-  );
-  const handleCreateAddress = () => {
-    dispatch(createAddress(formValue));
-  };
+  const [chooseAddress, setChooseAddress] = React.useState(false);
+
+  // useEffect(() => {
+  //   console.log("need to close dialog", addressState.success);
+  //   if (addressState.success) {
+  //     setIsChangeAddress(false);
+  //   }
+  // }, [addressState.success]);
   return (
     <div className={classes.root}>
       <Grid container justifyContent="center" alignContent="center">
@@ -94,110 +45,16 @@ const ShoppingCartPage: React.FC = () => {
             <CartTable />
           </Grid>
           <Grid item className={classes.checkout}>
-            <CartInfo setIsChangeAddress={setIsChangeAddress} />
+            <CartInfo
+              chooseAddress={chooseAddress}
+              setChooseAddress={setChooseAddress}
+            />
             <Link to="/check-out">
               <PrimaryButton text="Proceed to checkout" />
             </Link>
           </Grid>
         </Grid>
       </Grid>
-      <Dialog
-        open={isChangeAddress}
-        // onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-        className={classes.dialog}
-      >
-        <DialogTitle id="form-dialog-title">
-          <Grid container justifyContent="space-between">
-            <Typography variant="h6">New address</Typography>
-            <Button
-              style={{ justifyContent: "end", minWidth: "0px" }}
-              onClick={() => setIsChangeAddress(false)}
-            >
-              <CloseIcon />
-            </Button>
-          </Grid>
-        </DialogTitle>
-        <DialogContent>
-          <Grid item container xs={12}>
-            <Grid
-              item
-              container
-              direction="row"
-              justifyContent="space-between"
-              spacing={2}
-            >
-              <Grid item xs={6}>
-                <InputLabel htmlFor="outlined-age-native-simple">
-                  First name
-                </InputLabel>
-                <OutlinedInput
-                  value={formValue.firstName}
-                  onChange={(e) =>
-                    setFormValue({
-                      ...formValue,
-                      firstName: e.target.value as string,
-                    })
-                  }
-                  inputProps={{ "aria-label": "naked" }}
-                  // onBlur={() => setTouched({ ...touched, street: true })}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel htmlFor="outlined-age-native-simple">
-                  Last name
-                </InputLabel>
-                <OutlinedInput
-                  value={formValue.lastName}
-                  onChange={(e) =>
-                    setFormValue({
-                      ...formValue,
-                      lastName: e.target.value as string,
-                    })
-                  }
-                  inputProps={{ "aria-label": "naked" }}
-                  // onBlur={() => setTouched({ ...touched, street: true })}
-                />
-              </Grid>
-            </Grid>
-
-            <AddressForm formValue={formValue} setFormValue={setFormValue} />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={formValue.isDefault}
-                  onChange={(e) =>
-                    setFormValue({
-                      ...formValue,
-                      isDefault: !formValue.isDefault,
-                    })
-                  }
-                />
-              }
-              label="Default"
-            />
-          </Grid>
-        </DialogContent>
-        <DialogActions className={classes.actions}>
-          <Button
-            className={classes.nevBtn}
-            onClick={() => setIsChangeAddress(false)}
-          >
-            Cancel
-          </Button>
-          <Button className={classes.posBtn} onClick={handleCreateAddress}>
-            {items.requesting ? (
-              <CircularProgress
-                size={26}
-                color="inherit"
-                style={{ color: "#fff" }}
-              />
-            ) : (
-              <Typography>Create</Typography>
-            )}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
