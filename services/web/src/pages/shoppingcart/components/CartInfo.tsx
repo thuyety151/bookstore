@@ -1,16 +1,48 @@
-import React, { useState } from "react";
-import { Collapse, Grid, InputBase, Paper, Theme } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  InputBase,
+  Paper,
+  Theme,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { getDefaultAddress } from "../../../redux/actions/address/getAction";
+import { RootStore } from "../../../redux/store";
+import { formatAddress } from "../../../helper/format";
+import ChooseAddressCard from "./address/ChooseAddressCard";
+import CloseIcon from "@material-ui/icons/Close";
 
-const CartInfo: React.FC = () => {
+const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
+  chooseAddress,
+  setChooseAddress,
+}) => {
   const classes = useStyles();
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
     coupon: true,
   });
+  const defaultAddress = useSelector(
+    (state: RootStore) => state.address?.currentAddress
+  );
+  const dispatch = useDispatch();
+  const handleChangeAddress = () => {
+    setChooseAddress(true);
+  };
+
+  useEffect(() => {
+    dispatch(getDefaultAddress());
+  }, [dispatch]);
   return (
     <div className={classes.root}>
       <Grid
@@ -64,9 +96,11 @@ const CartInfo: React.FC = () => {
             <Grid item container direction="column">
               <div className="row">
                 <span>Shipping to</span>
-                <span>--</span>
+                <span style={{ textAlign: "end" }}>
+                  {formatAddress(defaultAddress)}
+                </span>
               </div>
-              <div className="row">
+              <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>
               </div>
             </Grid>
@@ -115,6 +149,28 @@ const CartInfo: React.FC = () => {
           </div>
         </Paper>
       </Grid>
+      <Dialog
+        open={chooseAddress}
+        // onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        className={classes.dialog}
+      >
+        <DialogTitle id="form-dialog-title">
+          <Grid container justifyContent="space-between">
+            <Typography variant="h6">Choose Address</Typography>
+            <Button
+              style={{ justifyContent: "end", minWidth: "0px" }}
+              onClick={() => setChooseAddress(false)}
+            >
+              <CloseIcon />
+            </Button>
+          </Grid>
+        </DialogTitle>
+        <DialogContent>
+          <ChooseAddressCard />
+        </DialogContent>
+        <DialogActions></DialogActions>
+      </Dialog>
     </div>
   );
 };
@@ -144,7 +200,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .row": {
       justifyContent: "space-between",
       display: "flex",
-      padding: theme.spacing(2, 0),
+      padding: theme.spacing(3, 0),
     },
     "& .total": {
       padding: 0,
@@ -182,6 +238,26 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   rootItems: {
     padding: 0,
+  },
+  dialog: {
+    "& .MuiDialog-paper": {
+      margin: 0,
+      width: "40%",
+      maxWidth: "100vw",
+      padding: theme.spacing(4),
+    },
+    "& .MuiOutlinedInput-root": {
+      width: "100%",
+    },
+    "& .MuiInputLabel-root": {
+      fontWeight: 500,
+      fontSize: 16,
+      color: "#000",
+      margin: theme.spacing(1, 0),
+    },
+    "& button": {
+      padding: theme.spacing(1, 4),
+    },
   },
 }));
 export default CartInfo;
