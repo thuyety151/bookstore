@@ -55,6 +55,7 @@ namespace Application.Carts.Items
                         Id = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
                         Items = new List<Item>()
                     };
+                    await _context.Carts.AddAsync(cart);
                 }
 
                 var item = cart.Items.FirstOrDefault(x =>
@@ -121,7 +122,7 @@ namespace Application.Carts.Items
                         cart.Items.ElementAt(index).Price = bookAttribute.Price;
                     }
                 }
-
+                
                 await _context.SaveChangesAsync();
 
                 return Result<Unit>.Success(Unit.Value);

@@ -12,6 +12,7 @@ import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
+import BooksForSalePage from "../pages/books-for-sale/BooksForSale";
 //const isLogged: boolean = false;
 
 function isLogin() {
@@ -50,6 +51,12 @@ export const routeMainLayout: Route[] = [
     path: "/book-detail",
     name: "Book Detail",
     component: BookDetailPage,
+    exact: false,
+  },
+  {
+    path: "/books-for-sale",
+    name: "Books For Sale",
+    component: BooksForSalePage,
     exact: false,
   },
   {

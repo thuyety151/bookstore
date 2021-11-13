@@ -10,6 +10,7 @@ namespace Domain.Enum
         NewRelease,
         TopCategory,
         Highlight,
-        BestOfWeek
+        BestOfWeek,
+        TopAuthor
     }
 }

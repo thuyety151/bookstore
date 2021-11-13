@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class UpdateModelCartAndOrder : Migration
+    public partial class InitialModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,7 +65,8 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Key = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false)
+                    Quantity = table.Column<int>(nullable: false),
+                    DefaultAttributeId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,29 +162,20 @@ namespace Persistence.Migrations
                     ShortDescription = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IsPublic = table.Column<bool>(nullable: false),
-                    Price = table.Column<double>(nullable: false),
-                    SalePrice = table.Column<double>(nullable: false),
-                    SalePriceStartDate = table.Column<DateTime>(nullable: false),
-                    SalePriceEndDate = table.Column<DateTime>(nullable: false),
-                    StockStatus = table.Column<int>(nullable: false),
-                    TotalStock = table.Column<int>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ViewCount = table.Column<int>(nullable: false),
                     AuthorId = table.Column<Guid>(nullable: true),
-                    AttributeId = table.Column<Guid>(nullable: true),
-                    LanguageId = table.Column<Guid>(nullable: true)
+                    LanguageId = table.Column<Guid>(nullable: true),
+                    Dimensions = table.Column<string>(nullable: true),
+                    PublicationDate = table.Column<DateTime>(nullable: false),
+                    Publisher = table.Column<string>(nullable: true),
+                    PublicationCountry = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Books_Attributes_AttributeId",
-                        column: x => x.AttributeId,
-                        principalTable: "Attributes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Books_Authors_AuthorId",
                         column: x => x.AuthorId,
@@ -196,6 +188,36 @@ namespace Persistence.Migrations
                         principalTable: "Languages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookAttributes",
+                columns: table => new
+                {
+                    BookId = table.Column<Guid>(nullable: false),
+                    AttributeId = table.Column<Guid>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    SalePrice = table.Column<double>(nullable: false),
+                    SalePriceStartDate = table.Column<DateTime>(nullable: false),
+                    SalePriceEndDate = table.Column<DateTime>(nullable: false),
+                    TotalStock = table.Column<int>(nullable: false),
+                    StockStatus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookAttributes", x => new { x.BookId, x.AttributeId });
+                    table.ForeignKey(
+                        name: "FK_BookAttributes_Attributes_AttributeId",
+                        column: x => x.AttributeId,
+                        principalTable: "Attributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookAttributes_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -256,9 +278,12 @@ namespace Persistence.Migrations
                     ProductName = table.Column<string>(nullable: true),
                     AuthorId = table.Column<Guid>(nullable: false),
                     AuthorName = table.Column<string>(nullable: true),
+                    AttributeId = table.Column<Guid>(nullable: false),
+                    AttributeName = table.Column<string>(nullable: true),
                     PictureUrl = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
+                    StockStatus = table.Column<string>(nullable: true),
                     CartId = table.Column<string>(nullable: true),
                     OrderId = table.Column<Guid>(nullable: true),
                     WishListId = table.Column<Guid>(nullable: true)
@@ -313,11 +338,12 @@ namespace Persistence.Migrations
                     LastName = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
                     ApartmentNumber = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    Wards = table.Column<string>(nullable: true),
-                    District = table.Column<string>(nullable: true),
-                    CityTown = table.Column<string>(nullable: true),
-                    PostCode = table.Column<string>(nullable: true),
+                    StreetAddress = table.Column<string>(nullable: true),
+                    DistrictId = table.Column<int>(nullable: false),
+                    ProvinceId = table.Column<int>(nullable: false),
+                    WardName = table.Column<string>(nullable: true),
+                    DistrictName = table.Column<string>(nullable: true),
+                    ProvinceName = table.Column<string>(nullable: true),
                     IsMain = table.Column<bool>(nullable: false),
                     AppUserId = table.Column<string>(nullable: true)
                 },
@@ -568,14 +594,14 @@ namespace Persistence.Migrations
                 column: "PhotoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookAttributes_AttributeId",
+                table: "BookAttributes",
+                column: "AttributeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookCoupons_CouponId",
                 table: "BookCoupons",
                 column: "CouponId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_AttributeId",
-                table: "Books",
-                column: "AttributeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AuthorId",
@@ -731,6 +757,9 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BookAttributes");
+
+            migrationBuilder.DropTable(
                 name: "BookCoupons");
 
             migrationBuilder.DropTable(
@@ -744,6 +773,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Attributes");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -777,9 +809,6 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Books");
-
-            migrationBuilder.DropTable(
-                name: "Attributes");
 
             migrationBuilder.DropTable(
                 name: "Authors");

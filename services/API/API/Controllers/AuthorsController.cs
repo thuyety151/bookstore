@@ -12,5 +12,13 @@ namespace API.Controllers
         {
             return HandlePagedResult(await Mediator.Send(new List.Query(){Params = pagingParams}));
         }
+        
+        [HttpGet("search")]
+        public async Task<IActionResult> GetAuthorsForSale([FromQuery] string searchString)
+        {
+            return HandleResult(await Mediator.Send(new AuthorsForSale.Query(){SearchString = searchString}));
+        }
+        
+        
     }
 }
