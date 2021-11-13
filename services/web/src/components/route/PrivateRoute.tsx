@@ -16,7 +16,7 @@ const PrivateRoute: React.FC<{
   path: string;
   exact: boolean;
 }> = (props) => {
-  const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path]; 
+  const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path];
   const user = useSelector((state: RootStore) => state.authenticate?.user); // ~ customer
 
   const condition = () => {

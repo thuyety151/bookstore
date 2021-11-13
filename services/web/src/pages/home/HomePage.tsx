@@ -6,6 +6,7 @@ import ListFavoriteAuthorComponent from "../../components/homepage/favourite-aut
 import ListDealOfWeekComponent from "../../components/homepage/deal-of-week/ListDealOfWeekRender";
 import MainShow from "../../components/homepage/slide-menu/SlideShow";
 import FeatureBooks from "../../components/homepage/feature-books/FeatureBooks";
+import NewReleaseBooks from "../../components/homepage/feature-books/NewRelease";
 const HomePage: React.FunctionComponent<{}> = (props) => {
   const classes = useStyles();
   return (
@@ -22,6 +23,9 @@ const HomePage: React.FunctionComponent<{}> = (props) => {
         </Grid>
         <Grid item xs={12} className={classes.item}>
           <FeatureBooks />
+        </Grid>
+        <Grid item xs={12} className={classes.item}>
+          <NewReleaseBooks />
         </Grid>
         <Grid item xs={12} className={classes.item}>
           <ListDealOfWeekComponent />
