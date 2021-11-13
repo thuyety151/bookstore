@@ -11,9 +11,9 @@ namespace Application.Addresses
             RuleFor(x => x.Phone).NotEmpty();
             RuleFor(x => x.ApartmentNumber).NotEmpty();
             RuleFor(x => x.StreetAddress).NotEmpty();
-            RuleFor(x => x.DistrictID).NotEmpty();
+            RuleFor(x => x.DistrictId).NotEmpty();
             RuleFor(x => x.DistrictName).NotEmpty();
-            RuleFor(x => x.ProvinceID).NotEmpty();
+            RuleFor(x => x.ProvinceId).NotEmpty();
             RuleFor(x => x.ProvinceName).NotEmpty();
             RuleFor(x => x.WardName).NotEmpty();
         }

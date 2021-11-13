@@ -15,6 +15,7 @@ export const ROUTE_OTHERS = "/others";
 export const ROUTE_SHOPS = "/shops/:id";
 export const ROUTE_CART = "/cart";
 export const ROUTE_PLACE_ORDER = "/place-order";
+export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -42,4 +43,20 @@ export const PRIVATE_ROUTES = {
   [ROUTE_PLACE_ORDER]: {
     permissions: [sharedTypes.ROLE_CUSTOMER],
   },
+  [ROUTE_BOOKS_FOR_SALE]: { permissions: [] },
+};
+
+export type AppRoute =
+  | keyof typeof PRIVATE_ROUTES
+  | typeof ROUTE_LOGIN
+  | typeof ROUTE_PERMISSION_DENIED
+  | typeof ROUTE_NOT_FOUND;
+
+export type NavigationItem = {
+  title: string;
+  pathName?: AppRoute;
+  key?: string;
+  icon?: any;
+  permissions?: sharedTypes.AppPermission[];
+  subMenus?: NavigationItem[];
 };

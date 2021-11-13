@@ -43,9 +43,9 @@ namespace Persistence
                                 Phone = "0866944171",
                                 ApartmentNumber = "54",
                                 StreetAddress="So 8",
-                                ProvinceID=202,
+                                ProvinceId=202,
                                 ProvinceName="Hồ Chí Minh",
-                                DistrictID=3695,
+                                DistrictId=3695,
                                 DistrictName="Thành Phố Thủ Đức",
                                 WardName="Phường Linh Chiểu",
                                 IsMain = true
@@ -67,9 +67,9 @@ namespace Persistence
                                 Phone = "0866944171",
                                 ApartmentNumber = "54",
                                 StreetAddress="So 8",
-                                ProvinceID=202,
+                                ProvinceId=202,
                                 ProvinceName="Hồ Chí Minh",
-                                DistrictID=3695,
+                                DistrictId=3695,
                                 DistrictName="Thành Phố Thủ Đức",
                                 WardName="Phường Linh Chiểu",
                                 IsMain = true
@@ -91,9 +91,9 @@ namespace Persistence
                                 Phone = "1234567890",
                                 ApartmentNumber = "1179",
                                 StreetAddress="So 8",
-                                ProvinceID=202,
+                                ProvinceId=202,
                                 ProvinceName="Hồ Chí Minh",
-                                DistrictID=3695,
+                                DistrictId=3695,
                                 DistrictName="Thành Phố Thủ Đức",
                                 WardName="Phường Linh Chiểu",
                                 IsMain = true
@@ -115,9 +115,9 @@ namespace Persistence
                                 Phone = "1234567890",
                                 ApartmentNumber = "10",
                                  StreetAddress="So 8",
-                                ProvinceID=202,
+                                ProvinceId=202,
                                 ProvinceName="Hồ Chí Minh",
-                                DistrictID=3695,
+                                DistrictId=3695,
                                 DistrictName="Thành Phố Thủ Đức",
                                 WardName="Phường Linh Chiểu",
                                 IsMain = true
@@ -139,39 +139,15 @@ namespace Persistence
                                 Phone = "1234567890",
                                 ApartmentNumber = "1179",
                                 StreetAddress="So 8",
-                                ProvinceID=202,
+                                ProvinceId=202,
                                 ProvinceName="Hồ Chí Minh",
-                                DistrictID=3695,
+                                DistrictId=3695,
                                 DistrictName="Thành Phố Thủ Đức",
                                 WardName="Phường Linh Chiểu",
                                 IsMain = true
                               }
                         },
                     },
-                    new AppUser()
-                    {
-                        UserName = "thuyety15",
-                        Email = "thuyety15@gmail.com",
-                        Role = Role.Customer,
-                        Address = new List<Address>()
-                        {
-                            new Address()
-                            {
-                                Id = new Guid(),
-                                FirstName = "Y",
-                                LastName = "Nguyen",
-                                Phone = "1234567890",
-                                ApartmentNumber = "10",
-                                StreetAddress="So 8",
-                                ProvinceID=202,
-                                ProvinceName="Hồ Chí Minh",
-                                DistrictID=3695,
-                                DistrictName="Thành Phố Thủ Đức",
-                                WardName="Phường Linh Chiểu",
-                                IsMain = true
-                              }
-                        },
-                    }
                 };
 
                 foreach (var user in users)
@@ -507,7 +483,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -518,7 +493,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
                         ViewCount=1,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -538,7 +512,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -549,7 +522,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
                         ViewCount=100,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -568,7 +540,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -579,7 +550,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
                         ViewCount=10,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -598,7 +568,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -609,7 +578,6 @@ namespace Persistence
                         },
                         Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
                         ViewCount=11,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -628,7 +596,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -638,7 +605,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=20,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -657,7 +623,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -667,7 +632,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=25,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -686,7 +650,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -696,7 +659,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=19,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -715,7 +677,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -725,7 +686,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=36,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -744,7 +704,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                         Categories = new List<BookCategory>()
                         {
@@ -754,7 +713,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=102,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -773,7 +731,6 @@ namespace Persistence
                         IsDeleted = false,
                         IsPublic = true,
                         Language = languages[0],
-                        Price = 29,
                         UpdateDate = DateTime.Now,
                             Categories = new List<BookCategory>()
                         {
@@ -783,7 +740,6 @@ namespace Persistence
                             }
                         },
                         ViewCount=15,
-                        StockStatus = StockStatus.InStock,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
                         Publisher = "Little, Brown Book Group",
@@ -1278,55 +1234,68 @@ namespace Persistence
                         Id= new Guid(),
                         Key=ConfigQuantityName.BestSelling.ToString(),
                         Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.DealsOfWeek.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.BiographyBook.ToString(),
                         Quantity=10,
-                        DefaultAttributeId = attributes[2].Id
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.MostView.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.OnSale.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.NewRelease.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.TopCategory.ToString(),
-                        Quantity=10
+                        Quantity=10,
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.Highlight.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
                     },
                     new ConfigQuantity()
                     {
                         Id= new Guid(),
                         Key=ConfigQuantityName.BestOfWeek.ToString(),
-                        Quantity=10
+                        Quantity=10,
+                        DefaultAttributeId = attributes[0].Id
+                    },
+                    new ConfigQuantity()
+                    {
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.TopAuthor.ToString(),
+                        Quantity = 10,
                     }
                 };
                 await context.ConfigQuantities.AddRangeAsync(configs);

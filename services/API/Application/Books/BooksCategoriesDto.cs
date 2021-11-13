@@ -7,6 +7,6 @@ namespace Application.Books
     {
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public ICollection<BookDto> Books { get; set; }
+        public ICollection<BooksDto> Books { get; set; }
     }
 }
