@@ -17,8 +17,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../../redux/store";
 import { createAddress } from "../../../../redux/actions/address/postAction";
 import { AddressFormSchema } from "../../../../model/address";
+import { getAllAddresses } from "../../../../redux/actions/address/getAction";
 
-const CreateAddressForm: React.FC = () => {
+const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const getInitValue = (): AddressFormSchema => ({
     firstName: "",
     lastName: "",
@@ -48,7 +49,8 @@ const CreateAddressForm: React.FC = () => {
       createAddress({
         value: formValue as AddressFormSchema,
         onSuccess: () => {
-          console.log("success created");
+          dispatch(getAllAddresses());
+          onClose();
         },
       })
     );
@@ -111,10 +113,7 @@ const CreateAddressForm: React.FC = () => {
         label="Default"
       />
       <Grid item container justifyContent="flex-end">
-        <Button
-          className={classes.nevBtn}
-          // onClick={() => setIsChangeAddress(false)}
-        >
+        <Button className={classes.nevBtn} onClick={onClose}>
           Cancel
         </Button>
         <Button

@@ -82,11 +82,28 @@ export const getDefaultAddress = () => async (dispatch: any) => {
         type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
         data: response.data?.value,
       });
-      console.log(response.data?.value);
     }
   } catch (error: any) {
     dispatch({
       type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_FAIL,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllAddresses = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: NAME_ACTIONS.GET_ALL.GET_ALL });
+    const response = await api.get("/addresses");
+    if (response.data) {
+      dispatch({
+        type: NAME_ACTIONS.GET_ALL.GET_ALL_SUCCESS,
+        data: response.data?.value,
+      });
+    }
+  } catch (error: any) {
+    dispatch({
+      type: NAME_ACTIONS.GET_ALL.GET_ALL_FAIL,
       message: error.message,
     });
   }

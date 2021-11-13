@@ -10,11 +10,11 @@ const initState = {
     district: [],
     ward: [],
   },
-  defaultAddress: {} as Address,
+  addresses: [] as Address[],
+  currentAddress: {} as Address,
 };
 
 const addressReducer = (state = initState, payload: any) => {
-  console.log("payload", payload);
   switch (payload.type) {
     case NAME_ACTIONS.GET_ALL_PROVINCE.GET_ALL_PROVINCE:
       return {
@@ -117,7 +117,7 @@ const addressReducer = (state = initState, payload: any) => {
         ...state,
         requesting: false,
         success: true,
-        defaultAddress: payload.data,
+        currentAddress: payload.data,
       };
     case NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_FAIL:
       return {
@@ -125,6 +125,31 @@ const addressReducer = (state = initState, payload: any) => {
         requesting: false,
         success: false,
         message: payload.message,
+      };
+    case NAME_ACTIONS.GET_ALL.GET_ALL:
+      return {
+        ...state,
+        requesting: true,
+        success: false,
+      };
+    case NAME_ACTIONS.GET_ALL.GET_ALL_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+        addresses: payload.data,
+      };
+    case NAME_ACTIONS.GET_ALL.GET_ALL_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        success: false,
+        message: payload.message,
+      };
+    case NAME_ACTIONS.SET_CURRENT_ADDRESS.SET_CURRENT_ADDRESS:
+      return {
+        ...state,
+        currentAddress: payload.data,
       };
     default:
       return state;
