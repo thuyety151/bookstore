@@ -4,13 +4,18 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
 
-const CartInfo: React.FC = () => {
+const CartInfo: React.FC<{ setIsChangeAddress: any }> = ({
+  setIsChangeAddress,
+}) => {
   const classes = useStyles();
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
     coupon: true,
   });
+  const handleChangeAddress = () => {
+    setIsChangeAddress(true);
+  };
   return (
     <div className={classes.root}>
       <Grid
@@ -66,7 +71,7 @@ const CartInfo: React.FC = () => {
                 <span>Shipping to</span>
                 <span>--</span>
               </div>
-              <div className="row">
+              <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>
               </div>
             </Grid>
