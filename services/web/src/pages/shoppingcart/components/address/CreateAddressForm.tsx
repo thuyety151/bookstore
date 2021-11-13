@@ -23,6 +23,8 @@ const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const getInitValue = (): AddressFormSchema => ({
     firstName: "",
     lastName: "",
+    phoneNumber: "",
+    appartmentNumber: "",
     province: {
       id: 0,
       name: "",
@@ -97,7 +99,43 @@ const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
         </Grid>
       </Grid>
+      <Grid item container>
+        <Grid item xs={12}>
+          <InputLabel htmlFor="outlined-age-native-simple">
+            Phone number
+          </InputLabel>
+          <OutlinedInput
+            value={formValue.phoneNumber}
+            onChange={(e) =>
+              setFormValue({
+                ...formValue,
+                phoneNumber: e.target.value as string,
+              })
+            }
+            inputProps={{ "aria-label": "naked" }}
+            // onBlur={() => setTouched({ ...touched, street: true })}
+          />
+        </Grid>
+      </Grid>
       <AddressForm formValue={formValue} setFormValue={setFormValue} />
+      <Grid item container>
+        <Grid item xs={12}>
+          <InputLabel htmlFor="outlined-age-native-simple">
+            Appartment number
+          </InputLabel>
+          <OutlinedInput
+            value={formValue.appartmentNumber}
+            onChange={(e) =>
+              setFormValue({
+                ...formValue,
+                appartmentNumber: e.target.value as string,
+              })
+            }
+            inputProps={{ "aria-label": "naked" }}
+            // onBlur={() => setTouched({ ...touched, street: true })}
+          />
+        </Grid>
+      </Grid>
       <FormControlLabel
         control={
           <Checkbox

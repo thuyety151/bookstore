@@ -1,6 +1,8 @@
 export type AddressFormSchema = {
   firstName: string;
   lastName: string;
+  phoneNumber: string;
+  appartmentNumber: string;
   province: {
     id: number;
     name: string;

@@ -10,8 +10,8 @@ export const createAddress =
       const model = {
         firstName: data?.value.firstName,
         lastName: data?.value.lastName,
-        phone: "0366303800",
-        apartmentNumber: "123",
+        phone: data?.value.phoneNumber,
+        apartmentNumber: data?.value.appartmentNumber,
         streetAddress: data?.value.street,
         districtID: data?.value.district?.id,
         provinceID: data?.value.province?.id,
