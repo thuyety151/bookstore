@@ -32,6 +32,9 @@ import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
 const CartTable: React.FC = () => {
   const classes = useStyles();
   const data = useSelector((state: RootStore) => state.cart);
+  const idItemsToCheckout = () => {
+    return data.itemToCheckOut.flatMap((x) => x.id);
+  };
   const dispatch = useDispatch();
   const handleChangeItem = (type: string, model: Item) => {
     if (type === "increase") {
@@ -89,6 +92,7 @@ const CartTable: React.FC = () => {
                   <TableCell>
                     <Checkbox
                       color="primary"
+                      checked={idItemsToCheckout().includes(row.id)}
                       inputProps={{ "aria-label": "secondary checkbox" }}
                       onChange={() => handleSetToCheckout(row)}
                     />
