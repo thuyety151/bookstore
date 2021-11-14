@@ -93,7 +93,6 @@ export default function LoginComponent() {
                     variant="contained"
                     color="primary"
                     className={classes.signUp}
-                    onClick={() => history.push("/")}
                   >
                     Sign In
                   </Button>
