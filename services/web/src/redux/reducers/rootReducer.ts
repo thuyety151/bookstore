@@ -6,6 +6,7 @@ import reviewReducer from "./reviewReducer";
 import addressReducer from "./addressReducer";
 import bookReducer from "./bookReducer";
 import addOrUpdateItemReducer from "./addOrUpdateItemReducer";
+import couponReducer from "./couponReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   address: addressReducer,
   book: bookReducer,
   addOrUpdateItem: addOrUpdateItemReducer,
+  coupon: couponReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

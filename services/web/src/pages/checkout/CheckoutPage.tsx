@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+const creatOrder = () => {
+  
+}
 function CheckoutPage() {
   const classes = useStyles();
   return (

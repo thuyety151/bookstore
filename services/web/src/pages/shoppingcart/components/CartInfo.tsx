@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormHelperText,
   Grid,
   InputBase,
   Paper,
@@ -21,6 +22,7 @@ import { RootStore } from "../../../redux/store";
 import { formatAddress } from "../../../helper/format";
 import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
+import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -32,14 +34,18 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     shipping: true,
     coupon: true,
   });
+  const [couponCode, setCouponCode] = useState("");
   const defaultAddress = useSelector(
     (state: RootStore) => state.address?.currentAddress
   );
+  const couponState = useSelector((state: RootStore) => state.coupon);
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
     setChooseAddress(true);
   };
-
+  const handleApplyCoupon = () => {
+    dispatch(verifyCoupon(couponCode));
+  };
   useEffect(() => {
     dispatch(getDefaultAddress());
   }, [dispatch]);
@@ -131,14 +137,21 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               <InputBase
                 placeholder="Coupon here"
                 inputProps={{ "aria-label": "naked" }}
+                onChange={(event) => setCouponCode(event.target.value)}
               />
               <span
-                className="cap"
+                className="cap cursor-pointer"
                 style={{ width: "100%", textAlign: "right" }}
+                onClick={handleApplyCoupon}
               >
                 Apply coupon
               </span>
             </Paper>
+            {couponState.message && (
+              <FormHelperText className="text-error">
+                {couponState.message}
+              </FormHelperText>
+            )}
           </Paper>
         </Collapse>
         {/* total */}

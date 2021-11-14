@@ -12,6 +12,7 @@ import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { createOrder } from "../../redux/actions/order/postAction";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
@@ -26,6 +27,10 @@ const ShoppingCartPage: React.FC = () => {
       return true;
     }
     return false;
+  };
+  const handleClick = () => {
+    createOrder(items.itemToCheckOut, currentAddress);
+    history.push("/check-out");
   };
   return (
     <div className={classes.root}>
@@ -53,7 +58,7 @@ const ShoppingCartPage: React.FC = () => {
             <PrimaryButton
               text="Proceed to checkout"
               disable={canCheckout()}
-              onClick={() => history.push("/check-out")}
+              onClick={handleClick}
             />
             {/* <Link to="/check-out"></Link> */}
           </Grid>

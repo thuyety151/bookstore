@@ -12,11 +12,11 @@ namespace API.Controllers
 {
     public class CouponsController : BaseApiController
     {
-        [HttpGet]
+        [HttpPost]
         [Route("verify")]
         public async Task<IActionResult> VerifyCoupon(VerifyCouponParams verifyCouponParams)
         {
-            return HandleResult(await Mediator.Send(new VerifyCoupon.Query(){VerifyCouponParams = verifyCouponParams}));
+            return HandleResult(await Mediator.Send(new VerifyCoupon.Query() { VerifyCouponParams = verifyCouponParams }));
         }
     }
 }

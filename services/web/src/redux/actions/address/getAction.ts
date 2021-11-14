@@ -5,7 +5,7 @@ import { NAME_ACTIONS } from "../../constants/address/actionTypes";
 export const getProvince = () => async (dispatch: any) => {
   dispatch({ type: NAME_ACTIONS.GET_ALL_PROVINCE.GET_ALL_PROVINCE });
 
-  const response = await apiGHN.get("/province");
+  const response = await apiGHN.get("/master-data/province");
   if (response.status === 200) {
     dispatch({
       type: NAME_ACTIONS.GET_ALL_PROVINCE.GET_ALL_PROVINCE_SUCCESS,
@@ -30,7 +30,9 @@ export const getDistrict = (provinceId: number) => async (dispatch: any) => {
     });
     return;
   }
-  const response = await apiGHN.get(`/district?province_id=${provinceId}`);
+  const response = await apiGHN.get(
+    `/master-data/district?province_id=${provinceId}`
+  );
   if (response.status === 200) {
     dispatch({
       type: NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
@@ -57,7 +59,9 @@ export const getWard = (districtId: number) => async (dispatch: any) => {
     });
     return;
   }
-  const response = await apiGHN.get(`/ward?district_id=${districtId}`);
+  const response = await apiGHN.get(
+    `/master-data/ward?district_id=${districtId}`
+  );
   if (response.status === 200) {
     dispatch({
       type: NAME_ACTIONS.GET_WARD_BY_DISTRICT_ID
