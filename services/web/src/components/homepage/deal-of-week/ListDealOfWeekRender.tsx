@@ -7,7 +7,6 @@ import DealItem from "./DealItem";
 import "../bestseller/slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
-import data from "../../../mocks/deal";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
 const responsive = {

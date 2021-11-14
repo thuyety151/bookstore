@@ -1,5 +1,7 @@
 import { Button, Divider, Grid, Paper, TextField, Theme, Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { useState } from 'react';
+import { Account } from '../../model/account';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,6 +24,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 export default function AccountDetail() {
     const classes = useStyles();
+    var user :Account = {
+        firstName: "",
+        lastName: "",
+        token: "",
+        email: ""
+    };
+    const userStorage = localStorage.getItem('user');
+    if(userStorage){
+        user  = JSON.parse(userStorage) as Account ;
+    }
+    const [firstName, setFirstName] = useState(user.firstName);
+    const [lastName, setLastName] = useState(user.firstName);
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     return (
         <div>
             <Paper className={classes.root} >
@@ -36,7 +53,7 @@ export default function AccountDetail() {
                                 <Typography>First Name</Typography>
                             </Grid>
                             <Grid item >
-                                <TextField fullWidth variant="outlined"/>
+                                <TextField fullWidth variant="outlined" value={firstName}/>
                             </Grid>
                         </Grid>
 
@@ -45,17 +62,8 @@ export default function AccountDetail() {
                                 <Typography >Last Name</Typography>
                             </Grid>
                             <Grid item >
-                                <TextField fullWidth variant="outlined" />
+                                <TextField fullWidth variant="outlined" value={lastName} />
                             </Grid>
-                        </Grid>
-                    </Grid>
-
-                    <Grid item xs={12} container direction="column">
-                        <Grid item>
-                            <Typography>Display Name</Typography>
-                        </Grid>
-                        <Grid item >
-                            <TextField fullWidth variant="outlined" />
                         </Grid>
                     </Grid>
 
@@ -64,7 +72,7 @@ export default function AccountDetail() {
                             <Typography>Email</Typography>
                         </Grid>
                         <Grid item >
-                            <TextField fullWidth variant="outlined" />
+                            <TextField InputProps={{readOnly:true}} fullWidth variant="outlined" value={user.email} />
                         </Grid>
                     </Grid>
                 </Grid>
