@@ -8,12 +8,13 @@ import MainShow from "../../components/homepage/slide-menu/SlideShow";
 import FeatureBooks from "../../components/homepage/feature-books/FeatureBooks";
 import NewReleaseBooks from "../../components/homepage/feature-books/NewRelease";
 import { useDispatch } from "react-redux";
-import { getMostView, getOnSale } from "../../redux/actions/books/getAction";
+import { getDealOfWeek, getMostView, getOnSale } from "../../redux/actions/books/getAction";
 const HomePage: React.FunctionComponent<{}> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   dispatch(getMostView());
   dispatch(getOnSale());
+  dispatch(getDealOfWeek());
 
 
   return (

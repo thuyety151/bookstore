@@ -8,19 +8,15 @@ import "../bestseller/slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
 import data from "../../../mocks/deal";
+import { useSelector } from "react-redux";
+import { RootStore } from "../../../redux/store";
 const responsive = {
   0: { items: 1 },
   568: { items: 1 },
   1024: { items: 2 },
 };
 
-const items = data.map((item, index) => {
-  return (
-    <div data-value="1" key={index}>
-      <DealItem item={item} />
-    </div>
-  );
-});
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -57,6 +53,16 @@ const SlideEffect: React.FC = () => {
       history.push(`/book`)
     }
   }
+
+  const dealOfWeek = useSelector((state: RootStore) => state.dealOfWeek.data);
+
+  const items = dealOfWeek?.map((item, index) => {
+    return (
+      <div data-value="1" key={index}>
+        <DealItem item={item} />
+      </div>
+    );
+  });
   return (
     <div className={classes.root}>
       <Grid

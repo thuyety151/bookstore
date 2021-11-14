@@ -48,3 +48,27 @@ export const getOnSale = () => async (dispatch: any) => {
     })
   }
 }
+
+export const getDealOfWeek = () => async (dispatch : any) => {
+    try{
+      dispatch({type: booksContant.GET_DEAL_OF_WEEK_REQUEST});
+      
+      const response = await api.get("/book/books-for-sale", {
+        params: {
+          predicate: "deal-of-week"
+        },
+      });
+
+      dispatch({
+        type: booksContant.GET_DEAL_OF_WEEK_SUCCESS,
+        data: response.data.value
+      })
+      
+    }
+    catch( error: any ){
+      dispatch({
+        type: booksContant.GET_DEAL_OF_WEEK_FAIL,
+        message: error.message
+      })
+    }
+}
