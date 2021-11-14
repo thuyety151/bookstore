@@ -3,9 +3,10 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import data from '../../../mocks/feature'
 import BookItem from './BookItem';
 import { Grid, Paper, Typography } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { RootStore } from '../../../redux/store';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,6 +58,8 @@ export default function SimpleTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
+  const { data } = useSelector((state: RootStore) => state.books);
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
@@ -74,32 +77,38 @@ export default function SimpleTabs() {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <Grid container xs={10} justifyContent="center" className={classes.grid}>
+      {data &&
+          <Grid container xs={10} justifyContent="center" className={classes.grid}>
           {data.map((item) => (
             <Grid item xs={3}>
               <BookItem item={item} />
             </Grid>
           ))}
         </Grid>
+        }
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Grid container xs={10} justifyContent="center" className={classes.grid}>
+        {data &&
+          <Grid container xs={10} justifyContent="center" className={classes.grid}>
           {data.map((item) => (
             <Grid item xs={3}>
               <BookItem item={item} />
             </Grid>
           ))}
         </Grid>
+        }
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Grid container xs={10} justifyContent="center" className={classes.grid}>
-          {data.map((item) => (
-            <Grid item xs={3}>
-              <BookItem item={item} />
-            </Grid>
-          ))}
-        </Grid>
+        {data &&
+          <Grid container xs={10} justifyContent="center" className={classes.grid}>
+            {data.map((item) => (
+              <Grid item xs={3}>
+                <BookItem item={item} />
+              </Grid>
+            ))}
+          </Grid>
+        }
       </TabPanel>
     </div>
   );
