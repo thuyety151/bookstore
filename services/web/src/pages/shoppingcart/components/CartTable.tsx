@@ -13,16 +13,45 @@ import {
   TableRow,
   Theme,
 } from "@material-ui/core";
-import React from "react";
-import { cartItems } from "../../../mocks/cart";
-import { CartItem } from "../../../model/cart";
+import React, { useEffect } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import Item from "../../../model/item";
+import { RootStore } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
+import { deleteItem } from "../../../redux/actions/cart/deleteAction";
+import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
+import StockStatus from "../../../shared/enum/stockStatus";
+import emptyCart from "../../../assets/icons/cartempty.jpg";
 
 const CartTable: React.FC = () => {
   const classes = useStyles();
-  const rows = cartItems;
+  const data = useSelector((state: RootStore) => state.cart);
+  const dispatch = useDispatch();
+  const handleChangeItem = (type: string, model: Item) => {
+    if (type === "increase") {
+      model = { ...model, quantity: model.quantity + 1 };
+    } else {
+      model = { ...model, quantity: model.quantity - 1 };
+    }
+    dispatch(
+      addOrUpdateItem({
+        productId: model.id,
+        attributeId: model.attributeId,
+        quantity: model.quantity,
+      } as AddOrUpdateItem)
+    );
+  };
+  useEffect(() => {
+    dispatch(getPageCart());
+  }, [dispatch]);
+
+  const handleRemoveItem = (id: string) => {
+    dispatch(deleteItem(id));
+  };
   return (
     <div>
       <TableContainer component={Paper}>
@@ -37,52 +66,95 @@ const CartTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row: CartItem, index) => (
-              <TableRow key={index} className={classes.row}>
-                <TableCell key={row.name} component="th" scope="row">
-                  <Grid
-                    container
-                    direction="row"
-                    alignItems="center"
-                    spacing={2}
-                  >
-                    <img className={classes.image} src={row.imgUrl} alt="img" />
-                    <Grid>
+            {data.data.length > 0 ? (
+              data.data.map((row: Item, index: number) => (
+                <TableRow
+                  key={index}
+                  className={classes.row}
+                  style={
+                    row.stockStatus === StockStatus.OutOfStock
+                      ? { opacity: "0.5" }
+                      : {}
+                  }
+                >
+                  <TableCell key={row.productName} component="th" scope="row">
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="center"
+                      spacing={2}
+                    >
+                      <img
+                        className={classes.image}
+                        src={row.pictureUrl}
+                        alt="img"
+                      />
                       <Grid>
-                        <span className={classes.bookname}>{row.name}</span>
+                        <Grid>
+                          <span className={classes.bookname}>
+                            {row.productName}
+                          </span>
+                        </Grid>
+                        <span className={classes.author}>{row.authorName}</span>
                       </Grid>
-                      <span className={classes.author}>{row.author}</span>
                     </Grid>
-                  </Grid>
-                </TableCell>
-                <TableCell className={classes.textBold}>{row.price}</TableCell>
-                <TableCell>
-                  <Grid>
-                    <OutlinedInput
-                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton className={classes.button}>
-                            <AddIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <IconButton className={classes.button}>
-                            <RemoveIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      }
+                  </TableCell>
+                  <TableCell className={classes.textBold}>
+                    {row.price}
+                  </TableCell>
+                  <TableCell>
+                    <Grid>
+                      <OutlinedInput
+                        value={row?.quantity}
+                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              className={classes.button}
+                              onClick={() => handleChangeItem("increase", row)}
+                            >
+                              <AddIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <IconButton
+                              className={classes.button}
+                              onClick={() => handleChangeItem("decrease", row)}
+                            >
+                              <RemoveIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    </Grid>
+                  </TableCell>
+                  <TableCell className={classes.textBold}>
+                    {row.price * row.quantity}
+                  </TableCell>
+                  <TableCell>
+                    <CloseIcon
+                      className="cursor-pointer"
+                      onClick={() => handleRemoveItem(row.id)}
                     />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow className={classes.row}>
+                <TableCell colSpan={5} align="center">
+                  <Grid item container direction="column" alignContent="center">
+                    <img
+                      src={emptyCart}
+                      style={{ height: 300 }}
+                      alt="no-data"
+                    />
+                    <span>Empty Cart</span>
                   </Grid>
-                </TableCell>
-                <TableCell className={classes.textBold}>{row.total}</TableCell>
-                <TableCell>
-                  <CloseIcon />
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>

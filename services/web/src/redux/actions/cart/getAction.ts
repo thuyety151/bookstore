@@ -6,6 +6,7 @@ export const getPageCart = () => async (dispatch: any) => {
     dispatch({ type: NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS });
 
     const response = await api.get("/cart");
+    console.log("re", response.data);
     dispatch({
       type: NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS_SUCCESS,
       data: response.data.value,

@@ -1,5 +1,6 @@
 import api from "../../../boot/axios";
 import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
+import Item from "../../../model/item";
 import { NAME_ACTIONS } from "../../constants/cart/actionTypes";
 import { getPageCart } from "./getAction";
 
@@ -9,14 +10,11 @@ export const addOrUpdateItem =
       dispatch({
         type: NAME_ACTIONS.ADD_OR_UPDATE_ITEM.ADD_OR_UPDATE_ITEM_REQUEST,
       });
-
       const response = await api.post("/cart/item", item);
-
       await dispatch({
         type: NAME_ACTIONS.ADD_OR_UPDATE_ITEM.ADD_OR_UPDATE_ITEM_SUCCESS,
         data: response.data.isSuccess,
       });
-
       dispatch(getPageCart());
     } catch (error: any) {
       dispatch({
@@ -25,3 +23,9 @@ export const addOrUpdateItem =
       });
     }
   };
+export const updateItemInState = (item: Item) => async (dispatch: any) => {
+  dispatch({
+    type: NAME_ACTIONS.UPDATE_ITEM_IN_STATE.UPDATE_ITEM_IN_STATE,
+    item: item,
+  });
+};

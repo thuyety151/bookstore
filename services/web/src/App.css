@@ -70,3 +70,6 @@ label {
 .text-gray {
   color: "gray";
 }
+.cursor-pointer {
+  cursor: pointer;
+}

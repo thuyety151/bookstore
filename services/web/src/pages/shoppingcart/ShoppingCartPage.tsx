@@ -12,7 +12,6 @@ import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import { getPageCart } from "../../redux/actions/cart/getAction";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
