@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace API.Controllers
 {
@@ -19,7 +20,6 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TokenService _tokenService;
-
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             TokenService tokenService)
         {
@@ -79,6 +79,44 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [HttpPost("update-account")]
+        public async Task<ActionResult<UserDto>> UpdateAccount(UpdateAccountDto updateAccountDto)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x =>
+                x.Email == User.FindFirstValue(ClaimTypes.Email));
+
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
+            if (updateAccountDto.FirstName != null || updateAccountDto.LastName != null)
+            {
+                if (updateAccountDto.FirstName != null)
+                {
+                    user.FirstName = updateAccountDto.FirstName;
+                }
+
+                if (updateAccountDto.LastName != null)
+                {
+                    user.LastName = updateAccountDto.LastName;
+                }
+
+                await _userManager.UpdateAsync(user);
+            }
+
+            if (updateAccountDto.CurrentPassword != null && updateAccountDto.NewPassword != null)
+            {
+                var result = await _userManager.ChangePasswordAsync(user, updateAccountDto.CurrentPassword,
+                    updateAccountDto.NewPassword);
+                if (!result.Succeeded)
+                {
+                    return BadRequest("Error when updating account: Password incorrect");
+                }
+            }
+
+            return CreateUserObject(user);
+        }
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
@@ -92,6 +130,8 @@ namespace API.Controllers
             var userDto = new UserDto()
             {
                 Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Token = _tokenService.CreateToken(user)
             };
             return userDto;
