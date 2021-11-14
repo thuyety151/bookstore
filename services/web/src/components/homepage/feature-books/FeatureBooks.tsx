@@ -58,7 +58,8 @@ export default function SimpleTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const { data } = useSelector((state: RootStore) => state.books);
+  const mostView = useSelector((state: RootStore) => state.mostView.data);
+  const onSale = useSelector((state : RootStore) => state.onSale.data);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -71,38 +72,16 @@ export default function SimpleTabs() {
       </Typography>
       <Paper square className={classes.paper}>
         <Tabs value={value} onChange={handleChange} centered>
-          <Tab label="Featured" {...a11yProps(0)} />
+          {/* <Tab label="Featured" {...a11yProps(0)} /> */}
+          <Tab label="Most View" {...a11yProps(0)} />
           <Tab label="On Sale" {...a11yProps(1)} />
-          <Tab label="Most Viewed" {...a11yProps(2)} />
         </Tabs>
       </Paper>
-      <TabPanel value={value} index={0}>
-      {data &&
-          <Grid container xs={10} justifyContent="center" className={classes.grid}>
-          {data.map((item) => (
-            <Grid item xs={3}>
-              <BookItem item={item} />
-            </Grid>
-          ))}
-        </Grid>
-        }
 
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        {data &&
+      <TabPanel value={value} index={0}>
+        {mostView &&
           <Grid container xs={10} justifyContent="center" className={classes.grid}>
-          {data.map((item) => (
-            <Grid item xs={3}>
-              <BookItem item={item} />
-            </Grid>
-          ))}
-        </Grid>
-        }
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {data &&
-          <Grid container xs={10} justifyContent="center" className={classes.grid}>
-            {data.map((item) => (
+            {mostView.map((item) => (
               <Grid item xs={3}>
                 <BookItem item={item} />
               </Grid>
@@ -110,6 +89,19 @@ export default function SimpleTabs() {
           </Grid>
         }
       </TabPanel>
+      
+      <TabPanel value={value} index={1}>
+        {onSale &&
+          <Grid container xs={10} justifyContent="center" className={classes.grid}>
+          {onSale.map((item) => (
+            <Grid item xs={3}>
+              <BookItem item={item} />
+            </Grid>
+          ))}
+        </Grid>
+        }
+      </TabPanel>
+      
     </div>
   );
 }
