@@ -1,8 +1,24 @@
 import React, { useState } from "react";
-import { Collapse, FormControl, FormControlLabel, Grid, InputBase, Paper, Radio, RadioGroup, Theme, Typography } from "@material-ui/core";
+import {
+  Collapse,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputBase,
+  Paper,
+  Radio,
+  RadioGroup,
+  Theme,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
+import Item from "../../model/item";
+import { RootStore } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { sum } from "lodash";
+import { formatAddress } from "../../helper/format";
 
 const BillInfo: React.FC = () => {
   const classes = useStyles();
@@ -11,17 +27,28 @@ const BillInfo: React.FC = () => {
     shipping: true,
     coupon: true,
     order: true,
-    payment: true
+    payment: true,
   });
 
-  const [value, setValue] = React.useState('Cash on delivery');
+  const [value, setValue] = React.useState("Cash on delivery");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
-
+  const itemToCheckout = useSelector(
+    (state: RootStore) => state.cart.itemToCheckOut
+  );
+  const currentAddress = useSelector(
+    (state: RootStore) => state.address.currentAddress
+  );
+  const subTotal = () => {
+    return sum(itemToCheckout.flatMap((x) => x.price));
+  };
+  const addressInfor = () => {
+    return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
+  };
   return (
-    <div >
+    <div>
       <Grid
         container
         direction="column"
@@ -43,14 +70,24 @@ const BillInfo: React.FC = () => {
               </span>
             </div>
             <Grid item container direction="column">
-              <div className="row">
-                <span>Touchscreen MP3 Player  × 1</span>
+              {itemToCheckout.map((item: Item, index: number) => {
+                return (
+                  <div className="row" key={index}>
+                    <span>
+                      {item.productName} x{item.quantity}
+                    </span>
+                    <span>{item.price}</span>
+                  </div>
+                );
+              })}
+              {/* <div className="row">
+                <span>Touchscreen MP3 Player × 1</span>
                 <span>£79.99</span>
               </div>
               <Grid item className="row">
-                <span>Happy Ninja  × 1</span>
+                <span>Happy Ninja × 1</span>
                 <span>£18.00</span>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Paper>
         </Collapse>
@@ -70,7 +107,7 @@ const BillInfo: React.FC = () => {
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>79.99</span>
+                <span>{subTotal()}</span>
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
@@ -96,6 +133,10 @@ const BillInfo: React.FC = () => {
                 {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
               </span>
             </div>
+            <Grid item className="row">
+              <span>{addressInfor()}</span>
+              <span>{formatAddress(currentAddress)}</span>
+            </Grid>
           </Paper>
         </Collapse>
         {/* coupon */}
@@ -148,25 +189,53 @@ const BillInfo: React.FC = () => {
               <span
                 className="cursor-pointer icon"
                 onClick={() =>
-                  setopenSection({ ...openSection, payment: !openSection.payment })
+                  setopenSection({
+                    ...openSection,
+                    payment: !openSection.payment,
+                  })
                 }
               >
                 {openSection.payment ? <RemoveIcon /> : <AddIcon />}
               </span>
             </div>
             <FormControl component="fieldset">
-              <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                <FormControlLabel value="Direct bank transfer" control={<Radio />} label="Direct bank transfer" />
-                <Typography className={classes.text}>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</Typography>
-                <FormControlLabel value="Check payments" control={<Radio />} label="Check payments" />
-                <Typography className={classes.text}>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</Typography>
-                <FormControlLabel value="Cash on delivery" control={<Radio />} label="Cash on delivery" />
-                <Typography className={classes.text}>Pay with cash upon delivery.</Typography>
+              <RadioGroup
+                aria-label="gender"
+                name="gender1"
+                value={value}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="Direct bank transfer"
+                  control={<Radio />}
+                  label="Direct bank transfer"
+                />
+                <Typography className={classes.text}>
+                  Make your payment directly into our bank account. Please use
+                  your Order ID as the payment reference. Your order won’t be
+                  shipped until the funds have cleared in our account.
+                </Typography>
+                <FormControlLabel
+                  value="Check payments"
+                  control={<Radio />}
+                  label="Check payments"
+                />
+                <Typography className={classes.text}>
+                  Please send a check to Store Name, Store Street, Store Town,
+                  Store State / County, Store Postcode.
+                </Typography>
+                <FormControlLabel
+                  value="Cash on delivery"
+                  control={<Radio />}
+                  label="Cash on delivery"
+                />
+                <Typography className={classes.text}>
+                  Pay with cash upon delivery.
+                </Typography>
               </RadioGroup>
             </FormControl>
           </Paper>
         </Collapse>
-       
       </Grid>
     </div>
   );
@@ -177,7 +246,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: "bold",
   },
   grid: {
-    margin: "50px 30px 0px 30px"
+    margin: "50px 30px 0px 30px",
   },
   paper: {
     width: "350px",
@@ -233,7 +302,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   text: {
     color: "grey",
-    marginLeft: "30px"
-  }
+    marginLeft: "30px",
+  },
 }));
 export default BillInfo;

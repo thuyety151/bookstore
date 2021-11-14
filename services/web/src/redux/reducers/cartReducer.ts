@@ -6,12 +6,14 @@ export type CartState = {
   success: boolean;
   message: string;
   data: Item[];
+  itemToCheckOut: Item[];
 };
 const initState: CartState = {
   requesting: false,
   success: false,
   message: "",
   data: [],
+  itemToCheckOut: [],
 };
 
 const cartReducer = (state: CartState = initState, payload: any): CartState => {
@@ -61,6 +63,21 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
           payload.item,
         ],
       };
+    case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ITEM_TO_CHECK_OUT:
+      if (!state.itemToCheckOut.find((x) => x.id === payload.item.id)) {
+        // add
+        return {
+          ...state,
+          itemToCheckOut: [...state.itemToCheckOut, payload.item],
+        };
+      } else {
+        return {
+          ...state,
+          itemToCheckOut: [
+            ...state.itemToCheckOut.filter((x) => x.id !== payload.item.id),
+          ],
+        };
+      }
     default:
       return state;
   }

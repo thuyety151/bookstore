@@ -15,6 +15,7 @@ export const ROUTE_OTHERS = "/others";
 export const ROUTE_SHOPS = "/shops/:id";
 export const ROUTE_CART = "/cart";
 export const ROUTE_PLACE_ORDER = "/place-order";
+export const ROUTE_CHECK_OUT = "/check-out";
 export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale";
 
 export type RouteConfig = {
@@ -34,6 +35,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_OTHERS]: { permissions: [] },
   [ROUTE_SHOPS]: { permissions: [] },
   [ROUTE_AUTHOR]: { permissions: [] },
+  [ROUTE_CHECK_OUT]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
   [ROUTE_PROFILE]: {
     permissions: [sharedTypes.ROLE_CUSTOMER],
   },

@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import BillDetailComponent from "../../components/checkout/BillDetail";
 import BillInfoComponent from "../../components/checkout/BillInfo";
+import { RootStore } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function CheckoutPage() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <Typography variant="h4" align="center" className={classes.text}>
         Checkout
       </Typography>

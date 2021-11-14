@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   Grid,
   IconButton,
   InputAdornment,
@@ -26,6 +27,7 @@ import { deleteItem } from "../../../redux/actions/cart/deleteAction";
 import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
 import StockStatus from "../../../shared/enum/stockStatus";
 import emptyCart from "../../../assets/icons/cartempty.jpg";
+import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
 
 const CartTable: React.FC = () => {
   const classes = useStyles();
@@ -52,12 +54,19 @@ const CartTable: React.FC = () => {
   const handleRemoveItem = (id: string) => {
     dispatch(deleteItem(id));
   };
+  const handleSetToCheckout = (item: Item) => {
+    dispatch({
+      type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ITEM_TO_CHECK_OUT,
+      item,
+    });
+  };
   return (
     <div>
       <TableContainer component={Paper}>
         <Table className={classes.table}>
           <TableHead className={classes.header}>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell width="400">Product</TableCell>
               <TableCell width="100">Price</TableCell>
               <TableCell width="120">Quantity</TableCell>
@@ -77,6 +86,13 @@ const CartTable: React.FC = () => {
                       : {}
                   }
                 >
+                  <TableCell>
+                    <Checkbox
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      onChange={() => handleSetToCheckout(row)}
+                    />
+                  </TableCell>
                   <TableCell key={row.productName} component="th" scope="row">
                     <Grid
                       container
