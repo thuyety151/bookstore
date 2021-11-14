@@ -6,7 +6,6 @@ import Item from "../../../model/item";
 export const createOrder = async (items: Item[], address: Address) => {
   try {
     // if create order success => create delivery
-    console.log("check", items, address);
     const order = {
       payment_type_id: 2,
       note: "note",

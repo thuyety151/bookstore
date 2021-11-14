@@ -25,6 +25,7 @@ const couponReducer = (
         ...state,
         success: false,
         requesting: true,
+        message: "",
       };
     case NAME_ACTIONS.VERIFY_COUPON.VERIFY_COUPON_SUCCESS:
       return {
@@ -32,6 +33,7 @@ const couponReducer = (
         requesting: false,
         success: true,
         data: payload.data,
+        message: "",
       };
     case NAME_ACTIONS.VERIFY_COUPON.VERIFY_COUPON_FAIL:
       return {
@@ -39,6 +41,7 @@ const couponReducer = (
         requesting: false,
         success: false,
         message: payload.message,
+        data: {} as Coupon,
       };
     default:
       return state;

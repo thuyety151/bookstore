@@ -1,4 +1,3 @@
-import React from "react";
 import {
   createStyles,
   Grid,
@@ -10,8 +9,6 @@ import { Link } from "react-router-dom";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import BillDetailComponent from "../../components/checkout/BillDetail";
 import BillInfoComponent from "../../components/checkout/BillInfo";
-import { RootStore } from "../../redux/store";
-import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,9 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const creatOrder = () => {
-  
-}
+
 function CheckoutPage() {
   const classes = useStyles();
   return (

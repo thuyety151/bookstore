@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Collapse,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
   InputBase,
   Paper,
@@ -16,9 +17,10 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
 import Item from "../../model/item";
 import { RootStore } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sum } from "lodash";
 import { formatAddress } from "../../helper/format";
+import { verifyCoupon } from "../../redux/actions/coupon/getAction";
 
 const BillInfo: React.FC = () => {
   const classes = useStyles();
@@ -47,6 +49,15 @@ const BillInfo: React.FC = () => {
   const addressInfor = () => {
     return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
   };
+  const dispatch = useDispatch();
+  const [couponCode, setCouponCode] = useState("");
+  const couponState = useSelector((state: RootStore) => state.coupon);
+  const handleApplyCoupon = () => {
+    dispatch(verifyCoupon(couponCode));
+  };
+  useEffect(() => {
+    setCouponCode(couponState.data.code || "");
+  }, [couponState.data]);
   return (
     <div>
       <Grid
@@ -164,14 +175,22 @@ const BillInfo: React.FC = () => {
               <InputBase
                 placeholder="Coupon here"
                 inputProps={{ "aria-label": "naked" }}
+                value={couponCode}
+                onChange={(event) => setCouponCode(event.target.value)}
               />
               <span
-                className="cap"
+                className="cap cursor-pointer"
                 style={{ width: "100%", textAlign: "right" }}
+                onClick={handleApplyCoupon}
               >
                 Apply coupon
               </span>
             </Paper>
+            {couponState.message && (
+              <FormHelperText className="text-error">
+                {couponState.message}
+              </FormHelperText>
+            )}
           </Paper>
         </Collapse>
         {/* total */}
