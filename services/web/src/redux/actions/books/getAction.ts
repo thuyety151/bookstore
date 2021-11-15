@@ -28,7 +28,7 @@ export const getOnSale = () => async (dispatch: any) => {
   try{
     dispatch({type: booksContant.GET_ON_SALE_REQUEST});
 
-    const response = await api.get("/book/books-for-sale", {
+    const response = await api.get("/books/books-for-sale", {
       params: {
         predicate: "on-sale"
       },
@@ -53,7 +53,7 @@ export const getDealOfWeek = () => async (dispatch : any) => {
     try{
       dispatch({type: booksContant.GET_DEAL_OF_WEEK_REQUEST});
       
-      const response = await api.get("/book/books-for-sale", {
+      const response = await api.get("/books/books-for-sale", {
         params: {
           predicate: "deal-of-week"
         },

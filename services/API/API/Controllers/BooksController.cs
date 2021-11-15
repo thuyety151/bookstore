@@ -19,7 +19,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("books-for-sale")]
-        public async Task<IActionResult> GetBooksForSale(BookParams bookParams)
+        public async Task<IActionResult> GetBooksForSale([FromQuery] BookParams bookParams)
         {
             return HandlePagedResult(await Mediator.Send(new List.Query() {Params = bookParams}));
         }
