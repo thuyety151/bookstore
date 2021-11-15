@@ -5,6 +5,7 @@ export const userActions = {
   login,
   logout,
   register,
+  updateAccount
 };
 
 function login(email: any, password: any) {
@@ -55,6 +56,27 @@ function register(firstName: any, lastName: any, email: any, password: any) {
       }
     );
   };
+}
+
+function updateAccount(firstName: any, lastName: any, currentPassword: any, newPassword: any){
+  return (dispatch : any ) => {
+    dispatch({type: userConstants.UPDATE_REQUEST});
+
+    userService.updateAccount(firstName, lastName, currentPassword, newPassword).then(
+      (user) => {
+        dispatch({
+          type: userConstants.UPDATE_SUCCESS,
+          data: user
+        })
+      },
+      (error) => {
+        dispatch({
+          type: userConstants.UPDATE_FAILURE,
+          data: error
+        })
+      }
+    );
+  }
 }
 
 function logout() {

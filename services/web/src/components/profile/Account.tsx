@@ -12,6 +12,8 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountDetail from './AccountDetail';
+import { userService } from '../../service/auth.service';
+import { useHistory } from 'react-router-dom';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -98,10 +100,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function MyAccount() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const history = useHistory();
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
+
+    function handleLogout(){
+        console.log('logout');
+        userService.logout();
+        history.push("/login");
+    }
 
     return (
         <div className={classes.root}>
@@ -120,7 +129,6 @@ export default function MyAccount() {
                         <Tab label="Shopping Cart" {...a11yProps(3)} />
                         <Tab label="Account Detail" {...a11yProps(4)} />
                         <Tab label="Wishlist" {...a11yProps(5)} />
-                        <Tab label="Logout" {...a11yProps(6)} />
                     </Tabs>
                 </Grid>
                 <Grid item xs={9}>
@@ -157,7 +165,7 @@ export default function MyAccount() {
                                 </Button>
                             </Paper>
                             <Paper className={classes.paper}>
-                                <Button className={classes.box} onClick={() => setValue(6)} >
+                                <Button className={classes.box} onClick={() => handleLogout()} >
                                     <ExitToAppIcon className={classes.icon} />
                                 </Button>
                             </Paper>
@@ -179,9 +187,6 @@ export default function MyAccount() {
                     </TabPanel>
                     <TabPanel value={value} index={5}>
                         <Typography variant="h5">Wishlish</Typography>
-                    </TabPanel>
-                    <TabPanel value={value} index={6}>
-                        <Typography variant="h5">Log out</Typography>
                     </TabPanel>
                 </Grid>
             </Grid>

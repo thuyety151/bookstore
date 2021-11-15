@@ -9,7 +9,6 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/actions/user/userAction";
 import { GitHub, Facebook } from "@material-ui/icons";
@@ -20,11 +19,6 @@ import * as yup from "yup";
 export default function RegisterComponent() {
   const classes = useStyles();
   const history = useHistory();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const dispatch = useDispatch();
 
   const validationSchema = yup.object({
@@ -49,7 +43,7 @@ export default function RegisterComponent() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      dispatch(userActions.register(firstName, lastName, email, password));
+      dispatch(userActions.register(values.firstName, values.lastName, values.email, values.password));
       if (localStorage.getItem("user")) {
         history.push("/");
       }

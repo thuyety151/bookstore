@@ -89,14 +89,14 @@ namespace API.Controllers
             {
                 return BadRequest("User does not exist");
             }
-            if (updateAccountDto.FirstName != null || updateAccountDto.LastName != null)
+            if ( !string.IsNullOrWhiteSpace(updateAccountDto.FirstName) || !string.IsNullOrWhiteSpace(updateAccountDto.LastName))
             {
-                if (updateAccountDto.FirstName != null)
+                if (!string.IsNullOrWhiteSpace(updateAccountDto.FirstName))
                 {
                     user.FirstName = updateAccountDto.FirstName;
                 }
 
-                if (updateAccountDto.LastName != null)
+                if (!string.IsNullOrWhiteSpace(updateAccountDto.LastName))
                 {
                     user.LastName = updateAccountDto.LastName;
                 }
