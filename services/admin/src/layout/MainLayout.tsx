@@ -21,7 +21,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { NAVIGATION_LIST } from "../routers/types";
-import { Switch, useHistory } from "react-router-dom";
+import { Switch, useHistory, useLocation } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 import { routes } from "../routers/routes";
 import PrivateRoute from "../components/route/PrivateRoute";
@@ -33,6 +33,7 @@ const MainLayout: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
+  const location = useLocation();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -95,10 +96,10 @@ const MainLayout: React.FC = () => {
               <ListItem
                 button
                 key={`item-${index}`}
+                selected={item.pathName === location.pathname}
                 onClick={() => history.push(`${item.pathName}`)}
               >
                 <ListItemIcon>
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                   <Icon>{item.icon}</Icon>
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
