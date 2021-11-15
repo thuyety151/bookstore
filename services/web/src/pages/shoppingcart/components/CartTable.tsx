@@ -31,38 +31,47 @@ import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
 
 const CartTable: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const data = useSelector((state: RootStore) => state.cart);
+
+  useEffect(() => {
+    dispatch(getPageCart());
+  }, [dispatch]);
+
   const idItemsToCheckout = () => {
     return data.itemToCheckOut.flatMap((x) => x.id);
   };
-  const dispatch = useDispatch();
+
   const handleChangeItem = (type: string, model: Item) => {
     if (type === "increase") {
       model = { ...model, quantity: model.quantity + 1 };
     } else {
       model = { ...model, quantity: model.quantity - 1 };
     }
-    dispatch(
-      addOrUpdateItem({
-        productId: model.id,
-        attributeId: model.attributeId,
-        quantity: model.quantity,
-      } as AddOrUpdateItem)
-    );
+    if (!model.quantity) {
+      dispatch(deleteItem(model.id));
+    } else {
+      dispatch(
+        addOrUpdateItem({
+          productId: model.productId,
+          attributeId: model.attributeId,
+          quantity: model.quantity,
+        } as AddOrUpdateItem)
+      );
+    }
   };
-  useEffect(() => {
-    dispatch(getPageCart());
-  }, [dispatch]);
 
   const handleRemoveItem = (id: string) => {
     dispatch(deleteItem(id));
   };
+
   const handleSetToCheckout = (item: Item) => {
     dispatch({
       type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ITEM_TO_CHECK_OUT,
       item,
     });
   };
+
   return (
     <div>
       <TableContainer component={Paper}>

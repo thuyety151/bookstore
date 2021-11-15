@@ -1,6 +1,5 @@
 import api from "../../../boot/axios";
 import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
-import Item from "../../../model/item";
 import { NAME_ACTIONS } from "../../constants/cart/actionTypes";
 import { getPageCart } from "./getAction";
 
@@ -23,9 +22,3 @@ export const addOrUpdateItem =
       });
     }
   };
-export const updateItemInState = (item: Item) => async (dispatch: any) => {
-  dispatch({
-    type: NAME_ACTIONS.UPDATE_ITEM_IN_STATE.UPDATE_ITEM_IN_STATE,
-    item: item,
-  });
-};
