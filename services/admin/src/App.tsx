@@ -1,8 +1,6 @@
-/** @format */
-
 import React from "react";
 import "./App.css";
-import { routes } from "./routers/routes";
+import { routePage } from "./routers/routes";
 import {
   BrowserRouter,
   Route,
@@ -18,7 +16,7 @@ const App: React.FunctionComponent<{}> = (props) => {
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-            {routes.map((route, index) => {
+            {routePage.map((route, index) => {
               return (
                 <Route
                   key={index}

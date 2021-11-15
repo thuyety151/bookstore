@@ -4,19 +4,14 @@ export const ROUTE_HOME = "/";
 export const ROUTE_NOT_FOUND = "404";
 export const ROUTE_PERMISSION_DENIED = "403";
 export const ROUTE_LOGIN = "/login";
-export const ROUTE_REGISTER = "/register";
-export const ROUTE_BOOK_DETAIL = "/book-detail";
-export const ROUTE_PROFILE = "/profile";
-export const ROUTE_AUTHOR = "/author";
-export const ROUTE_BOOK = "/book";
-export const ROUTE_CATEGORY = "/category";
-export const ROUTE_BLOGS = "/blogs";
-export const ROUTE_OTHERS = "/others";
-export const ROUTE_SHOPS = "/shops/:id";
-export const ROUTE_CART = "/cart";
-export const ROUTE_PLACE_ORDER = "/place-order";
-export const ROUTE_CHECK_OUT = "/check-out";
-export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale";
+export const ROUTE_DASHBOARD = "/dashboard";
+export const ROUTE_PRODUCTS = "/products";
+export const ROUTE_ATTRIBUTES = "/attributes";
+export const ROUTE_CATEGORIES = "/categories";
+export const ROUTE_ORDERS = "/orders";
+export const ROUTE_SETTINGS = "/settings";
+export const ROUTE_COUPONS = "/coupons";
+export const ROUTE_USERS = "/users";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -25,27 +20,16 @@ export type RouteConfig = {
 export const PRIVATE_ROUTES = {
   [ROUTE_HOME]: { permissions: [] },
   [ROUTE_LOGIN]: { permissions: [] },
-  [ROUTE_REGISTER]: { permissions: [] },
-  [ROUTE_REGISTER]: { permissions: [] },
-  [ROUTE_NOT_FOUND]: { permissions: [] },
-  [ROUTE_BOOK_DETAIL]: { permissions: [] },
-  [ROUTE_BOOK]: { permissions: [] },
-  [ROUTE_CATEGORY]: { permissions: [] },
-  [ROUTE_BLOGS]: { permissions: [] },
-  [ROUTE_OTHERS]: { permissions: [] },
-  [ROUTE_SHOPS]: { permissions: [] },
-  [ROUTE_AUTHOR]: { permissions: [] },
-  [ROUTE_CHECK_OUT]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
-  [ROUTE_PROFILE]: {
-    permissions: [sharedTypes.ROLE_CUSTOMER],
-  },
-  [ROUTE_CART]: {
-    permissions: [sharedTypes.ROLE_CUSTOMER],
-  },
-  [ROUTE_PLACE_ORDER]: {
-    permissions: [sharedTypes.ROLE_CUSTOMER],
-  },
-  [ROUTE_BOOKS_FOR_SALE]: { permissions: [] },
+  [ROUTE_PERMISSION_DENIED]: { permissions: [] },
+  [ROUTE_LOGIN]: { permissions: [] },
+  [ROUTE_DASHBOARD]: { permissions: [] },
+  [ROUTE_PRODUCTS]: { permissions: [] },
+  [ROUTE_ATTRIBUTES]: { permissions: [] },
+  [ROUTE_CATEGORIES]: { permissions: [] },
+  [ROUTE_ORDERS]: { permissions: [] },
+  [ROUTE_SETTINGS]: { permissions: [] },
+  [ROUTE_COUPONS]: { permissions: [] },
+  [ROUTE_USERS]: { permissions: [] },
 };
 
 export type AppRoute =
@@ -62,3 +46,46 @@ export type NavigationItem = {
   permissions?: sharedTypes.AppPermission[];
   subMenus?: NavigationItem[];
 };
+
+export const NAVIGATION_LIST: NavigationItem[] = [
+  {
+    title: "Dashboard",
+    icon: "grid_view",
+    pathName: ROUTE_DASHBOARD,
+  },
+  {
+    title: "Products",
+    icon: "menu_book",
+    pathName: ROUTE_PRODUCTS,
+  },
+  {
+    title: "Categories",
+    icon: "category",
+    pathName: ROUTE_CATEGORIES,
+  },
+  {
+    title: "Attributes",
+    icon: "filter_center_focus",
+    pathName: ROUTE_ATTRIBUTES,
+  },
+  {
+    title: "Orders",
+    icon: "request_quote",
+    pathName: ROUTE_ORDERS,
+  },
+  {
+    title: "Settings",
+    icon: "settings",
+    pathName: ROUTE_SETTINGS,
+  },
+  {
+    title: "Coupons",
+    icon: "confirmation_number",
+    pathName: ROUTE_COUPONS,
+  },
+  {
+    title: "Users",
+    icon: "people_outline",
+    pathName: ROUTE_USERS,
+  },
+];

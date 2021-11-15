@@ -1,14 +1,18 @@
 import Route from "../model/route";
 import Error404 from "../pages/Error404";
 import MainLayout from "../layout/MainLayout";
+import {
+  ROUTE_ATTRIBUTES,
+  ROUTE_CATEGORIES,
+  ROUTE_COUPONS,
+  ROUTE_DASHBOARD,
+  ROUTE_ORDERS,
+  ROUTE_PRODUCTS,
+  ROUTE_SETTINGS,
+  ROUTE_USERS,
+} from "./types";
 
-//const isLogged: boolean = false;
-
-// function isLogin() {
-//   if (localStorage.getItem("user")) return true;
-//   return false;
-// }
-export const routes: Route[] = [
+export const routePage: Route[] = [
   {
     path: "/",
     name: "MainLayout",
@@ -22,108 +26,53 @@ export const routes: Route[] = [
     exact: true,
   },
 ];
-
-export const routeMainLayout: Route[] = [
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   component: LoginPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/register",
-  //   name: "Register",
-  //   component: RegisterPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/book-detail",
-  //   name: "Book Detail",
-  //   component: BookDetailPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/books-for-sale",
-  //   name: "Books For Sale",
-  //   component: BooksForSalePage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/check-out",
-  //   name: "Check out",
-  //   component: CheckoutPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: Home,
-  //   exact: true,
-  // },
-  // {
-  //   path: "/profile",
-  //   name: "My Account",
-  //   component: ProfilePage,
-  //   exact: false,
-  // },
-  // {
-  //   path: ROUTE_AUTHOR,
-  //   name: "Author",
-  //   component: CategoryPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: ROUTE_BOOK,
-  //   name: "Book",
-  //   component: CategoryPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/category",
-  //   name: "Category",
-  //   component: CategoryPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/category/:id",
-  //   name: "Category",
-  //   component: CategoryPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/blogs/:id",
-  //   name: "Blog",
-  //   component: Example,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/others/:id",
-  //   name: "Others",
-  //   component: Example,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/shops/:id",
-  //   name: "Shop",
-  //   component: Example,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/place-order",
-  //   name: "Place Order",
-  //   component: PlaceOrderPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "/cart",
-  //   name: "Cart",
-  //   component: ShoppingCartPage,
-  //   exact: false,
-  // },
-  // {
-  //   path: "*",
-  //   name: "Error",
-  //   component: Error404,
-  //   exact: true,
-  // },
+export const routes: Route[] = [
+  {
+    path: ROUTE_DASHBOARD,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_PRODUCTS,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_ATTRIBUTES,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_CATEGORIES,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDERS,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_SETTINGS,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_COUPONS,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_USERS,
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
 ];

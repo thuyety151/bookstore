@@ -17,7 +17,6 @@ body {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -72,4 +71,7 @@ label {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.bg-primary {
+  background-color: #1d2326;
 }
