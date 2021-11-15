@@ -28,10 +28,13 @@ import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
 import StockStatus from "../../../shared/enum/stockStatus";
 import emptyCart from "../../../assets/icons/cartempty.jpg";
 import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
+import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
+import { generatePath, useHistory } from "react-router-dom";
 
 const CartTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const data = useSelector((state: RootStore) => state.cart);
 
   useEffect(() => {
@@ -70,6 +73,10 @@ const CartTable: React.FC = () => {
       type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ITEM_TO_CHECK_OUT,
       item,
     });
+  };
+
+  const handleViewBook = (id: string) => {
+    history.push(generatePath(ROUTE_BOOK_DETAIL, { bookId: id }));
   };
 
   return (
@@ -112,6 +119,7 @@ const CartTable: React.FC = () => {
                       direction="row"
                       alignItems="center"
                       spacing={2}
+                      onClick={() => handleViewBook(row.productId)}
                     >
                       <img
                         className={classes.image}
