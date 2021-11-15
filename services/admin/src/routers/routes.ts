@@ -1,0 +1,129 @@
+import Route from "../model/route";
+import Error404 from "../pages/Error404";
+import MainLayout from "../layout/MainLayout";
+
+//const isLogged: boolean = false;
+
+// function isLogin() {
+//   if (localStorage.getItem("user")) return true;
+//   return false;
+// }
+export const routes: Route[] = [
+  {
+    path: "/",
+    name: "MainLayout",
+    component: MainLayout,
+    exact: true,
+  },
+  {
+    path: "*",
+    name: "Error",
+    component: Error404,
+    exact: true,
+  },
+];
+
+export const routeMainLayout: Route[] = [
+  // {
+  //   path: "/login",
+  //   name: "Login",
+  //   component: LoginPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/register",
+  //   name: "Register",
+  //   component: RegisterPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/book-detail",
+  //   name: "Book Detail",
+  //   component: BookDetailPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/books-for-sale",
+  //   name: "Books For Sale",
+  //   component: BooksForSalePage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/check-out",
+  //   name: "Check out",
+  //   component: CheckoutPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   component: Home,
+  //   exact: true,
+  // },
+  // {
+  //   path: "/profile",
+  //   name: "My Account",
+  //   component: ProfilePage,
+  //   exact: false,
+  // },
+  // {
+  //   path: ROUTE_AUTHOR,
+  //   name: "Author",
+  //   component: CategoryPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: ROUTE_BOOK,
+  //   name: "Book",
+  //   component: CategoryPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/category",
+  //   name: "Category",
+  //   component: CategoryPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/category/:id",
+  //   name: "Category",
+  //   component: CategoryPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/blogs/:id",
+  //   name: "Blog",
+  //   component: Example,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/others/:id",
+  //   name: "Others",
+  //   component: Example,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/shops/:id",
+  //   name: "Shop",
+  //   component: Example,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/place-order",
+  //   name: "Place Order",
+  //   component: PlaceOrderPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "/cart",
+  //   name: "Cart",
+  //   component: ShoppingCartPage,
+  //   exact: false,
+  // },
+  // {
+  //   path: "*",
+  //   name: "Error",
+  //   component: Error404,
+  //   exact: true,
+  // },
+];
