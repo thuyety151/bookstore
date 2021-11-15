@@ -6,7 +6,6 @@ import reviewReducer from "./reviewReducer";
 import addressReducer from "./addressReducer";
 import bookReducer from "./bookReducer";
 import addOrUpdateItemReducer from "./addOrUpdateItemReducer";
-import booksReducer from "./booksReducer";
 import mostViewReducer from "./mostViewReducer";
 import onSaleReducer from "./onSaleReducer";
 import dealOfWeekReducer from "./dealOfWeekReducer";
