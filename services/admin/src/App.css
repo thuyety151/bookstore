@@ -75,3 +75,7 @@ label {
 .bg-primary {
   background-color: #1d2326;
 }
+.MuiButton-startIcon {
+  margin: 0 !important;
+  display: inherit;
+}

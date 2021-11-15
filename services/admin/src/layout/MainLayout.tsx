@@ -109,6 +109,7 @@ const MainLayout: React.FC = () => {
         </List>
       </Drawer>
       <main className={classes.content}>
+        <div className={classes.toolbar} />
         <Switch>
           {routes.map((route, index) => {
             return (
@@ -186,6 +187,7 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+      minHeight: "100vh",
     },
   })
 );

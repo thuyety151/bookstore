@@ -11,6 +11,7 @@ import {
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
+import Example from "../pages/Example";
 
 export const routePage: Route[] = [
   {
@@ -29,8 +30,8 @@ export const routePage: Route[] = [
 export const routes: Route[] = [
   {
     path: ROUTE_DASHBOARD,
-    name: "Error",
-    component: Error404,
+    name: "Example",
+    component: Example,
     exact: true,
   },
   {
