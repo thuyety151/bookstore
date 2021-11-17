@@ -6,6 +6,7 @@ using Application.Core;
 using AutoMapper;
 using Domain.Enum;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Authors
@@ -34,12 +35,12 @@ namespace Application.Authors
 
                 if (request.SearchString == null)
                 {
-                    var topAuthors = _context.Authors.Where(x => x.IsDeleted == false).OrderBy(x => x.Books.Count)
+                    var topAuthors = await _context.Authors.Where(x => x.IsDeleted == false).OrderBy(x => x.Books.Count)
                         .Select(x => new AuthorDto()
                         {
                             Id = x.Id,
                             Name = x.Name
-                        }).Take(quantity).ToList();
+                        }).Take(quantity).ToListAsync();
 
                     return Result<List<AuthorDto>>.Success(topAuthors);
                 }

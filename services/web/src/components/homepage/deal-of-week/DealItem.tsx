@@ -47,7 +47,7 @@ export default function DealItem({ item }: Props) {
         <Grid container spacing={1}>
           <Grid item container xs={4} alignItems="stretch">
             <ButtonBase>
-              <img className={classes.img} alt="complex" src={item.imageUrl} />
+              <img className={classes.img} alt="complex" src={item.pictureUrl} />
             </ButtonBase>
           </Grid>
           <Grid item xs={8} container>
@@ -67,7 +67,7 @@ export default function DealItem({ item }: Props) {
                   {item.author}
                 </Typography>
                 <Typography gutterBottom variant="h6" component="h2">
-                  ${item.regularPrice}
+                  ${item.price}
                 </Typography>
               </Grid>
               <Grid

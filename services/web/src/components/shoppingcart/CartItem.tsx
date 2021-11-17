@@ -27,7 +27,7 @@ const CartItem: React.FC<{ item: Book }> = (item) => {
             <ButtonBase className={classes.image}>
               <img
                 className={classes.image}
-                src={item.item.imageUrl}
+                src={item.item.pictureUrl}
                 alt="img"
               />
             </ButtonBase>
@@ -62,7 +62,7 @@ const CartItem: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.regularPrice}
+                  {item.item.price}
                 </Typography>
               </Grid>
             ) : (
@@ -74,7 +74,7 @@ const CartItem: React.FC<{ item: Book }> = (item) => {
                   {item.item.salePrice}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
-                  {item.item.regularPrice}
+                  {item.item.price}
                 </Typography>
               </Grid>
             )}

@@ -10,30 +10,45 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/actions/user/userAction";
 import { GitHub, Facebook } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 
 export default function LoginComponent() {
     const classes = useStyles();
     const history = useHistory();
 
-    
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
+    const validationSchema = yup.object({
+        email: yup
+            .string()
+            .email('Enter a valid email')
+            .required('Email is required'),
+        password: yup
+            .string()
+            .min(8, 'Password should be of minimum 8 characters length')
+            .required('Password is required'),
+    });
 
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        console.log(email, password);
-        if (email && password) {
-            dispatch(userActions.login(email, password));
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            dispatch(userActions.login(values.email, values.password));
+            if(localStorage.getItem('user')){
+                history.push("/");
+            }
         }
-    }
+    })
+
 
     const handleOnClick = () => {
         history.push('/register');
@@ -54,8 +69,8 @@ export default function LoginComponent() {
                             <Typography
                                 variant="h4"
                                 gutterBottom
-                                className ={classes.text}
-                                
+                                className={classes.text}
+
                             >
                                 Sign in
                             </Typography>
@@ -64,22 +79,38 @@ export default function LoginComponent() {
                             <Typography
                                 variant="body2"
                                 gutterBottom
-                                className ={classes.text}
+                                className={classes.text}
                             >
-                                New user? 
-                                <Link href="" className={classes.link} onClick={() => handleOnClick() }>
-                                      Create new account
+                                New user?
+                                <Link href="" className={classes.link} onClick={() => handleOnClick()}>
+                                    Create new account
                                 </Link>
                             </Typography>
                         </Grid>
 
-                        <form className={classes.form} onSubmit={handleSubmit}>
+                        <form className={classes.form} onSubmit={formik.handleSubmit}>
                             <Grid item xs={12} container spacing={1}>
                                 <Grid item xs={12}>
-                                    <TextField label="Email" variant="filled" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
+                                    <TextField label="Email" variant="filled" type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.email && Boolean(formik.errors.email)}
+                                        helperText={formik.touched.email && formik.errors.email} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField label="Password" variant="filled" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
+                                    <TextField
+                                        label="Password"
+                                        variant="filled"
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.password && Boolean(formik.errors.password)}
+                                        helperText={formik.touched.password && formik.errors.password}
+                                    />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button type="submit" variant="contained" color="primary" className={classes.signUp}>
@@ -129,7 +160,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: "15px",
         },
         link: {
-            marginLeft:"5px"
+            marginLeft: "5px"
         },
         form: {
             display: 'flex',
