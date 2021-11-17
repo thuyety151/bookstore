@@ -1,26 +1,21 @@
 import { Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import AuthorItem from "./AuthorItem";
 import "../bestseller/slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
-import data from "../../../mocks/author";
+import { getAllAuthor } from "../../../redux/actions/author/getActions";
+import { RootStore } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
   1024: { items: 5 },
 };
 
-const items = data.map((item, index) => {
-  return (
-    <div data-value="1" key={index}>
-      <AuthorItem author={item} />
-    </div>
-  );
-});
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -50,14 +45,29 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 const SlideEffect: React.FC = () => {
   const classes = useStyles();
-  const history= useHistory();
-  const handleNavBook=(id?:string)=>{
-    if(id){
-      history.push(`/book/${id}`)
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const authors = useSelector((state: RootStore) => state.author);
+
+  const handleNavBook = (id?: string) => {
+    if (id) {
+      history.push(`/book/${id}`);
     } else {
-      history.push(`/book`)
+      history.push(`/book`);
     }
-  }
+  };
+
+  useEffect(() => {
+    dispatch(getAllAuthor());
+  }, [dispatch]);
+
+  const items = authors.data?.map((item, index) => {
+    return (
+      <div data-value="1" key={index}>
+        <AuthorItem author={item} />
+      </div>
+    );
+  });
   return (
     <div className={classes.root}>
       <Grid
@@ -74,7 +84,11 @@ const SlideEffect: React.FC = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid item className={classes.viewAll} onClick={()=>handleNavBook()}>
+          <Grid
+            item
+            className={classes.viewAll}
+            onClick={() => handleNavBook()}
+          >
             <Typography variant="subtitle1" gutterBottom>
               View All
             </Typography>

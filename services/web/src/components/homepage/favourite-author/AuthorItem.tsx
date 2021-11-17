@@ -31,7 +31,7 @@ export default function MediaCard({ author }: Props) {
       <CardContent className={classes.avatar}>
         <Avatar
           alt="Remy Sharp"
-          src={author.imageUrl}
+          // src={author.imageUrl}
           style={{ height: "120px", width: "120px" }}
         />
       </CardContent>
@@ -40,7 +40,7 @@ export default function MediaCard({ author }: Props) {
           {author.name}
         </Typography>
         <Typography variant="caption" gutterBottom color="inherit">
-          {author.totalBook} Publish Books
+          {/* {author.totalBook} Publish Books */}
         </Typography>
       </CardContent>
     </Card>
