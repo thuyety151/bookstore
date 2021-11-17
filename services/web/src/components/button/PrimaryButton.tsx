@@ -1,9 +1,12 @@
 import React from "react";
 import { Button, Grid, makeStyles, Theme } from "@material-ui/core";
 
-const PrimaryButton: React.FC<{ text: string }> = ({text}) => {
+const PrimaryButton: React.FC<{
+  text: string;
+  disable?: boolean;
+  onClick?: () => void;
+}> = ({ text, disable, onClick }) => {
   const classes = useStyles();
-
   return (
     <Grid item container justifyContent="center" alignContent="center" xs={12}>
       <Button
@@ -11,6 +14,8 @@ const PrimaryButton: React.FC<{ text: string }> = ({text}) => {
         style={{ backgroundColor: "#000", color: "#fff" }}
         fullWidth
         className={classes.btn}
+        disabled={disable}
+        onClick={onClick}
       >
         {text}
       </Button>

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   createStyles,
   Grid,
@@ -21,10 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
 function CheckoutPage() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <Typography variant="h4" align="center" className={classes.text}>
         Checkout
       </Typography>

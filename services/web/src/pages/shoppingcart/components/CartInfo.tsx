@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormHelperText,
   Grid,
   InputBase,
   Paper,
@@ -21,6 +22,8 @@ import { RootStore } from "../../../redux/store";
 import { formatAddress } from "../../../helper/format";
 import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
+import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
+import { sum } from "lodash";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -32,17 +35,31 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     shipping: true,
     coupon: true,
   });
+  const [couponCode, setCouponCode] = useState("");
   const defaultAddress = useSelector(
     (state: RootStore) => state.address?.currentAddress
   );
+  const itemsToCheckout = useSelector(
+    (state: RootStore) => state.cart.itemToCheckOut
+  );
+  const couponState = useSelector((state: RootStore) => state.coupon);
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
     setChooseAddress(true);
   };
-
+  const handleApplyCoupon = () => {
+    dispatch(verifyCoupon(couponCode));
+  };
   useEffect(() => {
     dispatch(getDefaultAddress());
   }, [dispatch]);
+  const subTotal = () => {
+    return sum(
+      itemsToCheckout.map((x) => {
+        return x.price * x.quantity;
+      })
+    );
+  };
   return (
     <div className={classes.root}>
       <Grid
@@ -67,7 +84,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>79.99</span>
+                <span>{subTotal()}</span>
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
@@ -131,21 +148,28 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               <InputBase
                 placeholder="Coupon here"
                 inputProps={{ "aria-label": "naked" }}
+                onChange={(event) => setCouponCode(event.target.value)}
               />
               <span
-                className="cap"
+                className="cap cursor-pointer"
                 style={{ width: "100%", textAlign: "right" }}
+                onClick={handleApplyCoupon}
               >
                 Apply coupon
               </span>
             </Paper>
+            {couponState.message && (
+              <FormHelperText className="text-error">
+                {couponState.message}
+              </FormHelperText>
+            )}
           </Paper>
         </Collapse>
         {/* total */}
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>97.99</h3>
+            <h3>{subTotal()}</h3>
           </div>
         </Paper>
       </Grid>

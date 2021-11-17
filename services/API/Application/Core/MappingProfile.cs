@@ -4,9 +4,12 @@ using Application.Authors;
 using Application.Books;
 using Application.Books.Detail;
 using Application.Categories;
+using Application.Coupons;
+using Application.Orders;
 using Application.Review;
 using AutoMapper;
 using Domain;
+using Domain.Enum;
 
 namespace Application.Core
 {
@@ -30,8 +33,9 @@ namespace Application.Core
                 .ForMember(x => x.Id, o => o.MapFrom(x => x.AttributeId))
                 .ForMember(x => x.Name, o => o.MapFrom(x => x.Attribute.Name));
             CreateMap<Domain.Attribute, AttributeDto>();
+            CreateMap<Domain.Coupon, CouponDto>()
+                .ForMember(x => x.DiscountType, o => o.MapFrom(x => (DiscountType) x.DiscountType));
+            CreateMap<Item, ItemWithoutId>();
         }
-        
-        
     }
 }

@@ -18,8 +18,8 @@ namespace Persistence
             List<Attribute> attributes = new List<Attribute>();
             List<Language> languages = new List<Language>();
             List<Category> categories = new List<Category>();
-            List<Coupon> coupons = new List<Coupon>();
-            List<Cart> carts = new List<Cart>();
+            // List<Coupon> coupons = new List<Coupon>();
+            // List<Cart> carts = new List<Cart>();
             List<Media> medias = new List<Media>();
             List<Item> items = new List<Item>();
             List<Book> books = new List<Book>();
@@ -1048,11 +1048,8 @@ namespace Persistence
                         Code="HOT30",
                         Description="Nothing",
                         DiscountType=1,
-                        IsAllowFreeShipping=false,
                         ExpireDate= DateTime.Now.AddMonths(1),
                         MinSpend=0,
-                        MaxSpend=1,
-                        IsIndividualOnly=false,
                         IsDeleted=false
                     },
                     new Coupon()
@@ -1061,11 +1058,8 @@ namespace Persistence
                         Code="HOT50",
                         Description="50K",
                         DiscountType=1,
-                        IsAllowFreeShipping=false,
                         ExpireDate= DateTime.Now.AddMonths(2),
                         MinSpend=0,
-                        MaxSpend=1,
-                        IsIndividualOnly=false,
                         IsDeleted=false
                     },
                     new Coupon()
@@ -1074,11 +1068,8 @@ namespace Persistence
                         Code="30PER",
                         Description="30%",
                         DiscountType=1,
-                        IsAllowFreeShipping=false,
                         ExpireDate= DateTime.Now,
                         MinSpend=0,
-                        MaxSpend=1,
-                        IsIndividualOnly=false,
                         IsDeleted=false
                     }
                 };
@@ -1225,6 +1216,19 @@ namespace Persistence
             //     };
             //     await context.Orders.AddRangeAsync(orderList);
             // }
+            if (!context.DeliveryMethods.Any())
+            {
+                var deliveryMethods = new List<DeliveryMethod>()
+                {
+                    new DeliveryMethod()
+                    {
+                        Id = new Guid(),
+                        Name = "Giao hàng nhanh",
+                        Description = "Giao hàng nhanh",
+                    }
+                };
+                await context.DeliveryMethods.AddRangeAsync(deliveryMethods);
+            }
             if (!context.ConfigQuantities.Any())
             {
                 var configs = new List<ConfigQuantity>()

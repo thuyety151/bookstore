@@ -11,21 +11,27 @@ import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-// import { getPageCart } from "../../redux/actions/cart/getAction";
+import { useHistory } from "react-router-dom";
+import { createOrder } from "../../redux/actions/order/postAction";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
   const items = useSelector((state: RootStore) => state.cart);
-
+  const history = useHistory();
   const [chooseAddress, setChooseAddress] = React.useState(false);
-
-  // useEffect(() => {
-  //   console.log("need to close dialog", addressState.success);
-  //   if (addressState.success) {
-  //     setIsChangeAddress(false);
-  //   }
-  // }, [addressState.success]);
+  const currentAddress = useSelector(
+    (state: RootStore) => state.address.currentAddress
+  );
+  const canCheckout = () => {
+    if (!items.itemToCheckOut.length || !currentAddress) {
+      return true;
+    }
+    return false;
+  };
+  const handleClick = () => {
+    createOrder(items.itemToCheckOut, currentAddress);
+    history.push("/check-out");
+  };
   return (
     <div className={classes.root}>
       <Grid container justifyContent="center" alignContent="center">
@@ -49,9 +55,12 @@ const ShoppingCartPage: React.FC = () => {
               chooseAddress={chooseAddress}
               setChooseAddress={setChooseAddress}
             />
-            <Link to="/check-out">
-              <PrimaryButton text="Proceed to checkout" />
-            </Link>
+            <PrimaryButton
+              text="Proceed to checkout"
+              disable={canCheckout()}
+              onClick={handleClick}
+            />
+            {/* <Link to="/check-out"></Link> */}
           </Grid>
         </Grid>
       </Grid>

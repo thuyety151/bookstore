@@ -48,8 +48,8 @@ const HeaderComponent: React.FC<{
   };
 
   const handlePersonOutLine = () => {
-      history.push('/profile');
-  }
+    history.push("/profile");
+  };
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -73,7 +73,7 @@ const HeaderComponent: React.FC<{
           <ListItem button>
             <FavoriteBorderOutlinedIcon />
           </ListItem>
-          <ListItem button onClick = {handlePersonOutLine}>
+          <ListItem button onClick={handlePersonOutLine}>
             <PersonOutlineOutlinedIcon />
           </ListItem>
           <ListItem button onClick={handleOpenCart}>

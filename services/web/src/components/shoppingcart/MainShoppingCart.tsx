@@ -30,7 +30,10 @@ const MainShoppingCart: React.FC<{
       }
       setOpenCart(false);
     };
-
+  const handleOpenCartPage = () => {
+    history.push("/cart");
+    setOpenCart(false);
+  };
   const list = (anchor: Anchor) => (
     <div
       className={clsx(classes.list)}
@@ -89,10 +92,7 @@ const MainShoppingCart: React.FC<{
             variant="outlined"
             fullWidth
             className={classes.btn}
-            onClick={() => {
-              history.push("/cart");
-              setOpenCart(false);
-            }}
+            onClick={handleOpenCartPage}
           >
             View Cart
           </Button>
