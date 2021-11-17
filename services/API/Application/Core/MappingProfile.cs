@@ -10,6 +10,7 @@ using Application.Review;
 using AutoMapper;
 using Domain;
 using Domain.Enum;
+using CategoryDto = Application.Categories.CategoryDto;
 
 namespace Application.Core
 {
