@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
+.App {
+  font-family: "Inter", sans-serif;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  --color-pink-bg: #fff6f6;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.text-bold {
+  font-weight: 500 !important;
+  display: inherit;
+}
+.MuiTypography-root {
+  font-family: "Inter", sans-serif !important;
+  display: inherit;
+}
+.pink-background {
+  background-color: #fff6f6;
+}
+.MuiTableCell-root {
+  font-family: "Inter", sans-serif !important;
+  --color-pink-bg: #fff6f6;
+}
+.MuiFormLabel-rootroot {
+  font-family: "Inter", sans-serif !important;
+  display: inherit;
+}
+.text-error {
+  color: red !important;
+}
+label {
+  font-family: "Inter", sans-serif !important;
+  color: black;
+}
+.text-gray {
+  color: "gray";
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.bg-primary {
+  background-color: #1d2326;
+}
+.MuiButton-startIcon {
+  margin: 0 !important;
+  display: inherit;
+}

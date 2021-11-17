@@ -6,7 +6,6 @@ import MainShoppingCart from "../components/shoppingcart/MainShoppingCart";
 import HeaderComponent from "../components/layout/navbar/HeaderComponent";
 import NavBarComponent from "../components/layout/navbar/NavBar";
 import SideBarComponent from "../components/layout/sidebar/MainSideBar";
-import FooterComponent from "../components/layout/footer/MainFooter";
 import PrivateRoute from "../components/route/PrivateRoute";
 
 const MainLayout: React.FC = () => {
@@ -37,7 +36,7 @@ const MainLayout: React.FC = () => {
           );
         })}
       </Switch>
-      <FooterComponent />
+      {/* <FooterComponent /> */}
     </div>
   );
 };

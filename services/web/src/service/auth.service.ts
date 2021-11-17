@@ -3,14 +3,14 @@ import api from "../boot/axios";
 export const userService = {
     login,
     logout,
-    register
+    register,
+    updateAccount
 };
 
 function login(email : any, password: any){
     return api.post('/account/login', {email, password})
                 .then((response) => {
                     if(response.data.token){
-                        console.log(response.data);
                         localStorage.setItem("user", JSON.stringify(response.data));
                     }
 
@@ -28,4 +28,14 @@ function register(firstName: any,lastName: any, email: any, password: any) {
 }
 function logout(){
     localStorage.removeItem("user");
+}
+
+function updateAccount(firstName: any,lastName: any, currentPassword: any, newPassword: any) {
+    return api.post('/account/update-account', {firstName,lastName,currentPassword, newPassword})
+                .then((response) => {
+                    if(response.data.token){
+                        localStorage.setItem("user", JSON.stringify(response.data));
+                    }
+                    return response.data;
+                })
 }
