@@ -1216,6 +1216,19 @@ namespace Persistence
             //     };
             //     await context.Orders.AddRangeAsync(orderList);
             // }
+            if (!context.DeliveryMethods.Any())
+            {
+                var deliveryMethods = new List<DeliveryMethod>()
+                {
+                    new DeliveryMethod()
+                    {
+                        Id = new Guid(),
+                        Name = "Giao hàng nhanh",
+                        Description = "Giao hàng nhanh",
+                    }
+                };
+                await context.DeliveryMethods.AddRangeAsync(deliveryMethods);
+            }
             if (!context.ConfigQuantities.Any())
             {
                 var configs = new List<ConfigQuantity>()

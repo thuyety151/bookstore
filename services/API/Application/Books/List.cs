@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,7 +14,7 @@ using Persistence;
 
 namespace Application.Books
 {
-    public class List
+    public class List : IEnumerable
     {
         public class Query : IRequest<Result<PagedList<BooksDto>>>
         {
@@ -204,6 +205,10 @@ namespace Application.Books
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));
             }
+        }
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
