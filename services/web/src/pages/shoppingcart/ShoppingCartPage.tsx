@@ -10,7 +10,7 @@ import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createOrder } from "../../redux/actions/order/postAction";
 
@@ -18,6 +18,7 @@ const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
   const items = useSelector((state: RootStore) => state.cart);
   const history = useHistory();
+  const dispatch = useDispatch();
   const [chooseAddress, setChooseAddress] = React.useState(false);
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
@@ -29,7 +30,7 @@ const ShoppingCartPage: React.FC = () => {
     return false;
   };
   const handleClick = () => {
-    createOrder(items.itemToCheckOut, currentAddress);
+    dispatch(createOrder());
     history.push("/check-out");
   };
   return (

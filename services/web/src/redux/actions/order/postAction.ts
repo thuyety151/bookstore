@@ -1,11 +1,22 @@
 import apiGHN from "../../../boot/apiGHN";
+import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
-import { Address } from "../../../model/address";
-import Item from "../../../model/item";
+import { NAME_ACTIONS } from "../../constants/order/actionTypes";
+import store from "../../store";
 
-export const createOrder = async (items: Item[], address: Address) => {
-  try {
-    // if create order success => create delivery
+export const createOrder = () => async (dispatch: any) => {
+  const state = store.getState();
+  const address = store.getState().address.currentAddress;
+
+  const data = {
+    itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
+    addressId: state.address.currentAddress.id,
+  };
+  const response = await api.post("/orders", data);
+
+  if (response.data.value) {
+    dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
+
     const order = {
       payment_type_id: 2,
       note: "note",
@@ -21,7 +32,13 @@ export const createOrder = async (items: Item[], address: Address) => {
       required_note: "KHONGCHOXEMHANG",
       deliver_station_id: null,
       weight: 200,
-      items: items.map((item) => {
+      order_value: 200000,
+      service_type_id: 2,
+      service_id: 0,
+      insurance_value: 100000,
+      cod_amount: 200000,
+      pick_station_id: 1444,
+      items: state.cart.itemToCheckOut.map((item) => {
         return {
           name: item.productName,
           code: "hi",
@@ -33,7 +50,28 @@ export const createOrder = async (items: Item[], address: Address) => {
         };
       }),
     };
-    const createDelivery = await apiGHN.post("/shipping-order/create", order);
-    console.log("sda", createDelivery);
-  } catch (error: any) {}
+
+    const createDelivery = await apiGHN.post(
+      "/v2/shipping-order/create",
+      order
+    );
+
+    if (createDelivery.status === 200) {
+      dispatch({
+        type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+          .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
+      });
+    } else {
+      dispatch({
+        type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+          .CREATE_DELIVERY_FOR_ORDER_FAIL,
+        message: createDelivery.data.error,
+      });
+    }
+  } else {
+    dispatch({
+      type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_FAIL,
+      message: response.data.error,
+    });
+  }
 };
