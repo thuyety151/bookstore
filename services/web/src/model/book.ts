@@ -5,11 +5,14 @@ export interface BookType {
 export interface Book {
   id: string;
   name: string;
+  pictureUrl: string;
   attribute: string;
   attriuteId: string;
   author: string;
   authorId: string;
-  regularPrice: string;
+  price: string;
   salePrice: string;
-  imageUrl: string;
+  languageId: string;
+  language: string;
+  
 }

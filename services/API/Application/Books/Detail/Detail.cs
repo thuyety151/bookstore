@@ -31,11 +31,11 @@ namespace Application.Books.Detail
             }
             public async Task<Result<BookDetailDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var bookDetailDto = _context.Books.Include(x => x.Author)
+                var bookDetailDto = await  _context.Books.Include(x => x.Author)
                                             .Include(x => x.Language)
                                             .Include(x => x.Attributes).ThenInclude(x => x.Attribute)
                                             .ProjectTo<BookDetailDto>(_mapper.ConfigurationProvider)
-                                            .FirstOrDefault(x => x.Id == request.Id);
+                                            .FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 if (bookDetailDto == null)
                 {

@@ -45,11 +45,6 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            if (result.Value.Count == 0)
-            {
-                return BadRequest(result.Error);
-            }
-
             if (result.IsSuccess == true && result.Value != null)
             {
                 Response.AddPaginationHeader(result.Value.CurrentPage, result.Value.PageSize, result.Value.TotalPage, result.Value.TotalCount);

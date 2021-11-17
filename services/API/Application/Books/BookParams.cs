@@ -13,5 +13,7 @@ namespace Application.Books
         public double MaxPrice { get; set; }
         public string Rates { get; set; }
         
+        public string Predicate { get; set; }
+        
     }
 }

@@ -31,10 +31,10 @@ namespace Persistence.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CityTown")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("District")
+                    b.Property<string>("DistrictName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -49,13 +49,16 @@ namespace Persistence.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostCode")
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProvinceName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Street")
+                    b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Wards")
+                    b.Property<string>("WardName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -214,9 +217,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
                     b.Property<string>("PublicationCountry")
                         .HasColumnType("nvarchar(max)");
 
@@ -226,20 +226,8 @@ namespace Persistence.Migrations
                     b.Property<string>("Publisher")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("SalePrice")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("SalePriceEndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("SalePriceStartDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StockStatus")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");

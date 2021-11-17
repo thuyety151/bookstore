@@ -5,7 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import data from '../../../mocks/feature'
 import BookItem from './BookItem';
-import { ButtonBase, Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography } from '@material-ui/core';
 import img from '../../../assets/images/new-release.png';
 
 

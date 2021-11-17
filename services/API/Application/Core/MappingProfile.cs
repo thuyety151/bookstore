@@ -1,8 +1,8 @@
 using System.Linq;
+using Application.Attributes;
 using Application.Authors;
 using Application.Books;
 using Application.Books.Detail;
-using Application.Carts;
 using Application.Categories;
 using Application.Review;
 using AutoMapper;
@@ -17,7 +17,6 @@ namespace Application.Core
             CreateMap<Author, AuthorDto>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Domain.Review, ReviewDto>();
-            CreateMap<Book, BookDto>();
             CreateMap<Category, BooksCategoriesDto>();
             CreateMap<Book, BooksCategoriesDto>();
             CreateMap<Book, BookDetailDto>()
@@ -26,12 +25,13 @@ namespace Application.Core
                 .ForMember(x => x.AuthorName, o => o.MapFrom(s => s.Author.Name))
                 .ForMember(x => x.Price,
                     o => o.MapFrom(x => x.Attributes.FirstOrDefault(x => x.Attribute.Name == "Paperback").Price));
-            CreateMap<Item, BookDto>();
 
             CreateMap<BookAttribute, BookAttributeDto>()
                 .ForMember(x => x.Id, o => o.MapFrom(x => x.AttributeId))
                 .ForMember(x => x.Name, o => o.MapFrom(x => x.Attribute.Name));
+            CreateMap<Domain.Attribute, AttributeDto>();
         }
+        
         
     }
 }

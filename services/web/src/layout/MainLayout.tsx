@@ -36,6 +36,7 @@ const MainLayout: React.FC = () => {
           );
         })}
       </Switch>
+      {/* <FooterComponent /> */}
     </div>
   );
 };

@@ -14,11 +14,6 @@ namespace Domain
         public string ShortDescription { get; set; }
         public string Description { get; set; }
         public bool IsPublic { get; set; }
-        public double Price { get; set; }
-        public double SalePrice { get; set; }
-        public DateTime SalePriceStartDate { get; set; }
-        public DateTime SalePriceEndDate { get; set; }
-        public StockStatus StockStatus { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public bool IsDeleted { get; set; }
@@ -34,21 +29,5 @@ namespace Domain
         public string Publisher { get; set; }
         public string PublicationCountry { get; set; }
 
-        public int GetTotalStock()
-        {
-            var totalStock =  Attributes.Sum(x => x.TotalStock);
-
-            if (totalStock > 0)
-            {
-                StockStatus = Enum.StockStatus.InStock;
-            }
-            else
-            {
-                StockStatus = Enum.StockStatus.OutOfStock;
-            }
-
-            return totalStock;
-        }
-        
     }
 }

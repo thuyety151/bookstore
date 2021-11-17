@@ -35,7 +35,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
             <ButtonBase className={classes.image} onClick={()=>handleNavBook(item.item.id)}>
               <img
                 className={classes.image}
-                src={item.item.imageUrl}
+                src={item.item.pictureUrl}
                 alt="img"
               />
             </ButtonBase>
@@ -71,7 +71,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.regularPrice}
+                  {item.item.price}
                 </Typography>
               </Grid>
             ) : (
@@ -83,7 +83,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
                   {item.item.salePrice}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
-                  {item.item.regularPrice}
+                  {item.item.price}
                 </Typography>
               </Grid>
             )}
