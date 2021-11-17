@@ -76,24 +76,24 @@ namespace Application.Orders
                 //Get list item 
                 var items = _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString()));
 
-                // CHECK QUANTITY
-                // foreach (var item in items)
-                // {
-                //     var bookAttribute = _context.BookAttributes
-                //         .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
-                //     if (bookAttribute == null || bookAttribute.TotalStock < item.Quantity)
-                //     {
-                //         return Result<Unit>.Failure("Not valid ...");
-                //     }
-                //
-                //     bookAttribute.TotalStock -= item.Quantity;
-                //     
-                //     // handle total stock status
-                //     if (bookAttribute.TotalStock == 0)
-                //     {
-                //         bookAttribute.StockStatus = StockStatus.OutOfStock;
-                //     }
-                // }
+                // Check quantity
+                foreach (var item in items)
+                {
+                    var bookAttribute = _context.BookAttributes
+                        .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
+                    if (bookAttribute == null || bookAttribute.TotalStock < item.Quantity)
+                    {
+                        return Result<Unit>.Failure("Not valid ...");
+                    }
+                
+                    bookAttribute.TotalStock -= item.Quantity;
+                    
+                    // handle total stock status
+                    if (bookAttribute.TotalStock == 0)
+                    {
+                        bookAttribute.StockStatus = StockStatus.OutOfStock;
+                    }
+                }
                 
                 
                 var order = new Order()
