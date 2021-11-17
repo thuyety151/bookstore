@@ -8,7 +8,7 @@ namespace Application.Orders
 {
     public class OrderParams
     {
-        public List<Item> Items { get; set; }
+        public List<string> ItemIds { get; set; }
         public Guid AddressId { get; set; }
         public VerifyCouponParams Coupon { get; set; }
         public string OrderNote { get; set; }

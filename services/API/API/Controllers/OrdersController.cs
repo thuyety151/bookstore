@@ -6,7 +6,7 @@ using Upsert = Application.Orders.Upsert;
 namespace API.Controllers
 {
     [Authorize]
-    public class OrderController : BaseApiController
+    public class OrdersController : BaseApiController
     {
         [HttpPost]
         public async Task<IActionResult> CreateOrder(OrderParams orderParams)

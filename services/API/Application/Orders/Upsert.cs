@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -37,7 +38,7 @@ namespace Application.Orders
             private readonly IHttpContextAccessor _httpContext;
             private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IHttpContextAccessor httpContext,IMapper mapper)
+            public Handler(DataContext context, IHttpContextAccessor httpContext, IMapper mapper)
             {
                 _context = context;
                 _httpContext = httpContext;
@@ -49,16 +50,19 @@ namespace Application.Orders
                 // CHECK COUPON
                 if (request.OrderParams.Coupon != null)
                 {
-                    var coupon =await _context.Coupons.Include(x => x.Books)
-                        .SingleOrDefaultAsync((x) => x.Code == request.OrderParams.Coupon.Code.Trim() && x.IsDeleted == false);
+                    var coupon = await _context.Coupons.Include(x => x.Books)
+                        .SingleOrDefaultAsync((x) =>
+                            x.Code == request.OrderParams.Coupon.Code.Trim() && x.IsDeleted == false);
                     if (coupon == null)
                     {
                         return Result<Unit>.Failure("Coupon is not exist");
                     }
+
                     if (DateTime.Now > coupon.ExpireDate)
                     {
                         return Result<Unit>.Failure("Coupon is expired");
                     }
+
                     foreach (var item in request.OrderParams.Coupon.Items)
                     {
                         var checkProductId = coupon.Books.SingleOrDefault((x) => x.BookId == item.ProductId);
@@ -68,62 +72,60 @@ namespace Application.Orders
                         }
                     }
                 }
-                
-                // CHECK QUANTITY
-                foreach (var item in request.OrderParams.Items)
+
+                //Get list item 
+                var items = _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString()));
+
+                // Check quantity
+                foreach (var item in items)
                 {
                     var bookAttribute = _context.BookAttributes
-                        .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId==item.AttributeId);
-                    if (bookAttribute==null || bookAttribute.TotalStock < item.Quantity)
+                        .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
+                    if (bookAttribute == null || bookAttribute.TotalStock < item.Quantity)
                     {
                         return Result<Unit>.Failure("Not valid ...");
                     }
+                
                     bookAttribute.TotalStock -= item.Quantity;
+                    
                     // handle total stock status
                     if (bookAttribute.TotalStock == 0)
                     {
                         bookAttribute.StockStatus = StockStatus.OutOfStock;
                     }
                 }
-                // try
-                // {
-                    var cart = _context.Carts.Include(x => x.Items)
-                        .FirstOrDefault(
-                            x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    // foreach (var item in cart.Items)
-                    // {
-                    //     if (request.OrderParams.Items.FirstOrDefault(x=>x.Id==item.Id)!=null)
-                    //     {
-                    //         // item.Quantity = 10;
-                    //         // cart.Items.Remove(item);
-                    //     }
-                    //     else
-                    //     {
-                    //         return Result<Unit>.Failure("HOHOO");
-                    //     }
-                    // }
-                    // _context.Items.RemoveRange(request.OrderParams.Items);
-                    // _context.SaveChangesAsync();
-                    var order = new Order()
+                
+                
+                var order = new Order()
+                {
+                    Id = new Guid(),
+                    OrderDate = DateTime.Now,
+                    Status = (int) Status.Processing,
+                    PaymentMethod = (int) PaymentMethod.CashOnDelivery,
+                    SubTotal = items.Select(x => x.Price).Sum(),
+                    OrderNote = request.OrderParams.OrderNote,
+                    UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    AddressToShip = _context.Addresses.FirstOrDefault(x => x.Id == request.OrderParams.AddressId),
+                    DeliveryMethod = _context.DeliveryMethods.FirstOrDefault(),
+                    Items = new List<Item>()
+                };
+
+                var cart = _context.Carts.Include(x => x.Items)
+                    .FirstOrDefault(
+                        x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (cart != null)
+                    foreach (var item in items)
                     {
-                        OrderDate = DateTime.Now,
-                        Status = (int) Status.Processing,
-                        PaymentMethod = (int) PaymentMethod.CashOnDelivery,
-                        SubTotal = request.OrderParams.Items.Select(x => x.Price).Sum(),
-                        OrderNote = request.OrderParams.OrderNote,
-                        UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                        AddressToShip = _context.Addresses.FirstOrDefault(x => x.Id == request.OrderParams.AddressId),
-                        DeliveryMethod = _context.DeliveryMethods.FirstOrDefault(),
-                        Items = request.OrderParams.Items
-                    };
-                    await _context.Orders.AddAsync(order);
-                    await _context.SaveChangesAsync();
-                    return Result<Unit>.Success(Unit.Value);
-                // }
-                // catch (Exception exception)
-                // {
-                //     return  Result<Unit>.Failure(exception.Message.ToString());
-                // }
+                        if (cart.Items.Contains(item))
+                        {
+                            cart.Items.Remove(item);
+                            order.Items.Add(item);
+                        }
+                    }
+                
+                await _context.Orders.AddAsync(order);
+                await _context.SaveChangesAsync();
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

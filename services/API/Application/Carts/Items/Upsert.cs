@@ -85,7 +85,7 @@ namespace Application.Carts.Items
                     var newItem = new Item()
                     {
                         Id = new Guid(),
-                        ProductId = bookAttribute.AttributeId,
+                        ProductId = bookAttribute.BookId,
                         ProductName = bookAttribute.Book.Name,
                         AuthorId = bookAttribute.Book.Author.Id,
                         AuthorName = bookAttribute.Book.Author.Name,
