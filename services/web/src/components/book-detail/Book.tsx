@@ -16,7 +16,6 @@ import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../redux/store";
-import NegativeAlert from "../core/alert/NegativeAlert";
 import Attribute from "../../model/attribute";
 import AddOrUpdateItem from "../../model/AddOrUpdateItem";
 import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
@@ -82,9 +81,7 @@ export default function DetailBook() {
   //hard data
   // const bookId = "367B359F-CDE9-4D15-BC37-08D99961828A";
   const attributeId = "94B5913A-2B6F-47ED-270D-08D999618231";
-  const { success, message, data } = useSelector(
-    (state: RootStore) => state.book
-  );
+  const { data } = useSelector((state: RootStore) => state.book);
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute | null>();
 
@@ -140,7 +137,6 @@ export default function DetailBook() {
   }
   return (
     <div className={classes.root}>
-      {!success ? <NegativeAlert message={message || ""} /> : null}
       <Paper className={classes.paper}>
         {data && (
           <Grid container spacing={2}>
