@@ -1,5 +1,6 @@
 using Application.Authors;
 using Application.Core;
+using Infrastructure.Medias;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,7 @@ namespace API.Extensions
                     policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
                 });
             });
+            services.Configure<CloudinarySetting>(configuration.GetSection("Cloudinary"));
             return services;
         }
     }
