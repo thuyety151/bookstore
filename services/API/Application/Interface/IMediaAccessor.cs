@@ -6,7 +6,7 @@ namespace Application.Interface
 {
     public interface IMediaAccessor
     {
-        Task<MediaUploadResult> AddMedia(FormFile file);
+        Task<MediaUploadResult> AddMedia(IFormFile file);
         Task<string> DeleteMedia(string publicId);
     }
 }

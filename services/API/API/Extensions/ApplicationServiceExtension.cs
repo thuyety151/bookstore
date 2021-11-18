@@ -1,5 +1,6 @@
 using Application.Authors;
 using Application.Core;
+using Application.Interface;
 using Infrastructure.Medias;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace API.Extensions
                 });
             });
             services.Configure<CloudinarySetting>(configuration.GetSection("Cloudinary"));
+            services.AddScoped<IMediaAccessor, MediaAccessor>();
             return services;
         }
     }

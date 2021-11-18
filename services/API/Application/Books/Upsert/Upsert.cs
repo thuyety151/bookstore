@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Interface;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Persistence;
 
 namespace Application.Books.Upsert
@@ -20,10 +22,12 @@ namespace Application.Books.Upsert
         public class Handler : IRequestHandler<Command, Result<Guid>>
         {
             private readonly DataContext _context;
+            private readonly IMediaAccessor _mediaAccessor;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMediaAccessor mediaAccessor)
             {
                 _context = context;
+                _mediaAccessor = mediaAccessor;
             }
             public async  Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
@@ -81,6 +85,23 @@ namespace Application.Books.Upsert
                         };
                         book.Categories.Add(bookCategory);
                     }
+                    
+                    //Add main photo
+                    if (!(string.IsNullOrWhiteSpace(request.BookParams.MainMediaId)))
+                    {
+                        var photo = _context.Media.FirstOrDefault(
+                            x => x.Id == request.BookParams.MainMediaId);
+                        
+                        if (photo != null)
+                        {
+                            photo.IsMain = true;
+                            photo.IsVideo = false;
+                            photo.Name = book.Name;
+                            
+                            book.Media.Add(photo);
+                        }
+                    }
+                    
                     await _context.Books.AddAsync(book);
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(book.Id);

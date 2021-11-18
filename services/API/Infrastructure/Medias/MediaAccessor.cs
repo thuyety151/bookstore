@@ -19,7 +19,7 @@ namespace Infrastructure.Medias
             _cloudinary = new Cloudinary(account);
         }
 
-        public async Task<MediaUploadResult> AddMedia(FormFile file)
+        public async Task<MediaUploadResult> AddMedia(IFormFile file)
         {
             if (file.Length > 0)
             {
