@@ -18,7 +18,7 @@ namespace Application.Books.Upsert
         public string Publisher { get; set; }
         public string PublicationCountry { get; set; }
         
-        public List<CategoryDto> Categories { get; set; }
+        public List<string> CategoryIds { get; set; }
         public List<BookAttribute> Attributes { get; set; }
     }
 }

@@ -70,6 +70,17 @@ namespace Application.Books.Upsert
                         book.Attributes.Add(bookAttribute);
                     }
 
+                    var categories =
+                        _context.Categories.Where(x => request.BookParams.CategoryIds.Contains(x.Id.ToString()));
+
+                    foreach (var category in categories)
+                    {
+                        var bookCategory = new BookCategory()
+                        {
+                            Category = category
+                        };
+                        book.Categories.Add(bookCategory);
+                    }
                     await _context.Books.AddAsync(book);
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(book.Id);
