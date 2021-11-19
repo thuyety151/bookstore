@@ -33,7 +33,8 @@ namespace Application.Orders.Admin
                 var order = _context.Orders
                     .Include(x => x.AddressToShip)
                     .Include(x => x.Items)
-                    .Include(x => x.DeliveryMethod);
+                    .Include(x => x.DeliveryMethod)
+                    .Where(x => x.IsDeleted == false);
                 
                 var orderDtos = order.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
                 

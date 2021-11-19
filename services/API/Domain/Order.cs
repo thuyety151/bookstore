@@ -20,6 +20,7 @@ namespace Domain
         public DeliveryMethod DeliveryMethod { get; set; }
         public ICollection<Item> Items { get; set; }
         public Address AddressToShip { get; set; }
+        public bool IsDeleted { get; set; }
 
         public double GetTotal()
         {

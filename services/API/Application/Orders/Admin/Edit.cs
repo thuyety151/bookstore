@@ -24,7 +24,7 @@ namespace Application.Orders.Admin
             }
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var order = _context.Orders.FirstOrDefault(x => x.Id == request.OrderParams.Id);
+                var order = _context.Orders.FirstOrDefault(x => x.Id == request.OrderParams.Id && x.IsDeleted == false);
                 
                 if (order == null)
                 {
