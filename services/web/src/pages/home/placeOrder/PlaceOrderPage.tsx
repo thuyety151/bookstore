@@ -8,24 +8,21 @@ import {
   Theme,
   Divider,
 } from "@material-ui/core";
-import { join } from "lodash";
+import { RootStore } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
-const orderDetails = [
-  {
-    name: "The Overdue Life of Amy Byler",
-    quantity: 7,
-    attributeName: ["Paperback", "English"],
-    price: 951,
-  },
-  {
-    name: "All You Can Ever Know:A Memoir",
-    quantity: 3,
-    attributeName: ["Paperback", "English"],
-    price: 348,
-  },
-];
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
+  const cartState = useSelector((state: RootStore) => state.cart);
+  const addressState = useSelector((state: RootStore) => state.address);
+  const {
+    appartmentNumber,
+    streetAddress,
+    wardName,
+    districtName,
+    provinceName,
+  } = addressState.currentAddress;
+
   return (
     <div className={classes.root}>
       <Typography variant="h4" className={classes.title}>
@@ -55,19 +52,19 @@ const PlaceOrderPage: React.FC = () => {
               <Grid item>
                 <Typography>Date:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  March 24, 2020
+                  {new Date().toLocaleString()}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography>Total:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  $2930
+                  {cartState.subTotal}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography>Payment method:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  Direct bank tranfer
+                  Giao Hang Nhanh
                 </Typography>
               </Grid>
             </Grid>
@@ -80,16 +77,16 @@ const PlaceOrderPage: React.FC = () => {
               >
                 Order Details
               </Typography>
-              {orderDetails.map((item, index) => (
+              {cartState.itemToCheckOut.map((item, index) => (
                 <Grid item container justifyContent="space-between" key={index}>
                   <Grid item>
-                    <Typography>{item.name}</Typography>
+                    <Typography>{item.productName}</Typography>
                     <Typography variant="caption">
-                      ({join(item.attributeName)})
+                      {item.attributeName}
                     </Typography>
                   </Grid>
                   <Grid item>x {item.quantity}</Grid>
-                  <Grid item>$ {item.price}</Grid>
+                  <Grid item>$ {item.price * item.quantity}</Grid>
                 </Grid>
               ))}
             </Grid>
@@ -100,7 +97,7 @@ const PlaceOrderPage: React.FC = () => {
                   Subtotal:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  $951
+                  {cartState.subTotal}
                 </Typography>
               </Grid>
               <Grid item container justifyContent="space-between">
@@ -128,25 +125,33 @@ const PlaceOrderPage: React.FC = () => {
               className={classes.total}
             >
               <Grid item>Total</Grid>
-              <Grid item>$2498</Grid>
+              <Grid item>{cartState.subTotal}</Grid>
             </Grid>
             <Divider />
             <Grid item container>
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Billing Address</Typography>
-                <Typography variant="body2">Ali Tufan</Typography>
-                <Typography variant="body2">Bedford St,</Typography>
-                <Typography variant="body2">Covent Garden,</Typography>
-                <Typography variant="body2">London WC2E 9ED</Typography>
-                <Typography variant="body2">United Kingdom</Typography>
+                {[
+                  appartmentNumber,
+                  streetAddress,
+                  wardName,
+                  districtName,
+                  provinceName,
+                ].map((data) => {
+                  return <Typography variant="body2">{data}</Typography>;
+                })}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Shipping Address</Typography>
-                <Typography variant="body2">Ali Tufan</Typography>
-                <Typography variant="body2">Bedford St,</Typography>
-                <Typography variant="body2">Covent Garden,</Typography>
-                <Typography variant="body2">London WC2E 9ED</Typography>
-                <Typography variant="body2">United Kingdom</Typography>
+                {[
+                  appartmentNumber,
+                  streetAddress,
+                  wardName,
+                  districtName,
+                  provinceName,
+                ].map((data) => {
+                  return <Typography variant="body2">{data}</Typography>;
+                })}
               </Grid>
             </Grid>
           </Paper>

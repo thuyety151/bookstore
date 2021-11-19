@@ -5,7 +5,6 @@ import {
   Paper,
   TextField,
   Theme,
-  Typography,
 } from "@material-ui/core";
 import React from "react";
 
@@ -21,7 +20,7 @@ const BillingDetailForm: React.FC = () => {
               <span className={"text-bold"}>First name</span>
               <TextField variant="outlined" />
             </Grid>
-            <Grid item  direction="column">
+            <Grid item direction="column">
               <span className={"text-bold"}>Last name</span>
               <TextField variant="outlined" />
             </Grid>

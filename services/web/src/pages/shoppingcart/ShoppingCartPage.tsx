@@ -10,28 +10,26 @@ import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createOrder } from "../../redux/actions/order/postAction";
+import { useSnackbar } from "notistack";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
   const items = useSelector((state: RootStore) => state.cart);
   const history = useHistory();
-  const dispatch = useDispatch();
   const [chooseAddress, setChooseAddress] = React.useState(false);
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
-  const canCheckout = () => {
-    if (!items.itemToCheckOut.length || !currentAddress) {
-      return true;
-    }
-    return false;
-  };
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleClick = () => {
-    dispatch(createOrder());
-    history.push("/check-out");
+    if (!items.itemToCheckOut.length || !currentAddress) {
+      enqueueSnackbar("Please choose items", { variant: "error" });
+    } else {
+      history.push("/check-out");
+    }
   };
   return (
     <div className={classes.root}>
@@ -56,11 +54,7 @@ const ShoppingCartPage: React.FC = () => {
               chooseAddress={chooseAddress}
               setChooseAddress={setChooseAddress}
             />
-            <PrimaryButton
-              text="Proceed to checkout"
-              disable={canCheckout()}
-              onClick={handleClick}
-            />
+            <PrimaryButton text="Proceed to checkout" onClick={handleClick} />
             {/* <Link to="/check-out"></Link> */}
           </Grid>
         </Grid>
