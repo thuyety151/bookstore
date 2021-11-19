@@ -21,5 +21,11 @@ namespace API.Controllers
         {
             return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams}));
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteOrder(string id)
+        {
+            return HandleResult(await Mediator.Send(new Delete.Command() {Id = id}));
+        }
     }
 }

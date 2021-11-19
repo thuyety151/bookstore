@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using Application.Core;
 using Application.Interface;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Books
+namespace Application.Orders.Admin
 {
     public class Delete
     {
@@ -19,7 +18,7 @@ namespace Application.Books
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-
+            
             public Handler(DataContext context)
             {
                 _context = context;
@@ -27,20 +26,20 @@ namespace Application.Books
             
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var book = _context.Books.FirstOrDefault(x => x.Id.ToString() == request.Id && x.IsDeleted == false);
-                if (book == null)
+                var order = _context.Orders.FirstOrDefault(x => x.Id.ToString() == request.Id && x.IsDeleted == false);
+                if (order == null)
                 {
-                    return Result<Unit>.Failure("Book does not exist");
+                    return Result<Unit>.Failure("Order does not exist");
                 }
 
                 //turn flag isDeleted
-                book.IsDeleted = true;
+                order.IsDeleted = true;
                 
                 var result = await _context.SaveChangesAsync() > 0;
 
                 if (result) return Result<Unit>.Success(Unit.Value);
                 
-                return Result<Unit>.Failure("Error when delete book");
+                return Result<Unit>.Failure("Error when delete order");
             }
         }
     }
