@@ -117,7 +117,7 @@ namespace Application.Books.Upsert
                         .Include(x => x.Language)
                         .Include(x => x.Categories)
                         .Include(x => x.Media)
-                        .FirstOrDefault(x => x.Id == request.BookParams.Id);
+                        .FirstOrDefault(x => x.Id == request.BookParams.Id && x.IsDeleted == false);
                     if (bookToUpdate == null)
                     {
                         return Result<Guid>.Failure("Book does not exist");

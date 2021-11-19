@@ -31,5 +31,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() {BookParams = bookUpsertParams}));
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBook(string id)
+        {
+            return HandleResult(await Mediator.Send(new Delete.Command() {Id = id}));
+        }
      }
 }
