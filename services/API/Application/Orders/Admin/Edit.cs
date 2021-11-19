@@ -33,7 +33,11 @@ namespace Application.Orders.Admin
 
                 if (!string.IsNullOrWhiteSpace(request.OrderParams.CustomerId))
                 {
-                    order.UserId = _context.Users.FirstOrDefault(x => x.Id == request.OrderParams.CustomerId)?.Id;
+                    var customer = _context.Users.FirstOrDefault(x => x.Id == request.OrderParams.CustomerId);
+                    if (customer != null)
+                    {
+                        order.UserId = new Guid(request.OrderParams.CustomerId);
+                    }
                 }
 
                 if (request.OrderParams.AddressId != Guid.Empty)

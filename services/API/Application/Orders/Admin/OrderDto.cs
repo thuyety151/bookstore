@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Enum;
+using Domain;
 
-namespace Domain
+namespace Application.Orders.Admin
 {
-    public class Order
+    public class OrderDto
     {
         public Guid Id { get; set; }
         public DateTime OrderDate { get; set; }
@@ -13,17 +13,10 @@ namespace Domain
         public int PaymentMethod { get; set; }
         public double SubTotal { get; set; }
         public string OrderNote { get; set; }
-        public Guid UserId { get; set; }
-        
-        [ForeignKey("DeliveryMethod")]
+        public string UserId { get; set; }
         public Guid DeliveryMethodId { get; set; }
-        public DeliveryMethod DeliveryMethod { get; set; }
         public ICollection<Item> Items { get; set; }
         public Address AddressToShip { get; set; }
-
-        public double GetTotal()
-        {
-            return SubTotal + DeliveryMethod.Price;
-        }
+        public double Total { get; set; }
     }
 }
