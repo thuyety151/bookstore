@@ -13,7 +13,7 @@ namespace Domain
         public int PaymentMethod { get; set; }
         public double SubTotal { get; set; }
         public string OrderNote { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         
         [ForeignKey("DeliveryMethod")]
         public Guid DeliveryMethodId { get; set; }

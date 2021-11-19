@@ -104,7 +104,7 @@ namespace Application.Orders
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
                     SubTotal = items.Select(x => x.Price).Sum(),
                     OrderNote = request.OrderParams.OrderNote,
-                    UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    UserId = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
                     AddressToShip = _context.Addresses.FirstOrDefault(x => x.Id == request.OrderParams.AddressId),
                     DeliveryMethod = _context.DeliveryMethods.FirstOrDefault(),
                     Items = new List<Item>()
