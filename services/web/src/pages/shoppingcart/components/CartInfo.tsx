@@ -6,10 +6,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   FormHelperText,
   Grid,
   InputBase,
   Paper,
+  Radio,
+  RadioGroup,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -24,6 +27,8 @@ import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
 import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
 import { sum } from "lodash";
+import { getFee } from "../../../redux/actions/order/getActions";
+import { getServices } from "../../../redux/actions/delivery/getAction";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -43,6 +48,8 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     (state: RootStore) => state.cart.itemToCheckOut
   );
   const couponState = useSelector((state: RootStore) => state.coupon);
+  const deliveryState = useSelector((state: RootStore) => state.delivery);
+
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
     setChooseAddress(true);
@@ -51,8 +58,16 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     dispatch(verifyCoupon(couponCode));
   };
   useEffect(() => {
-    dispatch(getDefaultAddress());
+    dispatch(
+      getDefaultAddress(() => {
+        dispatch(getServices());
+      })
+    );
+    // if (!deliveryState.services.length) {
+    //   dispatch();
+    // }
   }, [dispatch]);
+
   const subTotal = () => {
     return sum(
       itemsToCheckout.map((x) => {
@@ -60,6 +75,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
       })
     );
   };
+
   return (
     <div className={classes.root}>
       <Grid
@@ -86,10 +102,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
                 <span>Subtotal</span>
                 <span>{subTotal()}</span>
               </div>
-              <Grid item className="row">
-                <span>Shipping</span>
-                <span>79.99</span>
-              </Grid>
             </Grid>
           </Paper>
         </Collapse>
@@ -98,6 +110,26 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           <Paper variant="outlined" className={classes.paper}>
             <div>
               <h3>Shipping</h3>
+              <Grid item className="row">
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender"
+                  // value={value}
+                  // onChange={handleChange}
+                >
+                  <span>Shipping</span>
+                  {deliveryState.services.map((service, index) => {
+                    return (
+                      <FormControlLabel
+                        key={index}
+                        value={service.service_id}
+                        control={<Radio />}
+                        label={service.short_name}
+                      />
+                    );
+                  })}
+                </RadioGroup>
+              </Grid>
               <span
                 className="cursor-pointer"
                 onClick={() =>

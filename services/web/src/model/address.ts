@@ -6,14 +6,17 @@ export type AddressFormSchema = {
   province: {
     id: number;
     name: string;
+    code: string;
   };
   district: {
     id: number;
     name: string;
+    code: string;
   };
   ward: {
     id: number;
     name: string;
+    code: string;
   };
   street: string;
   isDefault: boolean;
@@ -26,9 +29,10 @@ export type Address = {
   phone: string;
   apartmentNumber: string;
   streetAddress: string;
-  districtID: number;
-  provinceID: number;
+  districtId: number;
+  provinceId: number;
   wardName: string;
+  wardCode: string;
   districtName: string;
   provinceName: string;
   isMain: boolean;

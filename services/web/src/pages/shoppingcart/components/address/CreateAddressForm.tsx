@@ -29,14 +29,17 @@ const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     province: {
       id: 0,
       name: "",
+      code: "",
     },
     district: {
       id: 0,
       name: "",
+      code: "",
     },
     ward: {
       id: 0,
       name: "",
+      code: "",
     },
     street: "",
     isDefault: false,
@@ -57,7 +60,6 @@ const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         },
         onFailure: (error: any) => {
-          console.log("Sdf", error);
           enqueueSnackbar(error, { variant: "error" });
         },
       })
