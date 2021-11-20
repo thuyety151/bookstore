@@ -100,7 +100,7 @@ namespace Application.Orders
                 {
                     Id = new Guid(),
                     OrderDate = DateTime.Now,
-                    Status = (int) Status.Processing,
+                    Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name ,
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
                     SubTotal = items.Select(x => x.Price).Sum(),
                     OrderNote = request.OrderParams.OrderNote,

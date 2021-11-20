@@ -9,7 +9,7 @@ namespace Application.Orders.Admin
     {
         public Guid Id { get; set; }
         public DateTime OrderDate { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
         public int PaymentMethod { get; set; }
         public double SubTotal { get; set; }
         public string OrderNote { get; set; }
