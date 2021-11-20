@@ -62,5 +62,6 @@ namespace Persistence
         public DbSet<BookCoupon> BookCoupons { get; set; }
         public DbSet<BookAttribute> BookAttributes { get; set; }
         public DbSet<ConfigQuantity> ConfigQuantities { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
     }
 }

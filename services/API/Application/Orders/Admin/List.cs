@@ -41,7 +41,6 @@ namespace Application.Orders.Admin
                 var orders = _context.Orders
                     .Include(x => x.AddressToShip)
                     .Include(x => x.Items)
-                    .Include(x => x.DeliveryMethod)
                     .Where(x => x.IsDeleted == false);
                 
                 //Get status from GHN API
