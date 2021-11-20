@@ -35,8 +35,12 @@ namespace Application.Orders
 
                 if (!string.IsNullOrWhiteSpace(request.OrderCode))
                 {
-                    
+                    order.OrderCode = request.OrderCode;
                 }
+
+                var result = await _context.SaveChangesAsync() > 0;
+                
+                if (result) return Result<Guid>.Success(order.Id);
                 
                 return Result<Guid>.Failure("Order does not exist");
             }

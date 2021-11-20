@@ -47,8 +47,7 @@ namespace Application.Orders.Admin
                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
                 foreach (var order in orders)
                 {
-                    var order_code = "Z81QA";
-                    var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order_code);
+                    var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
 
                     var response = await _httpClient.GetAsync(url);
 
@@ -60,9 +59,13 @@ namespace Application.Orders.Admin
                     var orderDetailGhn =
                         JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
 
-                    var status = (string) orderDetailGhn.data.status;
+                    var statusGhn = (string) orderDetailGhn.data.status;
+
+                    order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
 
                 }
+
+                await _context.SaveChangesAsync();
                 
                 var orderDtos = orders.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
                 

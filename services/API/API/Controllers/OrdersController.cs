@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Application.Core;
+using Application.Orders;
 using Application.Orders.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,13 @@ namespace API.Controllers
         public async Task<IActionResult> CreateOrder(OrderParams orderParams)
         {
             return HandleResult(await Mediator.Send(new Upsert.Command(){OrderParams = orderParams}));
+        }
+
+        [HttpPost]
+        [Route("/update-order-code")]
+        public async Task<IActionResult> UpdateOrderCode(UpdateOrderCode.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
         }
 
         [HttpGet]
