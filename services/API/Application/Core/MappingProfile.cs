@@ -37,7 +37,6 @@ namespace Application.Core
             CreateMap<Domain.Attribute, AttributeDto>();
             CreateMap<Domain.Coupon, CouponDto>()
                 .ForMember(x => x.DiscountType, o => o.MapFrom(x => (DiscountType) x.DiscountType));
-            CreateMap<Item, ItemWithoutId>();
             CreateMap<Order, OrderDto>();
         }
     }
