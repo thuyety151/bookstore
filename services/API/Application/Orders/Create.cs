@@ -106,7 +106,6 @@ namespace Application.Orders
                     OrderNote = request.OrderParams.OrderNote,
                     UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
                     AddressToShip = _context.Addresses.FirstOrDefault(x => x.Id == request.OrderParams.AddressId),
-                    DeliveryMethod = _context.DeliveryMethods.FirstOrDefault(),
                     Items = new List<Item>()
                 };
 

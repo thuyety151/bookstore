@@ -58,6 +58,9 @@ namespace Persistence.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("WardCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WardName")
                         .HasColumnType("nvarchar(max)");
 
@@ -402,32 +405,6 @@ namespace Persistence.Migrations
                     b.ToTable("Coupons");
                 });
 
-            modelBuilder.Entity("Domain.DeliveryMethod", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DeliveryTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DeliveryMethods");
-                });
-
             modelBuilder.Entity("Domain.Item", b =>
                 {
                     b.Property<Guid>("Id")
@@ -539,14 +516,14 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("AddressToShipId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DeliveryMethodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("OrderFee")
+                        .HasColumnType("float");
 
                     b.Property<string>("OrderNote")
                         .HasColumnType("nvarchar(max)");
@@ -566,8 +543,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressToShipId");
-
-                    b.HasIndex("DeliveryMethodId");
 
                     b.ToTable("Orders");
                 });
@@ -863,12 +838,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Address", "AddressToShip")
                         .WithMany()
                         .HasForeignKey("AddressToShipId");
-
-                    b.HasOne("Domain.DeliveryMethod", "DeliveryMethod")
-                        .WithMany()
-                        .HasForeignKey("DeliveryMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Review", b =>

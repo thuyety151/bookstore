@@ -10,6 +10,7 @@ import couponReducer from "./couponReducer";
 import mostViewReducer from "./mostViewReducer";
 import onSaleReducer from "./onSaleReducer";
 import dealOfWeekReducer from "./dealOfWeekReducer";
+import booksReducer from "./booksReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   review: reviewReducer,
   address: addressReducer,
   book: bookReducer,
+  books: booksReducer,
   addOrUpdateItem: addOrUpdateItemReducer,
   coupon: couponReducer,
   mostView: mostViewReducer,

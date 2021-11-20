@@ -12,19 +12,18 @@ namespace Domain
         public int Status { get; set; }
         public int PaymentMethod { get; set; }
         public double SubTotal { get; set; }
+        public double OrderFee { get; set; }
+        public string OrderCode { get; set; }
         public string OrderNote { get; set; }
         public Guid UserId { get; set; }
         
-        [ForeignKey("DeliveryMethod")]
-        public Guid DeliveryMethodId { get; set; }
-        public DeliveryMethod DeliveryMethod { get; set; }
         public ICollection<Item> Items { get; set; }
         public Address AddressToShip { get; set; }
         public bool IsDeleted { get; set; }
 
         public double GetTotal()
         {
-            return SubTotal + DeliveryMethod.Price;
+            return SubTotal + OrderFee;
         }
     }
 }
