@@ -91,7 +91,6 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             variant="outlined"
             value={formValue.province.name}
             onChange={handleChangeForm("province")}
-            placeholder="hihi"
             error={validator("province").error}
             onBlur={() => setTouched({ ...touched, province: true })}
           >
@@ -115,7 +114,7 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             value={formValue.district.name}
             onChange={handleChangeForm("district")}
             onBlur={() => setTouched({ ...touched, district: true })}
-            displayEmpty
+            // displayEmpty
           >
             {sampleAddress.district.map((item: any, index: number) => {
               return (

@@ -265,32 +265,80 @@ namespace Persistence
                 {
                     new Media()
                     {
-                        Id= "The Subtle Art of Not Giving a F`*Ck",
-                        Name="The Subtle Art of Not Giving a F*Ck",
+                        Id= "The Overdue Life of Amy Byler",
+                        Name="The Overdue Life of Amy Byler",
                         Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
                         IsMain=true,
                         IsVideo=false
                     },
                     new Media()
                     {
-                        Id= "The Overdue Life of Amy Byler",
-                        Name="The Overdue Life of Amy Byler",
+                        Id= "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
+                        Name="Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
                         Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
                         IsMain=true,
                         IsVideo=false
                     },
                     new Media()
                     {
-                        Id="Harry Potter Part 4",
-                        Name="Harry Potter Part 4",
+                        Id="The Alchemist",
+                        Name="The Alchemist",
                         Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
                         IsMain=true,
                         IsVideo=false
                     },
                     new Media()
                     {
-                        Id= "The Alchemist",
-                        Name="The Alchemist",
+                        Id= "The Subtle Art of Not Giving a F*Ck",
+                        Name="The Subtle Art of Not Giving a F*Ck",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "Call Me By Your Name",
+                        Name="Call Me By Your Name",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "Sapiens : A Brief History Of Humankind",
+                        Name="Sapiens : A Brief History Of Humankind",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "Homo Deus: A Brief History Of Tomorrow",
+                        Name="Homo Deus: A Brief History Of Tomorrow",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "Me Before You",
+                        Name="Me Before You",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
+                        Name="Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
+                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain=true,
+                        IsVideo=false
+                    },
+                    new Media()
+                    {
+                        Id= "A Midsummer Night's Dream",
+                        Name="A Midsummer Night's Dream",
                         Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
                         IsMain=true,
                         IsVideo=false
@@ -491,7 +539,7 @@ namespace Persistence
                                 Category =  categories[0].SubCategories.ElementAt(0)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="The Overdue Life of Amy Byler").ToList(),
+                        Media =medias.Where(x=>x.Id=="The Overdue Life of Amy Byler").ToList(),
                         ViewCount=1,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -520,7 +568,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="Harry Potter Part 4").ToList(),
+                        Media =medias.Where(x=>x.Id=="Harry Potter Part 4").ToList(),
                         ViewCount=100,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -548,7 +596,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="The Alchemist").ToList(),
+                        Media =medias.Where(x=>x.Id=="The Alchemist").ToList(),
                         ViewCount=10,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -576,7 +624,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Name=="The Subtle Art of Not Giving a F*Ck").ToList(),
+                        Media =medias.Where(x=>x.Id=="The Subtle Art of Not Giving a F*Ck").ToList(),
                         ViewCount=11,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -604,6 +652,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
+                        Media =medias.Where(x=>x.Id=="Call Me By Your Name").ToList(),
                         ViewCount=20,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -631,6 +680,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
+                        Media =medias.Where(x=>x.Id=="Sapiens : A Brief History Of Humankind").ToList(),
                         ViewCount=25,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -658,6 +708,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
+                        Media =medias.Where(x=>x.Id=="Homo Deus: A Brief History Of Tomorrow").ToList(),
                         ViewCount=19,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -685,6 +736,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
+                        Media =medias.Where(x=>x.Id=="Me Before You").ToList(),
                         ViewCount=36,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -712,6 +764,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
+                        Media =medias.Where(x=>x.Id=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").ToList(),
                         ViewCount=102,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -739,6 +792,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
+                        Media =medias.Where(x=>x.Id=="A Midsummer Night's Dream").ToList(),
                         ViewCount=15,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020,3,12),
@@ -1216,19 +1270,6 @@ namespace Persistence
             //     };
             //     await context.Orders.AddRangeAsync(orderList);
             // }
-            if (!context.DeliveryMethods.Any())
-            {
-                var deliveryMethods = new List<DeliveryMethod>()
-                {
-                    new DeliveryMethod()
-                    {
-                        Id = new Guid(),
-                        Name = "Giao hàng nhanh",
-                        Description = "Giao hàng nhanh",
-                    }
-                };
-                await context.DeliveryMethods.AddRangeAsync(deliveryMethods);
-            }
             if (!context.ConfigQuantities.Any())
             {
                 var configs = new List<ConfigQuantity>()
@@ -1303,6 +1344,125 @@ namespace Persistence
                     }
                 };
                 await context.ConfigQuantities.AddRangeAsync(configs);
+            }
+
+            if (!context.OrderStatus.Any())
+            {
+                var orderStatuses = new List<OrderStatus>()
+                {
+                    new OrderStatus()
+                    {
+                        Key = "ready_to_pick",
+                        Name = "Ready to pick"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "picking",
+                        Name = "Picking"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "cancel",
+                        Name = "Cancel"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "money_collect_picking",
+                        Name = "Money collect picking"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "picked",
+                        Name = "Picked"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "storing",
+                        Name = "Storing"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "transporting",
+                        Name = "Transporting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "sorting",
+                        Name = "Sorting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "delivering",
+                        Name = "Delivering"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "money_collect_delivering",
+                        Name = "Money collect delivering"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "delivered",
+                        Name = "Delivered"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "delivery_fail",
+                        Name = "Delivery fail"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "waiting_to_return",
+                        Name = "Waiting to return"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return",
+                        Name = "Return"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return_transporting",
+                        Name = "Return transporting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return_sorting",
+                        Name = "Return sorting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "returning",
+                        Name = "Returning"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return_fail",
+                        Name = "Return fail"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "returned",
+                        Name = "Returned"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "exception",
+                        Name = "Exception"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "damage",
+                        Name = "Damage"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "lost",
+                        Name = "Lost"
+                    },
+                };
+
+                await context.OrderStatus.AddRangeAsync(orderStatuses);
             }
             await context.SaveChangesAsync();
         }
