@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
 using Application.Attributes;
 using Application.Core;
-using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
