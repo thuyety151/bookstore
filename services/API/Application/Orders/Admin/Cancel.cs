@@ -74,6 +74,15 @@ namespace Application.Orders.Admin
                     return Result<Unit>.Failure("Error when cancel order from Giao Hang Nhanh");
                 }
                 
+                order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "cancel")?.Name;
+                
+                var result = await _context.SaveChangesAsync() > 0;
+                
+                if (result == false)
+                {
+                    return Result<Unit>.Failure("Error when delete order");
+                }
+                
                 return Result<Unit>.Success(Unit.Value);
             }
         }

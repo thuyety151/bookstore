@@ -20,7 +20,7 @@ namespace Application.Orders
 {
     public class Upsert
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<Guid>>
         {
             public OrderParams OrderParams { get; set; }
         }
@@ -33,7 +33,7 @@ namespace Application.Orders
             }
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<Guid>>
         {
             private readonly DataContext _context;
             private readonly IHttpContextAccessor _httpContext;
@@ -45,7 +45,7 @@ namespace Application.Orders
                
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
                 // CHECK COUPON
                 if (request.OrderParams.Coupon != null)
@@ -55,12 +55,12 @@ namespace Application.Orders
                             x.Code == request.OrderParams.Coupon.Code.Trim() && x.IsDeleted == false);
                     if (coupon == null)
                     {
-                        return Result<Unit>.Failure("Coupon is not exist");
+                        return Result<Guid>.Failure("Coupon is not exist");
                     }
 
                     if (DateTime.Now > coupon.ExpireDate)
                     {
-                        return Result<Unit>.Failure("Coupon is expired");
+                        return Result<Guid>.Failure("Coupon is expired");
                     }
 
                     foreach (var item in request.OrderParams.Coupon.Items)
@@ -68,7 +68,7 @@ namespace Application.Orders
                         var checkProductId = coupon.Books.SingleOrDefault((x) => x.BookId == item.ProductId);
                         if (checkProductId == null || item.Price * item.Quantity < coupon.MinSpend)
                         {
-                            return Result<Unit>.Failure("Coupon is not valid");
+                            return Result<Guid>.Failure("Coupon is not valid");
                         }
                     }
                 }
@@ -83,7 +83,7 @@ namespace Application.Orders
                         .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
                     if (bookAttribute == null || bookAttribute.TotalStock < item.Quantity)
                     {
-                        return Result<Unit>.Failure("Not valid ...");
+                        return Result<Guid>.Failure("Not valid ...");
                     }
                 
                     bookAttribute.TotalStock -= item.Quantity;
@@ -127,10 +127,10 @@ namespace Application.Orders
 
                 if (result == false)
                 {
-                    return Result<Unit>.Failure("Error when create order");
+                    return Result<Guid>.Failure("Error when create order");
                 }
                 
-                return Result<Unit>.Success(Unit.Value);
+                return Result<Guid>.Success(order.Id);
             }
         }
     }
