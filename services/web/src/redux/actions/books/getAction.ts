@@ -10,7 +10,6 @@ export const getMostView = () => async (dispatch: any) => {
         predicate: "home-most-view",
       },
     });
-    console.log(response);
 
     dispatch({
       type: booksContant.GET_MOST_VIEW_SUCCESS,
@@ -33,8 +32,6 @@ export const getOnSale = () => async (dispatch: any) => {
         predicate: "on-sale",
       },
     });
-
-    console.log(response);
 
     dispatch({
       type: booksContant.GET_ON_SALE_SUCCESS,

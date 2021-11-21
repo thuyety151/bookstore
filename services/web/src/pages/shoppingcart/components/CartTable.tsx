@@ -75,8 +75,13 @@ const CartTable: React.FC = () => {
     });
   };
 
-  const handleViewBook = (id: string) => {
-    history.push(generatePath(ROUTE_BOOK_DETAIL, { bookId: id }));
+  const handleViewBook = (item: Item) => {
+    history.push(
+      generatePath(ROUTE_BOOK_DETAIL, {
+        bookId: item.id,
+        attributeId: item.attributeId,
+      })
+    );
   };
 
   return (
@@ -119,7 +124,7 @@ const CartTable: React.FC = () => {
                       direction="row"
                       alignItems="center"
                       spacing={2}
-                      onClick={() => handleViewBook(row.productId)}
+                      onClick={() => handleViewBook(row)}
                     >
                       <img
                         className={classes.image}
