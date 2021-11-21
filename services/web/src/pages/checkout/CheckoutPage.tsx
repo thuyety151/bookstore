@@ -57,8 +57,12 @@ function CheckoutPage() {
         </Grid>
         <Grid item xs={4}>
           <BillInfoComponent />
+          <span>hih</span>
           <Link to="/place-order">
-            <PrimaryButton text="Place order" onClick={handleClick} />
+            <PrimaryButton
+              text="Place order"
+              props={{ onClick: () => handleClick() }}
+            />
           </Link>
         </Grid>
       </Grid>

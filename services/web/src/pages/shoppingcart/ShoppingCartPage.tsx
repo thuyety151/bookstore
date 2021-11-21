@@ -57,7 +57,10 @@ const ShoppingCartPage: React.FC = () => {
               chooseAddress={chooseAddress}
               setChooseAddress={setChooseAddress}
             />
-            <PrimaryButton text="Proceed to checkout" onClick={handleClick} />
+            <PrimaryButton
+              text="Proceed to checkout"
+              props={{ onClick: () => handleClick() }}
+            />
             {/* <Link to="/check-out"></Link> */}
           </Grid>
         </Grid>

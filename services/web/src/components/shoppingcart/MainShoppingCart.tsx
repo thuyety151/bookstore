@@ -25,7 +25,6 @@ const MainShoppingCart: React.FC<{
 
   useEffect(() => {
     dispatch(getPageCart());
-    console.log("get");
   }, [dispatch]);
 
   const toggleDrawer =

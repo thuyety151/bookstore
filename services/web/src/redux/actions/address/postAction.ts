@@ -15,6 +15,7 @@ export const createAddress =
       districtID: data?.value.district?.id,
       provinceID: data?.value.province?.id,
       wardName: data?.value.ward?.name,
+      wardCode: data?.value.ward?.code,
       districtName: data?.value.district?.name,
       provinceName: data?.value.province?.name,
     };
@@ -26,3 +27,34 @@ export const createAddress =
       data.onFailure();
     }
   };
+
+export const setDefaultAddress =
+  (id: string, onSuccess: () => void) => async (dispatch: any) => {
+    dispatch({ type: NAME_ACTIONS.SET_DEFAULT.SET_DEFAULT });
+
+    const response = await api.post("/addresses/set-default?Id=" + id);
+    if (response.data.isSuccess) {
+      dispatch({ type: NAME_ACTIONS.SET_DEFAULT.SET_DEFAULT_SUCCESS });
+      onSuccess();
+    } else {
+      dispatch({ type: NAME_ACTIONS.SET_DEFAULT.SET_DEFAULT_FAIL });
+    }
+  };
+
+export type deleteProps = {
+  id: string;
+  onSuccess: () => void;
+  onFailure: (error: any) => void;
+};
+
+export const deleteAddress = (props: deleteProps) => async (dispatch: any) => {
+  dispatch({ type: NAME_ACTIONS.DELETE_ADDRESS.DELETE_ADDRESS });
+  const response = await api.delete("/addresses?Id=" + props.id);
+  if (response.data.isSuccess) {
+    dispatch({ type: NAME_ACTIONS.DELETE_ADDRESS.DELETE_ADDRESS_SUCCESS });
+    props.onSuccess();
+  } else {
+    dispatch({ type: NAME_ACTIONS.DELETE_ADDRESS.DELETE_ADDRESS_FAIL });
+    props.onFailure(response.data.error);
+  }
+};

@@ -68,7 +68,7 @@ label {
   color: black;
 }
 .text-gray {
-  color: "gray";
+  color: "gray" !important;
 }
 .cursor-pointer {
   cursor: pointer;

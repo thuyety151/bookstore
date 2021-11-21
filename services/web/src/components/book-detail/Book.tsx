@@ -20,6 +20,7 @@ import Attribute from "../../model/attribute";
 import AddOrUpdateItem from "../../model/AddOrUpdateItem";
 import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
 import Item from "../../model/item";
+import { useParams } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,10 +78,8 @@ export default function DetailBook() {
   const dispatch = useDispatch();
   const [counter, setCounter] = useState<number>(1);
   const displayCounter = true;
-
+  const { bookId, attributeId } = useParams() as any;
   //hard data
-  // const bookId = "367B359F-CDE9-4D15-BC37-08D99961828A";
-  const attributeId = "94B5913A-2B6F-47ED-270D-08D999618231";
   const { data } = useSelector((state: RootStore) => state.book);
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute | null>();
@@ -119,8 +118,10 @@ export default function DetailBook() {
 
   function handleAddToCart() {
     var item: AddOrUpdateItem = {
-      productId: "367b359f-cde9-4d15-bc37-08d99961828a",
-      attributeId: "94b5913a-2b6f-47ed-270d-08d999618231",
+      // productId: "367b359f-cde9-4d15-bc37-08d99961828a",
+      // attributeId: "94b5913a-2b6f-47ed-270d-08d999618231",
+      productId: bookId,
+      attributeId: attributeId,
       quantity: counter,
     };
 

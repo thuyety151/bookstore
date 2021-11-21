@@ -16,7 +16,7 @@ const App: React.FunctionComponent<{}> = (props) => {
     <div>
       <Provider store={store}>
         <BrowserRouter>
-          <SnackbarProvider maxSnack={3} preventDuplicate>
+          <SnackbarProvider maxSnack={3}>
             <Switch>
               {routes.map((route, index) => {
                 return (

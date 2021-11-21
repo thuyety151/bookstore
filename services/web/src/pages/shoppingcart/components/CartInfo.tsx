@@ -295,6 +295,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   rootItems: {
     padding: 0,
   },
+
   dialog: {
     "& .MuiDialog-paper": {
       margin: 0,
