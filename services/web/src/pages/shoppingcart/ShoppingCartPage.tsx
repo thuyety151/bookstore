@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Grid,
   Typography,
@@ -10,17 +10,17 @@ import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { getServices } from "../../redux/actions/delivery/getAction";
+// import { getServices } from "../../redux/actions/delivery/getAction";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
   const items = useSelector((state: RootStore) => state.cart);
   const history = useHistory();
   const [chooseAddress, setChooseAddress] = React.useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
@@ -61,7 +61,6 @@ const ShoppingCartPage: React.FC = () => {
               text="Proceed to checkout"
               props={{ onClick: () => handleClick() }}
             />
-            {/* <Link to="/check-out"></Link> */}
           </Grid>
         </Grid>
       </Grid>

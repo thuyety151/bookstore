@@ -27,7 +27,7 @@ import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
 import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
 import { sum } from "lodash";
-import { getFee } from "../../../redux/actions/order/getActions";
+// import { getFee } from "../../../redux/actions/order/getActions";
 import { getServices } from "../../../redux/actions/delivery/getAction";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
