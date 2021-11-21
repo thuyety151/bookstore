@@ -31,74 +31,84 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} variant="outlined" square>
-        {/* <Grid
+        <Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
           spacing={3}
-        > */}
-        <Grid item>
-          <ButtonBase
-            className={classes.image}
-            onClick={() => handleNavBook(item.item)}
-          >
-            <img
-              className={classes.image}
-              src={item.item.pictureUrl}
-              alt="img"
-            />
-          </ButtonBase>
-        </Grid>
-        <Grid item xs container direction="column">
+        >
           <Grid item>
-            <Typography
-              gutterBottom
-              variant="overline"
-              className={classes.atribute}
-            >
-              {item.item.attribute}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="subtitle1"
-              className={classes.name}
+            <ButtonBase
+              className={classes.image}
               onClick={() => handleNavBook(item.item)}
             >
-              {item.item.name}
-            </Typography>
-            <Typography variant="body2" gutterBottom className={classes.author}>
-              {item.item.author}
-            </Typography>
+              <img
+                className={classes.image}
+                src={item.item.pictureUrl}
+                alt="img"
+              />
+            </ButtonBase>
           </Grid>
-          {item.item.salePrice === "" ? (
+          <Grid item xs container direction="column">
             <Grid item>
-              <Typography variant="subtitle1" className={classes.currentPrice}>
-                {item.item.price}
+              <Typography
+                gutterBottom
+                variant="overline"
+                className={classes.atribute}
+              >
+                {item.item.attribute}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                className={classes.name}
+                onClick={() => handleNavBook(item.item)}
+              >
+                {item.item.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                gutterBottom
+                className={classes.author}
+              >
+                {item.item.author}
               </Typography>
             </Grid>
-          ) : (
-            <Grid item className={classes.rootPrice}>
-              <Typography variant="subtitle1" className={classes.currentPrice}>
-                {item.item.salePrice}
+            {item.item.salePrice === "" ? (
+              <Grid item>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.currentPrice}
+                >
+                  {item.item.price}
+                </Typography>
+              </Grid>
+            ) : (
+              <Grid item className={classes.rootPrice}>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.currentPrice}
+                >
+                  {item.item.salePrice}
+                </Typography>
+                <Typography variant="subtitle1" className={classes.salePrice}>
+                  {item.item.price}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item className={classes.extension}>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                className={classes.name}
+              >
+                ADD TO CARD
               </Typography>
-              <Typography variant="subtitle1" className={classes.salePrice}>
-                {item.item.price}
-              </Typography>
+              <FavoriteBorderOutlined className={classes.favorite} />
             </Grid>
-          )}
-          <Grid item className={classes.extension}>
-            <Typography
-              gutterBottom
-              variant="subtitle1"
-              className={classes.name}
-            >
-              ADD TO CARD
-            </Typography>
-            <FavoriteBorderOutlined className={classes.favorite} />
           </Grid>
         </Grid>
-        {/* </Grid> */}
       </Paper>
     </div>
   );

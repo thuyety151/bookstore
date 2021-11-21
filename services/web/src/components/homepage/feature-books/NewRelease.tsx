@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
-import data from "../../../mocks/feature";
 import BookItem from "./BookItem";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import img from "../../../assets/images/new-release.png";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "../../../redux/store";
+import { getNewReleases } from "../../../redux/actions/books/geNewRelease";
+import { NewReleaseType } from "../../../model/newRelease";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,6 +35,7 @@ function TabPanel(props: TabPanelProps) {
 
 function a11yProps(index: any) {
   return {
+    key: `tab-${index}`,
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
@@ -46,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   grid: {
     margin: "auto",
-    // display: "grid",
   },
   image: {
     backgroundColor: "#fff6f6",
@@ -69,10 +72,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function NewRelease() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const state = useSelector((state: RootStore) => state.newReleases);
+  const [tab, setTab] = React.useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!state.data.length) {
+      dispatch(getNewReleases());
+    }
+  }, [dispatch, state.data.length]);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+    setTab(newValue);
   };
 
   return (
@@ -86,83 +97,34 @@ export default function NewRelease() {
           </Grid>
           <Grid item xs={9}>
             <Paper square className={classes.paper}>
-              <Tabs value={value} onChange={handleChange} centered>
-                <Tab label="History" {...a11yProps(0)} />
-                <Tab label="Scient & Math" {...a11yProps(1)} />
-                <Tab label="Romance" {...a11yProps(2)} />
-                <Tab label="Travel" {...a11yProps(3)} />
+              <Tabs value={tab} onChange={handleChange} centered>
+                {state.data.map((c: NewReleaseType, index: number) => {
+                  return <Tab label={c.categoryName} {...a11yProps(index)} />;
+                })}
               </Tabs>
             </Paper>
           </Grid>
         </Grid>
-
-        <TabPanel value={value} index={0}>
-          <Grid container justifyContent="center">
-            <Grid item xs={3} className={classes.image}>
-              <img className={classes.img} alt="complex" src={img} />
-            </Grid>
-            <Grid item xs={9}>
-              <Grid container className={classes.grid}>
-                {data.map((item, ind) => (
-                  <Grid item xs={3} key={`${value}-${ind}`}>
-                    <BookItem item={item} />
+        {state.data.map((value: NewReleaseType, index: number) => {
+          return (
+            <TabPanel value={tab} index={index} key={`tabpanel-${index}`}>
+              <Grid container justifyContent="center">
+                <Grid item xs={3} className={classes.image}>
+                  <img className={classes.img} alt="complex" src={img} />
+                </Grid>
+                <Grid item xs={9}>
+                  <Grid container className={classes.grid}>
+                    {value.books.map((item, ind) => (
+                      <Grid item xs={3} key={`${value.categoryId}-${ind}`}>
+                        <BookItem item={item} />
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        </TabPanel>
-
-        <TabPanel value={value} index={1}>
-          <Grid container justifyContent="center">
-            <Grid item xs={3} className={classes.image}>
-              <img className={classes.img} alt="complex" src={img} />
-            </Grid>
-            <Grid item xs={9}>
-              <Grid container className={classes.grid}>
-                {data.map((item, ind) => (
-                  <Grid item xs={3} key={`${value}-${ind}`}>
-                    <BookItem item={item} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </TabPanel>
-
-        <TabPanel value={value} index={2}>
-          <Grid container justifyContent="center">
-            <Grid item xs={3} className={classes.image}>
-              <img className={classes.img} alt="complex" src={img} />
-            </Grid>
-            <Grid item xs={9}>
-              <Grid container className={classes.grid}>
-                {data.map((item, ind) => (
-                  <Grid item xs={3} key={`${value}-${ind}`}>
-                    <BookItem item={item} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </TabPanel>
-
-        <TabPanel value={value} index={3}>
-          <Grid container justifyContent="center">
-            <Grid item xs={3} className={classes.image}>
-              <img className={classes.img} alt="complex" src={img} />
-            </Grid>
-            <Grid item xs={9}>
-              <Grid container className={classes.grid}>
-                {data.map((item, ind) => (
-                  <Grid item xs={3} key={`${value}-${ind}`}>
-                    <BookItem item={item} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </TabPanel>
+            </TabPanel>
+          );
+        })}
       </Grid>
     </div>
   );

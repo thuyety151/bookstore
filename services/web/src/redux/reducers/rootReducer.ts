@@ -11,6 +11,7 @@ import mostViewReducer from "./mostViewReducer";
 import onSaleReducer from "./onSaleReducer";
 import dealOfWeekReducer from "./dealOfWeekReducer";
 import booksReducer from "./booksReducer";
+import newReleasesReducer from "./newReleasesReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   mostView: mostViewReducer,
   onSale: onSaleReducer,
   dealOfWeek: dealOfWeekReducer,
+  newReleases: newReleasesReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
