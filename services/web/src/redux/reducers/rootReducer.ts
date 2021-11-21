@@ -7,6 +7,7 @@ import addressReducer from "./addressReducer";
 import bookReducer from "./bookReducer";
 import addOrUpdateItemReducer from "./addOrUpdateItemReducer";
 import couponReducer from "./couponReducer";
+import authorReducer from "./authorReducer";
 import mostViewReducer from "./mostViewReducer";
 import onSaleReducer from "./onSaleReducer";
 import dealOfWeekReducer from "./dealOfWeekReducer";
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   onSale: onSaleReducer,
   dealOfWeek: dealOfWeekReducer,
   newReleases: newReleasesReducer,
+  author: authorReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
