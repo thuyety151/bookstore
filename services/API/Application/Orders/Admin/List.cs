@@ -32,7 +32,7 @@ namespace Application.Orders.Admin
                 _mapper = mapper;
                 _httpClient = new HttpClient()
                 {
-                    BaseAddress = new Uri("https://dev-online-gateway.ghn.vn"),
+                        BaseAddress = new Uri("https://dev-online-gateway.ghn.vn"),
                 };
             }
 
