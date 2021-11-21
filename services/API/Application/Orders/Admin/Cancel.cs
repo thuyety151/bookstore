@@ -49,15 +49,7 @@ namespace Application.Orders.Admin
                 {
                     return Result<Unit>.Failure("Order does not exist");
                 }
-
-                order.IsDeleted = true;
-
-                var result = await _context.SaveChangesAsync() > 0;
-
-                if (result == false)
-                {
-                    return Result<Unit>.Failure("Error when delete order");
-                }
+                
                 //Cancel order in GHN
                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
                 _httpClient.DefaultRequestHeaders.Add("ShopId", "82749");
@@ -81,7 +73,7 @@ namespace Application.Orders.Admin
                 {
                     return Result<Unit>.Failure("Error when cancel order from Giao Hang Nhanh");
                 }
-
+                
                 return Result<Unit>.Success(Unit.Value);
             }
         }
