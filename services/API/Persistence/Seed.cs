@@ -1347,6 +1347,125 @@ namespace Persistence
                 };
                 await context.ConfigHomePages.AddRangeAsync(configs);
             }
+
+            if (!context.OrderStatus.Any())
+            {
+                var orderStatuses = new List<OrderStatus>()
+                {
+                    new OrderStatus()
+                    {
+                        Key = "ready_to_pick",
+                        Name = "Ready to pick"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "picking",
+                        Name = "Picking"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "cancel",
+                        Name = "Cancel"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "money_collect_picking",
+                        Name = "Money collect picking"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "picked",
+                        Name = "Picked"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "storing",
+                        Name = "Storing"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "transporting",
+                        Name = "Transporting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "sorting",
+                        Name = "Sorting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "delivering",
+                        Name = "Delivering"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "money_collect_delivering",
+                        Name = "Money collect delivering"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "delivered",
+                        Name = "Delivered"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "delivery_fail",
+                        Name = "Delivery fail"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "waiting_to_return",
+                        Name = "Waiting to return"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return",
+                        Name = "Return"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return_transporting",
+                        Name = "Return transporting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return_sorting",
+                        Name = "Return sorting"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "returning",
+                        Name = "Returning"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "return_fail",
+                        Name = "Return fail"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "returned",
+                        Name = "Returned"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "exception",
+                        Name = "Exception"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "damage",
+                        Name = "Damage"
+                    },
+                    new OrderStatus()
+                    {
+                        Key = "lost",
+                        Name = "Lost"
+                    },
+                };
+
+                await context.OrderStatus.AddRangeAsync(orderStatuses);
+            }
             await context.SaveChangesAsync();
         }
     }

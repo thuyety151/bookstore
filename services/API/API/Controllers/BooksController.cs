@@ -2,6 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Application.Books;
 using Application.Books.Detail;
+using Application.Books.Upsert;
+using Application.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -26,6 +29,17 @@ namespace API.Controllers
         public async Task<IActionResult> GetNewReleases()
         {
             return HandleResult(await Mediator.Send(new NewReleases.Query() { }));
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpsertBook(BookUpsertParams bookUpsertParams)
+        {
+            return HandleResult(await Mediator.Send(new Upsert.Command() { BookParams = bookUpsertParams }));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBook(string id)
+        {
+            return HandleResult(await Mediator.Send(new Delete.Command() { Id = id }));
         }
     }
 }

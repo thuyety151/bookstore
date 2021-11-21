@@ -41,8 +41,8 @@ namespace Persistence
                 .HasOne(x => x.Coupon)
                 .WithMany(x => x.Books)
                 .HasForeignKey(x => x.CouponId);
-            
-            builder.Entity<BookAttribute>(x => x.HasKey(x => new { x.BookId, x.AttributeId}));
+
+            builder.Entity<BookAttribute>(x => x.HasKey(x => new { x.BookId, x.AttributeId }));
         }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -62,5 +62,6 @@ namespace Persistence
         public DbSet<BookCoupon> BookCoupons { get; set; }
         public DbSet<BookAttribute> BookAttributes { get; set; }
         public DbSet<ConfigHomePage> ConfigHomePages { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
     }
 }

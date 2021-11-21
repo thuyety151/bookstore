@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211120085359_OrderStatus")]
+    partial class OrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,28 +355,25 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.ConfigHomePage", b =>
-                 {
-                     b.Property<Guid>("Id")
-                         .ValueGeneratedOnAdd()
-                         .HasColumnType("uniqueidentifier");
+            modelBuilder.Entity("Domain.ConfigQuantity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                     b.Property<Guid>("DefaultAttributeId")
-                         .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("DefaultAttributeId")
+                        .HasColumnType("uniqueidentifier");
 
-                     b.Property<string>("Key")
-                         .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
 
-                     b.Property<string>("MetaData")
-                         .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
-                     b.Property<int>("Quantity")
-                         .HasColumnType("int");
+                    b.HasKey("Id");
 
-                     b.HasKey("Id");
-
-                     b.ToTable("ConfigHomePages");
-                 });
+                    b.ToTable("ConfigQuantities");
+                });
 
             modelBuilder.Entity("Domain.Coupon", b =>
                 {
@@ -537,8 +536,8 @@ namespace Persistence.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<double>("SubTotal")
                         .HasColumnType("float");

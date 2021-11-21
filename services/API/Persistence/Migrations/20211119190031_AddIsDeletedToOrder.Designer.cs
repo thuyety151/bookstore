@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211119190031_AddIsDeletedToOrder")]
+    partial class AddIsDeletedToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,6 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WardCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WardName")
@@ -353,28 +352,25 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.ConfigHomePage", b =>
-                 {
-                     b.Property<Guid>("Id")
-                         .ValueGeneratedOnAdd()
-                         .HasColumnType("uniqueidentifier");
+            modelBuilder.Entity("Domain.ConfigQuantity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                     b.Property<Guid>("DefaultAttributeId")
-                         .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("DefaultAttributeId")
+                        .HasColumnType("uniqueidentifier");
 
-                     b.Property<string>("Key")
-                         .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
 
-                     b.Property<string>("MetaData")
-                         .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
-                     b.Property<int>("Quantity")
-                         .HasColumnType("int");
+                    b.HasKey("Id");
 
-                     b.HasKey("Id");
-
-                     b.ToTable("ConfigHomePages");
-                 });
+                    b.ToTable("ConfigQuantities");
+                });
 
             modelBuilder.Entity("Domain.Coupon", b =>
                 {
@@ -406,6 +402,32 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("Domain.DeliveryMethod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeliveryTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryMethods");
                 });
 
             modelBuilder.Entity("Domain.Item", b =>
@@ -519,17 +541,14 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("AddressToShipId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("DeliveryMethodId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("OrderCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<double>("OrderFee")
-                        .HasColumnType("float");
 
                     b.Property<string>("OrderNote")
                         .HasColumnType("nvarchar(max)");
@@ -537,8 +556,8 @@ namespace Persistence.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<double>("SubTotal")
                         .HasColumnType("float");
@@ -550,20 +569,9 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AddressToShipId");
 
+                    b.HasIndex("DeliveryMethodId");
+
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Domain.OrderStatus", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Key");
-
-                    b.ToTable("OrderStatus");
                 });
 
             modelBuilder.Entity("Domain.Review", b =>
@@ -857,6 +865,12 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Address", "AddressToShip")
                         .WithMany()
                         .HasForeignKey("AddressToShipId");
+
+                    b.HasOne("Domain.DeliveryMethod", "DeliveryMethod")
+                        .WithMany()
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Review", b =>

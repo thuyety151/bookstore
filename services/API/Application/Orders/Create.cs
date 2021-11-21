@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Application.Orders
 {
     public class Upsert
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<Guid>>
         {
             public OrderParams OrderParams { get; set; }
         }
@@ -32,20 +33,19 @@ namespace Application.Orders
             }
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<Guid>>
         {
             private readonly DataContext _context;
             private readonly IHttpContextAccessor _httpContext;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IHttpContextAccessor httpContext, IMapper mapper)
+            public Handler(DataContext context, IHttpContextAccessor httpContext)
             {
                 _context = context;
                 _httpContext = httpContext;
-                _mapper = mapper;
+               
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
                 // CHECK COUPON
                 if (request.OrderParams.Coupon != null)
@@ -55,12 +55,12 @@ namespace Application.Orders
                             x.Code == request.OrderParams.Coupon.Code.Trim() && x.IsDeleted == false);
                     if (coupon == null)
                     {
-                        return Result<Unit>.Failure("Coupon is not exist");
+                        return Result<Guid>.Failure("Coupon is not exist");
                     }
 
                     if (DateTime.Now > coupon.ExpireDate)
                     {
-                        return Result<Unit>.Failure("Coupon is expired");
+                        return Result<Guid>.Failure("Coupon is expired");
                     }
 
                     foreach (var item in request.OrderParams.Coupon.Items)
@@ -68,7 +68,7 @@ namespace Application.Orders
                         var checkProductId = coupon.Books.SingleOrDefault((x) => x.BookId == item.ProductId);
                         if (checkProductId == null || item.Price * item.Quantity < coupon.MinSpend)
                         {
-                            return Result<Unit>.Failure("Coupon is not valid");
+                            return Result<Guid>.Failure("Coupon is not valid");
                         }
                     }
                 }
@@ -83,7 +83,7 @@ namespace Application.Orders
                         .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
                     if (bookAttribute == null || bookAttribute.TotalStock < item.Quantity)
                     {
-                        return Result<Unit>.Failure("Not valid ...");
+                        return Result<Guid>.Failure("Not valid ...");
                     }
                 
                     bookAttribute.TotalStock -= item.Quantity;
@@ -100,7 +100,7 @@ namespace Application.Orders
                 {
                     Id = new Guid(),
                     OrderDate = DateTime.Now,
-                    Status = (int) Status.Processing,
+                    Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name ,
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
                     SubTotal = items.Select(x => x.Price).Sum(),
                     OrderNote = request.OrderParams.OrderNote,
@@ -123,8 +123,14 @@ namespace Application.Orders
                     }
                 
                 await _context.Orders.AddAsync(order);
-                await _context.SaveChangesAsync();
-                return Result<Unit>.Success(Unit.Value);
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (result == false)
+                {
+                    return Result<Guid>.Failure("Error when create order");
+                }
+                
+                return Result<Guid>.Success(order.Id);
             }
         }
     }
