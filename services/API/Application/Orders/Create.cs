@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,13 +37,12 @@ namespace Application.Orders
         {
             private readonly DataContext _context;
             private readonly IHttpContextAccessor _httpContext;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IHttpContextAccessor httpContext, IMapper mapper)
+            public Handler(DataContext context, IHttpContextAccessor httpContext)
             {
                 _context = context;
                 _httpContext = httpContext;
-                _mapper = mapper;
+               
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -100,7 +100,7 @@ namespace Application.Orders
                 {
                     Id = new Guid(),
                     OrderDate = DateTime.Now,
-                    Status = (int) Status.Processing,
+                    Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name ,
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
                     SubTotal = items.Select(x => x.Price).Sum(),
                     OrderNote = request.OrderParams.OrderNote,
@@ -123,7 +123,13 @@ namespace Application.Orders
                     }
                 
                 await _context.Orders.AddAsync(order);
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (result == false)
+                {
+                    return Result<Unit>.Failure("Error when create order");
+                }
+                
                 return Result<Unit>.Success(Unit.Value);
             }
         }

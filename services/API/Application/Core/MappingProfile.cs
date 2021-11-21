@@ -6,10 +6,12 @@ using Application.Books.Detail;
 using Application.Categories;
 using Application.Coupons;
 using Application.Orders;
+using Application.Orders.Admin;
 using Application.Review;
 using AutoMapper;
 using Domain;
 using Domain.Enum;
+using CategoryDto = Application.Categories.CategoryDto;
 
 namespace Application.Core
 {
@@ -35,7 +37,7 @@ namespace Application.Core
             CreateMap<Domain.Attribute, AttributeDto>();
             CreateMap<Domain.Coupon, CouponDto>()
                 .ForMember(x => x.DiscountType, o => o.MapFrom(x => (DiscountType) x.DiscountType));
-            CreateMap<Item, ItemWithoutId>();
+            CreateMap<Order, OrderDto>();
         }
     }
 }
