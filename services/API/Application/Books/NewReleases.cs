@@ -29,7 +29,7 @@ namespace Application.Books
             }
             public async Task<Result<List<BooksCategoriesDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var categories = await _context.ConfigHomePages
+                var categoriesConfig = await _context.ConfigHomePages
                     .SingleOrDefaultAsync(x => x.Key == ConfigQuantityName.NewRelease.ToString());
 
                 var query = _context.Books
@@ -43,7 +43,7 @@ namespace Application.Books
                     .AsQueryable();
 
                 var results = new List<BooksCategoriesDto>();
-                foreach (var categoryId in JsonConvert.DeserializeObject<Guid[]>(categories.MetaData))
+                foreach (var categoryId in JsonConvert.DeserializeObject<Guid[]>(categoriesConfig.MetaData))
                 {
                     var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId && c.IsDeleted == false);
                     if (category == null)
@@ -54,6 +54,7 @@ namespace Application.Books
                             x => x.Categories.Any(c => c.CategoryId == categoryId))
                         // .OrderByDescending(x=>x.Attributes.Select(x=>x.TotalStock))
                         .OrderByDescending(b => b.CreateDate)
+                        .Take(categoriesConfig.Quantity)
                         .Select(x => new BooksDto()
                         {
                             Id = x.Id,
