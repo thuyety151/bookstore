@@ -2,28 +2,37 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
-using Application.Interface;
+using FluentValidation;
 using MediatR;
+using Newtonsoft.Json;
 using Persistence;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Application.Orders.Admin
 {
-    public class Delete
+    public class Cancel
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public string Id { get; set; }
+            public Guid Id { get; set; }
+        }
+        
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Id).NotEqual(Guid.Empty);
+            }
         }
         
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly HttpClient _httpClient;
-            
+
             public Handler(DataContext context)
             {
                 _context = context;
@@ -32,17 +41,14 @@ namespace Application.Orders.Admin
                     BaseAddress = new Uri("https://dev-online-gateway.ghn.vn")
                 };
             }
-            
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var order = _context.Orders.FirstOrDefault(x => x.Id.ToString() == request.Id && x.IsDeleted == false);
+                var order = _context.Orders.FirstOrDefault(x => x.Id == request.Id);
+
                 if (order == null)
                 {
                     return Result<Unit>.Failure("Order does not exist");
                 }
-
-                //turn flag isDeleted
-                order.IsDeleted = true;
                 
                 //Cancel order in GHN
                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
@@ -67,7 +73,7 @@ namespace Application.Orders.Admin
                 {
                     return Result<Unit>.Failure("Error when cancel order from Giao Hang Nhanh");
                 }
-
+                
                 order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "cancel")?.Name;
                 
                 var result = await _context.SaveChangesAsync() > 0;
@@ -76,7 +82,7 @@ namespace Application.Orders.Admin
                 {
                     return Result<Unit>.Failure("Error when delete order");
                 }
-
+                
                 return Result<Unit>.Success(Unit.Value);
             }
         }

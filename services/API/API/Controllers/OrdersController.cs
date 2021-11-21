@@ -8,7 +8,7 @@ using OrderParams = Application.Orders.OrderParams;
 using Upsert = Application.Orders.Upsert;
 namespace API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OrdersController : BaseApiController
     {
         [HttpPost]
@@ -18,8 +18,15 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("/update-order-code")]
+        [Route("update-order-code")]
         public async Task<IActionResult> UpdateOrderCode(UpdateOrderCode.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
+        
+        [HttpPost]
+        [Route("cancel")]
+        public async Task<IActionResult> UpdateOrderCode(Cancel.Command command)
         {
             return HandleResult(await Mediator.Send(command));
         }
