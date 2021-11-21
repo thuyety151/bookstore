@@ -120,8 +120,6 @@ namespace Application.Categories.Admin
                     
                     return Result<Guid>.Success(category.Id);
                 }
-                
-                return Result<Guid>.Failure("Error when add category");
             }
         }
     }

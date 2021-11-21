@@ -32,6 +32,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() {CategoryParams = categoryParams}));
         }
+        
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCategory(Delete.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
 
     }
 }
