@@ -27,6 +27,13 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const sampleAddress = useSelector((state: RootStore) => state.address.data);
+  const [touched, setTouched] = useState({
+    province: false,
+    district: false,
+    ward: false,
+    street: false,
+  });
+
   useEffect(() => {
     if (sampleAddress.province?.length === 0) {
       dispatch(getProvince());
@@ -41,12 +48,6 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
     dispatch(getWard(formValue.district.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue.district.id]);
-  const [touched, setTouched] = useState({
-    province: false,
-    district: false,
-    ward: false,
-    street: false,
-  });
 
   const handleChangeForm =
     (key: string) => (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -61,8 +62,10 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
           id:
             data[`${capitalize(key)}ID`] || data[`${capitalize(key)}Code`] || 0, //data.ProvinceID
           name: data[`${capitalize(key)}Name`],
+          code: data[`${capitalize(key)}Code`],
         },
       });
+      console.log("Ads", formValue);
     };
   const validator = (key: string) => {
     if (get(touched, key) && !get(formValue, `${key}.id`)) {
@@ -116,7 +119,7 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             {sampleAddress.district.map((item: any, index: number) => {
               return (
                 <option key={item?.DistrictID} value={index}>
-                  {item?.NameExtension[0]}
+                  {item?.DistrictName}
                 </option>
               );
             })}

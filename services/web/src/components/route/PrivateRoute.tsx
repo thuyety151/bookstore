@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
-import { RootStore } from "../../redux/store";
 import {
   PRIVATE_ROUTES,
   RouteConfig,
@@ -17,8 +15,9 @@ const PrivateRoute: React.FC<{
   exact: boolean;
 }> = (props) => {
   const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path];
-  const user = useSelector((state: RootStore) => state.authenticate?.user); // ~ customer
-  // const user = localStorage.getItem("user");
+  //const user = useSelector((state: RootStore) => state.authenticate?.user); // ~ customer
+  const user = localStorage.getItem("user");
+
   const condition = () => {
     if (!routeConfig) {
       return { redirect: true, path: ROUTE_NOT_FOUND };

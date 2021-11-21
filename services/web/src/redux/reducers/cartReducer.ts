@@ -1,3 +1,4 @@
+import { sum } from "lodash";
 import Item from "../../model/item";
 import { NAME_ACTIONS } from "../constants/cart/actionTypes";
 
@@ -7,6 +8,7 @@ export type CartState = {
   message: string;
   data: Item[];
   itemToCheckOut: Item[];
+  subTotal: number;
 };
 const initState: CartState = {
   requesting: false,
@@ -14,6 +16,11 @@ const initState: CartState = {
   message: "",
   data: [],
   itemToCheckOut: [],
+  subTotal: 0,
+};
+
+const subTotal = (items: Item[]) => {
+  return sum(items.map((x) => x.quantity * x.price));
 };
 
 const cartReducer = (state: CartState = initState, payload: any): CartState => {
@@ -69,6 +76,7 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
         return {
           ...state,
           itemToCheckOut: [...state.itemToCheckOut, payload.item],
+          subTotal: subTotal([...state.itemToCheckOut, payload.item]),
         };
       } else {
         return {
@@ -76,6 +84,9 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
           itemToCheckOut: [
             ...state.itemToCheckOut.filter((x) => x.id !== payload.item.id),
           ],
+          subTotal: subTotal([
+            ...state.itemToCheckOut.filter((x) => x.id !== payload.item.id),
+          ]),
         };
       }
     default:

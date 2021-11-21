@@ -4,7 +4,7 @@ import Config from "../config/config";
 const api = axios.create({ baseURL: Config.apiHost });
 // Authentication
 api.interceptors.request.use((config) => {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem("user");
   if (user) {
     const token = JSON.parse(user).token;
     config.headers.common["Authorization"] = `bearer ${token}`;

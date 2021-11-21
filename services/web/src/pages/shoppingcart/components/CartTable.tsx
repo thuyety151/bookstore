@@ -1,5 +1,6 @@
 import {
   Checkbox,
+  CircularProgress,
   Grid,
   IconButton,
   InputAdornment,
@@ -38,8 +39,10 @@ const CartTable: React.FC = () => {
   const data = useSelector((state: RootStore) => state.cart);
 
   useEffect(() => {
-    dispatch(getPageCart());
-  }, [dispatch]);
+    if (!data.data.length) {
+      dispatch(getPageCart());
+    }
+  }, [dispatch, data.data.length]);
 
   const idItemsToCheckout = () => {
     return data.itemToCheckOut.flatMap((x) => x.id);
@@ -187,12 +190,18 @@ const CartTable: React.FC = () => {
               <TableRow className={classes.row}>
                 <TableCell colSpan={5} align="center">
                   <Grid item container direction="column" alignContent="center">
-                    <img
-                      src={emptyCart}
-                      style={{ height: 300 }}
-                      alt="no-data"
-                    />
-                    <span>Empty Cart</span>
+                    {data.requesting ? (
+                      <CircularProgress disableShrink />
+                    ) : (
+                      <>
+                        <img
+                          src={emptyCart}
+                          style={{ height: 300 }}
+                          alt="no-data"
+                        />
+                        <span>Empty Cart</span>
+                      </>
+                    )}
                   </Grid>
                 </TableCell>
               </TableRow>

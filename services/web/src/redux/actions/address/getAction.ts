@@ -77,7 +77,7 @@ export const getWard = (districtId: number) => async (dispatch: any) => {
   }
 };
 
-export const getDefaultAddress = () => async (dispatch: any) => {
+export const getDefaultAddress = (onSuccess: any) => async (dispatch: any) => {
   try {
     dispatch({ type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT });
     const response = await api.get("/addresses/get-default");
@@ -86,6 +86,7 @@ export const getDefaultAddress = () => async (dispatch: any) => {
         type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
         data: response.data?.value,
       });
+      onSuccess();
     }
   } catch (error: any) {
     dispatch({

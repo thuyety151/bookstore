@@ -18,6 +18,7 @@ import { RootStore } from "../../../../redux/store";
 import { createAddress } from "../../../../redux/actions/address/postAction";
 import { AddressFormSchema } from "../../../../model/address";
 import { getAllAddresses } from "../../../../redux/actions/address/getAction";
+import { useSnackbar } from "notistack";
 
 const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const getInitValue = (): AddressFormSchema => ({
@@ -28,18 +29,22 @@ const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     province: {
       id: 0,
       name: "",
+      code: "",
     },
     district: {
       id: 0,
       name: "",
+      code: "",
     },
     ward: {
       id: 0,
       name: "",
+      code: "",
     },
     street: "",
     isDefault: false,
   });
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const [formValue, setFormValue] = React.useState<AddressFormSchema>(
     getInitValue()
@@ -53,6 +58,9 @@ const CreateAddressForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         onSuccess: () => {
           dispatch(getAllAddresses());
           onClose();
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
         },
       })
     );
