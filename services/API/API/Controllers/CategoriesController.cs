@@ -46,6 +46,13 @@ namespace API.Controllers
         {
             return HandlePagedResult(await Mediator.Send(new GetAll.Query(){Params = pagingParams}));
         }
+        
+        [HttpGet]
+        [Route("books-for-sale")]
+        public async Task<IActionResult> GetAllForBooksForSale([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new CategoriesBooksForSale.Query(){Params = pagingParams}));
+        }
 
     }
 }
