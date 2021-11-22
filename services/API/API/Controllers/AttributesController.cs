@@ -18,5 +18,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(command));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpsertAttribute(AttributeParams attributeParams)
+        {
+            return HandleResult(await Mediator.Send(new Upsert.Command() {AttributeParams = attributeParams}));
+        }
     }
 }
