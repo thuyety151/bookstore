@@ -4,6 +4,7 @@ using Application.Core;
 using Microsoft.AspNetCore.Mvc;
 using Application.Categories;
 using Application.Categories.Admin;
+using List = Application.Categories.List;
 
 namespace API.Controllers
 {
@@ -37,6 +38,13 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteCategory(Delete.Command command)
         {
             return HandleResult(await Mediator.Send(command));
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public async Task<IActionResult> GetAll([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new GetAll.Query(){Params = pagingParams}));
         }
 
     }
