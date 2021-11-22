@@ -198,9 +198,7 @@ namespace Application.Books
                         .Price,
                     PictureUrl = x.Media.FirstOrDefault(m => m.IsMain == true).Url
                 }).AsQueryable();
-
-                var test2 = booksDto.ToList();
-
+                
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));
             }
