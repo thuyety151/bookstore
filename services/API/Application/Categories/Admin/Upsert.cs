@@ -27,6 +27,17 @@ namespace Application.Categories.Admin
             }
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var isNameExist = _context.Categories.Any(x => x.Name == request.CategoryParams.Name && x.IsDeleted == false && x.Id != request.CategoryParams.Id);
+                if (isNameExist)
+                {
+                    return Result<Guid>.Failure("Name is already exist");
+                }
+                    
+                var isSlugExist = _context.Categories.Any(x => x.Slug == request.CategoryParams.Slug && x.IsDeleted == false && x.Id != request.CategoryParams.Id);
+                if (isSlugExist)
+                {
+                    return Result<Guid>.Failure("Slug is already exist");
+                }
                 //Add
                 if (request.CategoryParams.Id == Guid.Empty)
                 {

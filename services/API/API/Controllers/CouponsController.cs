@@ -26,5 +26,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() {CouponParams = couponParams}));
         }
+        
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCoupon(Delete.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
     }
 }

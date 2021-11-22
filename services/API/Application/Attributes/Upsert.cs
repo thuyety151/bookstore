@@ -36,6 +36,17 @@ namespace Application.Attributes
 
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var isNameExist = _context.Attributes.Any(x => x.Name == request.AttributeParams.Name && x.IsDeleted == false && x.Id != request.AttributeParams.Id);
+                if (isNameExist)
+                {
+                    return Result<Guid>.Failure("Name is already exist");
+                }
+                    
+                var isSlugExist = _context.Attributes.Any(x => x.Slug == request.AttributeParams.Slug && x.IsDeleted == false && x.Id != request.AttributeParams.Id);
+                if (isSlugExist)
+                {
+                    return Result<Guid>.Failure("Slug is already exist");
+                }
                 //Add
                 if (request.AttributeParams.Id == Guid.Empty)
                 {
@@ -67,10 +78,9 @@ namespace Application.Attributes
                     {
                         return Result<Guid>.Failure("Attribute does not exist");
                     }
-
                     attribute.Name = request.AttributeParams.Name;
                     attribute.Slug = request.AttributeParams.Slug;
-
+                    
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(attribute.Id);
                 }

@@ -35,6 +35,11 @@ namespace Application.Coupons.Admin
             }
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var isNameExist = _context.Coupons.Any(x => x.Code == request.CouponParams.Code && x.IsDeleted == false && x.Id != request.CouponParams.Id);
+                if (isNameExist)
+                {
+                    return Result<Guid>.Failure("Code is already exist");
+                }
                 //Add
                 if (request.CouponParams.Id == Guid.Empty)
                 {
@@ -63,9 +68,23 @@ namespace Application.Coupons.Admin
                 //Update
                 else
                 {
-                   
+                    var coupon =
+                        _context.Coupons.FirstOrDefault(x => x.Id == request.CouponParams.Id && x.IsDeleted == false);
+                    if (coupon == null)
+                    {
+                        return Result<Guid>.Failure("Coupon does not exist");
+                    }
+
+                    coupon.Code = request.CouponParams.Code;
+                    coupon.Description = request.CouponParams.Description;
+                    coupon.CouponAmount = request.CouponParams.CouponAmount;
+                    coupon.DiscountType = request.CouponParams.DiscountType;
+                    coupon.ExpireDate = request.CouponParams.ExpireDate;
+                    coupon.MinSpend = request.CouponParams.MinSpend;
+
+                    await _context.SaveChangesAsync();
+                    return Result<Guid>.Success(coupon.Id);
                 }
-                return Result<Guid>.Failure("Error when add coupon");
             }
         }
     }
