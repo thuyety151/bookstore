@@ -21,6 +21,7 @@ import AddOrUpdateItem from "../../model/AddOrUpdateItem";
 import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
 import Item from "../../model/item";
 import { useParams } from "react-router";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -83,6 +84,7 @@ export default function DetailBook() {
   const { data } = useSelector((state: RootStore) => state.book);
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute | null>();
+  const { enqueueSnackbar } = useSnackbar();
 
   const attributeDb = data?.attributes.find(
     (x) => x.id === attributeId
@@ -118,8 +120,6 @@ export default function DetailBook() {
 
   function handleAddToCart() {
     var item: AddOrUpdateItem = {
-      // productId: "367b359f-cde9-4d15-bc37-08d99961828a",
-      // attributeId: "94b5913a-2b6f-47ed-270d-08d999618231",
       productId: bookId,
       attributeId: attributeId,
       quantity: counter,
@@ -134,7 +134,17 @@ export default function DetailBook() {
       item.quantity = itemQuantityToUpdate + counter;
     }
 
-    dispatch(addOrUpdateItem(item));
+    dispatch(
+      addOrUpdateItem({
+        item,
+        onSuccess: () => {
+          enqueueSnackbar("Add to cart successfully!", { variant: "success" });
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
   }
   return (
     <div className={classes.root}>
@@ -188,7 +198,7 @@ export default function DetailBook() {
                 <Grid item>
                   <FormControl className={classes.formControl}>
                     <Select
-                      value={attribute?.id ?? ""}
+                      value={attributeId ?? ""}
                       onChange={handleChange}
                       displayEmpty
                       className={classes.selectEmpty}

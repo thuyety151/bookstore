@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
     },
     image: {
-      width: 200,
+      // width: 200,
       height: 200,
     },
     paper: {

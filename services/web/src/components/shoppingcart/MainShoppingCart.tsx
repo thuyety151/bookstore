@@ -11,6 +11,7 @@ import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { RootStore } from "../../redux/store";
+import { sum } from "lodash";
 
 type Anchor = "left" | "right";
 
@@ -22,6 +23,14 @@ const MainShoppingCart: React.FC<{
   const history = useHistory();
   const dispatch = useDispatch();
   const { requesting, data } = useSelector((state: RootStore) => state.cart);
+
+  const subTotal = () => {
+    return sum(
+      data.map((item) => {
+        return item.quantity * item.price;
+      })
+    );
+  };
 
   useEffect(() => {
     dispatch(getPageCart());
@@ -74,7 +83,7 @@ const MainShoppingCart: React.FC<{
           {data.map((item, index) => {
             return (
               <div key={index}>
-                <CartItem item={item} />
+                <CartItem item={item} closeCart={setOpenCart} />
                 <Divider />
               </div>
             );
@@ -89,7 +98,7 @@ const MainShoppingCart: React.FC<{
           className={classes.title}
         >
           <span>Subtotal:</span>
-          <span>1k</span>
+          <span>{subTotal()}</span>
         </Grid>
         <Grid
           item

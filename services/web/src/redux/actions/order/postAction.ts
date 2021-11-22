@@ -5,6 +5,7 @@ import { NAME_ACTIONS } from "../../constants/order/actionTypes";
 import store from "../../store";
 
 export type CreateOrderProps = {
+  note: string;
   onSuccess: any;
   onFailure: any;
 };
@@ -16,6 +17,7 @@ export const createOrder =
     const data = {
       itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
       addressId: state.address.currentAddress.id,
+      note: props.note,
     };
     const response = await api.post("/orders", data);
 
@@ -24,7 +26,7 @@ export const createOrder =
 
       const order = {
         payment_type_id: 2,
-        note: "note",
+        note: props.note,
         return_phone: address.phone,
         return_address: formatAddress(address),
         return_district_id: 1566,
@@ -62,17 +64,35 @@ export const createOrder =
       );
 
       if (createDelivery.status === 200) {
+        // TODO: Integrate API UPDATE ORDER CODE
+        const resultUpdateOrderCode = await api.post(
+          "/orders/update-order-code",
+          {
+            id: response.data.value.id,
+            orderCode: createDelivery.data.order_code,
+          }
+        );
+        if (resultUpdateOrderCode.data.code === 400) {
+          props.onFailure(resultUpdateOrderCode.data.message);
+          dispatch({
+            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+              .CREATE_DELIVERY_FOR_ORDER_FAIL,
+            message: resultUpdateOrderCode.data.message,
+          });
+        }
+
         props.onSuccess();
         dispatch({
           type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
             .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
         });
       } else {
+        console.log("cretae faile");
         props.onFailure(createDelivery.data.error);
         dispatch({
           type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
             .CREATE_DELIVERY_FOR_ORDER_FAIL,
-          message: createDelivery.data.error,
+          message: createDelivery.data.message,
         });
       }
     } else {
