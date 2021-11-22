@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
@@ -32,7 +33,7 @@ namespace Application.Attributes
             {
                 _context = context;
             }
-            
+
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //Add
@@ -49,12 +50,30 @@ namespace Application.Attributes
                     await _context.Attributes.AddAsync(attribute);
 
                     var result = await _context.SaveChangesAsync() > 0;
-                    
-                    if(result) return Result<Guid>.Success(attribute.Id);
-                    
+
+                    if (result)
+                    {
+                        return Result<Guid>.Success(attribute.Id);
+                    }
+
                     return Result<Guid>.Failure("Error when add attribute");
                 }
-                return Result<Guid>.Failure("Error when add attribute");
+                //Update
+                else
+                {
+                    var attribute = _context.Attributes.FirstOrDefault(x => x.Id == request.AttributeParams.Id && x.IsDeleted == false);
+
+                    if (attribute == null)
+                    {
+                        return Result<Guid>.Failure("Attribute does not exist");
+                    }
+
+                    attribute.Name = request.AttributeParams.Name;
+                    attribute.Slug = request.AttributeParams.Slug;
+
+                    await _context.SaveChangesAsync();
+                    return Result<Guid>.Success(attribute.Id);
+                }
             }
         }
     }
