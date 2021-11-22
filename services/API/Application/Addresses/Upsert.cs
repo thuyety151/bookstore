@@ -62,9 +62,10 @@ namespace Application.Addresses
                         DistrictId = request.AddressParams.DistrictId,
                         ProvinceId = request.AddressParams.ProvinceId,
                         WardName = request.AddressParams.WardName,
+                        WardCode = request.AddressParams.WardCode,
                         DistrictName = request.AddressParams.DistrictName,
                         ProvinceName = request.AddressParams.ProvinceName,
-                        IsMain =  user.Address.Count>0 ? false:true
+                        IsMain = user.Address.Count > 0 ? false : true
                     };
                     user.Address.Add(newAddress);
                 }

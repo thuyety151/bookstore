@@ -2,7 +2,7 @@ import { Address } from "../../model/address";
 import { NAME_ACTIONS } from "../constants/address/actionTypes";
 
 const initState = {
-  requesting: true,
+  requesting: false,
   success: false,
   message: null,
   data: {
@@ -150,6 +150,24 @@ const addressReducer = (state = initState, payload: any) => {
       return {
         ...state,
         currentAddress: payload.data,
+      };
+    case NAME_ACTIONS.SET_DEFAULT.SET_DEFAULT:
+      return {
+        ...state,
+        requesting: true,
+        success: false,
+      };
+    case NAME_ACTIONS.SET_DEFAULT.SET_DEFAULT_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+      };
+    case NAME_ACTIONS.SET_DEFAULT.SET_DEFAULT_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        success: false,
       };
     default:
       return state;

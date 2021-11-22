@@ -49,7 +49,7 @@ namespace Application.Books
                     query = query.Where(
                         x => x.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId));
                 }
-                
+
                 if (request.Params.AuthorId != null)
                 {
                     query = query.Where(x => x.Author.Id.ToString() == request.Params.AuthorId);
@@ -110,7 +110,7 @@ namespace Application.Books
 
                 if (request.Params.Predicate != null)
                 {
-                    var configQuantity = _context.ConfigQuantities;
+                    var configQuantity = _context.ConfigHomePages;
 
                     switch (request.Params.Predicate)
                     {
@@ -178,8 +178,7 @@ namespace Application.Books
                             break;
                     }
                 }
-                
-                
+
 
                 var booksDto = query.Select(x => new BooksDto()
                 {

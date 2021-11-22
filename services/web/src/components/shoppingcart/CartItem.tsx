@@ -8,10 +8,10 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Book } from "../../model";
 import CloseIcon from "@material-ui/icons/Close";
+import Item from "../../model/item";
 
-const CartItem: React.FC<{ item: Book }> = (item) => {
+const CartItem: React.FC<{ item: Item }> = (item) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -39,24 +39,24 @@ const CartItem: React.FC<{ item: Book }> = (item) => {
                 variant="overline"
                 className={classes.atribute}
               >
-                {item.item.attribute}
+                {item.item.attributeName}
               </Typography>
               <Typography
                 gutterBottom
                 variant="subtitle1"
                 className={classes.name}
               >
-                {item.item.name}
+                {item.item.productName}
               </Typography>
               <Typography
                 variant="body2"
                 gutterBottom
                 className={classes.author}
               >
-                {item.item.author}
+                {item.item.authorName}
               </Typography>
             </Grid>
-            {item.item.salePrice === "" ? (
+            {!item.item.price ? (
               <Grid item>
                 <Typography
                   variant="subtitle1"
@@ -71,7 +71,7 @@ const CartItem: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.salePrice}
+                  {item.item.price}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
                   {item.item.price}

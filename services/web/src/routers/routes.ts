@@ -13,13 +13,21 @@ import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 import BooksForSalePage from "../pages/books-for-sale/BooksForSale";
-import { ROUTE_AUTHOR, ROUTE_BOOK, ROUTE_BOOK_DETAIL } from "./types";
-//const isLogged: boolean = false;
+import {
+  ROUTE_AUTHOR,
+  ROUTE_BOOK,
+  ROUTE_BOOKS_FOR_SALE,
+  ROUTE_BOOK_DETAIL,
+  ROUTE_CART,
+  ROUTE_CATEGORY,
+  ROUTE_CHECK_OUT,
+  ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_PLACE_ORDER,
+  ROUTE_PROFILE,
+  ROUTE_REGISTER,
+} from "./types";
 
-// function isLogin() {
-//   if (localStorage.getItem("user")) return true;
-//   return false;
-// }
 export const routes: Route[] = [
   {
     path: "/",
@@ -37,13 +45,13 @@ export const routes: Route[] = [
 
 export const routeMainLayout: Route[] = [
   {
-    path: "/login",
+    path: ROUTE_LOGIN,
     name: "Login",
     component: LoginPage,
     exact: false,
   },
   {
-    path: "/register",
+    path: ROUTE_REGISTER,
     name: "Register",
     component: RegisterPage,
     exact: false,
@@ -52,28 +60,28 @@ export const routeMainLayout: Route[] = [
     path: ROUTE_BOOK_DETAIL,
     name: "Book Detail",
     component: BookDetailPage,
-    exact: false,
+    exact: true,
   },
   {
-    path: "/books-for-sale",
+    path: ROUTE_BOOKS_FOR_SALE,
     name: "Books For Sale",
     component: BooksForSalePage,
     exact: false,
   },
   {
-    path: "/check-out",
+    path: ROUTE_CHECK_OUT,
     name: "Check out",
     component: CheckoutPage,
     exact: false,
   },
   {
-    path: "/",
+    path: ROUTE_HOME,
     name: "Home",
     component: Home,
     exact: true,
   },
   {
-    path: "/profile",
+    path: ROUTE_PROFILE,
     name: "My Account",
     component: ProfilePage,
     exact: false,
@@ -91,7 +99,7 @@ export const routeMainLayout: Route[] = [
     exact: false,
   },
   {
-    path: "/category",
+    path: ROUTE_CATEGORY,
     name: "Category",
     component: CategoryPage,
     exact: false,
@@ -121,13 +129,13 @@ export const routeMainLayout: Route[] = [
     exact: false,
   },
   {
-    path: "/place-order",
+    path: ROUTE_PLACE_ORDER,
     name: "Place Order",
     component: PlaceOrderPage,
     exact: false,
   },
   {
-    path: "/cart",
+    path: ROUTE_CART,
     name: "Cart",
     component: ShoppingCartPage,
     exact: false,

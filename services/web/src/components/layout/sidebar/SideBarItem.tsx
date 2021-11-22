@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { SidebarCategoryResponse } from "../../../model/category";
 import { getSub } from "../../../redux/actions/category/getAction";
 import { RootStore } from "../../../redux/store";
-import NegativeAlert from "../../core/alert/NegativeAlert";
 
 const ChildSideBarComponent: React.FC<{
   idCategory: string;
@@ -14,12 +13,10 @@ const ChildSideBarComponent: React.FC<{
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { success, message } = useSelector(
-    (state: RootStore) => state.category
-  );
   const data: SidebarCategoryResponse | null = useSelector(
     (state: RootStore) => state.category.data.sub
   );
+
   useEffect(() => {
     dispatch(
       getSub({
@@ -43,7 +40,6 @@ const ChildSideBarComponent: React.FC<{
   };
   return (
     <div>
-      {!success ? <NegativeAlert message={message || ""} /> : null}
       <List style={{ paddingTop: 0 }}>
         {data
           ? data.subCategories?.map((item: any, index: number) => (

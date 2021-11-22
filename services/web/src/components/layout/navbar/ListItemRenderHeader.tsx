@@ -5,12 +5,13 @@ import ListItem from "@material-ui/core/ListItem";
 import { Box, Collapse, List, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { ROUTE_HOME } from "../../../routers/types";
 
 const headerItems: HeaderTypes[] = [
   {
     name: "Home",
     isShow: false,
-    path: "/home",
+    path: ROUTE_HOME,
   },
   {
     name: "Categories",

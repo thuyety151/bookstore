@@ -81,6 +81,7 @@ const ListBookForSale: React.FC = () => {
         pageIndex: pageIndex,
       })
     );
+    // eslint-disable-next-line
   }, [dispatch, pageIndex, sortType]);
 
   const handleChangePage = (

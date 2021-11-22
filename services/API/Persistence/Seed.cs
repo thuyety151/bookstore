@@ -6,6 +6,7 @@ using Domain;
 using Domain.Constant;
 using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using Attribute = Domain.Attribute;
 
 namespace Persistence
@@ -42,12 +43,12 @@ namespace Persistence
                                 LastName = "Nguyen",
                                 Phone = "0866944171",
                                 ApartmentNumber = "54",
-                                StreetAddress="So 8",
-                                ProvinceId=202,
-                                ProvinceName="Hồ Chí Minh",
-                                DistrictId=3695,
-                                DistrictName="Thành Phố Thủ Đức",
-                                WardName="Phường Linh Chiểu",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
                                 IsMain = true
                             }
                         },
@@ -66,12 +67,12 @@ namespace Persistence
                                 LastName = "Nguyen",
                                 Phone = "0866944171",
                                 ApartmentNumber = "54",
-                                StreetAddress="So 8",
-                                ProvinceId=202,
-                                ProvinceName="Hồ Chí Minh",
-                                DistrictId=3695,
-                                DistrictName="Thành Phố Thủ Đức",
-                                WardName="Phường Linh Chiểu",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
                                 IsMain = true
                             }
                         },
@@ -90,12 +91,12 @@ namespace Persistence
                                 LastName = "Long",
                                 Phone = "1234567890",
                                 ApartmentNumber = "1179",
-                                StreetAddress="So 8",
-                                ProvinceId=202,
-                                ProvinceName="Hồ Chí Minh",
-                                DistrictId=3695,
-                                DistrictName="Thành Phố Thủ Đức",
-                                WardName="Phường Linh Chiểu",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
                                 IsMain = true
                             }
                         },
@@ -114,14 +115,14 @@ namespace Persistence
                                 LastName = "Nguyen",
                                 Phone = "1234567890",
                                 ApartmentNumber = "10",
-                                 StreetAddress="So 8",
-                                ProvinceId=202,
-                                ProvinceName="Hồ Chí Minh",
-                                DistrictId=3695,
-                                DistrictName="Thành Phố Thủ Đức",
-                                WardName="Phường Linh Chiểu",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
                                 IsMain = true
-                              }
+                            }
                         },
                     },
                     new AppUser()
@@ -138,14 +139,14 @@ namespace Persistence
                                 LastName = "Truong",
                                 Phone = "1234567890",
                                 ApartmentNumber = "1179",
-                                StreetAddress="So 8",
-                                ProvinceId=202,
-                                ProvinceName="Hồ Chí Minh",
-                                DistrictId=3695,
-                                DistrictName="Thành Phố Thủ Đức",
-                                WardName="Phường Linh Chiểu",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
                                 IsMain = true
-                              }
+                            }
                         },
                     },
                 };
@@ -265,83 +266,83 @@ namespace Persistence
                 {
                     new Media()
                     {
-                        Id= "The Overdue Life of Amy Byler",
-                        Name="The Overdue Life of Amy Byler",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "The Overdue Life of Amy Byler",
+                        Name = "The Overdue Life of Amy Byler",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
-                        Name="Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
+                        Name = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id="The Alchemist",
-                        Name="The Alchemist",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "The Alchemist",
+                        Name = "The Alchemist",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "The Subtle Art of Not Giving a F*Ck",
-                        Name="The Subtle Art of Not Giving a F*Ck",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "The Subtle Art of Not Giving a F*Ck",
+                        Name = "The Subtle Art of Not Giving a F*Ck",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "Call Me By Your Name",
-                        Name="Call Me By Your Name",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "Call Me By Your Name",
+                        Name = "Call Me By Your Name",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "Sapiens : A Brief History Of Humankind",
-                        Name="Sapiens : A Brief History Of Humankind",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "Sapiens : A Brief History Of Humankind",
+                        Name = "Sapiens : A Brief History Of Humankind",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "Homo Deus: A Brief History Of Tomorrow",
-                        Name="Homo Deus: A Brief History Of Tomorrow",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "Homo Deus: A Brief History Of Tomorrow",
+                        Name = "Homo Deus: A Brief History Of Tomorrow",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "Me Before You",
-                        Name="Me Before You",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "Me Before You",
+                        Name = "Me Before You",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
-                        Name="Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
+                        Name = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                     new Media()
                     {
-                        Id= "A Midsummer Night's Dream",
-                        Name="A Midsummer Night's Dream",
-                        Url="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain=true,
-                        IsVideo=false
+                        Id = "A Midsummer Night's Dream",
+                        Name = "A Midsummer Night's Dream",
+                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
                     },
                 };
                 medias.AddRange(mediaList);
@@ -463,13 +464,13 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category =  categories[0].SubCategories.ElementAt(0)
+                                Category = categories[0].SubCategories.ElementAt(0)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="The Overdue Life of Amy Byler").ToList(),
-                        ViewCount=1,
+                        Media = medias.Where(x => x.Id == "The Overdue Life of Amy Byler").ToList(),
+                        ViewCount = 1,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
 
@@ -495,10 +496,10 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="Harry Potter Part 4").ToList(),
-                        ViewCount=100,
+                        Media = medias.Where(x => x.Id == "Harry Potter Part 4").ToList(),
+                        ViewCount = 100,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -523,10 +524,10 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="The Alchemist").ToList(),
-                        ViewCount=10,
+                        Media = medias.Where(x => x.Id == "The Alchemist").ToList(),
+                        ViewCount = 10,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -551,10 +552,10 @@ namespace Persistence
                                 Category = categories[1].SubCategories.ElementAt(0)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="The Subtle Art of Not Giving a F*Ck").ToList(),
-                        ViewCount=11,
+                        Media = medias.Where(x => x.Id == "The Subtle Art of Not Giving a F*Ck").ToList(),
+                        ViewCount = 11,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -579,10 +580,10 @@ namespace Persistence
                                 Category = categories[1].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="Call Me By Your Name").ToList(),
-                        ViewCount=20,
+                        Media = medias.Where(x => x.Id == "Call Me By Your Name").ToList(),
+                        ViewCount = 20,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -607,10 +608,10 @@ namespace Persistence
                                 Category = categories[1].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="Sapiens : A Brief History Of Humankind").ToList(),
-                        ViewCount=25,
+                        Media = medias.Where(x => x.Id == "Sapiens : A Brief History Of Humankind").ToList(),
+                        ViewCount = 25,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -635,10 +636,10 @@ namespace Persistence
                                 Category = categories[1].SubCategories.ElementAt(2)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="Homo Deus: A Brief History Of Tomorrow").ToList(),
-                        ViewCount=19,
+                        Media = medias.Where(x => x.Id == "Homo Deus: A Brief History Of Tomorrow").ToList(),
+                        ViewCount = 19,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -663,10 +664,10 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="Me Before You").ToList(),
-                        ViewCount=36,
+                        Media = medias.Where(x => x.Id == "Me Before You").ToList(),
+                        ViewCount = 36,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -691,10 +692,10 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="Harry Potter Part 6: Harry Potter And The Half-Blood Prince").ToList(),
-                        ViewCount=102,
+                        Media = medias.Where(x => x.Id == "Harry Potter Part 6: Harry Potter And The Half-Blood Prince").ToList(),
+                        ViewCount = 102,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     },
@@ -712,17 +713,17 @@ namespace Persistence
                         IsPublic = true,
                         Language = languages[0],
                         UpdateDate = DateTime.Now,
-                            Categories = new List<BookCategory>()
+                        Categories = new List<BookCategory>()
                         {
                             new BookCategory()
                             {
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media =medias.Where(x=>x.Id=="A Midsummer Night's Dream").ToList(),
-                        ViewCount=15,
+                        Media = medias.Where(x => x.Id == "A Midsummer Night's Dream").ToList(),
+                        ViewCount = 15,
                         Dimensions = "9126 x 194 x 28mm | 301g",
-                        PublicationDate = new DateTime(2020,3,12),
+                        PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
                     }
@@ -749,7 +750,7 @@ namespace Persistence
                         AttributeId = attributes[1].Id,
                         Price = 79,
                         TotalStock = 20,
-                        StockStatus =  StockStatus.InStock
+                        StockStatus = StockStatus.InStock
                     },
                     new BookAttribute()
                     {
@@ -1025,33 +1026,33 @@ namespace Persistence
                 {
                     new Coupon()
                     {
-                        Id= new Guid(),
-                        Code="HOT30",
-                        Description="Nothing",
-                        DiscountType=1,
-                        ExpireDate= DateTime.Now.AddMonths(1),
-                        MinSpend=0,
-                        IsDeleted=false
+                        Id = new Guid(),
+                        Code = "HOT30",
+                        Description = "Nothing",
+                        DiscountType = 1,
+                        ExpireDate = DateTime.Now.AddMonths(1),
+                        MinSpend = 0,
+                        IsDeleted = false
                     },
                     new Coupon()
                     {
-                        Id= new Guid(),
-                        Code="HOT50",
-                        Description="50K",
-                        DiscountType=1,
-                        ExpireDate= DateTime.Now.AddMonths(2),
-                        MinSpend=0,
-                        IsDeleted=false
+                        Id = new Guid(),
+                        Code = "HOT50",
+                        Description = "50K",
+                        DiscountType = 1,
+                        ExpireDate = DateTime.Now.AddMonths(2),
+                        MinSpend = 0,
+                        IsDeleted = false
                     },
                     new Coupon()
                     {
-                        Id= new Guid(),
-                        Code="30PER",
-                        Description="30%",
-                        DiscountType=1,
-                        ExpireDate= DateTime.Now,
-                        MinSpend=0,
-                        IsDeleted=false
+                        Id = new Guid(),
+                        Code = "30PER",
+                        Description = "30%",
+                        DiscountType = 1,
+                        ExpireDate = DateTime.Now,
+                        MinSpend = 0,
+                        IsDeleted = false
                     }
                 };
                 await context.Coupons.AddRangeAsync(couponList);
@@ -1197,80 +1198,81 @@ namespace Persistence
             //     };
             //     await context.Orders.AddRangeAsync(orderList);
             // }
-            if (!context.ConfigQuantities.Any())
+            if (!context.ConfigHomePages.Any())
             {
-                var configs = new List<ConfigQuantity>()
+                var configs = new List<ConfigHomePage>()
                 {
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.BestSelling.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.BestSelling.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.DealsOfWeek.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.DealsOfWeek.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.BiographyBook.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.BiographyBook.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.MostView.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.MostView.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.OnSale.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.OnSale.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.NewRelease.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.NewRelease.ToString(),
+                        Quantity = 10,
+                        DefaultAttributeId = attributes[0].Id,
+                        MetaData = JsonConvert.SerializeObject(categories.Take(4).Select(x => x.Id).ToList())
+                    },
+                    new ConfigHomePage()
+                    {
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.TopCategory.ToString(),
+                        Quantity = 10,
+                    },
+                    new ConfigHomePage()
+                    {
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.Highlight.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.TopCategory.ToString(),
-                        Quantity=10,
-                    },
-                    new ConfigQuantity()
-                    {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.Highlight.ToString(),
-                        Quantity=10,
+                        Id = new Guid(),
+                        Key = ConfigQuantityName.BestOfWeek.ToString(),
+                        Quantity = 10,
                         DefaultAttributeId = attributes[0].Id
                     },
-                    new ConfigQuantity()
-                    {
-                        Id= new Guid(),
-                        Key=ConfigQuantityName.BestOfWeek.ToString(),
-                        Quantity=10,
-                        DefaultAttributeId = attributes[0].Id
-                    },
-                    new ConfigQuantity()
+                    new ConfigHomePage()
                     {
                         Id = new Guid(),
                         Key = ConfigQuantityName.TopAuthor.ToString(),
                         Quantity = 10,
                     }
                 };
-                await context.ConfigQuantities.AddRangeAsync(configs);
+                await context.ConfigHomePages.AddRangeAsync(configs);
             }
 
             if (!context.OrderStatus.Any())
