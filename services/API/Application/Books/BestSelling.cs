@@ -42,7 +42,7 @@ namespace Application.Books
                 var results = new List<BooksDto>();
                 foreach (var item in items)
                 {
-                    var books = await _context.BookAttributes
+                    var book = await _context.BookAttributes
                         .Include(x => x.Book)
                         .ThenInclude(x => x.Author)
                         .Include(x => x.Book)
@@ -62,8 +62,12 @@ namespace Application.Books
                             Price = x.Price,
                             SalePrice = x.SalePrice,
                             PictureUrl = x.Book.Media.FirstOrDefault(m => m.IsMain == true).Url
-                        }).SingleOrDefaultAsync();git
-                    results.Add((books));
+                        }).SingleOrDefaultAsync();
+                    if (book == null)
+                    {
+                        continue;
+                    }
+                    results.Add(book);
                 }
 
                 return Result<List<BooksDto>>.Success(results);
