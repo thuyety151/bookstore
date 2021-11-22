@@ -62,15 +62,7 @@ namespace Application.Orders
                     {
                         return Result<Guid>.Failure("Coupon is expired");
                     }
-
-                    foreach (var item in request.OrderParams.Coupon.Items)
-                    {
-                        var checkProductId = coupon.Books.SingleOrDefault((x) => x.BookId == item.ProductId);
-                        if (checkProductId == null || item.Price * item.Quantity < coupon.MinSpend)
-                        {
-                            return Result<Guid>.Failure("Coupon is not valid");
-                        }
-                    }
+                    
                 }
 
                 //Get list item 
