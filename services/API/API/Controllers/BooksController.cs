@@ -41,5 +41,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command() { Id = id }));
         }
+
+        [HttpGet]
+        [Route("best-selling")]
+        public async Task<IActionResult> GetBestselling()
+        {
+            return HandleResult(await Mediator.Send(new BestSelling.Query() { }));
+        }
     }
 }
