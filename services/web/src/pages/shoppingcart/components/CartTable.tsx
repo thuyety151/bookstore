@@ -31,12 +31,14 @@ import emptyCart from "../../../assets/icons/cartempty.jpg";
 import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
 import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
 import { generatePath, useHistory } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const CartTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const data = useSelector((state: RootStore) => state.cart);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (!data.data.length) {
@@ -59,10 +61,16 @@ const CartTable: React.FC = () => {
     } else {
       dispatch(
         addOrUpdateItem({
-          productId: model.productId,
-          attributeId: model.attributeId,
-          quantity: model.quantity,
-        } as AddOrUpdateItem)
+          item: model as AddOrUpdateItem,
+          onSuccess: () => {
+            enqueueSnackbar("Add to cart successfully!", {
+              variant: "success",
+            });
+          },
+          onFailure: (error: any) => {
+            enqueueSnackbar(error, { variant: "error" });
+          },
+        })
       );
     }
   };

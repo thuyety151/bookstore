@@ -10,12 +10,34 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Item from "../../model/item";
+import { generatePath, useHistory } from "react-router-dom";
+import { ROUTE_BOOK_DETAIL } from "../../routers/types";
 
-const CartItem: React.FC<{ item: Item }> = (item) => {
+const CartItem: React.FC<{ item: Item; closeCart: void }> = (
+  item,
+  closeCart
+) => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleNavBook = () => {
+    history.push(
+      generatePath(ROUTE_BOOK_DETAIL, {
+        bookId: item.item.id,
+        attributeId: item.item.attributeId,
+      })
+    );
+    // closeCart(false);
+  };
+
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper} elevation={0} square>
+      <Paper
+        className={classes.paper}
+        elevation={0}
+        square
+        onClick={handleNavBook}
+      >
         <Grid
           container
           direction="row"
@@ -95,7 +117,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     image: {
-      width: 200,
+      // width: 200,
       height: 200,
     },
     paper: {
