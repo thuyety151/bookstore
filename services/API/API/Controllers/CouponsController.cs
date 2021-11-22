@@ -20,5 +20,11 @@ namespace API.Controllers
         {
             return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams}));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpsertCoupon(CouponParams couponParams)
+        {
+            return HandleResult(await Mediator.Send(new Upsert.Command() {CouponParams = couponParams}));
+        }
     }
 }

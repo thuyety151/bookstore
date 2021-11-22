@@ -52,7 +52,7 @@ namespace Application.Orders
                 {
                     var coupon = await _context.Coupons.Include(x => x.Books)
                         .SingleOrDefaultAsync((x) =>
-                            x.Code == request.OrderParams.Coupon.Code.Trim() && x.IsDeleted == false);
+                            x.Code.ToLower() == request.OrderParams.Coupon.Code.Trim().ToLower() && x.IsDeleted == false);
                     if (coupon == null)
                     {
                         return Result<Guid>.Failure("Coupon is not exist");

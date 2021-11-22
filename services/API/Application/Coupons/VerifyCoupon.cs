@@ -32,7 +32,7 @@ namespace Application.Coupons
             public async Task<Result<CouponDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var coupon = await _context.Coupons.Include(x => x.Books).SingleOrDefaultAsync((x) =>
-                    x.Code == request.VerifyCouponParams.Code.Trim() && x.IsDeleted == false);
+                    x.Code.ToLower() == request.VerifyCouponParams.Code.Trim().ToLower() && x.IsDeleted == false);
                 if (coupon == null)
                 {
                     return Result<CouponDto>.Failure("Coupon is not exist");
