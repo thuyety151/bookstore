@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     image: {
-      width: 230,
+      // width: 230,
       height: 230,
     },
     paper: {

@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import PrimaryButton from "../../components/button/PrimaryButton";
@@ -31,10 +32,12 @@ function CheckoutPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  const [note, setNote] = useState<string>("");
 
   const handleClick = () => {
     dispatch(
       createOrder({
+        note: note,
         onSuccess: () => {
           dispatch(getPageCart());
           history.push(ROUTE_PLACE_ORDER);
@@ -53,11 +56,10 @@ function CheckoutPage() {
       </Typography>
       <Grid container>
         <Grid item xs={7}>
-          <BillDetailComponent />
+          <BillDetailComponent {...{ note, setNote }} />
         </Grid>
         <Grid item xs={4}>
           <BillInfoComponent />
-          <span>hih</span>
           <Link to="/place-order">
             <PrimaryButton
               text="Place order"

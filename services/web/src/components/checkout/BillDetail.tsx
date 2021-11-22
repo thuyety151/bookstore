@@ -1,6 +1,8 @@
+import React from "react";
 import { Grid, Paper, TextField, Theme, Typography } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import React from "react";
+import { useSelector } from "react-redux";
+import { RootStore } from "../../redux/store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,8 +15,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-export default function BillDetail() {
+
+type BillDetailType = {
+  note: string;
+  setNote: any;
+};
+export default function BillDetail(props: BillDetailType) {
   const classes = useStyles();
+  const currentAddress = useSelector(
+    (state: RootStore) => state.address.currentAddress
+  );
+
   return (
     <div>
       <Paper variant="outlined" className={classes.root}>
@@ -35,7 +46,7 @@ export default function BillDetail() {
                   InputProps={{ readOnly: true }}
                   fullWidth
                   variant="outlined"
-                  value="hehe"
+                  value={currentAddress.firstName}
                 />
               </Grid>
             </Grid>
@@ -49,7 +60,7 @@ export default function BillDetail() {
                   InputProps={{ readOnly: true }}
                   fullWidth
                   variant="outlined"
-                  value="hehe"
+                  value={currentAddress.lastName}
                 />
               </Grid>
             </Grid>
@@ -64,7 +75,7 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                value={currentAddress.phone}
               />
             </Grid>
           </Grid>
@@ -78,7 +89,7 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                value={currentAddress.appartmentNumber}
               />
             </Grid>
           </Grid>
@@ -92,7 +103,7 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                value={currentAddress.streetAddress}
               />
             </Grid>
           </Grid>
@@ -106,7 +117,7 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                value={currentAddress.wardName}
               />
             </Grid>
           </Grid>
@@ -120,7 +131,7 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                value={currentAddress.districtName}
               />
             </Grid>
           </Grid>
@@ -134,7 +145,7 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                value={currentAddress.provinceName}
               />
             </Grid>
           </Grid>
@@ -148,12 +159,12 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                // value={currentAddress.firstName}
               />
             </Grid>
           </Grid>
 
-          <Grid item xs={12} container direction="column">
+          {/* <Grid item xs={12} container direction="column">
             <Grid item>
               <Typography className={classes.text}>Postcode</Typography>
             </Grid>
@@ -162,10 +173,10 @@ export default function BillDetail() {
                 InputProps={{ readOnly: true }}
                 fullWidth
                 variant="outlined"
-                value="hehe"
+                // value={currentAddress.firstName}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
 
           <Grid item>
             <Typography variant="h6" className={classes.text}>
@@ -185,7 +196,8 @@ export default function BillDetail() {
                 multiline
                 minRows={5}
                 variant="outlined"
-                value="hehe"
+                value={props.note}
+                onChange={(e) => props.setNote(e.target.value as string)}
               />
             </Grid>
           </Grid>

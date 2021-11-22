@@ -7,6 +7,7 @@ export type OrderState = {
   message: string;
   data: Item[];
   fee: number | null; // use null to check can check out or not
+  note: string | null;
 };
 const initState: OrderState = {
   requesting: false,
@@ -14,6 +15,7 @@ const initState: OrderState = {
   message: "",
   data: [],
   fee: 0,
+  note: null,
 };
 
 const orderReducer = (

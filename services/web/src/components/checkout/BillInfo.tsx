@@ -47,6 +47,8 @@ const BillInfo: React.FC = () => {
   const dispatch = useDispatch();
   const [couponCode, setCouponCode] = useState("");
   const couponState = useSelector((state: RootStore) => state.coupon);
+  const shippingFee = useSelector((state: RootStore) => state.order.fee);
+
   const handleApplyCoupon = () => {
     dispatch(verifyCoupon(couponCode));
   };
@@ -109,7 +111,7 @@ const BillInfo: React.FC = () => {
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
-                <span>79.99</span>
+                <span>{shippingFee}</span>
               </Grid>
             </Grid>
           </Paper>
