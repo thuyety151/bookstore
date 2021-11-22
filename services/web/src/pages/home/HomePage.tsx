@@ -8,7 +8,11 @@ import MainShow from "../../components/homepage/slide-menu/SlideShow";
 import FeatureBooks from "../../components/homepage/feature-books/FeatureBooks";
 import NewReleaseBooks from "../../components/homepage/feature-books/NewRelease";
 import { useDispatch } from "react-redux";
-import { getDealOfWeek, getMostView, getOnSale } from "../../redux/actions/books/getAction";
+import {
+  getDealOfWeek,
+  getMostView,
+  getOnSale,
+} from "../../redux/actions/books/getAction";
 const HomePage: React.FunctionComponent<{}> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -16,11 +20,10 @@ const HomePage: React.FunctionComponent<{}> = (props) => {
   dispatch(getOnSale());
   dispatch(getDealOfWeek());
 
-
   return (
     <div className="App">
       <Grid container>
-      <Grid item xs={12} className={classes.item}>
+        <Grid item xs={12} className={classes.item}>
           <MainShow />
         </Grid>
         <Grid item xs={12} className={classes.item}>

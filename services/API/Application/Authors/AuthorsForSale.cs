@@ -30,7 +30,7 @@ namespace Application.Authors
             }
             public async Task<Result<List<AuthorDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var quantity = _context.ConfigQuantities
+                var quantity = _context.ConfigHomePages
                     .FirstOrDefault(x => x.Key == ConfigQuantityName.TopAuthor.ToString())?.Quantity ?? 10;
 
                 if (request.SearchString == null)

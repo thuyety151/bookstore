@@ -18,7 +18,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Item from "../../model/item";
 import { RootStore } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { sum } from "lodash";
 import { formatAddress } from "../../helper/format";
 import { verifyCoupon } from "../../redux/actions/coupon/getAction";
 
@@ -37,15 +36,11 @@ const BillInfo: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
-  const itemToCheckout = useSelector(
-    (state: RootStore) => state.cart.itemToCheckOut
-  );
+  const cart = useSelector((state: RootStore) => state.cart);
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
-  const subTotal = () => {
-    return sum(itemToCheckout.flatMap((x) => x.price));
-  };
+
   const addressInfor = () => {
     return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
   };
@@ -81,24 +76,16 @@ const BillInfo: React.FC = () => {
               </span>
             </div>
             <Grid item container direction="column">
-              {itemToCheckout.map((item: Item, index: number) => {
+              {cart.itemToCheckOut.map((item: Item, index: number) => {
                 return (
                   <div className="row" key={index}>
                     <span>
                       {item.productName} x{item.quantity}
                     </span>
-                    <span>{item.price}</span>
+                    <span>{item.price * item.quantity}</span>
                   </div>
                 );
               })}
-              {/* <div className="row">
-                <span>Touchscreen MP3 Player × 1</span>
-                <span>£79.99</span>
-              </div>
-              <Grid item className="row">
-                <span>Happy Ninja × 1</span>
-                <span>£18.00</span>
-              </Grid> */}
             </Grid>
           </Paper>
         </Collapse>
@@ -118,7 +105,7 @@ const BillInfo: React.FC = () => {
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>{subTotal()}</span>
+                <span>{cart.subTotal}</span>
               </div>
               <Grid item className="row">
                 <span>Shipping</span>

@@ -7,12 +7,11 @@ export interface Book {
   name: string;
   pictureUrl: string;
   attribute: string;
-  attriuteId: string;
+  attributeId: string;
   author: string;
   authorId: string;
   price: string;
   salePrice: string;
   languageId: string;
   language: string;
-  
 }

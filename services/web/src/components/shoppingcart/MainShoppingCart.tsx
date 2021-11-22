@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import data from "../../mocks/bestselling";
-import { Button, Grid } from "@material-ui/core";
+import { Button, CircularProgress, Grid } from "@material-ui/core";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import CartItem from "./CartItem";
 import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { getPageCart } from "../../redux/actions/cart/getAction";
+import { RootStore } from "../../redux/store";
 
 type Anchor = "left" | "right";
 
@@ -18,6 +20,13 @@ const MainShoppingCart: React.FC<{
 }> = ({ openCart, setOpenCart }) => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { requesting, data } = useSelector((state: RootStore) => state.cart);
+
+  useEffect(() => {
+    dispatch(getPageCart());
+  }, [dispatch]);
+
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -40,6 +49,7 @@ const MainShoppingCart: React.FC<{
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      {requesting && <CircularProgress disableShrink />}
       <Grid container>
         <Grid
           container

@@ -353,25 +353,28 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.ConfigQuantity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            modelBuilder.Entity("Domain.ConfigHomePage", b =>
+                 {
+                     b.Property<Guid>("Id")
+                         .ValueGeneratedOnAdd()
+                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DefaultAttributeId")
-                        .HasColumnType("uniqueidentifier");
+                     b.Property<Guid>("DefaultAttributeId")
+                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
+                     b.Property<string>("Key")
+                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                     b.Property<string>("MetaData")
+                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                     b.Property<int>("Quantity")
+                         .HasColumnType("int");
 
-                    b.ToTable("ConfigQuantities");
-                });
+                     b.HasKey("Id");
+
+                     b.ToTable("ConfigHomePages");
+                 });
 
             modelBuilder.Entity("Domain.Coupon", b =>
                 {

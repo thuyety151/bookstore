@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Application.Carts;
 using Application.Carts.Items;
 using Application.Core;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

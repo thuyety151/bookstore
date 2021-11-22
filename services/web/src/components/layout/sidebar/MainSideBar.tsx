@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRoot } from "../../../redux/actions/category/getAction";
 import { SidebarCategoryResponse } from "../../../model/category";
 import Skeleton from "@material-ui/lab/Skeleton";
-import NegativeAlert from "../../core/alert/NegativeAlert";
 import { RootStore } from "../../../redux/store";
 
 interface TabPanelProps {
@@ -55,9 +54,6 @@ const MainSideBar: React.FC<{
   const dispatch = useDispatch();
   const data = useSelector((state: RootStore) => state.category.data);
   const [currentId, setCurrentId] = useState<string>("");
-  const { success, message } = useSelector(
-    (state: RootStore) => state.category
-  );
   const loading: Boolean = useSelector(
     (state: RootStore) => state.category.requesting
   );
@@ -183,7 +179,6 @@ const MainSideBar: React.FC<{
   );
   return (
     <div>
-      {!success ? <NegativeAlert message={message || ""} /> : null}
       <React.Fragment key="left">
         <Drawer
           anchor="left"

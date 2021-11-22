@@ -11,6 +11,8 @@ import { ListItem } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { RootStore } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,8 +43,9 @@ const HeaderComponent: React.FC<{
   setOpenCart: any;
 }> = ({ setOpenCart }) => {
   const classes = useStyles();
-
+  const totalItem = useSelector((state: RootStore) => state.cart.data.length);
   const history = useHistory();
+
   const handleOpenCart = () => {
     setOpenCart(true);
   };
@@ -77,7 +80,7 @@ const HeaderComponent: React.FC<{
             <PersonOutlineOutlinedIcon />
           </ListItem>
           <ListItem button onClick={handleOpenCart}>
-            <Badge badgeContent={4} overlap="circular" color="error">
+            <Badge badgeContent={totalItem} overlap="circular" color="error">
               <LocalMallOutlinedIcon />
             </Badge>
           </ListItem>

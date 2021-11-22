@@ -8,6 +8,7 @@ import {
   createStyles,
   OutlinedInput,
   FormHelperText,
+  MenuItem,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,13 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const sampleAddress = useSelector((state: RootStore) => state.address.data);
+  const [touched, setTouched] = useState({
+    province: false,
+    district: false,
+    ward: false,
+    street: false,
+  });
+
   useEffect(() => {
     if (sampleAddress.province?.length === 0) {
       dispatch(getProvince());
@@ -41,26 +49,22 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
     dispatch(getWard(formValue.district.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue.district.id]);
-  const [touched, setTouched] = useState({
-    province: false,
-    district: false,
-    ward: false,
-    street: false,
-  });
 
   const handleChangeForm =
     (key: string) => (event: React.ChangeEvent<{ value: unknown }>) => {
-      //sampleAddress.province[index]
-      const data = get(
-        sampleAddress,
-        `${key}[${event.target.value as number}]`
+      const data = get(sampleAddress, key).find(
+        (x: any) =>
+          x[`${capitalize(key)}ID`] === (event.target.value as number) ||
+          x[`${capitalize(key)}Code`] === (event.target.value as string)
       );
+
       setFormValue({
         ...formValue,
         [key]: {
           id:
             data[`${capitalize(key)}ID`] || data[`${capitalize(key)}Code`] || 0, //data.ProvinceID
           name: data[`${capitalize(key)}Name`],
+          code: data[`${capitalize(key)}Code`],
         },
       });
     };
@@ -84,18 +88,19 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             Province/City
           </InputLabel>
           <Select
-            native
+            // native
+            displayEmpty
             variant="outlined"
-            value={formValue.province.name}
+            value={formValue.province.id}
             onChange={handleChangeForm("province")}
             error={validator("province").error}
             onBlur={() => setTouched({ ...touched, province: true })}
           >
             {sampleAddress.province.map((item: any, index: number) => {
               return (
-                <option key={item?.ProvinceID} value={index}>
+                <MenuItem key={index} value={item.ProvinceID}>
                   {item?.NameExtension[1]}
-                </option>
+                </MenuItem>
               );
             })}
           </Select>
@@ -106,18 +111,17 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
           )}
           <InputLabel htmlFor="outlined-age-native-simple">District</InputLabel>
           <Select
-            native
             variant="outlined"
-            value={formValue.district.name}
+            value={formValue.district.id}
             onChange={handleChangeForm("district")}
             onBlur={() => setTouched({ ...touched, district: true })}
             // displayEmpty
           >
             {sampleAddress.district.map((item: any, index: number) => {
               return (
-                <option key={item?.DistrictID} value={index}>
-                  {item?.NameExtension[0]}
-                </option>
+                <MenuItem key={index} value={item.DistrictID}>
+                  {item?.DistrictName}
+                </MenuItem>
               );
             })}
           </Select>
@@ -130,18 +134,17 @@ const AddressForm: React.FC<Props> = ({ formValue, setFormValue }) => {
             Ward/Commune
           </InputLabel>
           <Select
-            native
             variant="outlined"
-            value={formValue.ward.id}
+            value={formValue.ward.code}
             onChange={handleChangeForm("ward")}
             error={validator("ward").error}
             onBlur={() => setTouched({ ...touched, ward: true })}
           >
             {sampleAddress.ward.map((item: any, index: number) => {
               return (
-                <option key={item?.WardCode} value={index}>
+                <MenuItem key={index} value={item.WardCode}>
                   {item?.WardName}
-                </option>
+                </MenuItem>
               );
             })}
           </Select>
