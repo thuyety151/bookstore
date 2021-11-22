@@ -1029,30 +1029,33 @@ namespace Persistence
                         Id = new Guid(),
                         Code = "HOT30",
                         Description = "Nothing",
-                        DiscountType = 1,
+                        DiscountType = (int) DiscountType.Percentage,
                         ExpireDate = DateTime.Now.AddMonths(1),
                         MinSpend = 0,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CouponAmount = 30
                     },
                     new Coupon()
                     {
                         Id = new Guid(),
                         Code = "HOT50",
-                        Description = "50K",
-                        DiscountType = 1,
+                        Description = "50$",
+                        DiscountType = (int) DiscountType.FixedCart,
                         ExpireDate = DateTime.Now.AddMonths(2),
                         MinSpend = 0,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CouponAmount = 50
                     },
                     new Coupon()
                     {
                         Id = new Guid(),
                         Code = "30PER",
                         Description = "30%",
-                        DiscountType = 1,
+                        DiscountType = (int) DiscountType.Percentage,
                         ExpireDate = DateTime.Now,
                         MinSpend = 0,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CouponAmount = 30
                     }
                 };
                 await context.Coupons.AddRangeAsync(couponList);
