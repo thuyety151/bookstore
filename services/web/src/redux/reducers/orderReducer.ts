@@ -1,5 +1,6 @@
 import Item from "../../model/item";
 import { NAME_ACTIONS } from "../constants/order/actionTypes";
+import { ServiceType } from "./deliveryReducer";
 
 export type OrderState = {
   requesting: Boolean;
@@ -8,6 +9,7 @@ export type OrderState = {
   data: Item[];
   fee: number | null; // use null to check can check out or not
   note: string | null;
+  currentService: ServiceType;
 };
 const initState: OrderState = {
   requesting: false,
@@ -16,6 +18,7 @@ const initState: OrderState = {
   data: [],
   fee: 0,
   note: null,
+  currentService: {} as any,
 };
 
 const orderReducer = (
@@ -67,6 +70,7 @@ const orderReducer = (
         requesting: false,
         success: true,
         fee: payload.data,
+        currentService: payload.service,
       };
     case NAME_ACTIONS.GET_FEE.GET_FEE_FAIL:
       return {

@@ -31,6 +31,7 @@ import { sum } from "lodash";
 import { getServices } from "../../../redux/actions/delivery/getAction";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
+import { ServiceType } from "../../../redux/reducers/deliveryReducer";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -50,7 +51,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   const itemsToCheckout = useSelector(
     (state: RootStore) => state.cart.itemToCheckOut
   );
-  const [serviceType, setServiceType] = useState("");
+  const [serviceType, setServiceType] = useState<ServiceType>({} as any);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
   const orderState = useSelector((state: RootStore) => state.order);
@@ -60,12 +61,13 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     setChooseAddress(true);
   };
   const handleChangeServiceType = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<{ value: unknown }>
   ) => {
-    setServiceType(event.target.value as string);
+    setServiceType(deliveryState.services[event.target.value as number]);
+    console.log("Asds", serviceType.service_id);
     dispatch(
       getFee({
-        serviceId: parseInt(serviceType),
+        serviceType: serviceType,
         onSuccess: (fee) => {},
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -137,7 +139,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
                     return (
                       <FormControlLabel
                         key={index}
-                        value={service.service_id}
+                        value={index}
                         control={<Radio />}
                         label={service.short_name}
                       />

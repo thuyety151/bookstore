@@ -35,13 +35,13 @@ export const createOrder =
         to_phone: address.phone,
         to_address: formatAddress(address),
         to_district_id: 1566,
-        to_ward_code: "510102",
+        to_ward_code: address.wardCode,
         required_note: "KHONGCHOXEMHANG",
         deliver_station_id: null,
         weight: 200,
         order_value: 200000,
-        service_type_id: 2,
-        service_id: 0,
+        service_type_id: state.order.currentService.service_type_id,
+        service_id: state.order.currentService.service_id,
         insurance_value: 100000,
         cod_amount: 200000,
         pick_station_id: 1444,
@@ -64,12 +64,16 @@ export const createOrder =
       );
 
       if (createDelivery.status === 200) {
+        console.log("Asds", {
+          id: response.data.value,
+          orderCode: createDelivery,
+        });
         // TODO: Integrate API UPDATE ORDER CODE
         const resultUpdateOrderCode = await api.post(
           "/orders/update-order-code",
           {
-            id: response.data.value.id,
-            orderCode: createDelivery.data.order_code,
+            id: response.data.value,
+            orderCode: createDelivery.data.data.order_code,
           }
         );
         if (resultUpdateOrderCode.data.code === 400) {
