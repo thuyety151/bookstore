@@ -12,6 +12,7 @@ import { Book } from "../../../model";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
 import { ROUTE_BOOK, ROUTE_BOOK_DETAIL } from "../../../routers/types";
 import { generatePath, useHistory } from "react-router-dom";
+import defaultBook from "../../../assets/images/default.jpeg";
 
 const BookItem: React.FC<{ item: Book }> = (item) => {
   const classes = useStyles();
@@ -45,7 +46,7 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
             >
               <img
                 className={classes.image}
-                src={item.item.pictureUrl}
+                src={item.item.pictureUrl ?? defaultBook}
                 alt="img"
               />
             </ButtonBase>

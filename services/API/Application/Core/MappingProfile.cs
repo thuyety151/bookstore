@@ -19,7 +19,8 @@ namespace Application.Core
     {
         public MappingProfile()
         {
-            CreateMap<Author, AuthorDto>();
+            CreateMap<Author, AuthorDto>()
+                .ForMember(x => x.ImageUrl, o => o.MapFrom(s => s.Media.Url));
             CreateMap<Category, CategoryDto>();
             CreateMap<Domain.Review, ReviewDto>();
             CreateMap<Category, BooksCategoriesDto>();
