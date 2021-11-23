@@ -44,8 +44,6 @@ export default function Types() {
           aria-label="disabled tabs example">
           <Tab label="Description" href="/description" disabled />
           <Tab label="Product Details" href="/detail" className={classes.text} />
-          <Tab label="Videos" href="/video" disabled />
-
           <Tab label="Reviews" href="/review" disabled />
         </Tabs>
         <Divider />

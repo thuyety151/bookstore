@@ -109,7 +109,6 @@ export default function CenteredGrid() {
         >
           <Tab label="Description" disabled />
           <Tab label="Product Details" disabled />
-          <Tab label="Videos" disabled />
           <Tab label="Reviews" />
         </Tabs>
         <Divider />
