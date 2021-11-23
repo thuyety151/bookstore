@@ -102,7 +102,7 @@ export default function SimpleTabs() {
               className={classes.colContainer}
             >
               {mostView.map((item, index) => (
-                <Grid item xs={2} key={index} className={classes.col}>
+                <Grid item xs={3} key={index} className={classes.col}>
                   <BookItem item={item} />
                 </Grid>
               ))}

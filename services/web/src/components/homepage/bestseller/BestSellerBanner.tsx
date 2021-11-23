@@ -10,17 +10,25 @@ import {
 import React from "react";
 import { Book } from "../../../model";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
+import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
+
 const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
   const classes = useStyles();
-  const history= useHistory()
-  const handleNavBook=(id?:string)=>{
-    if(id){
-      history.push(`/book/${id}`)
+  const history = useHistory();
+
+  const handleNavBook = (book?: Book) => {
+    if (book?.id) {
+      history.push(
+        generatePath(ROUTE_BOOK_DETAIL, {
+          bookId: book?.id,
+          attributeId: book?.attributeId,
+        })
+      );
     } else {
-      history.push(`/book`)
+      history.push(`/book`);
     }
-  }
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} variant="outlined" square>
@@ -32,7 +40,10 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
           spacing={3}
         >
           <Grid item>
-            <ButtonBase className={classes.image} onClick={()=>handleNavBook(item.item.id)}>
+            <ButtonBase
+              className={classes.image}
+              onClick={() => handleNavBook(item.item)}
+            >
               <img
                 className={classes.image}
                 src={item.item.pictureUrl}
@@ -53,7 +64,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
                 gutterBottom
                 variant="subtitle1"
                 className={classes.name}
-                onClick={()=>handleNavBook(item.item.id)}
+                onClick={() => handleNavBook(item.item)}
               >
                 {item.item.name}
               </Typography>
@@ -110,7 +121,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     image: {
-      width: 230,
+      // width: 230,
       height: 230,
     },
     paper: {
@@ -152,7 +163,6 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "red",
         cursor: "pointer",
         fontWeight: 700,
-
       },
     },
     extension: {

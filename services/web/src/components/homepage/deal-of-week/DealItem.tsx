@@ -50,7 +50,7 @@ export default function DealItem({ item }: Props) {
               <img className={classes.img} alt="complex" src={item.pictureUrl} />
             </ButtonBase>
           </Grid>
-          <Grid item xs={8} container>
+          <Grid item xs={8} container spacing={1}>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography

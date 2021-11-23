@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Review, CreateReview } from "../../model/review";
 import { addReview } from "../../redux/actions/review/reviewAction";
 import { v4 as uuidv4 } from "uuid";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -75,8 +76,7 @@ export default function CenteredGrid() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-
-  const bookId = "ED8B02D5-44EB-4F55-B45B-08D98C5E3B4D";
+  const { bookId } = useParams() as any;
   const reviews: Review[] | null = useSelector(
     (state: RootStore) => state.review.data
   );

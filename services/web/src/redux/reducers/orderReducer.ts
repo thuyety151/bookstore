@@ -6,12 +6,16 @@ export type OrderState = {
   success: boolean;
   message: string;
   data: Item[];
+  fee: number | null; // use null to check can check out or not
+  note: string | null;
 };
 const initState: OrderState = {
   requesting: false,
   success: false,
   message: "",
   data: [],
+  fee: 0,
+  note: null,
 };
 
 const orderReducer = (
@@ -51,6 +55,26 @@ const orderReducer = (
         ...state,
         requesting: false,
         message: payload.message,
+      };
+    case NAME_ACTIONS.GET_FEE.GET_FEE:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case NAME_ACTIONS.GET_FEE.GET_FEE_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+        fee: payload.data,
+      };
+    case NAME_ACTIONS.GET_FEE.GET_FEE_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        success: false,
+        message: payload.message,
+        fee: null,
       };
     default:
       return state;

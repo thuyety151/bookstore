@@ -89,10 +89,6 @@ const SlideEffect: React.FC = () => {
             className={classes.viewAll}
             onClick={() => handleNavBook()}
           >
-            <Typography variant="subtitle1" gutterBottom>
-              View All
-            </Typography>
-            <SvgIcon component={Icon} className="icon" />
           </Grid>
         </Grid>
         <Grid item xs={9}>

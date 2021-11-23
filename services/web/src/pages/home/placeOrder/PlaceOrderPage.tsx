@@ -137,8 +137,12 @@ const PlaceOrderPage: React.FC = () => {
                   wardName,
                   districtName,
                   provinceName,
-                ].map((data) => {
-                  return <Typography variant="body2">{data}</Typography>;
+                ].map((data, index: number) => {
+                  return (
+                    <Typography variant="body2" key={index}>
+                      {data}
+                    </Typography>
+                  );
                 })}
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -149,8 +153,12 @@ const PlaceOrderPage: React.FC = () => {
                   wardName,
                   districtName,
                   provinceName,
-                ].map((data) => {
-                  return <Typography variant="body2">{data}</Typography>;
+                ].map((data, index) => {
+                  return (
+                    <Typography variant="body2" key={index}>
+                      {data}
+                    </Typography>
+                  );
                 })}
               </Grid>
             </Grid>
