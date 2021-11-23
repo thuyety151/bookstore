@@ -13,5 +13,6 @@ export type NewReleaseType = {
     salePrice: string;
     languageId: string;
     language: string;
+    totalStock: number;
   }[];
 };

@@ -16,6 +16,6 @@ namespace Application.Books
         public string LanguageName { get; set; }
         public Guid AttributeId { get; set; }
         public string AttributeName { get; set; }
-        
+        public int TotalStock { get; set; }
     }
 }

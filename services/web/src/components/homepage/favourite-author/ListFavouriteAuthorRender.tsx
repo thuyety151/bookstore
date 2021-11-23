@@ -1,11 +1,10 @@
-import { Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import AuthorItem from "./AuthorItem";
 import "../bestseller/slideEffect.css";
-import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
 import { useHistory } from "react-router-dom";
 import { getAllAuthor } from "../../../redux/actions/author/getActions";
 import { RootStore } from "../../../redux/store";

@@ -14,4 +14,5 @@ export interface Book {
   salePrice: string;
   languageId: string;
   language: string;
+  totalStock: number;
 }

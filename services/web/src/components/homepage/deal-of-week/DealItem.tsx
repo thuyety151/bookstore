@@ -45,12 +45,16 @@ export default function DealItem({ item }: Props) {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Grid container spacing={1}>
-          <Grid item container xs={4} alignItems="stretch">
+          <Grid item container xs={5} alignItems="stretch">
             <ButtonBase>
-              <img className={classes.img} alt="complex" src={item.pictureUrl} />
+              <img
+                className={classes.img}
+                alt="complex"
+                src={item.pictureUrl}
+              />
             </ButtonBase>
           </Grid>
-          <Grid item xs={8} container spacing={1}>
+          <Grid item xs={7} container spacing={1}>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography
@@ -76,14 +80,12 @@ export default function DealItem({ item }: Props) {
                 direction="row"
                 justifyContent="space-between"
                 spacing={2}
+                style= {{margin: "10px"}}
               >
-                <Typography gutterBottom variant="subtitle2">
-                  Already Sold: 11
+                <Typography gutterBottom variant="subtitle2" align="center">
+                  Available: {item.totalStock}
                 </Typography>
-                <Typography gutterBottom variant="subtitle2">
-                  Available: 3
-                </Typography>
-                <Slider />
+                <Slider value={item.totalStock} />
               </Grid>
             </Grid>
           </Grid>
