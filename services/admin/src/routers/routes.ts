@@ -12,6 +12,7 @@ import {
   ROUTE_USERS,
 } from "./types";
 import Example from "../pages/Example";
+import OrderPage from "../pages/order/OrderPage";
 
 export const routePage: Route[] = [
   {
@@ -55,7 +56,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_ORDERS,
     name: "Error",
-    component: Error404,
+    component: OrderPage,
     exact: true,
   },
   {

@@ -79,3 +79,12 @@ label {
   margin: 0 !important;
   display: inherit;
 }
+.MuiButtonBase-root {
+  text-transform: inherit !important;
+}
+.primary {
+  color: #3b7fb9 !important;
+}
+.bolder {
+  font-weight: 700 !important;
+}

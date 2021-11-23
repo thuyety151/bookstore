@@ -25,6 +25,9 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import OrderStatus, {
+  OrderStatusEnum,
+} from "../components/route/orderStatus/OrderStatus";
 interface Data {
   calories: number;
   carbs: number;
@@ -291,7 +294,11 @@ const Example: React.FC = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+        <p>Button Order status</p>
+        <OrderStatus status={OrderStatusEnum.Delivered} />
+        <OrderStatus status={OrderStatusEnum.ReadyToPick} />
         <EnhancedTableToolbar numSelected={selected.length} />
+        <p> table</p>
         <TableContainer>
           <Table
             className={classes.table}
@@ -336,6 +343,7 @@ const Example: React.FC = () => {
                         id={labelId}
                         scope="row"
                         padding="none"
+                        className="primary bolder"
                       >
                         {row.name}
                       </TableCell>
