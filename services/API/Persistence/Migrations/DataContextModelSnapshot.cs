@@ -185,10 +185,15 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("MediaId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MediaId");
 
                     b.ToTable("Authors");
                 });
@@ -759,6 +764,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Media", "Photo")
                         .WithMany()
                         .HasForeignKey("PhotoId");
+                });
+
+            modelBuilder.Entity("Domain.Author", b =>
+                {
+                    b.HasOne("Domain.Media", "Media")
+                        .WithMany()
+                        .HasForeignKey("MediaId");
                 });
 
             modelBuilder.Entity("Domain.Book", b =>

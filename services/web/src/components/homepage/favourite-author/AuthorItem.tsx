@@ -31,7 +31,7 @@ export default function MediaCard({ author }: Props) {
       <CardContent className={classes.avatar}>
         <Avatar
           alt="Remy Sharp"
-          // src={author.imageUrl}
+          src={author.imageUrl}
           style={{ height: "120px", width: "120px" }}
         />
       </CardContent>

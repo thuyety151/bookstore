@@ -156,6 +156,168 @@ namespace Persistence
                     await userManager.CreateAsync(user, "KhungLongXanh@123");
                 }
             }
+            
+              if (!context.Media.Any())
+            {
+                var mediaList = new List<Media>()
+                {
+                    new Media()
+                    {
+                        Id = "The Overdue Life of Amy Byler",
+                        Name = "The Overdue Life of Amy Byler",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
+                        Name = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "The Alchemist",
+                        Name = "The Alchemist",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "The Subtle Art of Not Giving a F*Ck",
+                        Name = "The Subtle Art of Not Giving a F*Ck",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "Call Me By Your Name",
+                        Name = "Call Me By Your Name",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "Sapiens : A Brief History Of Humankind",
+                        Name = "Sapiens : A Brief History Of Humankind",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "Homo Deus: A Brief History Of Tomorrow",
+                        Name = "Homo Deus: A Brief History Of Tomorrow",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "Me Before You",
+                        Name = "Me Before You",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
+                        Name = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "A Midsummer Night's Dream",
+                        Name = "A Midsummer Night's Dream",
+                        Url =
+                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "kkb7aekv76n5vy2wlkcz",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637609555/kkb7aekv76n5vy2wlkcz.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "smdgpxjjz794tsyrwh60",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637609533/smdgpxjjz794tsyrwh60.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "ifnsdeuqmtssobetb1we",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637609504/ifnsdeuqmtssobetb1we.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "ppouorllrmfrhsohussm",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637609346/ppouorllrmfrhsohussm.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "lkrclxm7pjx1nqqtmynf",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637632121/lkrclxm7pjx1nqqtmynf.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "dawmf3vhkodgfblttshi",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637608501/dawmf3vhkodgfblttshi.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "xaf8lnujl3awvje051wc",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631893/xaf8lnujl3awvje051wc.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "ivkjdto0blzz99zsx2cj",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631791/ivkjdto0blzz99zsx2cj.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "gvrrv7brlw1n7p5ja7wy",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631571/gvrrv7brlw1n7p5ja7wy.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                };
+                medias.AddRange(mediaList);
+                await context.Media.AddRangeAsync(mediaList);
+            }
 
             if (!context.Attributes.Any())
             {
@@ -195,31 +357,37 @@ namespace Persistence
                     {
                         Id = new Guid(),
                         Name = "Jay Shetty",
-                        IsDeleted = false
+                        IsDeleted = false,
+                        Media = medias.FirstOrDefault(x => x.Id == "ppouorllrmfrhsohussm")
+                        
                     },
                     new Author()
                     {
                         Id = new Guid(),
                         Name = "J. K. Rowling",
-                        IsDeleted = false
+                        IsDeleted = false,
+                        Media = medias.FirstOrDefault(x => x.Id == "ifnsdeuqmtssobetb1we")
                     },
                     new Author()
                     {
                         Id = new Guid(),
                         Name = "Paulo Coelho",
-                        IsDeleted = false
+                        IsDeleted = false,
+                        Media = medias.FirstOrDefault(x => x.Id == "smdgpxjjz794tsyrwh60")
                     },
                     new Author()
                     {
                         Id = new Guid(),
                         Name = "William Shakespeare",
-                        IsDeleted = false
+                        IsDeleted = false,
+                        Media = medias.FirstOrDefault(x => x.Id == "kkb7aekv76n5vy2wlkcz")
                     },
                     new Author()
                     {
                         Id = new Guid(),
                         Name = "Jojo Moyes",
-                        IsDeleted = false
+                        IsDeleted = false,
+                        Media = medias.FirstOrDefault(x => x.Id == "ppouorllrmfrhsohussm")
                     },
                 };
                 authors.AddRange(authorList);
@@ -260,94 +428,6 @@ namespace Persistence
                 await context.Languages.AddRangeAsync(languages);
             }
 
-            if (!context.Media.Any())
-            {
-                var mediaList = new List<Media>()
-                {
-                    new Media()
-                    {
-                        Id = "The Overdue Life of Amy Byler",
-                        Name = "The Overdue Life of Amy Byler",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
-                        Name = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "The Alchemist",
-                        Name = "The Alchemist",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "The Subtle Art of Not Giving a F*Ck",
-                        Name = "The Subtle Art of Not Giving a F*Ck",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "Call Me By Your Name",
-                        Name = "Call Me By Your Name",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "Sapiens : A Brief History Of Humankind",
-                        Name = "Sapiens : A Brief History Of Humankind",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "Homo Deus: A Brief History Of Tomorrow",
-                        Name = "Homo Deus: A Brief History Of Tomorrow",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "Me Before You",
-                        Name = "Me Before You",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
-                        Name = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                    new Media()
-                    {
-                        Id = "A Midsummer Night's Dream",
-                        Name = "A Midsummer Night's Dream",
-                        Url = "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
-                        IsMain = true,
-                        IsVideo = false
-                    },
-                };
-                medias.AddRange(mediaList);
-                await context.Media.AddRangeAsync(mediaList);
-            }
             if (!context.Categories.Any())
             {
                 var categorieList = new List<Category>()
@@ -442,6 +522,7 @@ namespace Persistence
                 categories.AddRange(categorieList);
                 await context.Categories.AddRangeAsync(categories);
             }
+
             if (!context.Books.Any())
             {
                 var bookList = new List<Book>()
@@ -473,7 +554,6 @@ namespace Persistence
                         PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
                         PublicationCountry = "London, United Kingdom",
-
                     },
                     new Book()
                     {
@@ -608,7 +688,7 @@ namespace Persistence
                                 Category = categories[1].SubCategories.ElementAt(1)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "Sapiens : A Brief History Of Humankind").ToList(),
+                        Media = medias.Where(x => x.Id == "gvrrv7brlw1n7p5ja7wy").ToList(),
                         ViewCount = 25,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -692,7 +772,8 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "Harry Potter Part 6: Harry Potter And The Half-Blood Prince").ToList(),
+                        Media = medias.Where(x => x.Id == "Harry Potter Part 6: Harry Potter And The Half-Blood Prince")
+                            .ToList(),
                         ViewCount = 102,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -725,6 +806,118 @@ namespace Persistence
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Little, Brown Book Group",
+                        PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "Atomic Habits",
+                        ShortDescription =
+                            "No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.",
+                        Description =
+                            "The instant New York Times bestseller. \nTiny Changes, Remarkable Results. \nNo matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results./nIf you're having trouble changing your habits, the problem isn't you. The problem is your system. Bad habits repeat themselves again and again not because you don't want to change, but because you have the wrong system for change. You do not rise to the level of your goals. You fall to the level of your systems. Here, you'll get a proven system that can take you to new heights.\nClear is known for his ability to distill complex topics into simple behaviors that can be easily applied to daily life and work. Here, he draws on the most proven ideas from biology, psychology, and neuroscience to create an easy-to-understand guide for making good habits inevitable and bad habits impossible. Along the way, readers will be inspired and entertained with true stories from Olympic gold medalists, award-winning artists, business leaders, life-saving physicians, and star comedians who have used the science of small habits to master their craft and vault to the top of their field.",
+                        Author = authors[0],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(1)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "ivkjdto0blzz99zsx2cj").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "15.7 x 2.7 x 18.3 cm",
+                        PublicationDate = new DateTime(2020, 3, 12),
+                        Publisher = "Avery Publishing Group",
+                        PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "Call Me By Your Name",
+                        ShortDescription =
+                            "No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.",
+                        Description =
+                            "The instant New York Times bestseller. \nTiny Changes, Remarkable Results. \nNo matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results./nIf you're having trouble changing your habits, the problem isn't you. The problem is your system. Bad habits repeat themselves again and again not because you don't want to change, but because you have the wrong system for change. You do not rise to the level of your goals. You fall to the level of your systems. Here, you'll get a proven system that can take you to new heights.\nClear is known for his ability to distill complex topics into simple behaviors that can be easily applied to daily life and work. Here, he draws on the most proven ideas from biology, psychology, and neuroscience to create an easy-to-understand guide for making good habits inevitable and bad habits impossible. Along the way, readers will be inspired and entertained with true stories from Olympic gold medalists, award-winning artists, business leaders, life-saving physicians, and star comedians who have used the science of small habits to master their craft and vault to the top of their field.",
+                        Author = authors[3],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category =  categories[1].SubCategories.ElementAt(0)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "xaf8lnujl3awvje051wc").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "15.7 x 2.7 x 18.3 cm",
+                        PublicationDate = new DateTime(2020, 3, 12),
+                        Publisher = "Avery Publishing Group",
+                        PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "Search Inside Yourself: Achieving Success",
+                        ShortDescription =
+                            "No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.",
+                        Description =
+                            "The instant New York Times bestseller. \nTiny Changes, Remarkable Results. \nNo matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results./nIf you're having trouble changing your habits, the problem isn't you. The problem is your system. Bad habits repeat themselves again and again not because you don't want to change, but because you have the wrong system for change. You do not rise to the level of your goals. You fall to the level of your systems. Here, you'll get a proven system that can take you to new heights.\nClear is known for his ability to distill complex topics into simple behaviors that can be easily applied to daily life and work. Here, he draws on the most proven ideas from biology, psychology, and neuroscience to create an easy-to-understand guide for making good habits inevitable and bad habits impossible. Along the way, readers will be inspired and entertained with true stories from Olympic gold medalists, award-winning artists, business leaders, life-saving physicians, and star comedians who have used the science of small habits to master their craft and vault to the top of their field.",
+                        Author = authors[4],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category =  categories[2].SubCategories.ElementAt(0)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "dawmf3vhkodgfblttshi").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "15.7 x 2.7 x 18.3 cm",
+                        PublicationDate = new DateTime(2020, 3, 12),
+                        Publisher = "Avery Publishing Group",
+                        PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "Violet Bent Backwards Over The Grass",
+                        ShortDescription =
+                            "No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.",
+                        Description =
+                            "The instant New York Times bestseller. \nTiny Changes, Remarkable Results. \nNo matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results./nIf you're having trouble changing your habits, the problem isn't you. The problem is your system. Bad habits repeat themselves again and again not because you don't want to change, but because you have the wrong system for change. You do not rise to the level of your goals. You fall to the level of your systems. Here, you'll get a proven system that can take you to new heights.\nClear is known for his ability to distill complex topics into simple behaviors that can be easily applied to daily life and work. Here, he draws on the most proven ideas from biology, psychology, and neuroscience to create an easy-to-understand guide for making good habits inevitable and bad habits impossible. Along the way, readers will be inspired and entertained with true stories from Olympic gold medalists, award-winning artists, business leaders, life-saving physicians, and star comedians who have used the science of small habits to master their craft and vault to the top of their field.",
+                        Author = authors[4],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[2].SubCategories.ElementAt(2)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "lkrclxm7pjx1nqqtmynf").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "15.7 x 2.7 x 18.3 cm",
+                        PublicationDate = new DateTime(2020, 3, 12),
+                        Publisher = "Avery Publishing Group",
                         PublicationCountry = "London, United Kingdom",
                     }
                 };
@@ -950,7 +1143,10 @@ namespace Persistence
                         AttributeId = attributes[2].Id,
                         Price = 255,
                         TotalStock = 10,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 200
                     },
                     new BookAttribute()
                     {
@@ -958,7 +1154,10 @@ namespace Persistence
                         AttributeId = attributes[0].Id,
                         Price = 200,
                         TotalStock = 2,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 150
                     },
                     new BookAttribute()
                     {
@@ -966,7 +1165,10 @@ namespace Persistence
                         AttributeId = attributes[1].Id,
                         Price = 90,
                         TotalStock = 20,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 49
                     },
                     new BookAttribute()
                     {
@@ -974,12 +1176,148 @@ namespace Persistence
                         AttributeId = attributes[2].Id,
                         Price = 255,
                         TotalStock = 10,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 215
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[10].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 350,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 300
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[10].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 90,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 50
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[10].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 150,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[11].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 234,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 199
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[11].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 119,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[11].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 150,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[12].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 234,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 199
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[12].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 119,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[12].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 150,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[13].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 234,
+                        TotalStock = 2,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 199
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[13].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 119,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[13].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 150,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 99
                     }
                 };
 
                 await context.BookAttributes.AddRangeAsync(bookAttribute);
             }
+
             if (!context.Reviews.Any())
             {
                 var reviewList = new List<Review>()
@@ -1010,7 +1348,8 @@ namespace Persistence
                         Id = new Guid(),
                         BookId = books[0].Id,
                         Title = "I read this book short...",
-                        Content = "I read this book shortly after I got it and didn't just put it on my TBR shelf mainly because I saw it on Reese Witherspoon's bookclub September read. It was one of the best books I've read this year, and reminded me some of Kristen Hannah's The Great Alone.",
+                        Content =
+                            "I read this book shortly after I got it and didn't just put it on my TBR shelf mainly because I saw it on Reese Witherspoon's bookclub September read. It was one of the best books I've read this year, and reminded me some of Kristen Hannah's The Great Alone.",
                         Rate = 5,
                         UserId = userManager.Users.FirstOrDefault(x => x.Email == "truongnguyen1232000@gmail.com")?.Id,
                         CreateDate = DateTime.Now
@@ -1396,6 +1735,7 @@ namespace Persistence
 
                 await context.OrderStatus.AddRangeAsync(orderStatuses);
             }
+
             await context.SaveChangesAsync();
         }
     }
