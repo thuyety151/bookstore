@@ -288,8 +288,8 @@ namespace Persistence
                     },
                     new Media()
                     {
-                        Id = "dawmf3vhkodgfblttshi",
-                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637608501/dawmf3vhkodgfblttshi.jpg",
+                        Id = "nfxrkmgzrzcsanqv3c6h",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637632501/nfxrkmgzrzcsanqv3c6h.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -885,7 +885,7 @@ namespace Persistence
                                 Category =  categories[2].SubCategories.ElementAt(0)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "dawmf3vhkodgfblttshi").ToList(),
+                        Media = medias.Where(x => x.Id == "nfxrkmgzrzcsanqv3c6h").ToList(),
                         ViewCount = 150,
                         Dimensions = "15.7 x 2.7 x 18.3 cm",
                         PublicationDate = new DateTime(2020, 3, 12),
