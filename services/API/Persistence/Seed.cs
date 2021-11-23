@@ -355,58 +355,54 @@ namespace Persistence
                     new Category()
                     {
                         Id = new Guid(),
-                        Name = "Arts & Photography",
-                        Slug = "arts-photography",
+                        Name = "Business, Finance & Management",
+                        Slug = "business-finance-management",
                         IsDeleted = false,
                         SubCategories = new List<Category>()
                         {
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Architecture",
-                                Slug = "architecture",
+                                Name = "Business & Management",
+                                Slug = "business-management",
                                 IsDeleted = false,
                             },
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Business of Art",
-                                Slug = "business-of-art",
+                                Name = "Economics",
+                                Slug = "economics",
+                                IsDeleted = false,
+                            }
+                        }
+                    },
+                    new Category()
+                    {
+                        Id = new Guid(),
+                        Name = "Personal Development",
+                        Slug = "personal-development",
+                        IsDeleted = false,
+                        SubCategories = new List<Category>()
+                        {
+                            new Category()
+                            {
+                                Id = new Guid(),
+                                Name = "Popular Psychology",
+                                Slug = "popular-psychology",
                                 IsDeleted = false,
                             },
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Collections, Catalogs & Exhibitions",
-                                Slug = "collections-catalogs-exhibitions",
+                                Name = "Personal Finance",
+                                Slug = "personal-finance",
                                 IsDeleted = false,
                             },
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Decorative Arts & Design",
-                                Slug = "decorative-arts-design",
-                                IsDeleted = false,
-                            },
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Drawing",
-                                Slug = "drawing",
-                                IsDeleted = false,
-                            },
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Fashion",
-                                Slug = "fashion",
-                                IsDeleted = false,
-                            },
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Graphic Design",
-                                Slug = "graphic-design",
+                                Name = "Self Sufficiency",
+                                Slug = "self-sufficiency",
                                 IsDeleted = false,
                             },
                         }
@@ -414,101 +410,32 @@ namespace Persistence
                     new Category()
                     {
                         Id = new Guid(),
-                        Name = "Biographies & Memoirs",
-                        Slug = "biographies-memoirs",
+                        Name = "Fiction",
+                        Slug = "fiction",
                         IsDeleted = false,
                         SubCategories = new List<Category>()
                         {
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Istanbul",
-                                Slug = "istanbul",
+                                Name = "Romance",
+                                Slug = "romance",
                                 IsDeleted = false,
                             },
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Mardin",
-                                Slug = "mardin",
+                                Name = "Science Fiction",
+                                Slug = "science-fiction",
                                 IsDeleted = false,
                             },
                             new Category()
                             {
                                 Id = new Guid(),
-                                Name = "Amed",
-                                Slug = "amed",
+                                Name = "Adventure",
+                                Slug = "adventure",
                                 IsDeleted = false,
-                            },
-                        }
-                    },
-                    new Category()
-                    {
-                        Id = new Guid(),
-                        Name = "Children's Books",
-                        Slug = "childent-books",
-                        IsDeleted = false,
-                        SubCategories = new List<Category>()
-                        {
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Books",
-                                Slug = "books",
-                                IsDeleted = false,
-                            },
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Video Games",
-                                Slug = "video-games",
-                                IsDeleted = false,
-                            },
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Computers",
-                                Slug = "computers",
-                                IsDeleted = false,
-                            },
-                            new Category()
-                            {
-                                Id = new Guid(),
-                                Name = "Electronics",
-                                Slug = "electronics",
-                                IsDeleted = false,
-                                SubCategories = new List<Category>()
-                                {
-                                    new Category()
-                                    {
-                                        Id = new Guid(),
-                                        Name = "Camera & Photo",
-                                        Slug = "camera-photo",
-                                        IsDeleted = false,
-                                    },
-                                    new Category()
-                                    {
-                                        Id = new Guid(),
-                                        Name = "Home Audio",
-                                        Slug = "home-audio",
-                                        IsDeleted = false,
-                                    },
-                                    new Category()
-                                    {
-                                        Id = new Guid(),
-                                        Name = "Tv & Video",
-                                        Slug = "tv-video",
-                                        IsDeleted = false,
-                                    },
-                                    new Category()
-                                    {
-                                        Id = new Guid(),
-                                        Name = "Car & Vehicle Electronics",
-                                        Slug = "car-vehicle-electronics",
-                                        IsDeleted = false,
-                                    },
-                                }
-                            },
+                            }
                         }
                     }
                 };
@@ -622,7 +549,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category = categories[0].SubCategories.ElementAt(1)
+                                Category = categories[1].SubCategories.ElementAt(0)
                             }
                         },
                         Media = medias.Where(x => x.Id == "The Subtle Art of Not Giving a F*Ck").ToList(),
@@ -650,7 +577,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category = categories[0].SubCategories.ElementAt(1)
+                                Category = categories[1].SubCategories.ElementAt(1)
                             }
                         },
                         Media = medias.Where(x => x.Id == "Call Me By Your Name").ToList(),
@@ -678,7 +605,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category = categories[0].SubCategories.ElementAt(1)
+                                Category = categories[1].SubCategories.ElementAt(1)
                             }
                         },
                         Media = medias.Where(x => x.Id == "Sapiens : A Brief History Of Humankind").ToList(),
@@ -706,7 +633,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category = categories[0].SubCategories.ElementAt(1)
+                                Category = categories[1].SubCategories.ElementAt(2)
                             }
                         },
                         Media = medias.Where(x => x.Id == "Homo Deus: A Brief History Of Tomorrow").ToList(),
@@ -1102,30 +1029,33 @@ namespace Persistence
                         Id = new Guid(),
                         Code = "HOT30",
                         Description = "Nothing",
-                        DiscountType = 1,
+                        DiscountType = (int) DiscountType.Percentage,
                         ExpireDate = DateTime.Now.AddMonths(1),
                         MinSpend = 0,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CouponAmount = 30
                     },
                     new Coupon()
                     {
                         Id = new Guid(),
                         Code = "HOT50",
-                        Description = "50K",
-                        DiscountType = 1,
+                        Description = "50$",
+                        DiscountType = (int) DiscountType.FixedCart,
                         ExpireDate = DateTime.Now.AddMonths(2),
                         MinSpend = 0,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CouponAmount = 50
                     },
                     new Coupon()
                     {
                         Id = new Guid(),
                         Code = "30PER",
                         Description = "30%",
-                        DiscountType = 1,
+                        DiscountType = (int) DiscountType.Percentage,
                         ExpireDate = DateTime.Now,
                         MinSpend = 0,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CouponAmount = 30
                     }
                 };
                 await context.Coupons.AddRangeAsync(couponList);
