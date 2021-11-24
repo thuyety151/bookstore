@@ -11,9 +11,18 @@ export type getPaginationType = {
 export const getOrderPagination =
   (props: getPaginationType) => async (dispatch: any) => {
     dispatch({ type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION });
-    const response = await api.get("/orders", {
-      params: props.pagination,
-    });
+    const response = await api.post(
+      "/orders",
+      {},
+      {
+        params: props.pagination,
+
+      }
+    );
+
+    // const response = await api.get("/orders",{data:{}}, {
+    //   params: props.pagination
+    // });
 
     if (response.data.isSuccess) {
       dispatch({
@@ -23,8 +32,8 @@ export const getOrderPagination =
       props.onSuccess();
     } else {
       dispatch({
-        type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_SUCCESS,
-        data: response.data.value,
+        type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL,
+        data: response.data.error,
       });
       props.onFailure(response.data.error);
     }

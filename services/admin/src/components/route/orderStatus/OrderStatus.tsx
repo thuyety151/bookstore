@@ -4,8 +4,8 @@ import ContainedButton from "../button/ContainedButton";
 import clsx from "clsx";
 
 export enum OrderStatusEnum {
-  ReadyToPick = "ready-to-pick",
-  Delivered = "delivered",
+  ReadyToPick = "Ready to pick",
+  Delivered = "Delivered",
 }
 
 const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
@@ -13,7 +13,11 @@ const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
 
   return (
     <div className={classes.root}>
-      <div className={clsx(status)}>
+      <div
+        className={clsx(
+          status === OrderStatusEnum.Delivered ? "delivered" : "ready-to-pick"
+        )}
+      >
         <ContainedButton
           text={
             status === OrderStatusEnum.Delivered
@@ -32,7 +36,7 @@ const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      width: "fit-content",
       "& .delivered ": {
         "& .MuiButton-containedPrimary": {
           backgroundColor: "#c9d7e1",

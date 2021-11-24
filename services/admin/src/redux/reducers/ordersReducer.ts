@@ -1,4 +1,8 @@
-import { Pagination, paginationValue, rowsPerPageOptions } from "../../helper/paginationValue";
+import {
+  Pagination,
+  paginationValue,
+  rowsPerPageOptions,
+} from "../../helper/paginationValue";
 import Item from "../../model/item";
 import { Order } from "../../model/order";
 import { ACTION_NAMES } from "../actions/actionNames";
@@ -30,7 +34,7 @@ const ordersReducer = (
       return {
         ...state,
         requesting: false,
-        data: [...state.data, payload.data],
+        data: payload.data,
       };
     case ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL:
       return {
