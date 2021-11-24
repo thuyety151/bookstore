@@ -14,8 +14,11 @@ import { RootStore } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { formatFullName } from "../../helper/format";
 import moment from "moment";
-import { getOrderPagination } from "../../redux/actions/getActions";
-import OrderStatus from "../../components/route/orderStatus/OrderStatus";
+import OrderStatus from "../../components/orderStatus/OrderStatus";
+import { generatePath, useHistory } from "react-router";
+import { ROUTE_ORDER_DETAIL } from "../../routers/types";
+import { Order } from "../../model/order";
+import { getOrderPagination } from "../../redux/actions/order/getActions";
 
 interface Data {
   id: string;
@@ -25,7 +28,7 @@ interface Data {
   total: string;
 }
 
-type Order = "asc" | "desc";
+type OrderTableType = "asc" | "desc";
 interface HeadCell {
   disablePadding: boolean;
   id: string;
@@ -59,7 +62,7 @@ interface EnhancedTableProps {
     property: keyof Data
   ) => void;
   onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
+  order: OrderTableType;
   orderBy: string;
   rowCount: number;
 }
@@ -98,13 +101,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 const OrderTable: React.FC = () => {
   const classes = useStyles();
-  const [order, setOrder] = React.useState<Order>("asc");
+  const [order, setOrder] = React.useState<OrderTableType>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const orderState = useSelector((state: RootStore) => state.orders);
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootStore) => state.orders.pagination);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(
@@ -134,6 +138,15 @@ const OrderTable: React.FC = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const navToDetail = (orderId: string) => {
+    history.push(
+      generatePath(ROUTE_ORDER_DETAIL, {
+        orderId: orderId,
+      })
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -151,9 +164,14 @@ const OrderTable: React.FC = () => {
               rowCount={orderState.data.length}
             />
             <TableBody>
-              {orderState.data.map((row, index: number) => {
+              {orderState.data.map((row: Order, index: number) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={row.id}>
+                  <TableRow
+                    hover
+                    tabIndex={-1}
+                    key={row.id}
+                    onClick={() => navToDetail(row.id)}
+                  >
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
                     </TableCell>

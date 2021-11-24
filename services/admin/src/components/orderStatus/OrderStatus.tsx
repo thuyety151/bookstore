@@ -8,6 +8,17 @@ export enum OrderStatusEnum {
   Delivered = "Delivered",
 }
 
+export const orderStatusOptions = [
+  {
+    id: "delivered",
+    value: "Delivered",
+  },
+  {
+    id: "ready-to-pick",
+    value: "Ready to pick",
+  },
+];
+
 const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
   const classes = useStyles();
 

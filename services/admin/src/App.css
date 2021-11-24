@@ -67,7 +67,7 @@ label {
   color: black;
 }
 .text-gray {
-  color: "gray";
+  color: gray !important;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -83,8 +83,12 @@ label {
   text-transform: inherit !important;
 }
 .primary {
-  color: #3b7fb9 !important;
+  color: #2271b1 !important;
 }
 .bolder {
   font-weight: 700 !important;
+}
+.highlight-info {
+  color: #2271b1 !important;
+  text-decoration: underline;
 }

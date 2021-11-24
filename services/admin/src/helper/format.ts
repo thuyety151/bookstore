@@ -29,6 +29,6 @@ export const formatFullName = ({
   return (
     [firstName, lastName]
       .filter((item) => !isNil(item) && !isEmpty(item))
-      .join(", ") || "--"
+      .join(" ") || "--"
   );
 };

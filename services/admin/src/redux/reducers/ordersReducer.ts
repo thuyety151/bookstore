@@ -1,23 +1,20 @@
-import {
-  Pagination,
-  paginationValue,
-  rowsPerPageOptions,
-} from "../../helper/paginationValue";
-import Item from "../../model/item";
+import { Pagination, paginationValue } from "../../helper/paginationValue";
 import { Order } from "../../model/order";
-import { ACTION_NAMES } from "../actions/actionNames";
+import { ACTION_NAMES } from "../actions/order/actionTypes";
 
 export type OrderState = {
   requesting: Boolean;
   message: string;
   data: Order[];
   pagination: Pagination;
+  currentOrder: Order;
 };
 const initState: OrderState = {
   requesting: false,
   message: "",
   data: [],
   pagination: { ...paginationValue },
+  currentOrder: {} as any,
 };
 
 const ordersReducer = (
@@ -37,6 +34,23 @@ const ordersReducer = (
         data: payload.data,
       };
     case ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        message: payload.message,
+      };
+    case ACTION_NAMES.GET_DETAIL.GET_DETAIL:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.GET_DETAIL.GET_DETAIL_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        currentOrder: payload.data,
+      };
+    case ACTION_NAMES.GET_DETAIL.GET_DETAIL_FAIL:
       return {
         ...state,
         requesting: false,

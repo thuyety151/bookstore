@@ -7,12 +7,14 @@ import {
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
   ROUTE_ORDERS,
+  ROUTE_ORDER_DETAIL,
   ROUTE_PRODUCTS,
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
 import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
+import OrderDetailPage from "../pages/order/detail/OrderDetail";
 
 export const routePage: Route[] = [
   {
@@ -75,6 +77,12 @@ export const routes: Route[] = [
     path: ROUTE_USERS,
     name: "Error",
     component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDER_DETAIL,
+    name: "Order",
+    component: OrderDetailPage,
     exact: true,
   },
 ];
