@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Application.Core;
 using Application.Orders;
 using Application.Orders.Admin;
@@ -12,9 +13,10 @@ namespace API.Controllers
     public class OrdersController : BaseApiController
     {
         [HttpPost]
+        [Route("create")]
         public async Task<IActionResult> CreateOrder(OrderParams orderParams)
         {
-            return HandleResult(await Mediator.Send(new Upsert.Command(){OrderParams = orderParams}));
+            return HandleResult(await Mediator.Send(new Upsert.Command() { OrderParams = orderParams }));
         }
 
         [HttpPost]
@@ -23,7 +25,7 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(command));
         }
-        
+
         [HttpPost]
         [Route("cancel")]
         public async Task<IActionResult> UpdateOrderCode(Cancel.Command command)
@@ -31,16 +33,21 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(command));
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> ListOrder(PagingParams pagingParams)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams}));
+            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams }));
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteOrder(string id)
         {
-            return HandleResult(await Mediator.Send(new Delete.Command() {Id = id}));
+            return HandleResult(await Mediator.Send(new Delete.Command() { Id = id }));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Detail.Query() { Id = id }));
         }
     }
 }

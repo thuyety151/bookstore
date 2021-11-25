@@ -13,6 +13,7 @@ namespace Application.Orders.Admin
         public int PaymentMethod { get; set; }
         public double SubTotal { get; set; }
         public string OrderNote { get; set; }
+        public string OrderCode { get; set; }
         public string UserId { get; set; }
         public Guid DeliveryMethodId { get; set; }
         public ICollection<Item> Items { get; set; }
