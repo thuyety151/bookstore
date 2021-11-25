@@ -4,10 +4,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { rowsPerPageOptions } from "../../helper/paginationValue";
 import { RootStore } from "../../redux/store";
@@ -19,16 +17,17 @@ import { generatePath, useHistory } from "react-router";
 import { ROUTE_ORDER_DETAIL } from "../../routers/types";
 import { Order } from "../../model/order";
 import { getOrderPagination } from "../../redux/actions/order/getActions";
+import EnhancedTableHead from "components/table/EnhancedTableHead";
 
-interface Data {
-  id: string;
-  code: string;
-  date: string;
-  status: string;
-  total: string;
-}
+// interface Data {
+//   id: string;
+//   code: string;
+//   date: string;
+//   status: string;
+//   total: string;
+// }
 
-type OrderTableType = "asc" | "desc";
+// type OrderTableType = "asc" | "desc";
 interface HeadCell {
   disablePadding: boolean;
   id: string;
@@ -54,55 +53,42 @@ const headCells: HeadCell[] = [
   { id: "total", numeric: true, disablePadding: false, label: "Total" },
 ];
 
-interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>;
-  numSelected?: number;
-  onRequestSort?: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => void;
-  onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: OrderTableType;
-  orderBy: string;
-  rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { classes, order, orderBy, onRequestSort } = props;
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align="left"
-            padding="normal"
-            sortDirection={orderBy === headCell.id ? order : false}
-            className="primary"
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              //   onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
+// function EnhancedTableHead(props: EnhancedTableProps) {
+//   const { classes, order, orderBy, onRequestSort } = props;
+//   return (
+//     <TableHead>
+//       <TableRow>
+//         {props.headCells.map((headCell) => (
+//           <TableCell
+//             key={headCell.id}
+//             align="left"
+//             padding="normal"
+//             sortDirection={orderBy === headCell.id ? order : false}
+//             className="primary"
+//           >
+//             <TableSortLabel
+//               active={orderBy === headCell.id}
+//               direction={orderBy === headCell.id ? order : "asc"}
+//               //   onClick={createSortHandler(headCell.id)}
+//             >
+//               {headCell.label}
+//               {orderBy === headCell.id ? (
+//                 <span className={classes.visuallyHidden}>
+//                   {order === "desc" ? "sorted descending" : "sorted ascending"}
+//                 </span>
+//               ) : null}
+//             </TableSortLabel>
+//           </TableCell>
+//         ))}
+//       </TableRow>
+//     </TableHead>
+//   );
+// }
 
 const OrderTable: React.FC = () => {
   const classes = useStyles();
-  const [order, setOrder] = React.useState<OrderTableType>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
+  // const [order, setOrder] = React.useState<OrderTableType>("asc");
+  // const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const orderState = useSelector((state: RootStore) => state.orders);
@@ -118,15 +104,15 @@ const OrderTable: React.FC = () => {
         onFailure: () => {},
       })
     );
-  }, [dispatch]);
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  }, [dispatch, pagination]);
+  // const handleRequestSort = (
+  //   event: React.MouseEvent<unknown>,
+  //   property: keyof Data
+  // ) => {
+  //   const isAsc = orderBy === property && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(property);
+  // };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -159,9 +145,11 @@ const OrderTable: React.FC = () => {
           >
             <EnhancedTableHead
               classes={classes}
-              order={order}
-              orderBy={orderBy}
+              // order={order}
+              // orderBy={orderBy}
               rowCount={orderState.data.length}
+              headerCells={headCells}
+              loading={orderState.requesting}
             />
             <TableBody>
               {orderState.data.map((row: Order, index: number) => {

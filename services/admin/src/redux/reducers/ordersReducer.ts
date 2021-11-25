@@ -3,7 +3,7 @@ import { Order } from "../../model/order";
 import { ACTION_NAMES } from "../actions/order/actionTypes";
 
 export type OrderState = {
-  requesting: Boolean;
+  requesting: boolean;
   message: string;
   data: Order[];
   pagination: Pagination;

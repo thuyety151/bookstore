@@ -16,6 +16,7 @@ import Billing from "./components/Billing";
 import General from "./components/General";
 import Shipping from "./components/Shipping";
 import EditIcon from "@material-ui/icons/Edit";
+import ProductTable from "./components/ProductTable";
 
 const OrderDetail: React.FC = () => {
   const classes = useStyles();
@@ -32,7 +33,6 @@ const OrderDetail: React.FC = () => {
       <Paper variant="outlined" square className={classes.container}>
         <Grid className={classes.header}>
           <Typography>Order #{order.orderCode} details</Typography>
-
           <Grid container direction="row" justifyContent="space-between">
             {/* 
               General
@@ -77,6 +77,9 @@ const OrderDetail: React.FC = () => {
             </Grid>
           </Grid>
         </Grid>
+      </Paper>
+      <Paper variant="outlined" square className={classes.container}>
+        <ProductTable />
       </Paper>
     </div>
   );
