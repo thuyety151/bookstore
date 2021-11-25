@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     padding: "50px 250px 20px 250px"
   },
   text: {
-    color: "#e91e63"
+    color: "#000000"
   },
   textDetail: {
     fontWeight: 600,
@@ -42,9 +42,9 @@ export default function Types() {
           textColor="primary"
           onChange={handleChange}
           aria-label="disabled tabs example">
-          <Tab label="Description" href="/description" disabled />
-          <Tab label="Product Details" href="/detail" className={classes.text} />
-          <Tab label="Reviews" href="/review" disabled />
+          <Tab label="Description" disabled />
+          <Tab label="Product Details" className={classes.text} />
+          <Tab label="Reviews" disabled />
         </Tabs>
         <Divider />
       </AppBar>

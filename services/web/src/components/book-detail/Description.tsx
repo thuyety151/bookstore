@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     padding: "50px 250px 20px 250px"
   },
   text: {
-    color: "#e91e63",
+    color: "#000000",
     '&:hover': {
       cursor: "pointer"
     }

@@ -60,16 +60,10 @@ export default function ReviewItem({ review }: Props) {
                         <Grid item>
                             <ThumbUpOutlinedIcon />
                         </Grid>
-                        <Grid item>
-                            90
-                        </Grid>
                     </Grid>
                     <Grid item xs={1} container direction="row" spacing={1}>
                         <Grid item>
                             <ThumbDownOutlinedIcon></ThumbDownOutlinedIcon>
-                        </Grid>
-                        <Grid item>
-                            1
                         </Grid>
                     </Grid>
                 </Grid>
