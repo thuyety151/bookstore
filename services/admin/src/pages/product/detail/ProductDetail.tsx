@@ -91,18 +91,18 @@ export default function ProductDetail() {
             </Paper>
           </Grid>
           <Grid item>
-            <Paper>Product data</Paper>
+            <Paper className={classes.collapsePaper}><h3>Product data</h3></Paper>
             <Paper className={classes.paper}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
-                  Age
+                  Attribute
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={age}
                   onChange={handleChange}
-                  label="Age"
+                  label="Attribute"
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -112,7 +112,7 @@ export default function ProductDetail() {
                   <MenuItem value={30}>Thirty</MenuItem>
                 </Select>
               </FormControl>
-              <Button variant="outlined" className="primary bolder">
+              <Button variant="outlined" className={classes.btn}>
                 Add
               </Button>
 
@@ -218,7 +218,7 @@ export default function ProductDetail() {
             </Paper>
           </Grid>
           <Grid item>
-            <Paper>Short description</Paper>
+            <Paper className={classes.collapsePaper}><h3>Short description</h3></Paper>
             <Paper className={classes.paper}>
               <Editor
                 editorState={description}
@@ -232,7 +232,72 @@ export default function ProductDetail() {
         </Grid>
         <Grid item xs={3} direction="column">
           <Grid item>
-            <Collapse in={isOpen.author} collapsedSize={82}>
+            <p>image</p>
+          </Grid>
+
+          <Grid item>
+            <Collapse in={isOpen.language} collapsedSize={50}>
+              <Paper variant="outlined" className={classes.collapsePaper}>
+                <div className={classes.attribute}>
+                  <h3>Product categories</h3>
+                  <span
+                    className="curso r-pointer icon"
+                    onClick={() =>
+                      setOpen({ ...isOpen, language: !isOpen.language })
+                    }
+                  >
+                    {isOpen.language ? <RemoveIcon /> : <AddIcon />}
+                  </span>
+                </div>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.collapse}
+                >
+                  <span className={classes.checkBox}>
+                    <FormControl component="fieldset">
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={true}
+                              onChange={handleChange}
+                              name="gilad"
+                            />
+                          }
+                          label="Gilad Gray"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={true}
+                              onChange={handleChange}
+                              name="jason"
+                            />
+                          }
+                          label="Jason Killian"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={false}
+                              onChange={handleChange}
+                              name="antoine"
+                            />
+                          }
+                          label="Antoine Llorca"
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </span>
+                </Grid>
+              </Paper>
+            </Collapse>
+          </Grid>
+
+          <Grid item>
+            <Collapse in={isOpen.author} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
                   <h3>Public</h3>
@@ -294,70 +359,6 @@ export default function ProductDetail() {
               </Paper>
             </Collapse>
           </Grid>
-
-          <Grid item>
-            <Collapse in={isOpen.language} collapsedSize={82}>
-              <Paper variant="outlined" className={classes.collapsePaper}>
-                <div className={classes.attribute}>
-                  <h3>Product categories</h3>
-                  <span
-                    className="curso r-pointer icon"
-                    onClick={() =>
-                      setOpen({ ...isOpen, language: !isOpen.language })
-                    }
-                  >
-                    {isOpen.language ? <RemoveIcon /> : <AddIcon />}
-                  </span>
-                </div>
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  className={classes.collapse}
-                >
-                  <span className={classes.checkBox}>
-                    <FormControl component="fieldset">
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={true}
-                              onChange={handleChange}
-                              name="gilad"
-                            />
-                          }
-                          label="Gilad Gray"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={true}
-                              onChange={handleChange}
-                              name="jason"
-                            />
-                          }
-                          label="Jason Killian"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={false}
-                              onChange={handleChange}
-                              name="antoine"
-                            />
-                          }
-                          label="Antoine Llorca"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </span>
-                </Grid>
-              </Paper>
-            </Collapse>
-          </Grid>
-          <Grid item>
-            <p>image</p>
-          </Grid>
         </Grid>
       </Grid>
     </div>
@@ -374,7 +375,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120,
+      minWidth: 200,
       "& .MuiSelect-select": {
         maxHeight: "10px",
       },
@@ -383,7 +384,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 0,
       justifyContent: "space-between",
       alignItems: "center",
-      padding: theme.spacing(4, 4),
+      padding: theme.spacing(2, 4),
       "& h3": {
         margin: 0,
       },
@@ -410,12 +411,15 @@ const useStyles = makeStyles((theme: Theme) =>
     btn: {
       marginTop: "15px",
       marginLeft: "15px",
+      color: "#135e96",
+      borderColor: "#135e96"
     },
     trash: {
       color: "red",
       textDecoration: "underline",
       marginLeft: "10px",
       marginTop: "10px",
+      fontWeight: "bold"
     },
     btnBlue: {
       backgroundColor: "#135e96",
@@ -425,7 +429,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: "10px",
     },
     checkBox: {
-      marginLeft: "40px",
+      marginLeft: "30px",
       "& .MuiTypography-body1": {
         fontSize: "12px",
       },
