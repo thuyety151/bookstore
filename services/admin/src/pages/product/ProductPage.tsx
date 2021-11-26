@@ -7,7 +7,7 @@ import {
   } from "@material-ui/core";
 import ProductTable from "./ProductTable";
   
-  const OrderPage: React.FC = () => {
+  const ProductPage: React.FC = () => {
     const classes = useStyles();
   
     return (
@@ -37,5 +37,5 @@ import ProductTable from "./ProductTable";
     })
   );
   
-  export default OrderPage;
+  export default ProductPage;
   

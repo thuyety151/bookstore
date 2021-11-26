@@ -9,6 +9,7 @@ import {
   ROUTE_ORDERS,
   ROUTE_ORDER_DETAIL,
   ROUTE_PRODUCTS,
+  ROUTE_PRODUCT_DETAIL,
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
@@ -16,6 +17,7 @@ import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
 import OrderDetailPage from "../pages/order/detail/OrderDetail";
 import ProductPage from "pages/product/ProductPage";
+import ProductDetailPage from "../pages/product/detail/ProductDetail";
 
 export const routePage: Route[] = [
   {
@@ -84,6 +86,12 @@ export const routes: Route[] = [
     path: ROUTE_ORDER_DETAIL,
     name: "Order",
     component: OrderDetailPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_PRODUCT_DETAIL,
+    name: "Product",
+    component: ProductDetailPage,
     exact: true,
   },
 ];
