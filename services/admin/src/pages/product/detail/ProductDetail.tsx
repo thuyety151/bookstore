@@ -31,8 +31,14 @@ import {
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import TodayIcon from "@material-ui/icons/Today";
 import ImageUploadWidget from "components/imageUpload/ImageUploadWidget";
+import ProductImage from "./components/ProductImage";
+import ImageReview from "components/imageUpload/ImageReview";
+
 
 export default function ProductDetail() {
+  //TODO: hard data
+  //const imageUrl =  "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631791/ivkjdto0blzz99zsx2cj.jpg";
+  const imageUrl =null;
   const classes = useStyles();
   const [description, setDescription] = useState(EditorState.createEmpty());
 
@@ -232,8 +238,30 @@ export default function ProductDetail() {
           </Grid>
         </Grid>
         <Grid item xs={3} direction="column">
-          <Grid item>
-            <ImageUploadWidget/>
+        <Grid item>
+            <Collapse in={isOpen.author} collapsedSize={50}>
+              <Paper variant="outlined" className={classes.collapsePaper}>
+                <div className={classes.attribute}>
+                  <h3>Product image</h3>
+                  <span
+                    className="curso r-pointer icon"
+                    onClick={() =>
+                      setOpen({ ...isOpen, author: !isOpen.author })
+                    }
+                  >
+                    {isOpen.author ? <RemoveIcon /> : <AddIcon />}
+                  </span>
+                </div>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.collapse}
+                >
+                  {imageUrl ? <ProductImage imageUrl={imageUrl} /> : <ImageReview />}
+                </Grid>
+              </Paper>
+            </Collapse>
           </Grid>
 
           <Grid item>
