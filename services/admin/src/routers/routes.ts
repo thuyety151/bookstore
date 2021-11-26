@@ -15,6 +15,7 @@ import {
 import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
 import OrderDetailPage from "../pages/order/detail/OrderDetail";
+import ProductPage from "pages/product/ProductPage";
 
 export const routePage: Route[] = [
   {
@@ -39,8 +40,8 @@ export const routes: Route[] = [
   },
   {
     path: ROUTE_PRODUCTS,
-    name: "Error",
-    component: Error404,
+    name: "Book",
+    component: ProductPage,
     exact: true,
   },
   {

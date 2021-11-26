@@ -21,7 +21,8 @@ export const getProductPagination = (props: getPaginationType) => async (dispatc
     if(response.data.isSuccess){
         dispatch({
             type: ACTION_NAMES.GET_PRODUCT_PAGINATION.GET_PRODUCT_PAGINATION_SUCCESS,
-            data: response.data.value
+            data: response.data.value,
+            pagination:response.headers.pagination
         });
         props.onSuccess();
     }

@@ -18,7 +18,7 @@ const initState: ProductState = {
     currentObject: {} as any
 };
 
-const productReducer = (state : ProductState = initState , payload : any): OrderState => {
+const productReducer = (state : ProductState = initState , payload : any): ProductState => {
     switch(payload.type){
         case ACTION_NAMES.GET_PRODUCT_PAGINATION.GET_PRODUCT_PAGINATION:
             return {
@@ -29,7 +29,8 @@ const productReducer = (state : ProductState = initState , payload : any): Order
             return {
                 ...state,
                 data : payload.data,
-                requesting: false
+                requesting: false,
+                pagination:JSON.parse(payload.pagination)
             };
         case ACTION_NAMES.GET_PRODUCT_PAGINATION.GET_PRODUCT_PAGINATION_FAIL:
             return {
@@ -37,6 +38,8 @@ const productReducer = (state : ProductState = initState , payload : any): Order
                 requesting: false,
                 message: payload.message
             };   
+        default:
+            return state;
     }
 }
 export default productReducer;
