@@ -30,6 +30,7 @@ import {
 } from "@material-ui/pickers";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import TodayIcon from "@material-ui/icons/Today";
+import ImageUploadWidget from "components/imageUpload/ImageUploadWidget";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -232,7 +233,7 @@ export default function ProductDetail() {
         </Grid>
         <Grid item xs={3} direction="column">
           <Grid item>
-            <p>image</p>
+            <ImageUploadWidget/>
           </Grid>
 
           <Grid item>
