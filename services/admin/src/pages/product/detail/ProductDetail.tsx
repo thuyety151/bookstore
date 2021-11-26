@@ -1,10 +1,14 @@
 import {
   Button,
+  Checkbox,
   Collapse,
   createStyles,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   Grid,
   InputLabel,
+  Link,
   makeStyles,
   MenuItem,
   Paper,
@@ -24,7 +28,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import TodayIcon from "@material-ui/icons/Today";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -53,6 +58,8 @@ export default function ProductDetail() {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date("2014-08-18T21:11:54")
   );
+
+  const [isPublic, setPublic] = useState(true);
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -225,10 +232,128 @@ export default function ProductDetail() {
         </Grid>
         <Grid item xs={3} direction="column">
           <Grid item>
-            <p>publish</p>
+            <Collapse in={isOpen.author} collapsedSize={82}>
+              <Paper variant="outlined" className={classes.collapsePaper}>
+                <div className={classes.attribute}>
+                  <h3>Public</h3>
+                  <span
+                    className="curso r-pointer icon"
+                    onClick={() =>
+                      setOpen({ ...isOpen, author: !isOpen.author })
+                    }
+                  >
+                    {isOpen.author ? <RemoveIcon /> : <AddIcon />}
+                  </span>
+                </div>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.collapse}
+                >
+                  <span className={classes.icon}>
+                <VisibilityIcon />{" "}Status:{" "}
+                  </span>
+                  <span className={classes.checkBox}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isPublic}
+                          onChange={handleChange}
+                          name="published"
+                          size="small"
+                        />
+                      }
+                      label="Published"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={!isPublic}
+                          onChange={handleChange}
+                          name="draft"
+                          size="small"
+                        />
+                      }
+                      label="Draft"
+                    />
+                  </span>
+
+                  <span className={classes.icon}>
+                    <TodayIcon /> {" "} Publish on: Jun 17, 2022
+                  </span>
+                  <span className={classes.attribute}>
+                    <Link href="#" className={classes.trash}>
+                      Move to trash
+                    </Link>
+                    <Button variant="contained" className={classes.btnBlue}>
+                      Update
+                    </Button>
+                  </span>
+                </Grid>
+              </Paper>
+            </Collapse>
           </Grid>
+
           <Grid item>
-            <p>categories</p>
+            <Collapse in={isOpen.language} collapsedSize={82}>
+              <Paper variant="outlined" className={classes.collapsePaper}>
+                <div className={classes.attribute}>
+                  <h3>Product categories</h3>
+                  <span
+                    className="curso r-pointer icon"
+                    onClick={() =>
+                      setOpen({ ...isOpen, language: !isOpen.language })
+                    }
+                  >
+                    {isOpen.language ? <RemoveIcon /> : <AddIcon />}
+                  </span>
+                </div>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.collapse}
+                >
+                  <span className={classes.checkBox}>
+                    <FormControl component="fieldset">
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={true}
+                              onChange={handleChange}
+                              name="gilad"
+                            />
+                          }
+                          label="Gilad Gray"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={true}
+                              onChange={handleChange}
+                              name="jason"
+                            />
+                          }
+                          label="Jason Killian"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={false}
+                              onChange={handleChange}
+                              name="antoine"
+                            />
+                          }
+                          label="Antoine Llorca"
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </span>
+                </Grid>
+              </Paper>
+            </Collapse>
           </Grid>
           <Grid item>
             <p>image</p>
@@ -286,5 +411,28 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "15px",
       marginLeft: "15px",
     },
+    trash: {
+      color: "red",
+      textDecoration: "underline",
+      marginLeft: "10px",
+      marginTop: "10px",
+    },
+    btnBlue: {
+      backgroundColor: "#135e96",
+      color: "#fff",
+      width: "100px",
+      marginRight: "10px",
+      marginBottom: "10px",
+    },
+    checkBox: {
+      marginLeft: "40px",
+      "& .MuiTypography-body1": {
+        fontSize: "12px",
+      },
+    },
+    icon: {
+        display: "flex",
+        alignItems: "center"
+    }
   })
 );
