@@ -5,11 +5,9 @@ import { addPhoto } from "redux/actions/media/postAction";
 import ImageUploadWidget from "./ImageUploadWidget";
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 const useStyles = makeStyles({
-  media: {
-    height: 350,
-  },
   remove: {
     color: "white",
     backgroundColor: "#b32d2e",
@@ -23,14 +21,23 @@ const useStyles = makeStyles({
     padding: "5px 40px",
     borderRadius: "5px",
     margin: "5px 10px",
+  },
+  container: {
+    width: 250,
+  },
+  image: {
+    height: '100%',
+    width: '100%'
   }
 });
 
-export default function ImageReview() {
+interface Props {
+  uploadImage: (file :Blob) =>void;
+}
+export default function ImageReview({uploadImage} : Props) {
   const classes = useStyles();
   const [files, setFiles] = useState<any>([]);
-  const dispatch = useDispatch();
-
+  
   useEffect(() => {
     return () => {
       files.forEach((file: any) => {
@@ -40,28 +47,22 @@ export default function ImageReview() {
     };
   }, [files]);
 
-  function handleImageUpload(file : Blob){
-      console.log(file);
-      dispatch(addPhoto({
-          file: file,
-          onSuccess: () => {},
-          onFailure: () => {}
-      }));
+  function onUpload(file: Blob){
+    uploadImage(file)
   }
-
   function handleCancelImage(){
       setFiles([]);
   }
   return (
-    <div>
+    <div className ={classes.container}>
       {files && files.length > 0 ? (
         <>
-          <img className={classes.media} src={files[0].preview} alt="Book" />
+          <img className={classes.image} src={files[0].preview} alt="Book" />
           <Button size="small" className={classes.remove} onClick={() => handleCancelImage()}>
             <DeleteIcon/>
           </Button>
-          <Button size="small" className={classes.update} onClick={() => handleImageUpload(files[0])}>
-            <SaveIcon/>
+          <Button size="small" className={classes.update} onClick={() => onUpload(files[0])}>
+            <CloudUploadIcon/>
           </Button>
         </>
       ) : (

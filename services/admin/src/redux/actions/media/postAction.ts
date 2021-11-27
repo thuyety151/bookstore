@@ -51,7 +51,10 @@ export const deletePhoto = (props : deletePhotoType) => async (dispatch : any) =
     const response = await api.delete("/medias?id="+props.id);
 
     if(response.data?.isSuccess){
-        dispatch({type: ACTION_NAMES.DELETE_PHOTO.DELETE_PHOTO_SUCCESS});
+        dispatch({
+            type: ACTION_NAMES.DELETE_PHOTO.DELETE_PHOTO_SUCCESS,
+            data: response.data.value
+            });
         props.onSuccess();
     }
     else {

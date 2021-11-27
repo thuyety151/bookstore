@@ -32,6 +32,23 @@ const mediaReducer = (state: MediaState = initialState, payload: any): MediaStat
                 resquesting: false,
                 message: payload.message
             };
+            case ACTION_NAMES.DELETE_PHOTO.DELETE_PHOTO:
+                return {
+                    ...state,
+                    resquesting: true
+                };
+            case ACTION_NAMES.DELETE_PHOTO.DELETE_PHOTO_SUCCESS:
+                return {
+                    ...state,
+                    resquesting: false,
+                    data: payload.data
+                };
+            case ACTION_NAMES.DELETE_PHOTO.DELETE_PHOTO_FAIL:
+                return {
+                    ...state,
+                    resquesting: false,
+                    message: payload.message
+                };
         default:
             return state;
     }

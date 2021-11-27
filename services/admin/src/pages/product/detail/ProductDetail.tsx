@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import "date-fns";
 import { EditorState } from "draft-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import AddIcon from "@material-ui/icons/Add";
@@ -30,17 +30,36 @@ import {
 } from "@material-ui/pickers";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import TodayIcon from "@material-ui/icons/Today";
-import ImageUploadWidget from "components/imageUpload/ImageUploadWidget";
 import ProductImage from "./components/ProductImage";
 import ImageReview from "components/imageUpload/ImageReview";
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "redux/store";
+import { useParams } from "react-router-dom";
+import { getProductDetail } from "redux/actions/product/getActions";
 
 export default function ProductDetail() {
-  //TODO: hard data
-  //const imageUrl =  "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631791/ivkjdto0blzz99zsx2cj.jpg";
-  const imageUrl =null;
   const classes = useStyles();
+  const dispatch = useDispatch();
+  let { bookId } = useParams() as any;
   const [description, setDescription] = useState(EditorState.createEmpty());
+  const bookDetail = useSelector(
+    (state: RootStore) => state.books.currentObject
+  );
+
+  console.log(bookDetail.media);
+  useEffect(() => {
+    if (!bookDetail) {
+      dispatch(
+        getProductDetail({
+          id: bookId,
+          onSuccess: () => {},
+          onFailure: () => {},
+        })
+      );
+    }
+    console.log(bookDetail.media);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, bookId]);
 
   const handleDescriptionChange = (editorState: EditorState) => {
     setDescription(editorState);
@@ -82,6 +101,7 @@ export default function ProductDetail() {
                 label="Book name"
                 variant="outlined"
                 fullWidth
+                value={bookDetail.name}
               ></TextField>
             </Grid>
           </Paper>
@@ -98,7 +118,9 @@ export default function ProductDetail() {
             </Paper>
           </Grid>
           <Grid item>
-            <Paper className={classes.collapsePaper}><h3>Product data</h3></Paper>
+            <Paper className={classes.collapsePaper}>
+              <h3>Product data</h3>
+            </Paper>
             <Paper className={classes.paper}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
@@ -225,7 +247,9 @@ export default function ProductDetail() {
             </Paper>
           </Grid>
           <Grid item>
-            <Paper className={classes.collapsePaper}><h3>Short description</h3></Paper>
+            <Paper className={classes.collapsePaper}>
+              <h3>Short description</h3>
+            </Paper>
             <Paper className={classes.paper}>
               <Editor
                 editorState={description}
@@ -238,7 +262,7 @@ export default function ProductDetail() {
           </Grid>
         </Grid>
         <Grid item xs={3} direction="column">
-        <Grid item>
+          <Grid item>
             <Collapse in={isOpen.author} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
@@ -258,13 +282,14 @@ export default function ProductDetail() {
                   direction="column"
                   className={classes.collapse}
                 >
-                  {imageUrl ? <ProductImage imageUrl={imageUrl} /> : <ImageReview />}
+                  {console.log("book media: " + bookDetail.media)}
+                  <ProductImage media={bookDetail.media} />
                 </Grid>
               </Paper>
             </Collapse>
           </Grid>
 
-          <Grid item>
+          <Grid item className={classes.collapse}>
             <Collapse in={isOpen.language} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
@@ -325,7 +350,7 @@ export default function ProductDetail() {
             </Collapse>
           </Grid>
 
-          <Grid item>
+          <Grid item className={classes.collapse}>
             <Collapse in={isOpen.author} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
@@ -346,7 +371,7 @@ export default function ProductDetail() {
                   className={classes.collapse}
                 >
                   <span className={classes.icon}>
-                <VisibilityIcon />{" "}Status:{" "}
+                    <VisibilityIcon /> Status:{" "}
                   </span>
                   <span className={classes.checkBox}>
                     <FormControlLabel
@@ -374,7 +399,7 @@ export default function ProductDetail() {
                   </span>
 
                   <span className={classes.icon}>
-                    <TodayIcon /> {" "} Publish on: Jun 17, 2022
+                    <TodayIcon /> Publish on: Jun 17, 2022
                   </span>
                   <span className={classes.attribute}>
                     <Link href="#" className={classes.trash}>
@@ -441,14 +466,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "15px",
       marginLeft: "15px",
       color: "#135e96",
-      borderColor: "#135e96"
+      borderColor: "#135e96",
     },
     trash: {
       color: "red",
       textDecoration: "underline",
       marginLeft: "10px",
       marginTop: "10px",
-      fontWeight: "bold"
+      fontWeight: "bold",
     },
     btnBlue: {
       backgroundColor: "#135e96",
@@ -464,8 +489,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     icon: {
-        display: "flex",
-        alignItems: "center"
-    }
+      display: "flex",
+      alignItems: "center",
+    },
   })
 );

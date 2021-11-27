@@ -18,7 +18,7 @@ import moment from "moment";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { generatePath, useHistory } from "react-router-dom";
-import { getProductPagination } from "redux/actions/product/getActions";
+import { getProductDetail, getProductPagination } from "redux/actions/product/getActions";
 import { RootStore } from "redux/store";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -121,6 +121,11 @@ export default function ProductTable() {
   };
 
   const navToEdit = (bookId : string) => {
+    dispatch(getProductDetail({
+      id: bookId,
+      onSuccess: () => {},
+      onFailure: () => {}
+    }));
     history.push(
       generatePath(ROUTE_PRODUCT_DETAIL, {
         bookId: bookId,

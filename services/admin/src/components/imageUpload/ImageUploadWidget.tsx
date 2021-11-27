@@ -46,7 +46,7 @@ export default function ImageUploadWidget({setFiles}: Props) {
       style={isDragActive ? { ...dzStyles, ...dzActive } : dzStyles}
     >
       <input {...getInputProps()} />
-      <CloudUploadIcon />
+      <CloudUploadIcon/>
       <p>Upload image here</p>
     </div>
   );
