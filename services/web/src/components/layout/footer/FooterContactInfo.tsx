@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
     info: {
       fontWeight: 400,
       fontSize: 14,
-      "&:hover": {
-        color: "red",
-        cursor: "pointer",
-      },
+      // "&:hover": {
+      //   color: "red",
+      //   cursor: "pointer",
+      // },
     },
   })
 );
