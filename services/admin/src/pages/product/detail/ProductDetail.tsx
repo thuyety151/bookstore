@@ -17,7 +17,7 @@ import {
   Theme,
 } from "@material-ui/core";
 import "date-fns";
-import { EditorState } from "draft-js";
+import { ContentState, convertFromHTML, EditorState } from "draft-js";
 import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -36,22 +36,28 @@ import { RootStore } from "redux/store";
 import { useParams } from "react-router-dom";
 import { getProductDetail } from "redux/actions/product/getActions";
 import { format, getYear } from "date-fns";
-import { Attribute } from "model/attribute";
+import { getCategories } from "redux/actions/category/getAction";
+import { getAttributes } from "redux/actions/attribute/getAction";
 
 export default function ProductDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
   let { bookId } = useParams() as any;
   const [description, setDescription] = useState(EditorState.createEmpty());
+  const [shortDescription, setShortDescription] = useState(
+    EditorState.createEmpty()
+  );
   const bookDetail = useSelector(
     (state: RootStore) => state.books.currentObject
   );
   const attributesSelectMenu = useSelector(
     (state: RootStore) => state.attributes.data
   );
+  const categories = useSelector((state: RootStore) => state.categories.data);
+
+  const [isPublic, setPublic] = useState(false);
 
   useEffect(() => {
-    console.log("dddd");
     dispatch(
       getProductDetail({
         id: bookId,
@@ -60,6 +66,27 @@ export default function ProductDetail() {
       })
     );
     setOpenAttr(new Array(bookDetail.attributes?.length).fill(false));
+
+    dispatch(getAttributes());
+    dispatch(getCategories());
+    setPublic(bookDetail.isPublic);
+    setDescription(
+      EditorState.createWithContent(
+        ContentState.createFromBlockArray(
+          convertFromHTML(bookDetail?.description).contentBlocks,
+          convertFromHTML(bookDetail?.description).entityMap
+        )
+      )
+    );
+    setShortDescription(
+      EditorState.createWithContent(
+        ContentState.createFromBlockArray(
+          convertFromHTML(bookDetail?.shortDescription).contentBlocks,
+          convertFromHTML(bookDetail?.shortDescription).entityMap
+        )
+      )
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, bookId]);
 
@@ -67,11 +94,24 @@ export default function ProductDetail() {
     setDescription(editorState);
   };
 
+  const handleShortDescriptionChange = (editorState: EditorState) => {
+    setShortDescription(editorState);
+  };
+
   const [attributeSelected, setAttributeSelected] = useState("");
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    console.log("loop");
+  const handleAttributeChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
     setAttributeSelected(event.target.value as string);
+  };
+
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {};
+
+  const handlePublicChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPublic(event.target.value as boolean);
   };
 
   const [isOpen, setOpen] = useState({
@@ -81,8 +121,6 @@ export default function ProductDetail() {
   });
   const [openAttr, setOpenAttr] = useState(new Array(0).fill(false));
   console.log("opp", openAttr);
-
-  const [isPublic, setPublic] = useState(true);
 
   const handleDateChange = (date: Date | null) => {
     console.log("loop");
@@ -109,11 +147,12 @@ export default function ProductDetail() {
                 variant="outlined"
                 fullWidth
                 value={bookDetail.name}
+                className={classes.text}
               ></TextField>
             </Grid>
           </Paper>
 
-          <Grid item>
+          <Grid item className={classes.richText}>
             <Paper className={classes.paper}>
               <Editor
                 editorState={description}
@@ -137,7 +176,7 @@ export default function ProductDetail() {
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={attributeSelected}
-                  onChange={handleChange}
+                  onChange={handleAttributeChange}
                   label="Attribute"
                 >
                   <MenuItem value="">
@@ -211,11 +250,8 @@ export default function ProductDetail() {
                             />
                           </span>
 
-                          <Button
-                            size="small"
-                            className={classes.removeBtn}
-                          >
-                           Remove
+                          <Button size="small" className={classes.removeBtn}>
+                            Remove
                           </Button>
                         </Grid>
 
@@ -296,11 +332,11 @@ export default function ProductDetail() {
             </Paper>
             <Paper className={classes.paper}>
               <Editor
-                editorState={description}
+                editorState={shortDescription}
                 toolbarClassName="toolbarClassName"
                 wrapperClassName="wrapperClassName"
                 editorClassName="editorClassName"
-                onEditorStateChange={handleDescriptionChange}
+                onEditorStateChange={handleShortDescriptionChange}
               />
             </Paper>
           </Grid>
@@ -313,9 +349,7 @@ export default function ProductDetail() {
                   <h3>Product image</h3>
                   <span
                     className="curso r-pointer icon"
-                    onClick={() =>
-                      setOpen({ ...isOpen, image: !isOpen.image })
-                    }
+                    onClick={() => setOpen({ ...isOpen, image: !isOpen.image })}
                   >
                     {isOpen.image ? <RemoveIcon /> : <AddIcon />}
                   </span>
@@ -355,36 +389,18 @@ export default function ProductDetail() {
                   <span className={classes.checkBox}>
                     <FormControl component="fieldset">
                       <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={true}
-                              onChange={handleChange}
-                              name="gilad"
-                            />
-                          }
-                          label="Gilad Gray"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={true}
-                              onChange={handleChange}
-                              name="jason"
-                            />
-                          }
-                          label="Jason Killian"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={false}
-                              onChange={handleChange}
-                              name="antoine"
-                            />
-                          }
-                          label="Antoine Llorca"
-                        />
+                        {categories?.map((category) => (
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={false}
+                                onChange={handleCategoryChange}
+                                name={category.id}
+                              />
+                            }
+                            label={category.name}
+                          />
+                        ))}
                       </FormGroup>
                     </FormControl>
                   </span>
@@ -421,7 +437,7 @@ export default function ProductDetail() {
                       control={
                         <Checkbox
                           checked={isPublic}
-                          onChange={handleChange}
+                          onChange={handlePublicChange}
                           name="published"
                           size="small"
                         />
@@ -432,7 +448,7 @@ export default function ProductDetail() {
                       control={
                         <Checkbox
                           checked={!isPublic}
-                          onChange={handleChange}
+                          onChange={handlePublicChange}
                           name="draft"
                           size="small"
                         />
@@ -442,7 +458,9 @@ export default function ProductDetail() {
                   </span>
 
                   <span className={classes.icon}>
-                    <TodayIcon /> Publish on: {bookDetail.publicationDate}
+                    <TodayIcon /> Publish on:{" "}
+                    {bookDetail.publicationDate &&
+                      format(new Date(bookDetail.publicationDate), "PPP")}
                   </span>
                   <span className={classes.attribute}>
                     <Link href="#" className={classes.trash}>
@@ -505,6 +523,12 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       marginBottom: "30px",
     },
+    richText: {
+      "& .rdw-editor-main": {
+        height: "200px",
+      },
+    },
+
     attribute: {
       display: "flex",
       justifyContent: "space-between",
@@ -543,11 +567,16 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       display: "flex",
       alignItems: "center",
-      marginBottom: 10
+      marginBottom: 10,
     },
     removeBtn: {
       backgroundColor: "#b32d2e",
-      color: "#fff"
-    }
+      color: "#fff",
+    },
+    text: {
+      "& .MuiInputBase-input": {
+        fontWeight: "bold",
+      },
+    },
   })
 );

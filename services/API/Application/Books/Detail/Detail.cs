@@ -34,7 +34,7 @@ namespace Application.Books.Detail
                 var bookDetailDto = await  _context.Books.Include(x => x.Author)
                                             .Include(x => x.Language)
                                             .Include(x => x.Attributes).ThenInclude(x => x.Attribute)
-                                            .Where(x => x.IsDeleted == false && x.IsPublic == true)
+                                            .Where(x => x.IsDeleted == false)
                                             .ProjectTo<BookDetailDto>(_mapper.ConfigurationProvider)
                                             .FirstOrDefaultAsync(x => x.Id == request.Id);
 

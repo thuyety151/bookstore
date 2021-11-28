@@ -24,6 +24,6 @@ namespace Application.Books.Detail
         public string PublicationCountry { get; set; }
         public string StockStatus { get; set; }
         public int TotalStock { get; set; }
-        
+        public bool IsPublic { get; set; }
     }
 }
