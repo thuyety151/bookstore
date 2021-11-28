@@ -31,11 +31,12 @@ import {
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import TodayIcon from "@material-ui/icons/Today";
 import ProductImage from "./components/ProductImage";
-import ImageReview from "components/imageUpload/ImageReview";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "redux/store";
 import { useParams } from "react-router-dom";
 import { getProductDetail } from "redux/actions/product/getActions";
+import { format, getYear } from "date-fns";
+import { Attribute } from "model/attribute";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -45,19 +46,20 @@ export default function ProductDetail() {
   const bookDetail = useSelector(
     (state: RootStore) => state.books.currentObject
   );
+  const attributesSelectMenu = useSelector(
+    (state: RootStore) => state.attributes.data
+  );
 
-  console.log(bookDetail.media);
   useEffect(() => {
-    if (!bookDetail) {
-      dispatch(
-        getProductDetail({
-          id: bookId,
-          onSuccess: () => {},
-          onFailure: () => {},
-        })
-      );
-    }
-    console.log(bookDetail.media);
+    console.log("dddd");
+    dispatch(
+      getProductDetail({
+        id: bookId,
+        onSuccess: () => {},
+        onFailure: () => {},
+      })
+    );
+    setOpenAttr(new Array(bookDetail.attributes?.length).fill(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, bookId]);
 
@@ -65,30 +67,35 @@ export default function ProductDetail() {
     setDescription(editorState);
   };
 
-  const [age, setAge] = useState("");
+  const [attributeSelected, setAttributeSelected] = useState("");
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
+    console.log("loop");
+    setAttributeSelected(event.target.value as string);
   };
 
   const [isOpen, setOpen] = useState({
+    image: true,
     category: true,
-    author: true,
-    language: true,
-    format: true,
-    price: true,
-    review: true,
-    feature: true,
+    public: true,
   });
-
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
-  );
+  const [openAttr, setOpenAttr] = useState(new Array(0).fill(false));
+  console.log("opp", openAttr);
 
   const [isPublic, setPublic] = useState(true);
 
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+    console.log("loop");
+    // dispatch({type:change_date,index})// attr attr[index].date=date
+    // setSelectedDate(date);
+  };
+  const handleExpand = (index: number, newVal: boolean) => {
+    setOpenAttr(
+      openAttr.map((currentVal, id) => {
+        return id === index ? newVal : currentVal;
+      })
+    );
+    console.log("Adsd", openAttr);
   };
   return (
     <div className={classes.root}>
@@ -129,121 +136,158 @@ export default function ProductDetail() {
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={age}
+                  value={attributeSelected}
                   onChange={handleChange}
                   label="Attribute"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {attributesSelectMenu?.map((attr) => (
+                    <MenuItem value={attr.id}>{attr.name}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <Button variant="outlined" className={classes.btn}>
                 Add
               </Button>
-
-              <Collapse in={true} collapsedSize={120}>
-                <Paper variant="outlined" className={classes.collapsePaper}>
-                  <div className={classes.attribute}>
-                    <h3>Category</h3>
-                    <span
-                      className="curso r-pointer icon"
-                      //   onClick={() =>
-                      //     setOpen({ ...isOpen, category: !isOpen.category })
-                      //   }
+              {bookDetail.attributes?.map((attr, index: number) => {
+                return (
+                  <Collapse in={openAttr[index]} collapsedSize={50}>
+                    <Paper
+                      variant="outlined"
+                      className={classes.collapsePaperAttr}
                     >
-                      {isOpen.category ? <RemoveIcon /> : <AddIcon />}
-                    </span>
-                  </div>
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    className={classes.collapse}
-                    spacing={4}
-                  >
-                    <Grid item xs={6} direction="column">
-                      <span className={classes.attribute}>
-                        <p>Price ($):</p>
-                        <TextField
-                          id="standard-size-small"
-                          size="small"
-                          variant="outlined"
-                          className={classes.input}
-                        />
-                      </span>
-
-                      <span className={classes.attribute}>
-                        <p>Total stock:</p>
-                        <TextField
-                          id="filled-number"
-                          type="number"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                          size="small"
-                          className={classes.input}
-                        />
-                      </span>
-                    </Grid>
-
-                    <Grid item xs={6} direction="column">
-                      <span className={classes.attribute}>
-                        <p>Sale price ($):</p>
-                        <TextField
-                          id="standard-size-small"
-                          size="small"
-                          variant="outlined"
-                          className={classes.input}
-                        />
-                      </span>
-                      <span className={classes.attribute}>
-                        <p>Sale start date:</p>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <Grid container justifyContent="space-around">
-                            <KeyboardDatePicker
-                              disableToolbar
-                              variant="inline"
-                              format="MM/dd/yyyy"
-                              margin="normal"
-                              id="date-picker-inline"
-                              value={selectedDate}
-                              onChange={handleDateChange}
-                              KeyboardButtonProps={{
-                                "aria-label": "change date",
-                              }}
+                      <div className={classes.attribute}>
+                        <h3>{attr.name}</h3>
+                        <span
+                          className="curso r-pointer icon"
+                          //   onClick={() =>
+                          //     setOpen({ ...isOpen, category: !isOpen.category })
+                          //   }
+                        >
+                          {openAttr[index] ? (
+                            <RemoveIcon
+                              onClick={() => handleExpand(index, false)}
                             />
-                          </Grid>
-                        </MuiPickersUtilsProvider>
-                      </span>
-
-                      <span className={classes.attribute}>
-                        <p>Sale end date:</p>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <Grid container justifyContent="space-around">
-                            <KeyboardDatePicker
-                              disableToolbar
-                              variant="inline"
-                              format="MM/dd/yyyy"
-                              margin="normal"
-                              id="date-picker-inline"
-                              value={selectedDate}
-                              onChange={handleDateChange}
-                              KeyboardButtonProps={{
-                                "aria-label": "change date",
-                              }}
+                          ) : (
+                            <AddIcon
+                              onClick={() => handleExpand(index, true)}
                             />
-                          </Grid>
-                        </MuiPickersUtilsProvider>
-                      </span>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Collapse>
+                          )}
+                        </span>
+                      </div>
+                      <Grid
+                        item
+                        container
+                        direction="row"
+                        className={classes.collapse}
+                        spacing={4}
+                      >
+                        <Grid item xs={6} direction="column">
+                          <span className={classes.attribute}>
+                            <p>Price ($):</p>
+                            <TextField
+                              id="standard-size-small"
+                              size="small"
+                              variant="outlined"
+                              className={classes.input}
+                              value={attr.price}
+                            />
+                          </span>
+
+                          <span className={classes.attribute}>
+                            <p>Total stock:</p>
+                            <TextField
+                              id="filled-number"
+                              type="number"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              variant="outlined"
+                              size="small"
+                              className={classes.input}
+                              value={attr.totalStock}
+                            />
+                          </span>
+
+                          <Button
+                            size="small"
+                            className={classes.removeBtn}
+                          >
+                           Remove
+                          </Button>
+                        </Grid>
+
+                        <Grid item xs={6} direction="column">
+                          <span className={classes.attribute}>
+                            <p>Sale price ($):</p>
+                            <TextField
+                              id="standard-size-small"
+                              size="small"
+                              variant="outlined"
+                              className={classes.input}
+                              value={attr.salePrice}
+                            />
+                          </span>
+                          <span className={classes.attribute}>
+                            <p>Sale start date:</p>
+                            {getYear(new Date(attr.salePriceEndDate))}
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <Grid container justifyContent="space-around">
+                                <KeyboardDatePicker
+                                  disableToolbar
+                                  variant="inline"
+                                  format="MM/dd/yyyy"
+                                  margin="normal"
+                                  id="date-picker-inline"
+                                  value={
+                                    getYear(
+                                      new Date(attr.salePriceStartDate)
+                                    ) === 1
+                                      ? null
+                                      : new Date(attr.salePriceStartDate)
+                                  }
+                                  onChange={handleDateChange}
+                                  KeyboardButtonProps={{
+                                    "aria-label": "change date",
+                                  }}
+                                />
+                              </Grid>
+                            </MuiPickersUtilsProvider>
+                          </span>
+
+                          <span className={classes.attribute}>
+                            <p>Sale end date:</p>
+                            {/* {setSelectedDate(attr.salePriceEndDate)} */}
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <Grid container justifyContent="space-around">
+                                <KeyboardDatePicker
+                                  disableToolbar
+                                  variant="inline"
+                                  format="MM/dd/yyyy"
+                                  margin="normal"
+                                  id="date-picker-inline"
+                                  value={
+                                    getYear(new Date(attr.salePriceEndDate)) ===
+                                    1
+                                      ? null
+                                      : new Date(attr.salePriceEndDate)
+                                  }
+                                  onChange={handleDateChange}
+                                  KeyboardButtonProps={{
+                                    "aria-label": "change date",
+                                  }}
+                                />
+                              </Grid>
+                            </MuiPickersUtilsProvider>
+                          </span>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Collapse>
+                );
+              })}
             </Paper>
           </Grid>
           <Grid item>
@@ -263,17 +307,17 @@ export default function ProductDetail() {
         </Grid>
         <Grid item xs={3} direction="column">
           <Grid item>
-            <Collapse in={isOpen.author} collapsedSize={50}>
+            <Collapse in={isOpen.image} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
                   <h3>Product image</h3>
                   <span
                     className="curso r-pointer icon"
                     onClick={() =>
-                      setOpen({ ...isOpen, author: !isOpen.author })
+                      setOpen({ ...isOpen, image: !isOpen.image })
                     }
                   >
-                    {isOpen.author ? <RemoveIcon /> : <AddIcon />}
+                    {isOpen.image ? <RemoveIcon /> : <AddIcon />}
                   </span>
                 </div>
                 <Grid
@@ -282,7 +326,6 @@ export default function ProductDetail() {
                   direction="column"
                   className={classes.collapse}
                 >
-                  {console.log("book media: " + bookDetail.media)}
                   <ProductImage media={bookDetail.media} />
                 </Grid>
               </Paper>
@@ -290,17 +333,17 @@ export default function ProductDetail() {
           </Grid>
 
           <Grid item className={classes.collapse}>
-            <Collapse in={isOpen.language} collapsedSize={50}>
+            <Collapse in={isOpen.category} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
                   <h3>Product categories</h3>
                   <span
                     className="curso r-pointer icon"
                     onClick={() =>
-                      setOpen({ ...isOpen, language: !isOpen.language })
+                      setOpen({ ...isOpen, category: !isOpen.category })
                     }
                   >
-                    {isOpen.language ? <RemoveIcon /> : <AddIcon />}
+                    {isOpen.category ? <RemoveIcon /> : <AddIcon />}
                   </span>
                 </div>
                 <Grid
@@ -351,17 +394,17 @@ export default function ProductDetail() {
           </Grid>
 
           <Grid item className={classes.collapse}>
-            <Collapse in={isOpen.author} collapsedSize={50}>
+            <Collapse in={isOpen.public} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
                 <div className={classes.attribute}>
                   <h3>Public</h3>
                   <span
                     className="curso r-pointer icon"
                     onClick={() =>
-                      setOpen({ ...isOpen, author: !isOpen.author })
+                      setOpen({ ...isOpen, public: !isOpen.public })
                     }
                   >
-                    {isOpen.author ? <RemoveIcon /> : <AddIcon />}
+                    {isOpen.public ? <RemoveIcon /> : <AddIcon />}
                   </span>
                 </div>
                 <Grid
@@ -399,7 +442,7 @@ export default function ProductDetail() {
                   </span>
 
                   <span className={classes.icon}>
-                    <TodayIcon /> Publish on: Jun 17, 2022
+                    <TodayIcon /> Publish on: {bookDetail.publicationDate}
                   </span>
                   <span className={classes.attribute}>
                     <Link href="#" className={classes.trash}>
@@ -428,13 +471,23 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
     },
     formControl: {
-      margin: theme.spacing(1),
+      margin: "5px 5px 5px 50px",
       minWidth: 200,
       "& .MuiSelect-select": {
         maxHeight: "10px",
       },
     },
     collapsePaper: {
+      borderRadius: 0,
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: theme.spacing(2, 4),
+      "& h3": {
+        margin: 0,
+      },
+    },
+    collapsePaperAttr: {
+      margin: "0px 50px",
       borderRadius: 0,
       justifyContent: "space-between",
       alignItems: "center",
@@ -463,13 +516,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "350px",
     },
     btn: {
-      marginTop: "15px",
-      marginLeft: "15px",
+      marginTop: "10px",
       color: "#135e96",
       borderColor: "#135e96",
     },
     trash: {
-      color: "red",
+      color: "#b32d2e",
       textDecoration: "underline",
       marginLeft: "10px",
       marginTop: "10px",
@@ -491,6 +543,11 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       display: "flex",
       alignItems: "center",
+      marginBottom: 10
     },
+    removeBtn: {
+      backgroundColor: "#b32d2e",
+      color: "#fff"
+    }
   })
 );

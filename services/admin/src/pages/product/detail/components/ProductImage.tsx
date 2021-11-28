@@ -1,18 +1,19 @@
 import { Button, makeStyles } from "@material-ui/core";
 import ImageReview from "components/imageUpload/ImageReview";
-import ImageUploadWidget from "components/imageUpload/ImageUploadWidget";
 import { Media } from "model/media";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, deletePhoto } from "redux/actions/media/postAction";
 import { RootStore } from "redux/store";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles({
   remove: {
     color: "white",
     backgroundColor: "#b32d2e",
-    padding: "5px 100px",
+    padding: "5px 80px",
     borderRadius: "5px",
+    margin: "0px 30px"
   },
   container: {
     width: 250,
@@ -31,9 +32,6 @@ export default function ProductImage({ media }: Props) {
   let { data } = useSelector((state: RootStore) => state.media);
   const [addPhotoMode, setAddPhotoMode] = useState(true);
   const [isNewPhoto, setNewPhoto] = useState(false);
-  console.log("1" + addPhotoMode);
-  console.log("data 1:  " + data.url);
-
   const initMedia: Media = {
     id: "",
     name: "",
@@ -67,8 +65,6 @@ export default function ProductImage({ media }: Props) {
     );
     setAddPhotoMode(false);
     setNewPhoto(true);
-    console.log("2" + addPhotoMode);
-    console.log("data 2:  " + data.url);
   }
 
   function handleDeleteImage() {
@@ -94,7 +90,7 @@ export default function ProductImage({ media }: Props) {
             className={classes.remove}
             onClick={() => handleDeleteImage()}
           >
-            Remove
+           <DeleteIcon/>
           </Button>
         </div>
       )}

@@ -24,6 +24,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { ROUTE_PRODUCT_DETAIL } from "routers/types";
+import { getAttributes } from "redux/actions/attribute/getAction";
 
 interface HeadCell {
   disablePadding: boolean;
@@ -106,8 +107,10 @@ export default function ProductTable() {
         onFailure: () => {},
       })
     );
+
+    dispatch(getAttributes());
     // eslint-disable-next-line
-  }, [dispatch, pageIndex, rowsPerPage]);
+  }, [pageIndex, rowsPerPage]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPageIndex(newPage);
@@ -121,11 +124,6 @@ export default function ProductTable() {
   };
 
   const navToEdit = (bookId : string) => {
-    dispatch(getProductDetail({
-      id: bookId,
-      onSuccess: () => {},
-      onFailure: () => {}
-    }));
     history.push(
       generatePath(ROUTE_PRODUCT_DETAIL, {
         bookId: bookId,

@@ -16,9 +16,6 @@ export type addPhotoType = {
 export const addPhoto  = (props : addPhotoType) => async (dispatch : any) => {
     dispatch({type: ACTION_NAMES.ADD_PHOTO.ADD_PHOTO});
 
-    console.log("start");
-    console.log(props.file);
-
     let formData = new FormData();
     formData.append('File', props.file);
     var response = await api.post('/medias', formData, {
@@ -33,7 +30,6 @@ export const addPhoto  = (props : addPhotoType) => async (dispatch : any) => {
             type: ACTION_NAMES.ADD_PHOTO.ADD_PHOTO_SUCCESS,
             data: response.data.value
         })
-        console.log("success");
     }
     else {
         dispatch({
@@ -41,7 +37,6 @@ export const addPhoto  = (props : addPhotoType) => async (dispatch : any) => {
             message: response.data.error,
           });
           props.onFailure(response.data.error);
-          console.log("fail");
     }
 }
 

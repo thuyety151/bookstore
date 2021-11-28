@@ -1,4 +1,4 @@
-import { Attribute } from "./attribute";
+import { BookAttribute } from "./attribute";
 import { Media } from "./media";
 
 export type Book = {
@@ -29,7 +29,7 @@ export interface BookDetail {
     media: Media[];
     authorId: string;
     authorName: string;
-    attributes: Attribute[];
+    attributes: BookAttribute[];
     language: string;
     dimensions: string;
     publicationDate: Date;

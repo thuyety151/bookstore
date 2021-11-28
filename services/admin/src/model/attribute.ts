@@ -1,4 +1,4 @@
-export interface Attribute {
+export interface BookAttribute {
     id: string;
     name: string;
     price: number;
@@ -6,4 +6,9 @@ export interface Attribute {
     salePrice: number;
     salePriceStartDate: Date;
     salePriceEndDate: Date;
+}
+
+export interface Attribute {
+    id: string;
+    name: string;
 }

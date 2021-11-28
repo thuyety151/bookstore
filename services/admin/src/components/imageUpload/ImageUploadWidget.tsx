@@ -1,8 +1,6 @@
-import { makeStyles } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { Button } from "@material-ui/core";
 
 interface Props {
   setFiles : (files: any) => void
