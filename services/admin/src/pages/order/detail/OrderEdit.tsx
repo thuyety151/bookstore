@@ -7,7 +7,7 @@ import {
   Typography,
   IconButton,
 } from "@material-ui/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getDetail } from "../../../redux/actions/order/getActions";
@@ -18,10 +18,12 @@ import Shipping from "./components/Shipping";
 import EditIcon from "@material-ui/icons/Edit";
 import ProductTable from "./components/ProductTable";
 
-const OrderDetail: React.FC = () => {
+const OrderEdit: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const order = useSelector((state: RootStore) => state.orders.currentOrder);
+  const [updateBilling, setUpdateBilling] = useState(false);
+  const [updateShipping, setUpdateShipping] = useState(false);
   const { orderId } = useParams() as any;
 
   useEffect(() => {
@@ -51,12 +53,11 @@ const OrderDetail: React.FC = () => {
                 className={classes.title}
               >
                 <Typography className="bolder">Billing</Typography>
-                <IconButton size="small">
+                <IconButton size="small" onClick={() => setUpdateBilling(true)}>
                   <EditIcon />
                 </IconButton>
               </Grid>
-
-              <Billing />
+              <Billing open={updateBilling} setOpen={setUpdateBilling} />
             </Grid>
             {/* 
               Shipping
@@ -69,11 +70,14 @@ const OrderDetail: React.FC = () => {
                 className={classes.title}
               >
                 <Typography className="bolder">Shipping</Typography>
-                <IconButton size="small">
+                <IconButton
+                  size="small"
+                  onClick={() => setUpdateShipping(true)}
+                >
                   <EditIcon />
                 </IconButton>
               </Grid>
-              <Shipping />
+              <Shipping open={updateShipping} setOpen={setUpdateShipping} />
             </Grid>
           </Grid>
         </Grid>
@@ -95,6 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       padding: theme.spacing(3),
+      marginTop: theme.spacing(4),
     },
     header: {},
     smallInput: {
@@ -109,4 +114,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default OrderDetail;
+export default OrderEdit;

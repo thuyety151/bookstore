@@ -14,6 +14,7 @@ export const ROUTE_COUPONS = "/coupons";
 export const ROUTE_USERS = "/users";
 export const ROUTE_ORDER_DETAIL = "/orders/:orderId";
 export const ROUTE_ORDER_CREATE = "/orders/create";
+export const ROUTE_ORDER_EDIT = "/orders/edit/:orderId";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -34,6 +35,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_USERS]: { permissions: [] },
   [ROUTE_ORDER_DETAIL]: { permissions: [] },
   [ROUTE_ORDER_CREATE]: { permissions: [] },
+  [ROUTE_ORDER_EDIT]: { permissions: [] },
 };
 
 export type AppRoute =

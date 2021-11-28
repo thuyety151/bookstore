@@ -19,6 +19,7 @@ export const formatAddress = ({
   );
 };
 
+
 export const formatFullName = ({
   firstName,
   lastName,

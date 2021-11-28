@@ -14,6 +14,8 @@ import Item from "model/item";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
 import { useParams } from "react-router";
+import OutlineButton from "components/button/OutlineButton";
+import ContainedButton from "components/button/ContainedButton";
 
 const headCells: HeadCell[] = [
   {
@@ -126,6 +128,38 @@ const {orderId}= useParams() as any;
                 </Grid>
               </TableCell>
             </TableRow>
+            <TableRow
+              hover
+              tabIndex={-1}
+              // onClick={() => navToDetail(row.id)}
+            >
+              <TableCell colSpan={4} align="center">
+                <Grid container direction="row" justifyContent="space-between">
+                  <Grid item>
+                    <OutlineButton
+                      text="Add new"
+                      props={{
+                        style: { width: "fit-content" },
+                      }}
+                    />
+                    <OutlineButton
+                      text="Apply"
+                      props={{
+                        style: { width: "fit-content" },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <ContainedButton
+                      text="Cal"
+                      props={{
+                        style: { width: "fit-content" },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
@@ -189,6 +223,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     totalBill: {
       justifySelf: "flex-end",
+      padding: theme.spacing(2, 8, 2, 2),
+    },
+    buttonArea: {
+      display: "flex",
+      justifyContent: "space-between",
     },
   })
 );

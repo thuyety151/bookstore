@@ -51,17 +51,17 @@ namespace Application.Orders.Admin
 
                     var response = await _httpClient.GetAsync(url);
 
-                    if (response.IsSuccessStatusCode)
+                    if (!response.IsSuccessStatusCode)
                     {
-                        var orderDetailGhn =
-                         JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-
-                        var statusGhn = (string)orderDetailGhn.data.status;
-
-                        order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
+                        return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
                     }
-                    // return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
 
+                    var orderDetailGhn =
+                        JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+
+                    var statusGhn = (string)orderDetailGhn.data.status;
+
+                    order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
 
                 }
 
