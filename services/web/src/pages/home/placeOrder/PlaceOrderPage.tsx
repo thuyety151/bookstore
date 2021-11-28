@@ -97,7 +97,7 @@ const PlaceOrderPage: React.FC = () => {
                   Subtotal:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  {cartState.subTotal}
+                  ${cartState.subTotal}
                 </Typography>
               </Grid>
               <Grid item container justifyContent="space-between">
@@ -125,7 +125,7 @@ const PlaceOrderPage: React.FC = () => {
               className={classes.total}
             >
               <Grid item>Total</Grid>
-              <Grid item>{cartState.subTotal}</Grid>
+              <Grid item>${cartState.subTotal}</Grid>
             </Grid>
             <Divider />
             <Grid item container>

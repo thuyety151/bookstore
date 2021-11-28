@@ -14,7 +14,6 @@ type getFeeProps = {
 
 export const getFee = (props: getFeeProps) => async (dispatch: any) => {
   dispatch({ type: NAME_ACTIONS.GET_FEE.GET_FEE });
-  console.log("Read", props.serviceType);
   const currentAddress = store.getState().address.currentAddress as Address;
   const data = {
     from_district_id: shopAddress.district_id,
@@ -31,7 +30,6 @@ export const getFee = (props: getFeeProps) => async (dispatch: any) => {
   const response = await apiGHN.post("/v2/shipping-order/fee", data);
   
   if (response.data.code === 200) {
-    console.log("ff",formatVNDtoUSD(response.data.data.service_fee))
     props.onSuccess(response.data.data.service_fee);
     dispatch({
       type: NAME_ACTIONS.GET_FEE.GET_FEE_SUCCESS,
@@ -46,3 +44,4 @@ export const getFee = (props: getFeeProps) => async (dispatch: any) => {
     });
   }
 };
+

@@ -57,7 +57,7 @@ const CartTable: React.FC = () => {
       model = { ...model, quantity: model.quantity - 1 };
     }
     if (!model.quantity) {
-      dispatch(deleteItem(model.id));
+      handleRemoveItem(model.id);
     } else {
       dispatch(
         addOrUpdateItem({
@@ -76,7 +76,15 @@ const CartTable: React.FC = () => {
   };
 
   const handleRemoveItem = (id: string) => {
-    dispatch(deleteItem(id));
+    dispatch(deleteItem({
+      id,
+      onSuccess:()=>{
+        enqueueSnackbar("Remove item successfully",{variant:"success"})
+      },
+      onFailure:(error:any)=>{
+        enqueueSnackbar(error,{variant:"error"});
+      }
+    }));
   };
 
   const handleSetToCheckout = (item: Item) => {
@@ -142,7 +150,7 @@ const CartTable: React.FC = () => {
                         src={row.pictureUrl}
                         alt="img"
                       />
-                      <Grid>
+                      <Grid item style={{width:"70%"}}>
                         <Grid>
                           <span className={classes.bookname}>
                             {row.productName}
@@ -153,7 +161,7 @@ const CartTable: React.FC = () => {
                     </Grid>
                   </TableCell>
                   <TableCell className={classes.textBold}>
-                    {row.price}
+                    ${row.price}
                   </TableCell>
                   <TableCell>
                     <Grid>
@@ -184,7 +192,7 @@ const CartTable: React.FC = () => {
                     </Grid>
                   </TableCell>
                   <TableCell className={classes.textBold}>
-                    {row.price * row.quantity}
+                    ${row.price * row.quantity}
                   </TableCell>
                   <TableCell>
                     <CloseIcon

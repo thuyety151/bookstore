@@ -8,15 +8,22 @@ import React from "react";
 import logo from "../../../assets/images/book-worm.png";
 import { Divider } from "@material-ui/core";
 import icon from "../../../assets/icons/menu-bar.svg";
+import { useHistory } from "react-router";
+import { ROUTE_HOME } from "../../../routers/types";
 
 const NavBarComponent: React.FC<{openSideBar:boolean,setOpenSidebar:any}> = ({openSideBar,setOpenSidebar}) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const handleOpenSideBar = () => {
     setOpenSidebar(!openSideBar)
   };
   const hanleSearch = (key: any) => {
     console.log(key);
   };
+  const gotoHomePage=()=>{
+history.push(ROUTE_HOME);
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
@@ -32,7 +39,7 @@ const NavBarComponent: React.FC<{openSideBar:boolean,setOpenSidebar:any}> = ({op
             {/* <MenuIcon /> */}
             <img src={icon} style={{ height: 30 }} alt="icon" />
           </IconButton>
-          <img src={logo} style={{ height: 64, justifySelf:"flex-start" }} alt="logo" />
+          <img src={logo} style={{ height: 64, justifySelf:"flex-start",cursor:"pointer" }} alt="logo" onClick={gotoHomePage}/>
           </div>
           {/* <List
             component="nav"

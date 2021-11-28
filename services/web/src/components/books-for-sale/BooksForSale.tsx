@@ -324,7 +324,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "50px 30px 0px 120px",
   },
   paper: {
-    maxWidth: "50%",
+    // maxWidth: "50%",
     borderRadius: 0,
     justifyContent: "space-between",
     alignItems: "center",
