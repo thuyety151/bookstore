@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,10 +14,16 @@ import { formatFullName } from "../../helper/format";
 import moment from "moment";
 import OrderStatus from "../../components/orderStatus/OrderStatus";
 import { generatePath, useHistory } from "react-router";
-import { ROUTE_ORDER_DETAIL } from "../../routers/types";
+import { ROUTE_ORDER_CREATE, ROUTE_ORDER_DETAIL } from "../../routers/types";
 import { Order } from "../../model/order";
 import { getOrderPagination } from "../../redux/actions/order/getActions";
 import EnhancedTableHead from "components/table/EnhancedTableHead";
+import { Button, Dialog, Toolbar } from "@material-ui/core";
+import DialogConfirm from "components/dialog/DialogConfirm";
+import Visibility from "@material-ui/icons/Visibility";
+import Edit from "@material-ui/icons/Edit";
+import Delete from "@material-ui/icons/Delete";
+import { deleteOrder } from "redux/actions/order/deleteActions";
 
 // interface Data {
 //   id: string;
@@ -51,39 +57,8 @@ const headCells: HeadCell[] = [
   { id: "date", numeric: true, disablePadding: false, label: "Date" },
   { id: "status", numeric: true, disablePadding: false, label: "Status" },
   { id: "total", numeric: true, disablePadding: false, label: "Total" },
+  { id: "action", numeric: true, disablePadding: false, label: "" },
 ];
-
-// function EnhancedTableHead(props: EnhancedTableProps) {
-//   const { classes, order, orderBy, onRequestSort } = props;
-//   return (
-//     <TableHead>
-//       <TableRow>
-//         {props.headCells.map((headCell) => (
-//           <TableCell
-//             key={headCell.id}
-//             align="left"
-//             padding="normal"
-//             sortDirection={orderBy === headCell.id ? order : false}
-//             className="primary"
-//           >
-//             <TableSortLabel
-//               active={orderBy === headCell.id}
-//               direction={orderBy === headCell.id ? order : "asc"}
-//               //   onClick={createSortHandler(headCell.id)}
-//             >
-//               {headCell.label}
-//               {orderBy === headCell.id ? (
-//                 <span className={classes.visuallyHidden}>
-//                   {order === "desc" ? "sorted descending" : "sorted ascending"}
-//                 </span>
-//               ) : null}
-//             </TableSortLabel>
-//           </TableCell>
-//         ))}
-//       </TableRow>
-//     </TableHead>
-//   );
-// }
 
 const OrderTable: React.FC = () => {
   const classes = useStyles();
@@ -95,6 +70,7 @@ const OrderTable: React.FC = () => {
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootStore) => state.orders.pagination);
   const history = useHistory();
+  const [modelToDelete,setModelToDelete] = useState<string|null>(null);
 
   useEffect(() => {
     dispatch(
@@ -132,10 +108,26 @@ const OrderTable: React.FC = () => {
       })
     );
   };
+  const handleCreate=()=>{
+    history.push(ROUTE_ORDER_CREATE);
+  }
+  const handleOpenDelete=(id:string)=>{
+    setModelToDelete(id)
+  }
+  const deleteOrder=()=>{
+    console.log("hand;e");
+    // dispatch(deleteOrder(modelToDelete,
+    //   onSuccess:()=>{
 
+    //   }))
+  }
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+      <Toolbar
+      >
+        <Button className={classes.btnAddNew} onClick={handleCreate}>Add New</Button>
+      </Toolbar>
         <TableContainer>
           <Table
             className={classes.table}
@@ -158,7 +150,7 @@ const OrderTable: React.FC = () => {
                     hover
                     tabIndex={-1}
                     key={row.id}
-                    onClick={() => navToDetail(row.id)}
+                   
                   >
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
@@ -173,6 +165,21 @@ const OrderTable: React.FC = () => {
                       <OrderStatus status={row.status} />
                     </TableCell>
                     <TableCell>{`$${row.total}`}</TableCell>
+                    <TableCell>
+                    <Button className="btn-view"
+                          startIcon={<Visibility />}
+                          onClick={() => navToDetail(row.id)}
+                        />
+                        <Button
+                          className="btn-edit"
+                          startIcon={<Edit />}
+                        />
+                        <Button
+                         className="btn-delete"
+                         onClick={()=>handleOpenDelete(row.id)}
+                          startIcon={<Delete />}
+                        />
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -189,6 +196,18 @@ const OrderTable: React.FC = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <Dialog  open={!!modelToDelete}
+        onClose={()=>setModelToDelete(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogConfirm 
+          modelId={modelToDelete}
+          loading={orderState.requesting}
+        title="Delete order"
+         message="Are you sure you want to delete this order?"
+         handleClose={()=>setModelToDelete(null)} 
+        onConfirm={deleteOrder} />
+      </Dialog>
     </div>
   );
 };
@@ -222,6 +241,12 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: "20px",
         margin: theme.spacing(0.5),
       },
+    },
+     btnAddNew: {
+      backgroundColor: "#e2edfe",
+      color: "#639dfa",
+      textTransform: "capitalize",
+      minWidth: "132px",
     },
   })
 );

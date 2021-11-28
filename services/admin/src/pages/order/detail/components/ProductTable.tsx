@@ -13,6 +13,7 @@ import EnhancedTableHead, {
 import Item from "model/item";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
+import { useParams } from "react-router";
 
 const headCells: HeadCell[] = [
   {
@@ -35,6 +36,7 @@ const headCells: HeadCell[] = [
 const ProductTable: React.FC = () => {
   const classes = useStyles();
   const orderState = useSelector((state: RootStore) => state.orders);
+const {orderId}= useParams() as any;
 
   return (
     <div>
@@ -51,7 +53,7 @@ const ProductTable: React.FC = () => {
             //   orderBy={orderBy}
             //   rowCount={orderState.data.length}
             headerCells={headCells}
-            loading={orderState.requesting}
+            loading={orderState.requesting && !orderId}
           />
           <TableBody>
             {orderState.currentOrder?.items?.map(

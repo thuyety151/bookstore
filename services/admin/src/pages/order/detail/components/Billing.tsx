@@ -5,10 +5,12 @@ import {
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../../redux/store";
 import { formatFullName } from "../../../../helper/format";
+import { useState } from "react";
 const Billing: React.FC = () => {
   // const classes = useStyles();
   // const dispatch = useDispatch();
   const order = useSelector((state: RootStore) => state.orders.currentOrder);
+  console.log(order.orderDate)
 
   return (
     <div>

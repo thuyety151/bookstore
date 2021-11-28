@@ -48,13 +48,15 @@ const ordersReducer = (
       return {
         ...state,
         requesting: false,
-        currentOrder: payload.data,
+        currentOrder: payload.data
       };
     case ACTION_NAMES.GET_DETAIL.GET_DETAIL_FAIL:
       return {
         ...state,
         requesting: false,
         message: payload.message,
+        currentOrder: {...payload.data,
+          orderDate:JSON.stringify(new Date())}
       };
     default:
       return state;

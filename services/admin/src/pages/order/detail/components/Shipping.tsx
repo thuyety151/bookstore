@@ -2,11 +2,12 @@ import { Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../../redux/store";
 import { formatFullName } from "../../../../helper/format";
+import { Order } from "model/order";
 const Shipping: React.FC = () => {
   // const classes = useStyles();
   // const dispatch = useDispatch();
-  const order = useSelector((state: RootStore) => state.orders.currentOrder);
-
+  const order :Order= useSelector((state: RootStore) => state.orders.currentOrder);
+  console.log("hhh",order)
   return (
     <div>
       <Typography className="text-gray">
