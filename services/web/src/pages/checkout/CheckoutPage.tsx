@@ -8,7 +8,7 @@ import {
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import BillDetailComponent from "../../components/checkout/BillDetail";
 import BillInfoComponent from "../../components/checkout/BillInfo";
@@ -43,7 +43,7 @@ function CheckoutPage() {
           history.push(ROUTE_PLACE_ORDER);
         },
         onFailure: (error: any) => {
-          enqueueSnackbar(error.message, { variant: "error" });
+          enqueueSnackbar(error, { variant: "error" });
         },
       })
     );
@@ -60,12 +60,10 @@ function CheckoutPage() {
         </Grid>
         <Grid item xs={4}>
           <BillInfoComponent />
-          <Link to="/place-order">
-            <PrimaryButton
-              text="Place order"
-              props={{ onClick: () => handleClick() }}
-            />
-          </Link>
+          <PrimaryButton
+            text="Place order"
+            props={{ onClick: () => handleClick() }}
+          />
         </Grid>
       </Grid>
     </div>

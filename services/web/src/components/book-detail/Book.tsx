@@ -96,7 +96,7 @@ export default function DetailBook() {
     if (!attribute) {
       setAttribute(attributeDb);
     }
-  });
+  }, [attribute, attributeDb]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const attributeId = event.target.value;

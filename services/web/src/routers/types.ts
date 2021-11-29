@@ -64,9 +64,9 @@ export type NavigationItem = {
 };
 
 export enum Predicate {
-  Popular="popular",
-  Newest="newest",
-  LowPrice="low-price",
-  HighPrice="high-price",
-  NewRelease="new-release"
+  Popular = "popular",
+  Newest = "newest",
+  LowPrice = "low-price",
+  HighPrice = "high-price",
+  NewRelease = "new-release",
 }

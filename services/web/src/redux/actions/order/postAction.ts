@@ -63,20 +63,22 @@ export const createOrder =
         order
       );
 
-      if (createDelivery.status === 200) {
-        console.log("Asds", {
-          id: response.data.value,
-          orderCode: createDelivery,
-        });
+      if (createDelivery.data.code === 200) {
         // TODO: Integrate API UPDATE ORDER CODE
         const resultUpdateOrderCode = await api.post(
           "/orders/update-order-code",
           {
-            id: response.data.value,
+            id: response.data.value[0].id,
             orderCode: createDelivery.data.data.order_code,
           }
         );
-        if (resultUpdateOrderCode.data.code === 400) {
+        if (resultUpdateOrderCode.data.isSuccess) {
+          props.onSuccess();
+          dispatch({
+            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+              .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
+          });
+        } else {
           props.onFailure(resultUpdateOrderCode.data.message);
           dispatch({
             type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
@@ -84,14 +86,7 @@ export const createOrder =
             message: resultUpdateOrderCode.data.message,
           });
         }
-
-        props.onSuccess();
-        dispatch({
-          type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-            .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
-        });
       } else {
-        console.log("cretae faile");
         props.onFailure(createDelivery.data.error);
         dispatch({
           type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER

@@ -28,7 +28,7 @@ export const getFee = (props: getFeeProps) => async (dispatch: any) => {
     coupon: null,
   };
   const response = await apiGHN.post("/v2/shipping-order/fee", data);
-  
+
   if (response.data.code === 200) {
     props.onSuccess(response.data.data.service_fee);
     dispatch({
@@ -44,4 +44,3 @@ export const getFee = (props: getFeeProps) => async (dispatch: any) => {
     });
   }
 };
-
