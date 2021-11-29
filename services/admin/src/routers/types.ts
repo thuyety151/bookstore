@@ -14,6 +14,7 @@ export const ROUTE_COUPONS = "/coupons";
 export const ROUTE_USERS = "/users";
 export const ROUTE_ORDER_DETAIL = "/orders/:orderId";
 export const ROUTE_PRODUCT_DETAIL = "/products/:bookId";
+export const ROUTE_PRODUCT_ADD = "/products/add";
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
 };

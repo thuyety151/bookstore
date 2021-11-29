@@ -9,6 +9,7 @@ import {
   ROUTE_ORDERS,
   ROUTE_ORDER_DETAIL,
   ROUTE_PRODUCTS,
+  ROUTE_PRODUCT_ADD,
   ROUTE_PRODUCT_DETAIL,
   ROUTE_SETTINGS,
   ROUTE_USERS,
@@ -91,6 +92,12 @@ export const routes: Route[] = [
   {
     path: ROUTE_PRODUCT_DETAIL,
     name: "Product",
+    component: ProductDetailPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_PRODUCT_ADD,
+    name: "Add product",
     component: ProductDetailPage,
     exact: true,
   },

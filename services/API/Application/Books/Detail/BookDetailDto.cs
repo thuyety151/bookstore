@@ -25,5 +25,6 @@ namespace Application.Books.Detail
         public string StockStatus { get; set; }
         public int TotalStock { get; set; }
         public bool IsPublic { get; set; }
+        public DateTime UpdateDate { get; set; }
     }
 }

@@ -38,6 +38,7 @@ export interface BookDetail {
     stockStatus: string;
     totalStock: number;
     isPublic: boolean;
+    updateDate: Date;
 }
 
 

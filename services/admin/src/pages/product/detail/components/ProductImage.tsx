@@ -41,7 +41,6 @@ export default function ProductImage({ media }: Props) {
   };
   const [mediaMain, setMediaMain] = useState(initMedia);
 
-  console.log("media 1:  " + mediaMain.url);
   useEffect(() => {
     setAddPhotoMode((media && media.length > 0) ? false: true);
     if(!isNewPhoto){

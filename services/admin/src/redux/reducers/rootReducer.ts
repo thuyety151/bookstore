@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import addressReducer from "./addressReducer";
 import attributeReducer from "./attributeReducer";
 import categoryReducer from "./categoryReducer";
+import languageReducer from "./languageReducer";
 import mediaReducer from "./mediaReducer";
 import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   books: productReducer,
   media: mediaReducer,
   attributes: attributeReducer,
-  categories: categoryReducer
+  categories: categoryReducer,
+  languages: languageReducer
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

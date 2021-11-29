@@ -38,8 +38,8 @@ import { getProductDetail } from "redux/actions/product/getActions";
 import { format, getYear } from "date-fns";
 import { getCategories } from "redux/actions/category/getAction";
 import { getAttributes } from "redux/actions/attribute/getAction";
-import { constants } from "os";
-import { useFormik } from 'formik';
+import { getLanguages } from "redux/actions/language/getAction";
+import { isNull } from "util";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -56,10 +56,10 @@ export default function ProductDetail() {
     (state: RootStore) => state.attributes.data
   );
   const categories = useSelector((state: RootStore) => state.categories.data);
+  const languages = useSelector((state: RootStore) => state.languages.data);
 
   const [isPublic, setPublic] = useState(false);
 
-  
   const handleDescriptionChange = (editorState: EditorState) => {
     setDescription(editorState);
   };
@@ -80,6 +80,10 @@ export default function ProductDetail() {
     event: React.ChangeEvent<{ value: unknown }>
   ) => {};
 
+  const handleLanguageChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {};
+
   const handlePublicChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setPublic(event.target.value as boolean);
   };
@@ -88,6 +92,8 @@ export default function ProductDetail() {
     image: true,
     category: true,
     public: true,
+    language: true,
+    publication: true,
   });
   const [openAttr, setOpenAttr] = useState(new Array(0).fill(false));
   console.log("opp", openAttr);
@@ -107,45 +113,47 @@ export default function ProductDetail() {
   };
 
   useEffect(() => {
-    dispatch(
-      getProductDetail({
-        id: bookId,
-        onSuccess: () => {},
-        onFailure: () => {},
-      })
-    );
-    setOpenAttr(new Array(bookDetail.attributes?.length).fill(true));
+    if(bookId){
+      dispatch(
+        getProductDetail({
+          id: bookId,
+          onSuccess: () => {},
+          onFailure: () => {},
+        })
+      );
+      setOpenAttr(new Array(bookDetail.attributes?.length).fill(true));
 
+      if (bookDetail?.description) {
+        setDescription(
+          EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+              convertFromHTML(bookDetail?.description).contentBlocks,
+              convertFromHTML(bookDetail?.description).entityMap
+            )
+          )
+        );
+      }
+  
+      if (bookDetail?.shortDescription) {
+        setShortDescription(
+          EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+              convertFromHTML(bookDetail?.shortDescription).contentBlocks,
+              convertFromHTML(bookDetail?.shortDescription).entityMap
+            )
+          )
+        );
+      }
+    }
+    
     dispatch(getAttributes());
     dispatch(getCategories());
+    dispatch(getLanguages());
     setPublic(bookDetail.isPublic);
-    if(bookDetail?.description){
-      setDescription(
-        EditorState.createWithContent(
-          ContentState.createFromBlockArray(
-            convertFromHTML(bookDetail?.description).contentBlocks,
-            convertFromHTML(bookDetail?.description).entityMap
-          )
-        )
-      );
-    }
-
-    if(bookDetail?.shortDescription){
-      setShortDescription(
-        EditorState.createWithContent(
-          ContentState.createFromBlockArray(
-            convertFromHTML(bookDetail?.shortDescription).contentBlocks,
-            convertFromHTML(bookDetail?.shortDescription).entityMap
-          )
-        )
-      );
-  
-    }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, bookId]);
 
-  
- 
   return (
     <div className={classes.root}>
       <Grid container direction="row" spacing={2}>
@@ -157,7 +165,7 @@ export default function ProductDetail() {
                 label="Book name"
                 variant="outlined"
                 fullWidth
-                value={bookDetail.name}
+                value={bookDetail.name ? bookDetail.name : null}
                 className={classes.text}
               ></TextField>
             </Grid>
@@ -201,6 +209,7 @@ export default function ProductDetail() {
               <Button variant="outlined" className={classes.btn}>
                 Add
               </Button>
+
               {bookDetail.attributes?.map((attr, index: number) => {
                 return (
                   <Collapse in={openAttr[index]} collapsedSize={50}>
@@ -279,13 +288,12 @@ export default function ProductDetail() {
                           </span>
                           <span className={classes.attribute}>
                             <p>Sale start date:</p>
-                            {getYear(new Date(attr.salePriceEndDate))}
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <Grid container justifyContent="space-around">
                                 <KeyboardDatePicker
                                   disableToolbar
                                   variant="inline"
-                                  format="MM/dd/yyyy"
+                                  format="dd/MM/yyyy"
                                   margin="normal"
                                   id="date-picker-inline"
                                   value={
@@ -306,13 +314,12 @@ export default function ProductDetail() {
 
                           <span className={classes.attribute}>
                             <p>Sale end date:</p>
-                            {/* {setSelectedDate(attr.salePriceEndDate)} */}
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <Grid container justifyContent="space-around">
                                 <KeyboardDatePicker
                                   disableToolbar
                                   variant="inline"
-                                  format="MM/dd/yyyy"
+                                  format="dd/MM/yyyy"
                                   margin="normal"
                                   id="date-picker-inline"
                                   value={
@@ -353,11 +360,150 @@ export default function ProductDetail() {
           </Grid>
 
           <Grid item container direction="row">
-            <Grid item xs = {6}>
-              <p>language</p>
+            <Grid item xs={6}>
+              <Grid item className={classes.collapse}>
+                <Collapse in={isOpen.language} collapsedSize={50}>
+                  <Paper variant="outlined" className={classes.collapsePaper}>
+                    <div className={classes.attribute}>
+                      <h3>Product language</h3>
+                      <span
+                        className="curso r-pointer icon"
+                        onClick={() =>
+                          setOpen({ ...isOpen, language: !isOpen.language })
+                        }
+                      >
+                        {isOpen.language ? <RemoveIcon /> : <AddIcon />}
+                      </span>
+                    </div>
+                    <Grid
+                      item
+                      container
+                      direction="column"
+                      className={classes.collapse}
+                    >
+                      <span className={classes.checkBox}>
+                        <FormControl component="fieldset">
+                          <FormGroup>
+                            {languages?.map((language) => (
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={false}
+                                    onChange={handleLanguageChange}
+                                    name={language.id}
+                                  />
+                                }
+                                label={language.name}
+                              />
+                            ))}
+                          </FormGroup>
+                        </FormControl>
+                      </span>
+                    </Grid>
+                  </Paper>
+                </Collapse>
+              </Grid>
             </Grid>
-            <Grid item xs = {6}>
-            <p>attribute</p>
+
+            <Grid item xs={6}>
+              <Grid item className={classes.collapse}>
+                <Collapse in={isOpen.publication} collapsedSize={50}>
+                  <Paper variant="outlined" className={classes.collapsePaper}>
+                    <div className={classes.attribute}>
+                      <h3>Product public infomation</h3>
+                      <span
+                        className="curso r-pointer icon"
+                        onClick={() =>
+                          setOpen({
+                            ...isOpen,
+                            publication: !isOpen.publication,
+                          })
+                        }
+                      >
+                        {isOpen.publication ? <RemoveIcon /> : <AddIcon />}
+                      </span>
+                    </div>
+                    <Grid
+                      item
+                      container
+                      direction="column"
+                      className={classes.collapse}
+                    >
+                      <span className={classes.attribute}>
+                        <p>Dimensions: </p>
+                        <TextField
+                          id="dimensions"
+                          type="text"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                          size="small"
+                          className={classes.inputInfor}
+                          value={bookDetail.dimensions ?? null}
+                        />
+                      </span>
+
+                      <span className={classes.attribute}>
+                        <p>Publisher:</p>
+                        <TextField
+                          id="publisher"
+                          type="text"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                          size="small"
+                          className={classes.inputInfor}
+                          value={bookDetail.publisher ?? null}
+                        />
+                      </span>
+
+                      <span className={classes.attribute}>
+                        <p>Publication country:</p>
+                        <TextField
+                          id="publicationCountry"
+                          type="text"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                          size="small"
+                          className={classes.inputInfor}
+                          value={bookDetail.publicationCountry ?? null}
+                        />
+                      </span>
+
+                      <span className={classes.attribute}>
+                            <p>Publication date:</p>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <Grid container justifyContent="flex-end">
+                                <KeyboardDatePicker
+                                  disableToolbar
+                                  variant="inline"
+                                  format="dd/MM/yyyy"
+                                  margin="normal"
+                                  id="date-picker-inline"
+                                  value={
+                                    getYear(
+                                      new Date(bookDetail.publicationDate)
+                                    ) === 1
+                                      ? null
+                                      : new Date(bookDetail.publicationDate)
+                                  }
+                                  onChange={handleDateChange}
+                                  KeyboardButtonProps={{
+                                    "aria-label": "change date",
+                                  }}
+                                />
+                              </Grid>
+                            </MuiPickersUtilsProvider>
+                          </span>
+
+                    </Grid>
+                  </Paper>
+                </Collapse>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -479,8 +625,8 @@ export default function ProductDetail() {
 
                   <span className={classes.icon}>
                     <TodayIcon /> Publish on:{" "}
-                    {bookDetail.publicationDate &&
-                      format(new Date(bookDetail.publicationDate), "PPP")}
+                    {bookDetail.updateDate &&
+                      format(new Date(bookDetail.updateDate), "PPP")}
                   </span>
                   <span className={classes.attribute}>
                     <Link href="#" className={classes.trash}>
@@ -541,7 +687,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(2, 2),
     },
     paper: {
-      marginBottom: "30px",
+      marginBottom: "20px",
     },
     richText: {
       "& .rdw-editor-main": {
@@ -553,11 +699,18 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "space-between",
     },
+    attributeInfo: {
+      display: "flex",
+      justifyContent: "end",
+    },
     label: {
       margin: "auto",
     },
     input: {
-      width: "350px",
+      width: "300px",
+    },
+    inputInfor: {
+      width: "250px",
     },
     btn: {
       marginTop: "10px",
@@ -592,6 +745,7 @@ const useStyles = makeStyles((theme: Theme) =>
     removeBtn: {
       backgroundColor: "#b32d2e",
       color: "#fff",
+      margin: "30px 0px"
     },
     text: {
       "& .MuiInputBase-input": {

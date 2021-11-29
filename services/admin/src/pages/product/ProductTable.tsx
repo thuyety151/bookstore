@@ -23,7 +23,7 @@ import { RootStore } from "redux/store";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import { ROUTE_PRODUCT_DETAIL } from "routers/types";
+import { ROUTE_PRODUCT_ADD, ROUTE_PRODUCT_DETAIL } from "routers/types";
 import { getAttributes } from "redux/actions/attribute/getAction";
 
 interface HeadCell {
@@ -128,9 +128,13 @@ export default function ProductTable() {
       })
     );
   }
+  const navToAdd = () => {
+    history.push(generatePath(ROUTE_PRODUCT_ADD));
+  }
 
   return (
     <div className={classes.root}>
+       <Button className={classes.btnAddNew} onClick={navToAdd}>Add New</Button>
       <Paper className={classes.paper}>
         <TableContainer>
           <Table
@@ -260,6 +264,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     price: {
       fontWeight: "bold",
+    },
+    btnAddNew: {
+      backgroundColor: "#e2edfe",
+      color: "#639dfa",
+      textTransform: "capitalize",
+      minWidth: "132px",
     },
   })
 );
