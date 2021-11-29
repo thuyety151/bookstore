@@ -38,6 +38,8 @@ import { getProductDetail } from "redux/actions/product/getActions";
 import { format, getYear } from "date-fns";
 import { getCategories } from "redux/actions/category/getAction";
 import { getAttributes } from "redux/actions/attribute/getAction";
+import { constants } from "os";
+import { useFormik } from 'formik';
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -57,39 +59,7 @@ export default function ProductDetail() {
 
   const [isPublic, setPublic] = useState(false);
 
-  useEffect(() => {
-    dispatch(
-      getProductDetail({
-        id: bookId,
-        onSuccess: () => {},
-        onFailure: () => {},
-      })
-    );
-    setOpenAttr(new Array(bookDetail.attributes?.length).fill(false));
-
-    dispatch(getAttributes());
-    dispatch(getCategories());
-    setPublic(bookDetail.isPublic);
-    setDescription(
-      EditorState.createWithContent(
-        ContentState.createFromBlockArray(
-          convertFromHTML(bookDetail?.description).contentBlocks,
-          convertFromHTML(bookDetail?.description).entityMap
-        )
-      )
-    );
-    setShortDescription(
-      EditorState.createWithContent(
-        ContentState.createFromBlockArray(
-          convertFromHTML(bookDetail?.shortDescription).contentBlocks,
-          convertFromHTML(bookDetail?.shortDescription).entityMap
-        )
-      )
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, bookId]);
-
+  
   const handleDescriptionChange = (editorState: EditorState) => {
     setDescription(editorState);
   };
@@ -135,10 +105,51 @@ export default function ProductDetail() {
     );
     console.log("Adsd", openAttr);
   };
+
+  useEffect(() => {
+    dispatch(
+      getProductDetail({
+        id: bookId,
+        onSuccess: () => {},
+        onFailure: () => {},
+      })
+    );
+    setOpenAttr(new Array(bookDetail.attributes?.length).fill(true));
+
+    dispatch(getAttributes());
+    dispatch(getCategories());
+    setPublic(bookDetail.isPublic);
+    if(bookDetail?.description){
+      setDescription(
+        EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            convertFromHTML(bookDetail?.description).contentBlocks,
+            convertFromHTML(bookDetail?.description).entityMap
+          )
+        )
+      );
+    }
+
+    if(bookDetail?.shortDescription){
+      setShortDescription(
+        EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            convertFromHTML(bookDetail?.shortDescription).contentBlocks,
+            convertFromHTML(bookDetail?.shortDescription).entityMap
+          )
+        )
+      );
+  
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, bookId]);
+
+  
+ 
   return (
     <div className={classes.root}>
       <Grid container direction="row" spacing={2}>
-        <Grid item xs={9} direction="column" spacing={2}>
+        <Grid item container xs={9} direction="column" spacing={2}>
           <Paper className={classes.paper}>
             <Grid item>
               <TextField
@@ -340,8 +351,17 @@ export default function ProductDetail() {
               />
             </Paper>
           </Grid>
+
+          <Grid item container direction="row">
+            <Grid item xs = {6}>
+              <p>language</p>
+            </Grid>
+            <Grid item xs = {6}>
+            <p>attribute</p>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={3} direction="column">
+        <Grid item container xs={3} direction="column">
           <Grid item>
             <Collapse in={isOpen.image} collapsedSize={50}>
               <Paper variant="outlined" className={classes.collapsePaper}>
