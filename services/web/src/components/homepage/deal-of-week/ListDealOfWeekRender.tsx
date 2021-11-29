@@ -6,9 +6,10 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import DealItem from "./DealItem";
 import "../bestseller/slideEffect.css";
 import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
-import { useHistory } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
+import { Predicate, ROUTE_BOOKS_FOR_SALE } from "../../../routers/types";
 const responsive = {
   0: { items: 1 },
   568: { items: 1 },
@@ -46,11 +47,11 @@ const SlideEffect: React.FC = () => {
   const classes = useStyles();
   const history= useHistory();
   const handleNavBook=(id?:string)=>{
-    if(id){
-      history.push(`/book/${id}`)
-    } else {
-      history.push(`/book`)
-    }
+    history.push(
+      generatePath(ROUTE_BOOKS_FOR_SALE, {
+        predicate:Predicate.Popular,
+      })
+    );
   }
 
   const dealOfWeek = useSelector((state: RootStore) => state.dealOfWeek.data);

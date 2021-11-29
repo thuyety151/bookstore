@@ -82,7 +82,7 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
               </Grid>
             ) : (
@@ -91,10 +91,10 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.salePrice}
+                  ${item.item.salePrice}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
               </Grid>
             )}

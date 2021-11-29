@@ -10,7 +10,7 @@ import { generatePath, useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBestSelling } from "../../../redux/actions/books/getBestSelling";
-import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
+import { Predicate, ROUTE_BOOKS_FOR_SALE, ROUTE_BOOK_DETAIL } from "../../../routers/types";
 import { Book } from "../../../model";
 const responsive = {
   0: { items: 1 },
@@ -29,16 +29,11 @@ const SlideEffect: React.FC = () => {
   }, [dispatch]);
 
   const handleNavBook = (book?: Book) => {
-    if (book?.id) {
-      history.push(
-        generatePath(ROUTE_BOOK_DETAIL, {
-          bookId: book?.id,
-          attributeId: book?.attributeId,
-        })
-      );
-    } else {
-      history.push(`/book`);
-    }
+    history.push(
+      generatePath(ROUTE_BOOKS_FOR_SALE, {
+        predicate:Predicate.Popular,
+      })
+    );
   };
 
   const items = state.data.map((item, index) => {

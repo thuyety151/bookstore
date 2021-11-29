@@ -31,6 +31,7 @@ import { sum } from "lodash";
 import { getServices } from "../../../redux/actions/delivery/getAction";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
+import { ServiceType } from "../../../redux/reducers/deliveryReducer";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -50,7 +51,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   const itemsToCheckout = useSelector(
     (state: RootStore) => state.cart.itemToCheckOut
   );
-  const [serviceType, setServiceType] = useState("");
+  const [serviceType, setServiceType] = useState<ServiceType>({} as any);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
   const orderState = useSelector((state: RootStore) => state.order);
@@ -60,12 +61,13 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     setChooseAddress(true);
   };
   const handleChangeServiceType = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<{ value: unknown }>
   ) => {
-    setServiceType(event.target.value as string);
+    setServiceType(deliveryState.services[event.target.value as number]);
+    console.log("Asds", serviceType.service_id);
     dispatch(
       getFee({
-        serviceId: parseInt(serviceType),
+        serviceType: serviceType,
         onSuccess: (fee) => {},
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -117,7 +119,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>{subTotal()}</span>
+                <span>${subTotal()}</span>
               </div>
             </Grid>
           </Paper>
@@ -127,24 +129,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           <Paper variant="outlined" className={classes.paper}>
             <div>
               <h3>Shipping</h3>
-              <Grid item className="row">
-                <RadioGroup
-                  value={serviceType}
-                  onChange={handleChangeServiceType}
-                >
-                  <span>Shipping</span>
-                  {deliveryState.services.map((service, index) => {
-                    return (
-                      <FormControlLabel
-                        key={index}
-                        value={service.service_id}
-                        control={<Radio />}
-                        label={service.short_name}
-                      />
-                    );
-                  })}
-                </RadioGroup>
-              </Grid>
               <span
                 className="cursor-pointer"
                 onClick={() =>
@@ -157,13 +141,31 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
                 {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
               </span>
             </div>
+            <Grid item className="row">
+                <RadioGroup
+                  value={serviceType}
+                  onChange={handleChangeServiceType}
+                >
+                  <span>Service types</span>
+                  {deliveryState.services.map((service, index) => {
+                    return (
+                      <FormControlLabel
+                        key={index}
+                        value={index}
+                        control={<Radio />}
+                        label={service.short_name}
+                      />
+                    );
+                  })}
+                </RadioGroup>
+              </Grid>
             <Grid item container direction="column">
-              <div className="row">
                 <span>Shipping to</span>
-                <span style={{ textAlign: "end" }}>
+                <br/>
+                <span>{defaultAddress.firstName} {defaultAddress.lastName} ({defaultAddress.phone})</span>
+                <span>
                   {formatAddress(defaultAddress)}
                 </span>
-              </div>
               <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>
               </div>
@@ -216,7 +218,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>{subTotal() + (orderState.fee || 0)}</h3>
+            <h3>${subTotal() + (orderState.fee || 0)}</h3>
           </div>
         </Paper>
       </Grid>

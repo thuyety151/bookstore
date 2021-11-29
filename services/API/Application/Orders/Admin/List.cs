@@ -32,7 +32,7 @@ namespace Application.Orders.Admin
                 _mapper = mapper;
                 _httpClient = new HttpClient()
                 {
-                        BaseAddress = new Uri("https://dev-online-gateway.ghn.vn"),
+                    BaseAddress = new Uri("https://dev-online-gateway.ghn.vn"),
                 };
             }
 
@@ -42,7 +42,7 @@ namespace Application.Orders.Admin
                     .Include(x => x.AddressToShip)
                     .Include(x => x.Items)
                     .Where(x => x.IsDeleted == false);
-                
+
                 //Get status from GHN API
                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
                 foreach (var order in orders)
@@ -59,16 +59,16 @@ namespace Application.Orders.Admin
                     var orderDetailGhn =
                         JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
 
-                    var statusGhn = (string) orderDetailGhn.data.status;
+                    var statusGhn = (string)orderDetailGhn.data.status;
 
                     order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
 
                 }
 
                 await _context.SaveChangesAsync();
-                
+
                 var orderDtos = orders.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
-                
+
                 return Result<PagedList<OrderDto>>.Success(
                     await PagedList<OrderDto>.CreatePage(orderDtos, request.Params.PageIndex, request.Params.PageSize));
             }

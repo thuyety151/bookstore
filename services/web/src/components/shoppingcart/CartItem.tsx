@@ -12,31 +12,45 @@ import CloseIcon from "@material-ui/icons/Close";
 import Item from "../../model/item";
 import { generatePath, useHistory } from "react-router-dom";
 import { ROUTE_BOOK_DETAIL } from "../../routers/types";
+import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
+import { deleteItem } from "../../redux/actions/cart/deleteAction";
 
-const CartItem: React.FC<{ item: Item; closeCart: void }> = (
+const CartItem: React.FC<{ item: Item; closeCart:any }> = (
   item,
   closeCart
 ) => {
   const classes = useStyles();
   const history = useHistory();
+const dispatch= useDispatch();
+const {enqueueSnackbar} = useSnackbar();
 
   const handleNavBook = () => {
+    // closeCart();
     history.push(
       generatePath(ROUTE_BOOK_DETAIL, {
         bookId: item.item.id,
         attributeId: item.item.attributeId,
       })
     );
-    // closeCart(false);
   };
-
+const removeItem=()=>{
+  dispatch(deleteItem({
+    id:item.item.id,
+    onSuccess:()=>{
+      enqueueSnackbar("Remove item successfully",{variant:"success"})
+    },
+    onFailure:(error:any)=>{
+      enqueueSnackbar(error,{variant:"error"});
+    }
+  }));
+}
   return (
     <div className={classes.root}>
       <Paper
         className={classes.paper}
         elevation={0}
         square
-        onClick={handleNavBook}
       >
         <Grid
           container
@@ -45,7 +59,7 @@ const CartItem: React.FC<{ item: Item; closeCart: void }> = (
           alignItems="flex-start"
           spacing={3}
         >
-          <Grid item>
+          <Grid item  onClick={handleNavBook}>
             <ButtonBase className={classes.image}>
               <img
                 className={classes.image}
@@ -54,7 +68,7 @@ const CartItem: React.FC<{ item: Item; closeCart: void }> = (
               />
             </ButtonBase>
           </Grid>
-          <Grid item xs container direction="column">
+          <Grid item xs container direction="column"  onClick={handleNavBook}>
             <Grid item>
               <Typography
                 gutterBottom
@@ -84,7 +98,7 @@ const CartItem: React.FC<{ item: Item; closeCart: void }> = (
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
               </Grid>
             ) : (
@@ -93,16 +107,16 @@ const CartItem: React.FC<{ item: Item; closeCart: void }> = (
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
               </Grid>
             )}
           </Grid>
           <Grid item className={classes.extension}>
-            <CloseIcon style={{ fontSize: 20 }} />
+            <CloseIcon style={{ fontSize: 20 }} onClick={removeItem}/>
           </Grid>
         </Grid>
       </Paper>
@@ -165,6 +179,9 @@ const useStyles = makeStyles((theme: Theme) =>
       cursor: "pointer",
       display: "flex",
       justifyContent: "space-between",
+      "& :hover":{
+        color:"red"
+      }
     },
     favorite: {
       "&:hover": {

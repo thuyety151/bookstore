@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import BestSellerComponent from "../../components/homepage/bestseller/BestSellerBanner";
 import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { RootStore } from "../../redux/store";
@@ -59,7 +60,9 @@ const ListBookForSale: React.FC = () => {
   const booksState = useSelector((state: RootStore) => state.books);
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const [pageIndex, setPageIndex] = useState(1);
-  const [sortType, setSortType] = useState(sortValue[0]);
+  const {predicate} = useParams() as any;
+  const [sortType, setSortType] = useState(sortValue.find(x=>x.predicate===predicate) || sortValue[0]);
+  console.log("pre",sortType)
 
   const rowsPerPage = () => {
     let itemInfo = pagination.pageIndex * pagination.pageSize;
@@ -154,8 +157,9 @@ const ListBookForSale: React.FC = () => {
             })}
           </Grid>
         </Grid>
-        <Grid container justifyContent="center">
+        <Grid container justifyContent="center" className={classes.pagination}>
           <Pagination
+          className={classes.pages}
             count={pagination.totalPage}
             shape="rounded"
             page={pageIndex}
@@ -179,8 +183,16 @@ const useStyles = makeStyles((theme: Theme) =>
     pagination: {
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-between",
+      justifyContent: "center",
+      marginTop:theme.spacing(5),
+      
     },
+    pages :{
+      "& .Mui-selected":{
+        backgroundColor:"#000 !important" ,
+        color:"#fff"
+      }
+    }
   })
 );
 export default ListBookForSale;

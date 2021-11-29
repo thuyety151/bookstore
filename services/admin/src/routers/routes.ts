@@ -7,11 +7,16 @@ import {
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
   ROUTE_ORDERS,
+  ROUTE_ORDER_CREATE,
+  ROUTE_ORDER_DETAIL,
+  ROUTE_ORDER_EDIT,
   ROUTE_PRODUCTS,
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
 import Example from "../pages/Example";
+import OrderPage from "../pages/order/OrderPage";
+import OrderEditPage from "../pages/order/detail/OrderEdit";
 
 export const routePage: Route[] = [
   {
@@ -55,7 +60,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_ORDERS,
     name: "Error",
-    component: Error404,
+    component: OrderPage,
     exact: true,
   },
   {
@@ -74,6 +79,24 @@ export const routes: Route[] = [
     path: ROUTE_USERS,
     name: "Error",
     component: Error404,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDER_DETAIL,
+    name: "Order",
+    component: OrderEditPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDER_CREATE,
+    name: "Create Order",
+    component: OrderEditPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDER_EDIT,
+    name: "Edit Order",
+    component: OrderEditPage,
     exact: true,
   },
 ];

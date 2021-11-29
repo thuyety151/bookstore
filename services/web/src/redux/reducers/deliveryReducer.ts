@@ -1,17 +1,20 @@
 import { NAME_ACTIONS } from "../constants/delivery/actionTypes";
 
+export type ServiceType = {
+  service_id: number;
+  short_name: string;
+  service_type_id: number;
+};
 export type DeliveryState = {
   requesting: boolean;
-  services: {
-    service_id: number;
-    short_name: string;
-    service_type_id: number;
-  }[];
+  services: ServiceType[];
+  currentService: ServiceType;
 };
 
 const initState: DeliveryState = {
   requesting: false,
   services: [] as any,
+  currentService: {} as any,
 };
 
 const deliveryReducer = (

@@ -4,7 +4,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { Button, CircularProgress, Grid } from "@material-ui/core";
+import { Button, CircularProgress, Grid, LinearProgress } from "@material-ui/core";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import CartItem from "./CartItem";
 import { useHistory } from "react-router";
@@ -52,13 +52,19 @@ const MainShoppingCart: React.FC<{
     history.push("/cart");
     setOpenCart(false);
   };
+  const handleCloseCart=()=>{
+    setOpenCart(false);
+  }
+  const handleCheckout=()=>{
+    
+  }
   const list = (anchor: Anchor) => (
     <div
       className={clsx(classes.list)}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {requesting && <CircularProgress disableShrink />}
+      {requesting && <LinearProgress  />}
       <Grid container>
         <Grid
           container
@@ -83,7 +89,7 @@ const MainShoppingCart: React.FC<{
           {data.map((item, index) => {
             return (
               <div key={index}>
-                <CartItem item={item} closeCart={setOpenCart} />
+                <CartItem item={item} closeCart={handleCloseCart} />
                 <Divider />
               </div>
             );
@@ -98,7 +104,7 @@ const MainShoppingCart: React.FC<{
           className={classes.title}
         >
           <span>Subtotal:</span>
-          <span>{subTotal()}</span>
+          <span>${subTotal()}</span>
         </Grid>
         <Grid
           item
@@ -128,6 +134,7 @@ const MainShoppingCart: React.FC<{
             style={{ backgroundColor: "#000", color: "#fff" }}
             fullWidth
             className={classes.btn}
+            onClick={handleCheckout}
           >
             Checkout
           </Button>

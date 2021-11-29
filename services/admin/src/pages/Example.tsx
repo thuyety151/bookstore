@@ -15,16 +15,15 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import { Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import OrderStatus, {
+  OrderStatusEnum,
+} from "../components/orderStatus/OrderStatus";
 interface Data {
   calories: number;
   carbs: number;
@@ -291,7 +290,11 @@ const Example: React.FC = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+        <p>Button Order status</p>
+        <OrderStatus status={OrderStatusEnum.Delivered} />
+        <OrderStatus status={OrderStatusEnum.ReadyToPick} />
         <EnhancedTableToolbar numSelected={selected.length} />
+        <p> table</p>
         <TableContainer>
           <Table
             className={classes.table}
@@ -336,6 +339,7 @@ const Example: React.FC = () => {
                         id={labelId}
                         scope="row"
                         padding="none"
+                        className="primary bolder"
                       >
                         {row.name}
                       </TableCell>
