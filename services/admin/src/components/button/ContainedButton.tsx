@@ -22,6 +22,7 @@ const ContainedButton: React.FC<CustomButtonProps> = (props) => {
       fullWidth
       className={classes.btn}
       {...props.props}
+      disableElevation
     >
       {props.text}
     </Button>

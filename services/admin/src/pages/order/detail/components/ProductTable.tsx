@@ -14,8 +14,6 @@ import Item from "model/item";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
 import { useParams } from "react-router";
-import OutlineButton from "components/button/OutlineButton";
-import ContainedButton from "components/button/ContainedButton";
 
 const headCells: HeadCell[] = [
   {
@@ -38,7 +36,7 @@ const headCells: HeadCell[] = [
 const ProductTable: React.FC = () => {
   const classes = useStyles();
   const orderState = useSelector((state: RootStore) => state.orders);
-const {orderId}= useParams() as any;
+  const { orderId } = useParams() as any;
 
   return (
     <div>
@@ -68,7 +66,7 @@ const {orderId}= useParams() as any;
                     // onClick={() => navToDetail(row.id)}
                   >
                     <TableCell align="center" padding="checkbox">
-                      <Grid container direction="row">
+                      <Grid container direction="row" alignItems="center">
                         <Avatar
                           variant="square"
                           src={item.pictureUrl}
@@ -98,7 +96,7 @@ const {orderId}= useParams() as any;
             >
               <TableCell colSpan={4} align="center" padding="checkbox">
                 <Grid container direction="row" justifyContent="flex-end">
-                  <Grid xs={4} className={classes.totalBill}>
+                  <Grid item xs={4} className={classes.totalBill}>
                     <Grid item className={classes.itemInline}>
                       <Typography>Items Subtotal:</Typography>
                       <Typography>
@@ -128,6 +126,8 @@ const {orderId}= useParams() as any;
                 </Grid>
               </TableCell>
             </TableRow>
+            {/*
+            shouldn't remove these code !!! 
             <TableRow
               hover
               tabIndex={-1}
@@ -142,16 +142,10 @@ const {orderId}= useParams() as any;
                         style: { width: "fit-content" },
                       }}
                     />
-                    <OutlineButton
-                      text="Apply"
-                      props={{
-                        style: { width: "fit-content" },
-                      }}
-                    />
                   </Grid>
                   <Grid item>
                     <ContainedButton
-                      text="Cal"
+                      text="Recalculate"
                       props={{
                         style: { width: "fit-content" },
                       }}
@@ -159,7 +153,7 @@ const {orderId}= useParams() as any;
                   </Grid>
                 </Grid>
               </TableCell>
-            </TableRow>
+            </TableRow> */}
           </TableBody>
         </Table>
       </TableContainer>
@@ -172,6 +166,30 @@ const {orderId}= useParams() as any;
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         /> */}
+      {/* Dialog view detail */}
+      {/* <Dialog
+        open={!!modelToViewDetail}
+        onClose={() => setModelToViewDetail(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle id="alert-dialog-title">
+          Order #{modelToViewDetail?.orderCode}
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setModelToViewDetail(null)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleEdit} color="primary" autoFocus>
+            Edit
+          </Button>
+        </DialogActions>
+      </Dialog> */}
     </div>
   );
 };

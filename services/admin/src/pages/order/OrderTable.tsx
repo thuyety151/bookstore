@@ -14,7 +14,7 @@ import { formatFullName } from "../../helper/format";
 import moment from "moment";
 import OrderStatus from "../../components/orderStatus/OrderStatus";
 import { generatePath, useHistory } from "react-router";
-import { ROUTE_ORDER_CREATE, ROUTE_ORDER_EDIT } from "../../routers/types";
+import { ROUTE_ORDER_EDIT } from "../../routers/types";
 import { Order } from "../../model/order";
 import { getOrderPagination } from "../../redux/actions/order/getActions";
 import EnhancedTableHead, {
@@ -27,13 +27,14 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Toolbar,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
 import OrderDetailContent from "./OrderDetailContent";
+import { useSnackbar } from "notistack";
+import { deleteOrder } from "redux/actions/order/deleteActions";
 
 const headCells: HeadCell[] = [
   {
@@ -88,6 +89,7 @@ const OrderTable: React.FC = () => {
   const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
   const [modelToViewDetail, setModelToViewDetail] = useState<Order | any>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(
@@ -114,38 +116,40 @@ const OrderTable: React.FC = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handleCreate = () => {
-    history.push(ROUTE_ORDER_CREATE);
-  };
+  // const handleCreate = () => {
+  //   history.push(ROUTE_ORDER_CREATE);
+  // };
   const handleOpenDelete = (id: string) => {
     setModelToDelete(id);
   };
-  const deleteOrder = () => {
-    console.log("hand;e");
-    // dispatch(deleteOrder(modelToDelete,
-    //   onSuccess:()=>{
-
-    //   }))
+  const handleDeleteOrder = () => {
+    dispatch(
+      deleteOrder({
+        id: modelToDelete || "",
+        onSuccess: () => {
+          enqueueSnackbar("Delete order successfully", { variant: "success" });
+          setModelToDelete(null);
+        },
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
   };
   const handleOpenDetail = (item: Order) => {
     setModelToViewDetail(item);
   };
 
-  const handleEdit = () => {
+  const handleEdit = (id?: string) => {
     history.push(
       generatePath(ROUTE_ORDER_EDIT, {
-        orderId: modelToViewDetail.id,
+        orderId: id || modelToViewDetail.id,
       })
     );
   };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Toolbar>
-          <Button className={classes.btnAddNew} onClick={handleCreate}>
-            Add New
-          </Button>
-        </Toolbar>
         <TableContainer>
           <Table
             className={classes.table}
@@ -184,7 +188,11 @@ const OrderTable: React.FC = () => {
                         startIcon={<Visibility />}
                         onClick={() => handleOpenDetail(row)}
                       />
-                      <Button className="btn-edit" startIcon={<Edit />} />
+                      <Button
+                        className="btn-edit"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(row.id)}
+                      />
                       <Button
                         className="btn-delete"
                         onClick={() => handleOpenDelete(row.id)}
@@ -220,7 +228,7 @@ const OrderTable: React.FC = () => {
           title="Delete order"
           message="Are you sure you want to delete this order?"
           handleClose={() => setModelToDelete(null)}
-          onConfirm={deleteOrder}
+          onConfirm={handleDeleteOrder}
         />
       </Dialog>
       {/* End dialog confirm delete */}
@@ -244,7 +252,7 @@ const OrderTable: React.FC = () => {
           <Button onClick={() => setModelToViewDetail(null)} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleEdit} color="primary" autoFocus>
+          <Button onClick={() => handleEdit()} color="primary" autoFocus>
             Edit
           </Button>
         </DialogActions>

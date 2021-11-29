@@ -25,7 +25,6 @@ const Billing: React.FC<BillingProps> = (props) => {
   const classes = useStyles();
   const { open, setOpen } = props;
   const order = useSelector((state: RootStore) => state.orders.currentOrder);
-  console.log(order.orderDate);
 
   return (
     <div>

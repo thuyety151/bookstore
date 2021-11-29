@@ -72,7 +72,7 @@ const CreateAddressForm: React.FC<{ onClose: () => void; address?: Address }> =
       );
     };
     return (
-      <Grid item container xs={12}>
+      <Grid item xs={12}>
         <Grid
           item
           container

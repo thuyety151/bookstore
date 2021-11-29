@@ -50,9 +50,15 @@ const OrderDetailContent: React.FC<Props> = (props) => {
     <div>
       <Grid container direction="column">
         <Typography className="bolder">Billing details</Typography>
-        {[streetAddress, wardName, districtName, provinceName]?.map((item) => {
-          return <Typography className="text-gray">{item}</Typography>;
-        })}
+        {[streetAddress, wardName, districtName, provinceName]?.map(
+          (item, index: number) => {
+            return (
+              <Typography key={`content-${index}`} className="text-gray">
+                {item}
+              </Typography>
+            );
+          }
+        )}
         <hr />
         <Typography className="bolder">Phone</Typography>
         <Typography className="bolder">{phone}</Typography>
@@ -77,7 +83,7 @@ const OrderDetailContent: React.FC<Props> = (props) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={item.id}
+                      key={`item-${index}`}
                       // onClick={() => navToDetail(row.id)}
                     >
                       <TableCell align="center" padding="checkbox">

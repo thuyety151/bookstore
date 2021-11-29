@@ -17,6 +17,14 @@ export const orderStatusOptions = [
     id: "ready-to-pick",
     value: "Ready to pick",
   },
+  {
+    id: "cancel",
+    value: "Cancel",
+  },
+  {
+    id: "undefined",
+    value: "--",
+  },
 ];
 
 const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
@@ -31,9 +39,7 @@ const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
       >
         <ContainedButton
           text={
-            status === OrderStatusEnum.Delivered
-              ? "Completed"
-              : "Pending payment"
+            orderStatusOptions.find((x) => x.value === status)?.value || "--"
           }
           props={{
             disabled: status === OrderStatusEnum.ReadyToPick,
