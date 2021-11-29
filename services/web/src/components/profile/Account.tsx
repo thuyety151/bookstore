@@ -13,7 +13,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountDetail from "./AccountDetail";
 import { userService } from "../../service/auth.service";
-import { useHistory } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import Address from "./address/AddressDashBoard";
 
 interface TabPanelProps {
@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function MyAccount() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const history = useHistory();
+  const history = createBrowserHistory({ forceRefresh: true });
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
