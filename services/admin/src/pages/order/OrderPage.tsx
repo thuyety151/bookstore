@@ -5,14 +5,11 @@ import {
   createStyles,
   makeStyles,
 } from "@material-ui/core";
-// import OutlineButton from "../../components/route/button/OutlineButton";
-// import OrderStatus, {
-//   OrderStatusEnum,
-// } from "../../components/route/orderStatus/OrderStatus";
 import OrderTable from "./OrderTable";
 
 const OrderPage: React.FC = () => {
   const classes = useStyles();
+  // const orderState = useSelector((state: RootStore) => state.orders.data);
 
   return (
     <div className={classes.root}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,26 +14,27 @@ import { formatFullName } from "../../helper/format";
 import moment from "moment";
 import OrderStatus from "../../components/orderStatus/OrderStatus";
 import { generatePath, useHistory } from "react-router";
-import { ROUTE_ORDER_DETAIL } from "../../routers/types";
+import { ROUTE_ORDER_EDIT } from "../../routers/types";
 import { Order } from "../../model/order";
 import { getOrderPagination } from "../../redux/actions/order/getActions";
-import EnhancedTableHead from "components/table/EnhancedTableHead";
-
-// interface Data {
-//   id: string;
-//   code: string;
-//   date: string;
-//   status: string;
-//   total: string;
-// }
-
-// type OrderTableType = "asc" | "desc";
-interface HeadCell {
-  disablePadding: boolean;
-  id: string;
-  label: string;
-  numeric: boolean;
-}
+import EnhancedTableHead, {
+  HeadCell,
+} from "components/table/EnhancedTableHead";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+} from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import Edit from "@material-ui/icons/Edit";
+import Delete from "@material-ui/icons/Delete";
+import DialogConfirm from "components/dialog/DialogConfirm";
+import OrderDetailContent from "./OrderDetailContent";
+import { useSnackbar } from "notistack";
+import { deleteOrder } from "redux/actions/order/deleteActions";
 
 const headCells: HeadCell[] = [
   {
@@ -48,71 +49,62 @@ const headCells: HeadCell[] = [
     disablePadding: true,
     label: "Order",
   },
-  { id: "date", numeric: true, disablePadding: false, label: "Date" },
-  { id: "status", numeric: true, disablePadding: false, label: "Status" },
-  { id: "total", numeric: true, disablePadding: false, label: "Total" },
+  {
+    id: "date",
+    numeric: true,
+    disablePadding: false,
+    label: "Date",
+    width: "10%",
+  },
+  {
+    id: "status",
+    numeric: true,
+    disablePadding: false,
+    label: "Status",
+    width: "10%",
+  },
+  {
+    id: "total",
+    numeric: true,
+    disablePadding: false,
+    label: "Total",
+    width: "10%",
+  },
+  {
+    id: "actions",
+    numeric: true,
+    disablePadding: false,
+    label: "",
+    width: "15%",
+  },
 ];
-
-// function EnhancedTableHead(props: EnhancedTableProps) {
-//   const { classes, order, orderBy, onRequestSort } = props;
-//   return (
-//     <TableHead>
-//       <TableRow>
-//         {props.headCells.map((headCell) => (
-//           <TableCell
-//             key={headCell.id}
-//             align="left"
-//             padding="normal"
-//             sortDirection={orderBy === headCell.id ? order : false}
-//             className="primary"
-//           >
-//             <TableSortLabel
-//               active={orderBy === headCell.id}
-//               direction={orderBy === headCell.id ? order : "asc"}
-//               //   onClick={createSortHandler(headCell.id)}
-//             >
-//               {headCell.label}
-//               {orderBy === headCell.id ? (
-//                 <span className={classes.visuallyHidden}>
-//                   {order === "desc" ? "sorted descending" : "sorted ascending"}
-//                 </span>
-//               ) : null}
-//             </TableSortLabel>
-//           </TableCell>
-//         ))}
-//       </TableRow>
-//     </TableHead>
-//   );
-// }
 
 const OrderTable: React.FC = () => {
   const classes = useStyles();
-  // const [order, setOrder] = React.useState<OrderTableType>("asc");
-  // const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const orderState = useSelector((state: RootStore) => state.orders);
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootStore) => state.orders.pagination);
   const history = useHistory();
+  const [modelToDelete, setModelToDelete] = useState<string | null>(null);
+  const [modelToViewDetail, setModelToViewDetail] = useState<Order | any>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(
       getOrderPagination({
-        pagination,
+        pagination: {
+          ...pagination,
+          pageIndex: page + 1,
+          pageSize: rowsPerPage,
+        },
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
-  }, [dispatch, pagination]);
-  // const handleRequestSort = (
-  //   event: React.MouseEvent<unknown>,
-  //   property: keyof Data
-  // ) => {
-  //   const isAsc = orderBy === property && order === "asc";
-  //   setOrder(isAsc ? "desc" : "asc");
-  //   setOrderBy(property);
-  // };
+    // eslint-disable-next-line
+  }, [dispatch, page, rowsPerPage]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -124,15 +116,37 @@ const OrderTable: React.FC = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const navToDetail = (orderId: string) => {
-    history.push(
-      generatePath(ROUTE_ORDER_DETAIL, {
-        orderId: orderId,
+  // const handleCreate = () => {
+  //   history.push(ROUTE_ORDER_CREATE);
+  // };
+  const handleOpenDelete = (id: string) => {
+    setModelToDelete(id);
+  };
+  const handleDeleteOrder = () => {
+    dispatch(
+      deleteOrder({
+        id: modelToDelete || "",
+        onSuccess: () => {
+          enqueueSnackbar("Delete order successfully", { variant: "success" });
+          setModelToDelete(null);
+        },
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
       })
     );
   };
+  const handleOpenDetail = (item: Order) => {
+    setModelToViewDetail(item);
+  };
 
+  const handleEdit = (id?: string) => {
+    history.push(
+      generatePath(ROUTE_ORDER_EDIT, {
+        orderId: id || modelToViewDetail.id,
+      })
+    );
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -154,12 +168,7 @@ const OrderTable: React.FC = () => {
             <TableBody>
               {orderState.data.map((row: Order, index: number) => {
                 return (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={row.id}
-                    onClick={() => navToDetail(row.id)}
-                  >
+                  <TableRow hover tabIndex={-1} key={row.id}>
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
                     </TableCell>
@@ -173,6 +182,23 @@ const OrderTable: React.FC = () => {
                       <OrderStatus status={row.status} />
                     </TableCell>
                     <TableCell>{`$${row.total}`}</TableCell>
+                    <TableCell>
+                      <Button
+                        className="btn-view"
+                        startIcon={<Visibility />}
+                        onClick={() => handleOpenDetail(row)}
+                      />
+                      <Button
+                        className="btn-edit"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(row.id)}
+                      />
+                      <Button
+                        className="btn-delete"
+                        onClick={() => handleOpenDelete(row.id)}
+                        startIcon={<Delete />}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -189,6 +215,48 @@ const OrderTable: React.FC = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      {/* Dialog confirm delete */}
+      <Dialog
+        open={!!modelToDelete}
+        onClose={() => setModelToDelete(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogConfirm
+          modelId={modelToDelete}
+          loading={orderState.requesting}
+          title="Delete order"
+          message="Are you sure you want to delete this order?"
+          handleClose={() => setModelToDelete(null)}
+          onConfirm={handleDeleteOrder}
+        />
+      </Dialog>
+      {/* End dialog confirm delete */}
+      {/* Dialog view detail */}
+      <Dialog
+        open={!!modelToViewDetail}
+        onClose={() => setModelToViewDetail(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle id="alert-dialog-title">
+          Order #{modelToViewDetail?.orderCode}
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+          <OrderDetailContent order={modelToViewDetail} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setModelToViewDetail(null)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => handleEdit()} color="primary" autoFocus>
+            Edit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
@@ -222,6 +290,12 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: "20px",
         margin: theme.spacing(0.5),
       },
+    },
+    btnAddNew: {
+      backgroundColor: "#e2edfe",
+      color: "#639dfa",
+      textTransform: "capitalize",
+      minWidth: "132px",
     },
   })
 );

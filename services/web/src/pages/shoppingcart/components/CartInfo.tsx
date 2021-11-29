@@ -119,7 +119,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>{subTotal()}</span>
+                <span>${subTotal()}</span>
               </div>
             </Grid>
           </Paper>
@@ -129,24 +129,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           <Paper variant="outlined" className={classes.paper}>
             <div>
               <h3>Shipping</h3>
-              <Grid item className="row">
-                <RadioGroup
-                  value={serviceType}
-                  onChange={handleChangeServiceType}
-                >
-                  <span>Shipping</span>
-                  {deliveryState.services.map((service, index) => {
-                    return (
-                      <FormControlLabel
-                        key={index}
-                        value={index}
-                        control={<Radio />}
-                        label={service.short_name}
-                      />
-                    );
-                  })}
-                </RadioGroup>
-              </Grid>
               <span
                 className="cursor-pointer"
                 onClick={() =>
@@ -159,13 +141,31 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
                 {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
               </span>
             </div>
+            <Grid item className="row">
+                <RadioGroup
+                  value={serviceType}
+                  onChange={handleChangeServiceType}
+                >
+                  <span>Service types</span>
+                  {deliveryState.services.map((service, index) => {
+                    return (
+                      <FormControlLabel
+                        key={index}
+                        value={index}
+                        control={<Radio />}
+                        label={service.short_name}
+                      />
+                    );
+                  })}
+                </RadioGroup>
+              </Grid>
             <Grid item container direction="column">
-              <div className="row">
                 <span>Shipping to</span>
-                <span style={{ textAlign: "end" }}>
+                <br/>
+                <span>{defaultAddress.firstName} {defaultAddress.lastName} ({defaultAddress.phone})</span>
+                <span>
                   {formatAddress(defaultAddress)}
                 </span>
-              </div>
               <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>
               </div>
@@ -218,7 +218,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>{subTotal() + (orderState.fee || 0)}</h3>
+            <h3>${subTotal() + (orderState.fee || 0)}</h3>
           </div>
         </Paper>
       </Grid>

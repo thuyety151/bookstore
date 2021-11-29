@@ -84,7 +84,7 @@ const BillInfo: React.FC = () => {
                     <span>
                       {item.productName} x{item.quantity}
                     </span>
-                    <span>{item.price * item.quantity}</span>
+                    <span>${item.price * item.quantity}</span>
                   </div>
                 );
               })}
@@ -107,11 +107,11 @@ const BillInfo: React.FC = () => {
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>{cart.subTotal}</span>
+                <span>${cart.subTotal}</span>
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
-                <span>{shippingFee}</span>
+                <span>${shippingFee}</span>
               </Grid>
             </Grid>
           </Paper>
@@ -186,7 +186,7 @@ const BillInfo: React.FC = () => {
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>97.99</h3>
+            <h3>$97.99</h3>
           </div>
         </Paper>
 

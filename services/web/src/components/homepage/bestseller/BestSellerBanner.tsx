@@ -30,7 +30,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
     }
   };
   return (
-    <div className={classes.root}>
+    // <div className={classes.root}>
       <Paper className={classes.paper} variant="outlined" square>
         <Grid
           container
@@ -82,7 +82,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
               </Grid>
             ) : (
@@ -91,10 +91,10 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  {item.item.salePrice}
+                  ${item.item.salePrice}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
-                  {item.item.price}
+                  ${item.item.price}
                 </Typography>
               </Grid>
             )}
@@ -111,7 +111,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
           </Grid>
         </Grid>
       </Paper>
-    </div>
+    // </div>
   );
 };
 
@@ -122,15 +122,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image: {
       // width: 230,
-      height: 230,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      margin: "auto",
+      maxHeight: "10rem",
+      width:"100%",
+      height:"auto"
+    },    paper: {
+      padding: theme.spacing(0,2),
+      // margin: "auto",
+      margin:theme.spacing(1,0),
       // maxWidth: 500,
       textAlign: "left",
+      height:"100%",
       "&:hover": {
         borderColor: "#000",
+        zIndex:1
       },
     },
     name: {

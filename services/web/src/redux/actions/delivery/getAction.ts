@@ -20,7 +20,7 @@ export const getServices = () => async (dispatch: any) => {
   if (serviceResponse.data.data) {
     dispatch({
       type: NAME_ACTIONS.GET_SERVICE.GET_SERVICE_SUCCESS,
-      data: serviceResponse.data.data,
+      data: serviceResponse.data.data.filter((x:any)=>x.short_name),
     });
   } else {
     dispatch({

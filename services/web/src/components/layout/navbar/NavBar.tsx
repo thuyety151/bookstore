@@ -4,25 +4,31 @@ import { makeStyles } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import { AppBar } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { List } from "@material-ui/core";
 import React from "react";
-import ListItemRender from "./ListItemRenderHeader";
 import logo from "../../../assets/images/book-worm.png";
 import { Divider } from "@material-ui/core";
 import icon from "../../../assets/icons/menu-bar.svg";
+import { useHistory } from "react-router";
+import { ROUTE_HOME } from "../../../routers/types";
 
 const NavBarComponent: React.FC<{openSideBar:boolean,setOpenSidebar:any}> = ({openSideBar,setOpenSidebar}) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const handleOpenSideBar = () => {
     setOpenSidebar(!openSideBar)
   };
   const hanleSearch = (key: any) => {
     console.log(key);
   };
+  const gotoHomePage=()=>{
+history.push(ROUTE_HOME);
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
         <Toolbar className={classes.toolbar}>
+          <div style={{display:"flex",alignItems:"center"}}>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -33,15 +39,15 @@ const NavBarComponent: React.FC<{openSideBar:boolean,setOpenSidebar:any}> = ({op
             {/* <MenuIcon /> */}
             <img src={icon} style={{ height: 30 }} alt="icon" />
           </IconButton>
-          <img src={logo} style={{ height: 64 }} alt="logo" />
-
-          <List
+          <img src={logo} style={{ height: 64, justifySelf:"flex-start",cursor:"pointer" }} alt="logo" onClick={gotoHomePage}/>
+          </div>
+          {/* <List
             component="nav"
             aria-labelledby="nested-list-subheader"
             className={classes.rootList}
           >
             <ListItemRender />
-          </List>
+          </List> */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

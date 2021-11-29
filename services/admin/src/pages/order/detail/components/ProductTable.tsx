@@ -13,6 +13,7 @@ import EnhancedTableHead, {
 import Item from "model/item";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
+import { useParams } from "react-router";
 
 const headCells: HeadCell[] = [
   {
@@ -35,6 +36,7 @@ const headCells: HeadCell[] = [
 const ProductTable: React.FC = () => {
   const classes = useStyles();
   const orderState = useSelector((state: RootStore) => state.orders);
+  const { orderId } = useParams() as any;
 
   return (
     <div>
@@ -51,7 +53,7 @@ const ProductTable: React.FC = () => {
             //   orderBy={orderBy}
             //   rowCount={orderState.data.length}
             headerCells={headCells}
-            loading={orderState.requesting}
+            loading={orderState.requesting && !orderId}
           />
           <TableBody>
             {orderState.currentOrder?.items?.map(
@@ -64,7 +66,7 @@ const ProductTable: React.FC = () => {
                     // onClick={() => navToDetail(row.id)}
                   >
                     <TableCell align="center" padding="checkbox">
-                      <Grid container direction="row">
+                      <Grid container direction="row" alignItems="center">
                         <Avatar
                           variant="square"
                           src={item.pictureUrl}
@@ -94,7 +96,7 @@ const ProductTable: React.FC = () => {
             >
               <TableCell colSpan={4} align="center" padding="checkbox">
                 <Grid container direction="row" justifyContent="flex-end">
-                  <Grid xs={4} className={classes.totalBill}>
+                  <Grid item xs={4} className={classes.totalBill}>
                     <Grid item className={classes.itemInline}>
                       <Typography>Items Subtotal:</Typography>
                       <Typography>
@@ -124,6 +126,34 @@ const ProductTable: React.FC = () => {
                 </Grid>
               </TableCell>
             </TableRow>
+            {/*
+            shouldn't remove these code !!! 
+            <TableRow
+              hover
+              tabIndex={-1}
+              // onClick={() => navToDetail(row.id)}
+            >
+              <TableCell colSpan={4} align="center">
+                <Grid container direction="row" justifyContent="space-between">
+                  <Grid item>
+                    <OutlineButton
+                      text="Add new"
+                      props={{
+                        style: { width: "fit-content" },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <ContainedButton
+                      text="Recalculate"
+                      props={{
+                        style: { width: "fit-content" },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </TableCell>
+            </TableRow> */}
           </TableBody>
         </Table>
       </TableContainer>
@@ -136,6 +166,30 @@ const ProductTable: React.FC = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         /> */}
+      {/* Dialog view detail */}
+      {/* <Dialog
+        open={!!modelToViewDetail}
+        onClose={() => setModelToViewDetail(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle id="alert-dialog-title">
+          Order #{modelToViewDetail?.orderCode}
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setModelToViewDetail(null)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleEdit} color="primary" autoFocus>
+            Edit
+          </Button>
+        </DialogActions>
+      </Dialog> */}
     </div>
   );
 };
@@ -187,6 +241,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     totalBill: {
       justifySelf: "flex-end",
+      padding: theme.spacing(2, 8, 2, 2),
+    },
+    buttonArea: {
+      display: "flex",
+      justifyContent: "space-between",
     },
   })
 );

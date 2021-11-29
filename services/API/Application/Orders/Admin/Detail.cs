@@ -45,26 +45,30 @@ namespace Application.Orders.Admin
                     .Select(x => _mapper.Map<OrderDto>(x)).SingleOrDefault();
 
                 //Get status from GHN API
-                _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
-                var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
-
-                var response = await _httpClient.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
+                if (order != null)
                 {
-                    var orderDetailGhn =
-                     JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                    _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
+                    var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
 
-                    var statusGhn = (string)orderDetailGhn.data.status;
+                    var response = await _httpClient.GetAsync(url);
 
-                    order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var orderDetailGhn =
+                         JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+
+                        var statusGhn = (string)orderDetailGhn.data.status;
+
+                        order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    // var orderDto = order.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
+
+                    return Result<OrderDto>.Success(order);
                 }
-
-                await _context.SaveChangesAsync();
-
-                // var orderDto = order.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
-
-                return Result<OrderDto>.Success(order);
+                return Result<OrderDto>.Failure("Not found");
             }
         }
     }

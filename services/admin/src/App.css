@@ -98,3 +98,15 @@ label {
 .m-x-8 {
   margin: 8px 0 !important;
 }
+.btn-view {
+  background-color: #f0f0f5 !important;
+  color: #a2a2a8 !important;
+}
+.btn-delete{
+  background-color: #e2edfe !important;
+  color: #639dfa !important;
+}
+.btn-edit{
+  background-color:#faded7 !important;
+                            color: #e13610 !important
+}

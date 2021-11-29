@@ -25,7 +25,7 @@ export interface HeadCell {
 }
 
 export interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>;
+  classes?: ReturnType<typeof useStyles>;
   numSelected?: number;
   onRequestSort?: (
     event: React.MouseEvent<unknown>,
@@ -50,7 +50,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
             className="primary"
-            width={headCell.width}
+            style={{ width: headCell.width }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -59,7 +59,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
+                <span className={classes?.visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}

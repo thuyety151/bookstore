@@ -7,7 +7,9 @@ import {
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
   ROUTE_ORDERS,
+  ROUTE_ORDER_CREATE,
   ROUTE_ORDER_DETAIL,
+  ROUTE_ORDER_EDIT,
   ROUTE_PRODUCTS,
   ROUTE_PRODUCT_ADD,
   ROUTE_PRODUCT_DETAIL,
@@ -19,6 +21,7 @@ import OrderPage from "../pages/order/OrderPage";
 import OrderDetailPage from "../pages/order/detail/OrderDetail";
 import ProductPage from "pages/product/ProductPage";
 import ProductDetailPage from "../pages/product/detail/ProductDetail";
+import OrderEditPage from "../pages/order/detail/OrderEdit";
 
 export const routePage: Route[] = [
   {
@@ -86,7 +89,19 @@ export const routes: Route[] = [
   {
     path: ROUTE_ORDER_DETAIL,
     name: "Order",
-    component: OrderDetailPage,
+    component: OrderEditPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDER_CREATE,
+    name: "Create Order",
+    component: OrderEditPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_ORDER_EDIT,
+    name: "Edit Order",
+    component: OrderEditPage,
     exact: true,
   },
   {

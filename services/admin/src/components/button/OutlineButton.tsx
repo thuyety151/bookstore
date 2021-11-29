@@ -1,7 +1,4 @@
-import { ClassNames } from "@emotion/react";
 import {
-  Grid,
-  Typography,
   Theme,
   createStyles,
   makeStyles,
@@ -24,6 +21,7 @@ const OutlineButton: React.FC<CustomButtonProps> = (props) => {
       color="primary"
       fullWidth
       className={classes.btn}
+      style={{ width: "fit-content" }}
       {...props.props}
     >
       {props.text}
