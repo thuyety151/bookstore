@@ -47,7 +47,6 @@ export default function ProductDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
   let { bookId } = useParams() as any;
-  console.log("book id params: " + bookId);
 
   const initialBookParams: BookDetail = {
     id: "",
@@ -95,7 +94,6 @@ export default function ProductDetail() {
 
   const [mediaState, setMediaState] = useState(bookParams.media);
 
-
   const [isOpen, setOpen] = useState({
     image: true,
     category: true,
@@ -104,23 +102,72 @@ export default function ProductDetail() {
     publication: true,
   });
   const [attributeSelected, setAttributeSelected] = useState("");
+  const [bookAttributeSelected, setBookAttributeSelected] = useState<
+    BookAttribute[]
+  >([]);
 
   const [openAttr, setOpenAttr] = useState(new Array(0).fill(false));
 
   const [categoryState, setCategoryState] = useState(new Array(0).fill(false));
 
+  const [attributeMenuState, setAttributeMenuState] = useState(
+    attributesSelectMenu
+  );
 
   //Function
-  function handleImageChange (media: any){
-    console.log("media ne: " + media);
+  function handleRemoveAttribute(attributeId: string) {
+    setBookAttributeSelected(
+      bookAttributeSelected.filter((x) => x.id !== attributeId)
+    );
+    const attributeToReturn = attributesSelectMenu.find(
+      (x) => x.id === attributeId
+    );
+    if (attributeToReturn) {
+      setAttributeMenuState((attributeMenuState) => [
+        ...attributeMenuState,
+        attributeToReturn,
+      ]);
+    }
+  }
+  function handleAddAttribute() {
+    let attributeSelectedItem = attributeMenuState.find(
+      (x) => x.id === attributeSelected
+    );
+
+    if (attributeSelectedItem) {
+      const newAttribute: BookAttribute = {
+        id: attributeSelectedItem.id,
+        name: attributeSelectedItem.name,
+        price: 0,
+        salePrice: 0,
+        totalStock: 0,
+        salePriceStartDate: new Date(),
+        salePriceEndDate: new Date(),
+      };
+      setBookAttributeSelected((bookAttributeSelected) => [
+        ...bookAttributeSelected,
+        newAttribute,
+      ]);
+      setAttributeMenuState(
+        attributeMenuState.filter((x) => x.id !== newAttribute.id)
+      );
+    }
+
+    setOpenAttr(new Array(bookAttributeSelected.length + 1).fill(true));
+    setBooksParams({
+      ...bookParams,
+      attributes: bookAttributeSelected,
+    });
+  }
+  function handleImageChange(media: any) {
     setMediaState(media);
-  } 
+  }
   const handleDescriptionChange = (editorState: EditorState) => {
     setDescription(editorState);
     setBooksParams({
       ...bookParams,
       description: convertToHTML(description.getCurrentContent()),
-    })
+    });
   };
 
   const handleShortDescriptionChange = (editorState: EditorState) => {
@@ -128,7 +175,7 @@ export default function ProductDetail() {
     setBooksParams({
       ...bookParams,
       shortDescription: convertToHTML(shortDescription.getCurrentContent()),
-    })
+    });
   };
 
   const handleAttributeChange = (
@@ -137,32 +184,32 @@ export default function ProductDetail() {
     setAttributeSelected(event.target.value as string);
   };
 
-  function updateCategoryState(categoryId: string, check: boolean){
-    setCategoryState(categories.map((category, index) => {
-      return category.id === categoryId ? check : categoryState[index];
-    }));
+  function updateCategoryState(categoryId: string, check: boolean) {
+    setCategoryState(
+      categories.map((category, index) => {
+        return category.id === categoryId ? check : categoryState[index];
+      })
+    );
   }
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>)=> {
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateCategoryState(event.target.name, event.target.checked);
   };
 
-  const handleLanguageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if(event.target.checked){
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
       setBooksParams({
         ...bookParams,
-        languageId: event.target.name
-      })
+        languageId: event.target.name,
+      });
     }
   };
 
   const handlePublicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBooksParams({
       ...bookParams,
-      isPublic: event.target.checked
-    })
+      isPublic: event.target.checked,
+    });
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -184,27 +231,25 @@ export default function ProductDetail() {
       ...bookParams,
       [event.target.name]: value,
     });
-    console.log("book params:" + JSON.stringify(bookParams));
   }
 
   const handleSubmit = () => {
     const categoryIdsStateCheckList = categories.filter((category, index) => {
-      return categoryState[index] === true
-    })
-    const categoryIdsCheckList : string[] = categoryIdsStateCheckList.map(x => x.id);
+      return categoryState[index] === true;
+    });
+    const categoryIdsCheckList: string[] = categoryIdsStateCheckList.map(
+      (x) => x.id
+    );
 
     setBooksParams({
       ...bookParams,
       categoryIds: categoryIdsCheckList,
       description: convertToHTML(description.getCurrentContent()),
-      shortDescription: convertToHTML(shortDescription.getCurrentContent())
-    })
+      shortDescription: convertToHTML(shortDescription.getCurrentContent()),
+    });
 
-   
-
-    console.log("book params: "+ JSON.stringify(bookParams));
-  }
-
+    console.log("book params: " + JSON.stringify(bookParams));
+  };
 
   //Effect
   useEffect(() => {
@@ -212,13 +257,25 @@ export default function ProductDetail() {
       dispatch(
         getProductDetail({
           id: bookId,
-          onSuccess: (bookDetail:any) => {
-            setOpenAttr(new Array(bookDetail.attributes?.length).fill(true));
+          onSuccess: (bookDetail: any) => {
             setBooksParams(bookDetail);
-            setCategoryState(categories.map((category, index) => {
-              return bookParams.categoryIds?.includes(category.id) ? true : false;
-            }));
+            setCategoryState(
+              categories.map((category, index) => {
+                return bookParams.categoryIds?.includes(category.id)
+                  ? true
+                  : false;
+              })
+            );
             setMediaState(bookDetail.media);
+            setBookAttributeSelected(bookDetail.attributes);
+            setOpenAttr(new Array(bookAttributeSelected.length).fill(true));
+            setAttributeMenuState(
+              attributeMenuState.filter((attr) => {
+                return !bookAttributeSelected
+                  .map((x) => x.id)
+                  .includes(attr.id);
+              })
+            );
             if (bookDetail?.description) {
               setDescription(
                 EditorState.createWithContent(
@@ -229,7 +286,7 @@ export default function ProductDetail() {
                 )
               );
             }
-      
+
             if (bookDetail?.shortDescription) {
               setShortDescription(
                 EditorState.createWithContent(
@@ -244,20 +301,19 @@ export default function ProductDetail() {
           onFailure: () => {},
         })
       );
-      
-      // setOpenAttr(new Array(bookDetail.attributes?.length).fill(true));
-      // setBooksParams(bookDetail);
-      // setCategoryState(categories.map((category, index) => {
-      //   return bookParams.categoryIds?.includes(category.id) ? true : false;
-      // }));
-
-     
     }
 
-    dispatch(getAttributes());
+    dispatch(
+      getAttributes({
+        onSuccess: (attribute: any) => {
+          setAttributeMenuState(attribute);
+        },
+        onFailure: () => {},
+      })
+    );
     dispatch(getCategories());
     dispatch(getLanguages());
-  
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookId]);
 
@@ -310,16 +366,21 @@ export default function ProductDetail() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {attributesSelectMenu?.map((attr) => (
+                  {console.log("attr menu: " + attributeMenuState)}
+                  {attributeMenuState?.map((attr) => (
                     <MenuItem value={attr.id}>{attr.name}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              <Button variant="outlined" className={classes.btn}>
+              <Button
+                variant="outlined"
+                className={classes.btn}
+                onClick={handleAddAttribute}
+              >
                 Add
               </Button>
 
-              {bookParams.attributes?.map(
+              {bookAttributeSelected?.map(
                 (attr: BookAttribute, index: number) => {
                   return (
                     <Collapse in={openAttr[index]} collapsedSize={50}>
@@ -353,7 +414,7 @@ export default function ProductDetail() {
                           className={classes.collapse}
                           spacing={4}
                         >
-                          <Grid item xs={6} direction="column">
+                          <Grid item xs={6}>
                             <span className={classes.attribute}>
                               <p>Price ($):</p>
                               <TextField
@@ -380,12 +441,16 @@ export default function ProductDetail() {
                               />
                             </span>
 
-                            <Button size="small" className={classes.removeBtn}>
+                            <Button
+                              size="small"
+                              className={classes.removeBtn}
+                              onClick={() => handleRemoveAttribute(attr.id)}
+                            >
                               Remove
                             </Button>
                           </Grid>
 
-                          <Grid item xs={6} direction="column">
+                          <Grid item xs={6}>
                             <span className={classes.attribute}>
                               <p>Sale price ($):</p>
                               <TextField
@@ -500,7 +565,11 @@ export default function ProductDetail() {
                               <FormControlLabel
                                 control={
                                   <Checkbox
-                                    checked={(language.id === bookParams.languageId) ? true : false}
+                                    checked={
+                                      language.id === bookParams.languageId
+                                        ? true
+                                        : false
+                                    }
                                     onChange={handleLanguageChange}
                                     name={language.id}
                                   />
@@ -643,7 +712,10 @@ export default function ProductDetail() {
                   direction="column"
                   className={classes.collapse}
                 >
-                  <ProductImage media={mediaState} changeImage={handleImageChange}/>
+                  <ProductImage
+                    media={mediaState}
+                    changeImage={handleImageChange}
+                  />
                 </Grid>
               </Paper>
             </Collapse>
@@ -673,7 +745,6 @@ export default function ProductDetail() {
                     <FormControl component="fieldset">
                       <FormGroup>
                         {categories?.map((category, i) => (
-                       
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -720,7 +791,7 @@ export default function ProductDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={(bookParams.isPublic === true) ? true : false}
+                          checked={bookParams.isPublic === true ? true : false}
                           onChange={handlePublicChange}
                           name="published"
                           size="small"
@@ -751,7 +822,11 @@ export default function ProductDetail() {
                     <Link href="#" className={classes.trash}>
                       Move to trash
                     </Link>
-                    <Button variant="contained" className={classes.btnBlue} onClick={handleSubmit}>
+                    <Button
+                      variant="contained"
+                      className={classes.btnBlue}
+                      onClick={handleSubmit}
+                    >
                       Update
                     </Button>
                   </span>
@@ -776,9 +851,9 @@ const useStyles = makeStyles((theme: Theme) =>
     formControl: {
       margin: "5px 5px 5px 50px",
       minWidth: 200,
-      "& .MuiSelect-select": {
-        maxHeight: "10px",
-      },
+      "& .MuiInputBase-formControl" : {
+        maxHeight: "40px",
+      }
     },
     collapsePaper: {
       borderRadius: 0,
@@ -790,7 +865,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     collapsePaperAttr: {
-      margin: "0px 50px",
+      margin: "10px 50px",
       borderRadius: 0,
       justifyContent: "space-between",
       alignItems: "center",
@@ -832,7 +907,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "250px",
     },
     btn: {
-      marginTop: "10px",
+      marginTop: "8px",
       color: "#135e96",
       borderColor: "#135e96",
     },
