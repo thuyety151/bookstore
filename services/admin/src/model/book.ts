@@ -30,6 +30,7 @@ export interface BookDetail {
     authorId: string;
     authorName: string;
     attributes: BookAttribute[];
+    languageId: string;
     language: string;
     dimensions: string;
     publicationDate: Date;
@@ -39,23 +40,6 @@ export interface BookDetail {
     totalStock: number;
     isPublic: boolean;
     updateDate: Date;
-}
-
-
-export interface BookParams {
-    id: string;
-    name: string;
-    shortDescription: string;
-    description: string;
-    authorId: string;
-    attributes: BookAttribute[];
-    languageId: string;
-    dimensions: string;
-    publicationDate: Date;
-    publisher: string;
-    publicationCountry: string;
-    isPublic: boolean;
-    mainMediaId: string;
     categoryIds: string[];
-    
 }
+

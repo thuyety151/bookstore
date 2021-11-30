@@ -10,7 +10,7 @@ export type getPaginationType = {
 
 export type getProductDetailType = {
     id : string,
-    onSuccess : () => void;
+    onSuccess : (data:any) => void;
     onFailure: (error: any) => void;
 }
 
@@ -51,7 +51,7 @@ export const getProductDetail = (props : getProductDetailType) => async (dispatc
             type: ACTION_NAMES.GET_PRODUCT_DETAIL.GET_PRODUCT_DETAIL_SUCCESS,
             data: response.data.value
         });
-        props.onSuccess();
+        props.onSuccess(response.data.value as any);
     }
     else{
         dispatch({

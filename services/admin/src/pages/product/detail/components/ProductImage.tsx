@@ -25,8 +25,9 @@ const useStyles = makeStyles({
 });
 interface Props {
   media: Media[];
+  changeImage: (image : any) => void;
 }
-export default function ProductImage({ media }: Props) {
+export default function ProductImage({ media, changeImage }: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   let { data } = useSelector((state: RootStore) => state.media);
@@ -54,27 +55,31 @@ export default function ProductImage({ media }: Props) {
   },[media, data]);
 
   function handleImageUpload(file: Blob) {
-    console.log(file);
     dispatch(
       addPhoto({
         file: file,
-        onSuccess: () => {},
+        onSuccess: () => {
+          changeImage(new Array(1).fill(data));
+          setAddPhotoMode(false);
+          setNewPhoto(true);
+        },
         onFailure: () => {},
       })
     );
-    setAddPhotoMode(false);
-    setNewPhoto(true);
+   
   }
 
   function handleDeleteImage() {
     dispatch(
       deletePhoto({
         id: data.id,
-        onSuccess: () => {},
+        onSuccess: () => {
+          setAddPhotoMode(true);
+        },
         onFailure: () => {},
       })
     );
-    setAddPhotoMode(true);
+   
   }
 
   return (

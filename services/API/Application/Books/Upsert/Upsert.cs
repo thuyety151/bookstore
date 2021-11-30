@@ -89,10 +89,10 @@ namespace Application.Books.Upsert
                     }
 
                     //Add main photo
-                    if (!(string.IsNullOrWhiteSpace(request.BookParams.MainMediaId)))
+                    if (request.BookParams.Media.Any())
                     {
-                        var photo = _context.Media.FirstOrDefault(
-                            x => x.Id == request.BookParams.MainMediaId);
+                        var photo = _context.Media.FirstOrDefault(x =>
+                            x.Id == request.BookParams.Media.FirstOrDefault().Id);
 
                         if (photo != null)
                         {
@@ -185,10 +185,10 @@ namespace Application.Books.Upsert
                     
                                                                                                     
                     //Add main photo                                                              
-                    if (!(string.IsNullOrWhiteSpace(request.BookParams.MainMediaId)))             
+                    if (request.BookParams.Media.Any() && !bookToUpdate.Media.Equals(request.BookParams.Media))          
                     {                                                                             
                         var photo = _context.Media.FirstOrDefault(                                
-                            x => x.Id == request.BookParams.MainMediaId);                         
+                            x => x.Id == request.BookParams.Media.FirstOrDefault().Id);                         
                                                                                 
                         if (photo != null)                                                        
                         {                                                                         

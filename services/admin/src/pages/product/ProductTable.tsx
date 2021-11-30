@@ -25,6 +25,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { ROUTE_PRODUCT_ADD, ROUTE_PRODUCT_DETAIL } from "routers/types";
 import { getAttributes } from "redux/actions/attribute/getAction";
+import {createBrowserHistory} from "history";
 
 interface HeadCell {
   disablePadding: boolean;
@@ -87,6 +88,7 @@ export default function ProductTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const historyForAdd  = createBrowserHistory({ forceRefresh: true });
 
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const booksState = useSelector((state: RootStore) => state.books);
@@ -129,7 +131,7 @@ export default function ProductTable() {
     );
   }
   const navToAdd = () => {
-    history.push(generatePath(ROUTE_PRODUCT_ADD));
+    historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
   }
 
   return (

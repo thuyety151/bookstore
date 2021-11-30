@@ -18,7 +18,7 @@ namespace Application.Books.Upsert
         public DateTime PublicationDate { get; set; }
         public string Publisher { get; set; }
         public string PublicationCountry { get; set; }
-        public string MainMediaId { get; set; }
+        public ICollection<Media> Media { get; set; }
         public List<string> CategoryIds { get; set; }
         public List<BookAttribute> Attributes { get; set; }
         

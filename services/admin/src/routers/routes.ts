@@ -18,7 +18,6 @@ import {
 } from "./types";
 import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
-import OrderDetailPage from "../pages/order/detail/OrderDetail";
 import ProductPage from "pages/product/ProductPage";
 import ProductDetailPage from "../pages/product/detail/ProductDetail";
 import OrderEditPage from "../pages/order/detail/OrderEdit";
