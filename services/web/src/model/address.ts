@@ -38,3 +38,33 @@ export type Address = {
   provinceName: string;
   isMain: boolean;
 };
+
+export type InputValidation = {
+  value: any;
+  onBlur: boolean;
+  ruleNames: string[];
+};
+export type AddressFormValidationSchema = {
+  id?: string;
+  firstName: InputValidation;
+  lastName: InputValidation;
+  phoneNumber: InputValidation;
+  appartmentNumber: InputValidation;
+  province: {
+    id: number;
+    name: string;
+    code: string;
+  };
+  district: {
+    id: number;
+    name: string;
+    code: string;
+  };
+  ward: {
+    id: number;
+    name: string;
+    code: string;
+  };
+  street: string;
+  isDefault: boolean;
+};

@@ -1,9 +1,11 @@
+import { sum } from "lodash";
 import Item from "../../model/item";
 import { NAME_ACTIONS } from "../constants/order/actionTypes";
+import store from "../store";
 import { ServiceType } from "./deliveryReducer";
 
 export type OrderState = {
-  requesting: Boolean;
+  requesting: boolean;
   success: boolean;
   message: string;
   data: Item[];
@@ -19,6 +21,12 @@ const initState: OrderState = {
   fee: 0,
   note: null,
   currentService: {} as any,
+};
+
+export const total = (items: Item[]) => {
+  const fee = store.getState().order.fee || 0;
+
+  return sum(items.map((x) => x.quantity * x.price)) + fee;
 };
 
 const orderReducer = (

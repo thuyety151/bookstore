@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { RootStore } from "../../redux/store";
 import { sum } from "lodash";
+import { ROUTE_CHECK_OUT } from "../../routers/types";
 
 type Anchor = "left" | "right";
 
@@ -58,7 +59,13 @@ const MainShoppingCart: React.FC<{
   const handleCloseCart = () => {
     setOpenCart(false);
   };
-  const handleCheckout = () => {};
+
+  const handleCheckout = () => {
+    setOpenCart(false);
+    
+    history.push(ROUTE_CHECK_OUT);
+  };
+
   const list = (anchor: Anchor) => (
     <div
       className={clsx(classes.list)}

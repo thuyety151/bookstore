@@ -10,11 +10,14 @@ import {
 } from "@material-ui/core";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
   const cartState = useSelector((state: RootStore) => state.cart);
   const addressState = useSelector((state: RootStore) => state.address);
+  const { orderCode } = useParams() as any;
+  const orderState = useSelector((state: RootStore) => state.order);
   const {
     appartmentNumber,
     streetAddress,
@@ -46,7 +49,7 @@ const PlaceOrderPage: React.FC = () => {
               <Grid item>
                 <Typography>Order number:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  1779
+                  {orderCode}
                 </Typography>
               </Grid>
               <Grid item>
@@ -58,13 +61,13 @@ const PlaceOrderPage: React.FC = () => {
               <Grid item>
                 <Typography>Total:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  {cartState.subTotal}
+                  {cartState.subTotal + (orderState.fee || 0)}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography>Payment method:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  Giao Hang Nhanh
+                  Cash on delivery
                 </Typography>
               </Grid>
             </Grid>
@@ -105,7 +108,7 @@ const PlaceOrderPage: React.FC = () => {
                   Shipping:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  Free shipping
+                  ${orderState.fee}
                 </Typography>
               </Grid>
               <Grid item container justifyContent="space-between">
@@ -113,7 +116,7 @@ const PlaceOrderPage: React.FC = () => {
                   Payment Method:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  Direct bank transfer
+                  Cash on delivery
                 </Typography>
               </Grid>
             </Grid>

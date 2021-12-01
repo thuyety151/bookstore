@@ -1,8 +1,11 @@
 import apiGHN from "../../../boot/apiGHN";
+import api from "../../../boot/axios";
 import { shopAddress } from "../../../mocks/shopInfo";
 import { Address } from "../../../model/address";
 import { NAME_ACTIONS } from "../../constants/delivery/actionTypes";
+import { NAME_ACTIONS as ADDRESS_ACTIONS } from "../../constants/address/actionTypes";
 import store from "../../store";
+import { getDefaultAddress } from "../address/getAction";
 
 export type GetServiceProps = {
   onSuccess: (firstService: any) => void;
@@ -12,7 +15,18 @@ export const getServices =
   (props: GetServiceProps) => async (dispatch: any) => {
     dispatch({ type: NAME_ACTIONS.GET_SERVICE.GET_SERVICE });
 
-    const currentAddress = store.getState().address.currentAddress as Address;
+    let currentAddress = store.getState().address.currentAddress as Address;
+
+    if (!currentAddress.districtId) {
+      const response = await api.get("/addresses/get-default");
+      if (response.data) {
+        currentAddress = response.data?.value;
+        dispatch({
+          type: ADDRESS_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
+          data: response.data?.value,
+        });
+      }
+    }
 
     const serviceResponse = await apiGHN.post(
       "/v2/shipping-order/available-services",
