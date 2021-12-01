@@ -114,7 +114,59 @@ export default function ProductDetail() {
     attributesSelectMenu
   );
 
+  // const [datePickerSelected, setDatePickerSelected] = useState({
+  //   saleStartDate:  new Date(),
+  //   saleEndDate: new Date(),
+  //   publicDate: new Date()
+  // });
+
   //Function
+
+  function handlePublicationDateChange(date: Date | null){
+    if(date){
+      setBooksParams({
+        ...bookParams,
+        publicationDate: new Date(date)
+      })
+    }
+  }
+
+  function handleChangeAttributeData(
+    attributeId: string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | null,
+    date: Date | null,
+    dateName?: string
+  ) {
+    if (event) {
+      setBookAttributeSelected(
+        bookAttributeSelected.map((item) =>
+          item.id === attributeId
+            ? { ...item, [event.target.name]: event.target.value }
+            : item
+        )
+      );
+    }
+    if (date && dateName === "salePriceStartDate") {
+      setBookAttributeSelected(
+        bookAttributeSelected.map((item) =>
+          item.id === attributeId
+            ? { ...item, salePriceStartDate: new Date(date)}
+            : item
+        )
+      );
+    }
+
+    if (date && dateName === "salePriceEndDate") {
+      setBookAttributeSelected(
+        bookAttributeSelected.map((item) =>
+          item.id === attributeId
+            ? { ...item, salePriceEndDate: new Date(date)}
+            : item
+        )
+      );
+    }
+  }
+
   function handleRemoveAttribute(attributeId: string) {
     setBookAttributeSelected(
       bookAttributeSelected.filter((x) => x.id !== attributeId)
@@ -212,11 +264,6 @@ export default function ProductDetail() {
     });
   };
 
-  const handleDateChange = (date: Date | null) => {
-    console.log("loop");
-    // dispatch({type:change_date,index})// attr attr[index].date=date
-    // setSelectedDate(date);
-  };
   const handleExpand = (index: number, newVal: boolean) => {
     setOpenAttr(
       openAttr.map((currentVal, id) => {
@@ -419,10 +466,14 @@ export default function ProductDetail() {
                               <p>Price ($):</p>
                               <TextField
                                 id="standard-size-small"
+                                name="price"
                                 size="small"
                                 variant="outlined"
                                 className={classes.input}
                                 value={attr.price}
+                                onChange={(e) =>
+                                  handleChangeAttributeData(attr.id, e, null)
+                                }
                               />
                             </span>
 
@@ -430,6 +481,7 @@ export default function ProductDetail() {
                               <p>Total stock:</p>
                               <TextField
                                 id="filled-number"
+                                name="totalStock"
                                 type="number"
                                 InputLabelProps={{
                                   shrink: true,
@@ -438,6 +490,9 @@ export default function ProductDetail() {
                                 size="small"
                                 className={classes.input}
                                 value={attr.totalStock}
+                                onChange={(e) =>
+                                  handleChangeAttributeData(attr.id, e, null)
+                                }
                               />
                             </span>
 
@@ -455,10 +510,14 @@ export default function ProductDetail() {
                               <p>Sale price ($):</p>
                               <TextField
                                 id="standard-size-small"
+                                name="salePrice"
                                 size="small"
                                 variant="outlined"
                                 className={classes.input}
                                 value={attr.salePrice}
+                                onChange={(e) =>
+                                  handleChangeAttributeData(attr.id, e, null)
+                                }
                               />
                             </span>
                             <span className={classes.attribute}>
@@ -478,7 +537,14 @@ export default function ProductDetail() {
                                         ? null
                                         : new Date(attr.salePriceStartDate)
                                     }
-                                    onChange={handleDateChange}
+                                    onChange={(date) =>
+                                      handleChangeAttributeData(
+                                        attr.id,
+                                        null,
+                                        date,
+                                        "salePriceStartDate"
+                                      )
+                                    }
                                     KeyboardButtonProps={{
                                       "aria-label": "change date",
                                     }}
@@ -504,7 +570,14 @@ export default function ProductDetail() {
                                         ? null
                                         : new Date(attr.salePriceEndDate)
                                     }
-                                    onChange={handleDateChange}
+                                    onChange={(date) =>
+                                      handleChangeAttributeData(
+                                        attr.id,
+                                        null,
+                                        date,
+                                        "salePriceEndDate"
+                                      )
+                                    }
                                     KeyboardButtonProps={{
                                       "aria-label": "change date",
                                     }}
@@ -678,7 +751,7 @@ export default function ProductDetail() {
                                   ? null
                                   : new Date(bookParams.publicationDate)
                               }
-                              onChange={handleDateChange}
+                              onChange={handlePublicationDateChange}
                               KeyboardButtonProps={{
                                 "aria-label": "change date",
                               }}
@@ -851,9 +924,9 @@ const useStyles = makeStyles((theme: Theme) =>
     formControl: {
       margin: "5px 5px 5px 50px",
       minWidth: 200,
-      "& .MuiInputBase-formControl" : {
+      "& .MuiInputBase-formControl": {
         maxHeight: "40px",
-      }
+      },
     },
     collapsePaper: {
       borderRadius: 0,

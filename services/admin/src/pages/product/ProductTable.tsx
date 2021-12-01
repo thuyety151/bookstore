@@ -24,7 +24,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { ROUTE_PRODUCT_ADD, ROUTE_PRODUCT_DETAIL } from "routers/types";
-import { getAttributes } from "redux/actions/attribute/getAction";
 import {createBrowserHistory} from "history";
 
 interface HeadCell {

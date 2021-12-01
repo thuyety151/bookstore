@@ -22,7 +22,7 @@ const productReducer = (
   state: ProductState = initState,
   payload: any
 ): ProductState => {
-    console.log("payyy:" + payload.type);
+  console.log("payyy:" + payload.type);
   switch (payload.type) {
     case ACTION_NAMES.GET_PRODUCT_PAGINATION.GET_PRODUCT_PAGINATION:
       return {
@@ -57,7 +57,23 @@ const productReducer = (
       return {
         ...state,
         requesting: false,
-        message: payload.message
+        message: payload.message,
+      };
+    case ACTION_NAMES.EDIT_PRODUCT.EDIT_PRODUCT:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.EDIT_PRODUCT.EDIT_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+      };
+    case ACTION_NAMES.EDIT_PRODUCT.EDIT_PRODUCT_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        message: payload.message,
       };
     default:
       return state;
