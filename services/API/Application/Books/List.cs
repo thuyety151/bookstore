@@ -64,20 +64,21 @@ namespace Application.Books
                     }
                 }
 
-                if (request.Params.AttributeId == null)
+                string attributeId = request.Params.AttributeId;
+                if (string.IsNullOrWhiteSpace(attributeId))
                 {
-                    request.Params.AttributeId =
+                    attributeId =
                         _context.Attributes.FirstOrDefault(x => x.Name == "Paperback")?.Id.ToString();
                 }
                 query = query.Where(x =>
-                    x.Attributes.Any(a => a.AttributeId.ToString() == request.Params.AttributeId && a.StockStatus == StockStatus.InStock));
+                    x.Attributes.Any(a => a.AttributeId.ToString() == attributeId && a.StockStatus == StockStatus.InStock));
 
                 if (request.Params.MinPrice >= 0 && request.Params.MaxPrice > 0)
                 {
                     query = query.Where(x =>
-                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).Price >
+                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price >
                         request.Params.MinPrice &&
-                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).Price >
+                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price >
                         request.Params.MaxPrice);
                 }
 
@@ -139,12 +140,12 @@ namespace Application.Books
                             break;
                         case "low-price":
                             query = query.OrderBy(x =>
-                                x.Attributes.FirstOrDefault(x => x.AttributeId.ToString() == request.Params.AttributeId)
+                                x.Attributes.FirstOrDefault(x => x.AttributeId.ToString() == attributeId)
                                     .Price);
                             break;
                         case "high-price":
                             query = query.OrderByDescending(x =>
-                                x.Attributes.FirstOrDefault(x => x.AttributeId.ToString() == request.Params.AttributeId)
+                                x.Attributes.FirstOrDefault(x => x.AttributeId.ToString() == attributeId)
                                     .Price);
                             break;
                         case "best-selling":
@@ -161,8 +162,8 @@ namespace Application.Books
                                                           ?.Quantity ??
                                                       request.Params.PageSize;
 
-                            query = query.Where(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).SalePriceEndDate >= DateTime.Now)
-                                .OrderByDescending(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).SalePriceEndDate);
+                            query = query.Where(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).SalePriceEndDate >= DateTime.Now)
+                                .OrderByDescending(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).SalePriceEndDate);
                             break;
                         case "deal-of-week":
                             request.Params.PageSize = configQuantity
@@ -171,8 +172,8 @@ namespace Application.Books
                                                           ?.Quantity ??
                                                       request.Params.PageSize;
 
-                            query = query.Where(x => DateTime.Now <= x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).SalePriceEndDate)
-                                .OrderByDescending(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).SalePriceEndDate);
+                            query = query.Where(x =>  x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).SalePriceEndDate >= DateTime.Now)
+                                .OrderByDescending(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).TotalStock);
                             break;
                         default:
                             break;
@@ -183,20 +184,21 @@ namespace Application.Books
                 var booksDto = query.Select(x => new BooksDto()
                 {
                     Id = x.Id,
-                    AttributeId = x.Attributes
-                        .FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).AttributeId,
+                    AttributeId = new Guid(attributeId),
                     AttributeName = x.Attributes
-                        .FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).Attribute.Name,
+                        .FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Attribute.Name,
                     AuthorId = x.Author.Id,
                     AuthorName = x.Author.Name,
                     Name = x.Name,
                     LanguageId = x.Language.Id,
                     LanguageName = x.Language.Name,
-                    Price = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId)
+                    Price = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId)
                         .Price,
-                    SalePrice = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId)
+                    SalePrice = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId)
                         .Price,
-                    PictureUrl = x.Media.FirstOrDefault(m => m.IsMain == true).Url
+                    PictureUrl = x.Media.FirstOrDefault(m => m.IsMain == true).Url,
+                    TotalStock = x.Attributes
+                        .FirstOrDefault(a => a.AttributeId.ToString() == attributeId).TotalStock
                 }).AsQueryable();
                 
                 return Result<PagedList<BooksDto>>.Success

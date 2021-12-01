@@ -33,13 +33,16 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "50px 250px 20px 250px",
     },
     text: {
-      color: "#e91e63",
+      color: "#000000",
     },
     form: {
       width: "956px",
     },
     button: {
       margin: "40px 0px 0px 0px",
+      textTransform: "none",
+      color: "white",
+      background: "#000000"
     },
   })
 );
@@ -58,7 +61,7 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
     bar: {
       borderRadius: 5,
       backgroundColor: "#1a90ff",
-    },
+    }
   })
 )(LinearProgress);
 
@@ -109,8 +112,7 @@ export default function CenteredGrid() {
         >
           <Tab label="Description" disabled />
           <Tab label="Product Details" disabled />
-          <Tab label="Videos" disabled />
-          <Tab label="Reviews" />
+          <Tab label="Reviews" className={classes.text} />
         </Tabs>
         <Divider />
       </AppBar>
@@ -139,12 +141,12 @@ export default function CenteredGrid() {
                 justifyContent="space-evenly"
               >
                 <Grid item>
-                  <Button variant="contained" color="secondary">
+                  <Button variant="contained" className={classes.button}>
                     See all reviews
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" color="secondary">
+                  <Button variant="contained" className={classes.button}>
                     Write a review
                   </Button>
                 </Grid>
@@ -209,7 +211,6 @@ export default function CenteredGrid() {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="h4">1-5 of 44 reviews</Typography>
             {reviews
               ? reviews.map((review) => (
                   <ReviewItem key={review.id} review={review} />
@@ -218,12 +219,12 @@ export default function CenteredGrid() {
           </Grid>
 
           <Grid item container>
-            <Typography variant="h4"> Write a review</Typography>
+            <Typography variant="h6"> Write a review</Typography>
             <Grid item container spacing={2}>
               <Grid item>
-                <Typography variant="h6">
+                <Typography variant="body1">
                   {" "}
-                  Select a rating(required){" "}
+                  Select a rating: {" "}
                 </Typography>
               </Grid>
               <Grid item>
@@ -264,10 +265,10 @@ export default function CenteredGrid() {
                   onChange={(e) => setContent(e.target.value)}
                 />
               </Grid>
-              <Grid item className={classes.button}>
+              <Grid item>
                 <Button
                   variant="contained"
-                  color="primary"
+                  className={classes.button}
                   onClick={handleSubmit}
                 >
                   Submit Review
