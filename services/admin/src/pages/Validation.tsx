@@ -1,11 +1,12 @@
-import VInput, { ValidationName } from "components/form/VInput";
+import VInput from "components/form/VInput";
+import { ValidationName } from "helper/useValidator";
 import { useState } from "react";
 
 const Validation: React.FC = () => {
   const [input, setInput] = useState({
     value: "",
     onBlur: false,
-    // rules: [ValidationName.Required, ValidationName.PhoneNumber],
+    ruleNames: [ValidationName.Required],
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
