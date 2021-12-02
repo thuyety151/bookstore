@@ -17,6 +17,7 @@ namespace Application.Books.Detail
         public Guid AuthorId { get; set; }
         public string AuthorName { get; set; }
         public ICollection<BookAttributeDto> Attributes { get; set; }
+        public Guid LanguageId { get; set; }
         public string Language { get; set; }
         public string Dimensions { get; set; }
         public DateTime PublicationDate { get; set; }
@@ -24,6 +25,8 @@ namespace Application.Books.Detail
         public string PublicationCountry { get; set; }
         public string StockStatus { get; set; }
         public int TotalStock { get; set; }
-        
+        public bool IsPublic { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public List<string> CategoryIds { get; set; }
     }
 }

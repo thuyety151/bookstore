@@ -13,6 +13,8 @@ export const ROUTE_SETTINGS = "/settings";
 export const ROUTE_COUPONS = "/coupons";
 export const ROUTE_USERS = "/users";
 export const ROUTE_ORDER_DETAIL = "/orders/:orderId";
+export const ROUTE_PRODUCT_DETAIL = "/products/:bookId";
+export const ROUTE_PRODUCT_ADD = "/product/add";
 export const ROUTE_ORDER_CREATE = "/orders/create";
 export const ROUTE_ORDER_EDIT = "/orders/edit/:orderId";
 
@@ -34,8 +36,10 @@ export const PRIVATE_ROUTES = {
   [ROUTE_COUPONS]: { permissions: [] },
   [ROUTE_USERS]: { permissions: [] },
   [ROUTE_ORDER_DETAIL]: { permissions: [] },
+  [ROUTE_PRODUCT_DETAIL]: { permissions: [] },
   [ROUTE_ORDER_CREATE]: { permissions: [] },
   [ROUTE_ORDER_EDIT]: { permissions: [] },
+  [ROUTE_PRODUCT_ADD]: { permissions: [] },
 };
 
 export type AppRoute =

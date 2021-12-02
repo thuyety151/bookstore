@@ -30,9 +30,7 @@ const PrettoSlider = withStyles({
     border: "2px solid currentColor",
     marginTop: -8,
     marginLeft: -12,
-    "&:focus, &:hover, &$active": {
-      boxShadow: "inherit",
-    },
+    pointerEvents: "none"
   },
   active: {},
   valueLabel: {
@@ -48,15 +46,18 @@ const PrettoSlider = withStyles({
   },
 })(Slider);
 
-export default function CustomizedSlider() {
+interface Props {
+  value : number
+}
+export default function CustomizedSlider({value} : Props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <PrettoSlider
-        valueLabelDisplay="auto"
+        valueLabelDisplay="off"
         aria-label="pretto slider"
-        defaultValue={20}
+        defaultValue={value}      
       />
     </div>
   );

@@ -22,6 +22,7 @@ import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
 import Item from "../../model/item";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
+import defaultBook from "../../assets/images/default.jpeg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     img: {
       margin: "auto",
       display: "block",
-      maxWidth: "80%",
+      maxWidth: "70%",
       maxHeight: "100%",
     },
     attribute: {
@@ -67,6 +68,8 @@ const useStyles = makeStyles((theme: Theme) =>
     buttonAddToCart: {
       textTransform: "none",
       minWidth: 300,
+      color: "white",
+      background: "#000000",
     },
     text: {
       fontWeight: 600,
@@ -80,15 +83,16 @@ export default function DetailBook() {
   const [counter, setCounter] = useState<number>(1);
   const displayCounter = true;
   const { bookId, attributeId } = useParams() as any;
-  //hard data
+
   const { data } = useSelector((state: RootStore) => state.book);
-  const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
-  const [attribute, setAttribute] = useState<Attribute | null>();
-  const { enqueueSnackbar } = useSnackbar();
 
   const attributeDb = data?.attributes.find(
-    (x) => x.id === attributeId
+    (x) => x.id.toLowerCase() === attributeId
   ) as Attribute;
+
+  const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
+  const [attribute, setAttribute] = useState<Attribute>(attributeDb);
+  const { enqueueSnackbar } = useSnackbar();
 
   const rateValue = 5;
 
@@ -156,7 +160,7 @@ export default function DetailBook() {
                 <img
                   className={classes.img}
                   alt="complex"
-                  src="https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/luat-tam-thuc.jpeg?alt=media&token=40221ba7-c0a2-48b9-b2d1-348f16e024c7"
+                  src={data.media[0].url ?? defaultBook}
                 />
               </ButtonBase>
             </Grid>
@@ -198,17 +202,15 @@ export default function DetailBook() {
                 <Grid item>
                   <FormControl className={classes.formControl}>
                     <Select
-                      value={attributeId ?? ""}
+                      value={attribute.id}
                       onChange={handleChange}
-                      displayEmpty
                       className={classes.selectEmpty}
                       inputProps={{ "aria-label": "Without label" }}
                     >
                       {data.attributes
                         ? data.attributes.map((attr) => (
                             <MenuItem key={attr.id} value={attr.id}>
-                              {" "}
-                              {attr.name}{" "}
+                              {attr.name}
                             </MenuItem>
                           ))
                         : null}
@@ -240,7 +242,6 @@ export default function DetailBook() {
                       className={classes.buttonAddToCart}
                       size="large"
                       variant="contained"
-                      color="secondary"
                     >
                       Add to cart
                     </Button>

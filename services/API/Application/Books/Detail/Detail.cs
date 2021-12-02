@@ -34,7 +34,8 @@ namespace Application.Books.Detail
                 var bookDetailDto = await  _context.Books.Include(x => x.Author)
                                             .Include(x => x.Language)
                                             .Include(x => x.Attributes).ThenInclude(x => x.Attribute)
-                                            .Where(x => x.IsDeleted == false && x.IsPublic == true)
+                                            .Include(x => x.Categories)
+                                            .Where(x => x.IsDeleted == false)
                                             .ProjectTo<BookDetailDto>(_mapper.ConfigurationProvider)
                                             .FirstOrDefaultAsync(x => x.Id == request.Id);
 
@@ -42,7 +43,6 @@ namespace Application.Books.Detail
                 {
                     return Result<BookDetailDto>.Failure("Book is not exist");
                 }
-
                 bookDetailDto.TotalStock = bookDetailDto.Attributes.Sum(x => x.TotalStock);
                 bookDetailDto.StockStatus = bookDetailDto.TotalStock > 0
                     ? StockStatus.InStock.ToString()

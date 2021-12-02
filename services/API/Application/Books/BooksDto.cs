@@ -16,6 +16,9 @@ namespace Application.Books
         public string LanguageName { get; set; }
         public Guid AttributeId { get; set; }
         public string AttributeName { get; set; }
+        public string StockStatus { get; set; }
+        public string Categories { get; set; }
+        public DateTime PublishDate { get; set; }
         
     }
 }
