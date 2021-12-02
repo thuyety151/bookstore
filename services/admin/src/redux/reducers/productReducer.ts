@@ -75,6 +75,21 @@ const productReducer = (
         requesting: false,
         message: payload.message,
       };
+      case ACTION_NAMES.DELETE_PRODUCT.DELETE_PRODUCT:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.DELETE_PRODUCT.DELETE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+      };
+    case ACTION_NAMES.DELETE_PRODUCT.DELETE_PRODUCT_FAIL:
+      return {
+        ...state,
+        requesting: false,
+      };
     default:
       return state;
   }

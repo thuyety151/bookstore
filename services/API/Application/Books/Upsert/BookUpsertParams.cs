@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Application.Books.Detail;
 using Domain;
 using Microsoft.AspNetCore.Http;
 
@@ -20,7 +21,7 @@ namespace Application.Books.Upsert
         public string PublicationCountry { get; set; }
         public ICollection<Media> Media { get; set; }
         public List<string> CategoryIds { get; set; }
-        public List<BookAttribute> Attributes { get; set; }
+        public List<BookAttributeDto> Attributes { get; set; }
         
     }
 }

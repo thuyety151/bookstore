@@ -10,7 +10,7 @@ export type EditProductType = {
 
 export const addBook = (props: EditProductType) => async (dispatch: any) => {
   dispatch({ type: ACTION_NAMES.EDIT_PRODUCT.EDIT_PRODUCT });
-
+  console.log("book params in post action: "+ JSON.stringify(props.bookParams));
   const response = await api.post("/books", props.bookParams);
   console.log("reponse");
   if(response.data?.isSuccess){

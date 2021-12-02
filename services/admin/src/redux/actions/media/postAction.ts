@@ -3,7 +3,7 @@ import { ACTION_NAMES } from "./actionTypes"
 
 export type addPhotoType = {
     file: Blob;
-    onSuccess: () => void;
+    onSuccess: (image: any) => void;
     onFailure: (error: any) => void;
   };
 
@@ -25,11 +25,11 @@ export const addPhoto  = (props : addPhotoType) => async (dispatch : any) => {
     console.log(response);
 
     if(response.data?.isSuccess){
-        props.onSuccess();
         dispatch({
             type: ACTION_NAMES.ADD_PHOTO.ADD_PHOTO_SUCCESS,
             data: response.data.value
         })
+        props.onSuccess(response.data.value);
     }
     else {
         dispatch({

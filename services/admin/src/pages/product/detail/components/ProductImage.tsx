@@ -7,6 +7,7 @@ import { addPhoto, deletePhoto } from "redux/actions/media/postAction";
 import { RootStore } from "redux/store";
 import DeleteIcon from '@material-ui/icons/Delete';
 
+
 const useStyles = makeStyles({
   remove: {
     color: "white",
@@ -58,8 +59,8 @@ export default function ProductImage({ media, changeImage }: Props) {
     dispatch(
       addPhoto({
         file: file,
-        onSuccess: () => {
-          changeImage(new Array(1).fill(data));
+        onSuccess: (image: any) => {
+          changeImage(new Array(1).fill(image));
           setAddPhotoMode(false);
           setNewPhoto(true);
         },

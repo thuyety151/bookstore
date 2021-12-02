@@ -1,6 +1,7 @@
 import {
   Button,
   createStyles,
+  Dialog,
   makeStyles,
   Paper,
   Table,
@@ -15,7 +16,7 @@ import EnhancedTableHead from "components/table/EnhancedTableHead";
 import { rowsPerPageOptions } from "helper/paginationValue";
 import { Book } from "model/book";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { generatePath, useHistory } from "react-router-dom";
 import { getProductPagination } from "redux/actions/product/getActions";
@@ -24,7 +25,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { ROUTE_PRODUCT_ADD, ROUTE_PRODUCT_DETAIL } from "routers/types";
-import {createBrowserHistory} from "history";
+import { createBrowserHistory } from "history";
+import DialogConfirm from "components/dialog/DialogConfirm";
+import { useSnackbar } from "notistack";
+import { deleteBook } from "redux/actions/product/deleteAction";
 
 interface HeadCell {
   disablePadding: boolean;
@@ -87,14 +91,47 @@ export default function ProductTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const historyForAdd  = createBrowserHistory({ forceRefresh: true });
+  const historyForAdd = createBrowserHistory({ forceRefresh: true });
 
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const booksState = useSelector((state: RootStore) => state.books);
 
-  // const [page, setPage] = React.useState(0);
   const [pageIndex, setPageIndex] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [modelToDelete, setModelToDelete] = useState<string | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
+  //const [booksState, setBooksState] = useState(bookState);
+
+  function handleOpenDelete(bookId: string) {
+    setModelToDelete(bookId);
+  }
+
+  function handleDeleteBook() {
+    dispatch(
+      deleteBook({
+        id: modelToDelete || "",
+        onSuccess: () => {
+          //setBooksState(bookState);
+          enqueueSnackbar("Delete book successfully", { variant: "success" });
+          setModelToDelete(null);
+          console.log(JSON.stringify(booksState))
+        },
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
+  }
+  // useEffect(() => {
+  //   getProductPagination({
+  //     pagination: { ...pagination },
+  //     onSuccess: () => {
+  //       console.log("deletinnggg");
+  //     },
+  //     onFailure: () => {},
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isDelete]);
 
   useEffect(() => {
     dispatch(
@@ -122,20 +159,22 @@ export default function ProductTable() {
     setPageIndex(0);
   };
 
-  const navToEdit = (bookId : string) => {
+  const navToEdit = (bookId: string) => {
     history.push(
       generatePath(ROUTE_PRODUCT_DETAIL, {
         bookId: bookId,
       })
     );
-  }
+  };
   const navToAdd = () => {
     historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
-  }
+  };
 
   return (
     <div className={classes.root}>
-       <Button className={classes.btnAddNew} onClick={navToAdd}>Add New</Button>
+      <Button className={classes.btnAddNew} onClick={navToAdd}>
+        Add New
+      </Button>
       <Paper className={classes.paper}>
         <TableContainer>
           <Table
@@ -204,6 +243,7 @@ export default function ProductTable() {
                           color: "#e13610",
                         }}
                         startIcon={<DeleteIcon />}
+                        onClick={() => handleOpenDelete(row.id)}
                       />
                     </TableCell>
                   </TableRow>
@@ -222,6 +262,23 @@ export default function ProductTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      {/* Dialog delete */}
+      <Dialog
+        open={!!modelToDelete}
+        onClose={() => setModelToDelete(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogConfirm
+          modelId={modelToDelete}
+          loading={booksState.requesting}
+          title="Delete book"
+          message="Are you sure you want to delete this book?"
+          handleClose={() => setModelToDelete(null)}
+          onConfirm={handleDeleteBook}
+        />
+      </Dialog>
     </div>
   );
 }

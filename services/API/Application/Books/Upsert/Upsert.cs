@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using Application.Interface;
 using Domain;
+using Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -65,12 +66,12 @@ namespace Application.Books.Upsert
                         var bookAttribute = new BookAttribute()
                         {
                             BookId = book.Id,
-                            AttributeId = attribute.AttributeId,
+                            AttributeId = attribute.Id,
                             Price = attribute.Price,
                             SalePrice = attribute.SalePrice,
                             SalePriceStartDate = attribute.SalePriceStartDate,
                             SalePriceEndDate = attribute.SalePriceEndDate,
-                            StockStatus = attribute.StockStatus,
+                            StockStatus = attribute.TotalStock > 0 ? StockStatus.InStock : StockStatus.OutOfStock,
                             TotalStock = attribute.TotalStock
                         };
                         book.Attributes.Add(bookAttribute);
@@ -154,12 +155,12 @@ namespace Application.Books.Upsert
                             var bookAttribute = new BookAttribute()
                             {
                                 BookId = bookToUpdate.Id,
-                                AttributeId = attribute.AttributeId,
+                                AttributeId = attribute.Id,
                                 Price = attribute.Price,
                                 SalePrice = attribute.SalePrice,
                                 SalePriceStartDate = attribute.SalePriceStartDate,
                                 SalePriceEndDate = attribute.SalePriceEndDate,
-                                StockStatus = attribute.StockStatus,
+                                StockStatus = attribute.TotalStock > 0 ? StockStatus.InStock : StockStatus.OutOfStock,
                                 TotalStock = attribute.TotalStock
                             };
                             bookToUpdate.Attributes.Add(bookAttribute);

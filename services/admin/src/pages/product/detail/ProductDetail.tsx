@@ -42,10 +42,13 @@ import { getLanguages } from "redux/actions/language/getAction";
 import { BookDetail } from "model/book";
 import { BookAttribute } from "model/attribute";
 import { convertToHTML } from "draft-convert";
+import { addBook } from "redux/actions/product/postAction";
+import { useSnackbar } from "notistack";
 
 export default function ProductDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const {enqueueSnackbar} = useSnackbar();
   let { bookId } = useParams() as any;
 
   const initialBookParams: BookDetail = {
@@ -114,11 +117,7 @@ export default function ProductDetail() {
     attributesSelectMenu
   );
 
-  // const [datePickerSelected, setDatePickerSelected] = useState({
-  //   saleStartDate:  new Date(),
-  //   saleEndDate: new Date(),
-  //   publicDate: new Date()
-  // });
+  const [isAdd, setAdd] = useState(false);
 
   //Function
 
@@ -141,7 +140,7 @@ export default function ProductDetail() {
       setBookAttributeSelected(
         bookAttributeSelected.map((item) =>
           item.id === attributeId
-            ? { ...item, [event.target.name]: event.target.value }
+            ? { ...item, [event.target.name]: Number( event.target.value)}
             : item
         )
       );
@@ -287,18 +286,35 @@ export default function ProductDetail() {
     const categoryIdsCheckList: string[] = categoryIdsStateCheckList.map(
       (x) => x.id
     );
-
     setBooksParams({
       ...bookParams,
-      categoryIds: categoryIdsCheckList,
+      categoryIds: [...categoryIdsCheckList],
       description: convertToHTML(description.getCurrentContent()),
       shortDescription: convertToHTML(shortDescription.getCurrentContent()),
+      attributes: [...bookAttributeSelected],
+      media: [...mediaState]
     });
 
-    console.log("book params: " + JSON.stringify(bookParams));
+    console.log("params in detail: "+ JSON.stringify(bookParams));
+    setAdd(true);
   };
 
   //Effect
+  useEffect(() => {
+    dispatch(addBook({
+      bookParams: bookParams,
+      onSuccess: () => {
+        if(bookId){
+          enqueueSnackbar("Edit book successfully", {variant : "success"});
+        }
+        else{
+          enqueueSnackbar("Add book successfully", {variant : "success"});
+        }
+      },
+      onFailure: () => {}
+    }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[isAdd]);
   useEffect(() => {
     if (bookId) {
       dispatch(
