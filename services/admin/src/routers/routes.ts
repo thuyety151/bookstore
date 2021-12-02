@@ -17,6 +17,7 @@ import {
 import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
 import OrderEditPage from "../pages/order/detail/OrderEdit";
+import AttributePage from "pages/attribute/AttributePage";
 
 export const routePage: Route[] = [
   {
@@ -48,7 +49,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_ATTRIBUTES,
     name: "Error",
-    component: Error404,
+    component: AttributePage,
     exact: true,
   },
   {
