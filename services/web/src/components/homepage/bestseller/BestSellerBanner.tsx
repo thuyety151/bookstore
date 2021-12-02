@@ -104,7 +104,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (item) => {
                 variant="subtitle1"
                 className={classes.name}
               >
-                ADD TO CARD
+                ADD TO CART
               </Typography>
               <FavoriteBorderOutlined className={classes.favorite} />
             </Grid>

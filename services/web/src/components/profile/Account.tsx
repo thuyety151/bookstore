@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    height: 224,
     marginLeft: "100px",
     "& .MuiTab-wrapper": {
       alignItem: "start !important",
