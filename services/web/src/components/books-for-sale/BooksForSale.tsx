@@ -17,8 +17,12 @@ import { Rating } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Attribute from "../../model/attribute";
+import Author from "../../model/author";
 import { Category } from "../../model/category";
 import { Language } from "../../model/sidebar";
+import { getAttributes } from "../../redux/actions/attribute/getAction";
+import { getAllAuthor } from "../../redux/actions/author/getActions";
 import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { getCategories } from "../../redux/actions/category/getAction";
 import { getLanguages } from "../../redux/actions/language/getAction";
@@ -32,6 +36,8 @@ export default function BooksForSale() {
   //Selector
   const categories = useSelector((state: RootStore) => state.categoryBfs.data);
   const languages = useSelector((state: RootStore) => state.languages.data);
+  const authours = useSelector((state: RootStore) => state.author.data);
+  const attributes = useSelector((state: RootStore) => state.attributes.data);
   const pagination = useSelector((state: RootStore) => state.books.pagination);
 
   //State
@@ -51,10 +57,9 @@ export default function BooksForSale() {
     attributeId: "",
     minPrice: 0,
     maxPrice: 1000,
-    rates: [],
+    rates: 0,
   });
-  const [value, setValue] = React.useState<number[]>([20, 37]);
-
+ 
   //Function
   function handleLanguageChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.checked) {
@@ -74,10 +79,33 @@ export default function BooksForSale() {
     }
   }
 
+  function handleAuthorChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.checked) {
+      setBookFilterParams({
+        ...bookFilterParams,
+        authorId: event.target.name,
+      });
+    }
+  }
+
+  function handleAttributeChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.checked) {
+      setBookFilterParams({
+        ...bookFilterParams,
+        attributeId: event.target.name,
+      });
+    }
+  }
+
   //useEffect
   useEffect(() => {
     dispatch(getLanguages());
     dispatch(getCategories());
+    dispatch(getAllAuthor());
+    dispatch(getAttributes({
+      onSuccess: () =>{},
+      onFailure: () => {}
+    }));
   }, []);
 
   useEffect(() => {
@@ -96,19 +124,29 @@ export default function BooksForSale() {
   }, [bookFilterParams]);
 
   const handleChangePrice = (event: any, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+    const price = newValue as number[];
+    setBookFilterParams({
+      ...bookFilterParams,
+      minPrice: price[0],
+      maxPrice: price[1]
+    });
   };
 
   const [state, setState] = React.useState({
-    gilad: true,
-    jason: false,
-    antoine: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false
   });
 
-  const { gilad, jason, antoine } = state;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+    const rateValue = parseInt(event.target.name);
+    setBookFilterParams({
+      ...bookFilterParams,
+      rates: rateValue
+    })
   };
 
   return (
@@ -177,10 +215,28 @@ export default function BooksForSale() {
               direction="column"
               className={classes.collapse}
             >
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
+              <span>
+                <FormControl component="fieldset">
+                  <FormGroup>
+                    {authours?.map((author: Author) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={
+                              author.id === bookFilterParams.authorId
+                                ? true
+                                : false
+                            }
+                            onChange={handleAuthorChange}
+                            name={author.id}
+                          />
+                        }
+                        label={author.name}
+                      />
+                    ))}
+                  </FormGroup>
+                </FormControl>
+              </span>
             </Grid>
           </Paper>
         </Collapse>
@@ -247,10 +303,28 @@ export default function BooksForSale() {
               direction="column"
               className={classes.collapse}
             >
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
+              <span>
+                <FormControl component="fieldset">
+                  <FormGroup>
+                    {attributes?.map((attribute: Attribute) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={
+                              attribute.id === bookFilterParams.attributeId
+                                ? true
+                                : false
+                            }
+                            onChange={handleAttributeChange}
+                            name={attribute.id}
+                          />
+                        }
+                        label={attribute.name}
+                      />
+                    ))}
+                  </FormGroup>
+                </FormControl>
+              </span>
             </Grid>
           </Paper>
         </Collapse>
@@ -273,13 +347,14 @@ export default function BooksForSale() {
               className={classes.collapse}
             >
               <Slider
-                value={value}
+                value={[bookFilterParams.minPrice, bookFilterParams.maxPrice]}
                 onChange={handleChangePrice}
                 valueLabelDisplay="auto"
                 aria-labelledby="range-slider"
                 className={classes.slider}
+                max={1000}
               />
-              <p className={classes.price}>Price: 0 - 100</p>
+              <p className={classes.price}>Price: ${bookFilterParams.minPrice} - ${bookFilterParams.maxPrice}</p>
             </Grid>
           </Paper>
         </Collapse>
@@ -306,9 +381,9 @@ export default function BooksForSale() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={gilad}
-                        onChange={handleChange}
-                        name="gilad"
+                        checked={bookFilterParams.rates === 5 ? true : false}
+                        onChange={handleRateChange}
+                        name="5"
                       />
                     }
                     label={<Rating name="read-only" value={5} readOnly />}
@@ -316,9 +391,9 @@ export default function BooksForSale() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={jason}
-                        onChange={handleChange}
-                        name="jason"
+                        checked={bookFilterParams.rates === 4 ? true : false}
+                        onChange={handleRateChange}
+                        name="4"
                       />
                     }
                     label={<Rating name="read-only" value={4} readOnly />}
@@ -326,9 +401,9 @@ export default function BooksForSale() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={antoine}
-                        onChange={handleChange}
-                        name="antoine"
+                        checked={bookFilterParams.rates === 3 ? true : false}
+                        onChange={handleRateChange}
+                        name="3"
                       />
                     }
                     label={<Rating name="read-only" value={3} readOnly />}
@@ -336,9 +411,9 @@ export default function BooksForSale() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={antoine}
-                        onChange={handleChange}
-                        name="antoine"
+                        checked={bookFilterParams.rates === 2 ? true : false}
+                        onChange={handleRateChange}
+                        name="2"
                       />
                     }
                     label={<Rating name="read-only" value={2} readOnly />}
@@ -346,9 +421,9 @@ export default function BooksForSale() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={antoine}
-                        onChange={handleChange}
-                        name="antoine"
+                        checked={bookFilterParams.rates === 1 ? true : false}
+                        onChange={handleRateChange}
+                        name="1"
                       />
                     }
                     label={<Rating name="read-only" value={1} readOnly />}
@@ -358,7 +433,7 @@ export default function BooksForSale() {
             </Grid>
           </Paper>
         </Collapse>
-
+{/* 
         <Collapse in={isOpen.feature} collapsedSize={82}>
           <Paper variant="outlined" className={classes.paper}>
             <div>
@@ -382,10 +457,8 @@ export default function BooksForSale() {
               <span className={classes.item}>Bussiness</span>
             </Grid>
           </Paper>
-        </Collapse>
+        </Collapse> */}
       </Grid>
-      {/* </Grid> */}
-      <Grid item xs={8}></Grid>
     </Grid>
   );
 }

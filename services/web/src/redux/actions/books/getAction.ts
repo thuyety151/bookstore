@@ -78,7 +78,7 @@ export type filterParams = {
   attributeId: string;
   minPrice: number;
   maxPrice: number;
-  rates: number[];
+  rates: number;
 };
 export const getBooksForSale = (
   predicate: string,

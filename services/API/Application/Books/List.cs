@@ -80,18 +80,18 @@ namespace Application.Books
                         request.Params.MaxPrice);
                 }
 
-                if (request.Params.Rates !=null)
+                if (request.Params.Rates > 0)
                 {
-                    var rateStrings = request.Params.Rates.Split(",");
-                    List<int> rates = new List<int>();
-                    foreach (var s in rateStrings)
-                    {
-                        var rateInt = Int32.Parse(s);
-                        if (rateInt > 0 && rateInt <= 5)
-                        {
-                            rates.Add(rateInt);
-                        }
-                    }
+                    // var rateStrings = request.Params.Rates.Split(",");
+                    // List<int> rates = new List<int>();
+                    // foreach (var s in rateStrings)
+                    // {
+                    //     var rateInt = Int32.Parse(s);
+                    //     if (rateInt > 0 && rateInt <= 5)
+                    //     {
+                    //         rates.Add(rateInt);
+                    //     }
+                    // }
 
                     var reviews = _context.Reviews.AsNoTracking().GroupBy(x => x.BookId, r => r.Rate)
                         .Select(g => new
@@ -99,7 +99,7 @@ namespace Application.Books
                             BookId = g.Key,
                             Rating = (int) Math.Round(g.Average())
                         });
-                    var listBookId = reviews.Where(x => rates.Any(r => Equals(r, x.Rating))).Select(x => x.BookId);
+                    var listBookId = reviews.Where(x => x.Rating == request.Params.Rates).Select(x => x.BookId);
 
                     foreach (var bookId in listBookId)
                     {
