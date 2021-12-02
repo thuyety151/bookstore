@@ -15,6 +15,8 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import { Rating } from "@material-ui/lab";
 
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootStore } from "../../redux/store";
 
 export default function BooksForSale() {
   const classes = useStyles();
@@ -27,6 +29,9 @@ export default function BooksForSale() {
     review: true,
     feature: true,
   });
+  //Selector
+  const categories = useSelector((state: RootStore) => state.categoryBfs);
+
 
   const [value, setValue] = React.useState<number[]>([20, 37]);
 
