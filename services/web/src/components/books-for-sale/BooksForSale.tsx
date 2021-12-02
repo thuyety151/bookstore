@@ -14,12 +14,27 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { Rating } from "@material-ui/lab";
 
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Category } from "../../model/category";
+import { Language } from "../../model/sidebar";
+import { getBooksForSale } from "../../redux/actions/books/getAction";
+import { getCategories } from "../../redux/actions/category/getAction";
+import { getLanguages } from "../../redux/actions/language/getAction";
 import { RootStore } from "../../redux/store";
 
 export default function BooksForSale() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { predicate } = useParams() as any;
+
+  //Selector
+  const categories = useSelector((state: RootStore) => state.categoryBfs.data);
+  const languages = useSelector((state: RootStore) => state.languages.data);
+  const pagination = useSelector((state: RootStore) => state.books.pagination);
+
+  //State
   const [isOpen, setOpen] = useState({
     category: true,
     author: true,
@@ -29,11 +44,56 @@ export default function BooksForSale() {
     review: true,
     feature: true,
   });
-  //Selector
-  const categories = useSelector((state: RootStore) => state.categoryBfs);
-
-
+  const [bookFilterParams, setBookFilterParams] = useState({
+    categoryId: "",
+    authorId: "",
+    languageIds: "",
+    attributeId: "",
+    minPrice: 0,
+    maxPrice: 1000,
+    rates: [],
+  });
   const [value, setValue] = React.useState<number[]>([20, 37]);
+
+  //Function
+  function handleLanguageChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.checked) {
+      setBookFilterParams({
+        ...bookFilterParams,
+        languageIds: event.target.name,
+      });
+    }
+  }
+
+  function handleCategoryChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.checked) {
+      setBookFilterParams({
+        ...bookFilterParams,
+        categoryId: event.target.name,
+      });
+    }
+  }
+
+  //useEffect
+  useEffect(() => {
+    dispatch(getLanguages());
+    dispatch(getCategories());
+  }, []);
+
+  useEffect(() => {
+    console.log("bfs: " + JSON.stringify(bookFilterParams))
+    dispatch(
+      getBooksForSale(
+        predicate,
+        bookFilterParams,
+        {
+          ...pagination,
+        }
+      )
+    );
+    console.log("change :")
+    // eslint-disable-next-line
+  }, [bookFilterParams]);
 
   const handleChangePrice = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -74,10 +134,28 @@ export default function BooksForSale() {
               direction="column"
               className={classes.collapse}
             >
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
+              <span>
+                <FormControl component="fieldset">
+                  <FormGroup>
+                    {categories?.map((category: Category) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={
+                              category.id === bookFilterParams.categoryId
+                                ? true
+                                : false
+                            }
+                            onChange={handleCategoryChange}
+                            name={category.id}
+                          />
+                        }
+                        label={category.name}
+                      />
+                    ))}
+                  </FormGroup>
+                </FormControl>
+              </span>
             </Grid>
           </Paper>
         </Collapse>
@@ -126,40 +204,28 @@ export default function BooksForSale() {
               direction="column"
               className={classes.collapse}
             >
-              <FormControl component="fieldset">
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={gilad}
-                        onChange={handleChange}
-                        name="gilad"
+              <span>
+                <FormControl component="fieldset">
+                  <FormGroup>
+                    {languages?.map((language: Language) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={
+                              language.id === bookFilterParams.languageIds
+                                ? true
+                                : false
+                            }
+                            onChange={handleLanguageChange}
+                            name={language.id}
+                          />
+                        }
+                        label={language.name}
                       />
-                    }
-                    label="Gilad Gray"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={jason}
-                        onChange={handleChange}
-                        name="jason"
-                      />
-                    }
-                    label="Jason Killian"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={antoine}
-                        onChange={handleChange}
-                        name="antoine"
-                      />
-                    }
-                    label="Antoine Llorca"
-                  />
-                </FormGroup>
-              </FormControl>
+                    ))}
+                  </FormGroup>
+                </FormControl>
+              </span>
             </Grid>
           </Paper>
         </Collapse>

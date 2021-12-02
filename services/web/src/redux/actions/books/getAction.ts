@@ -71,29 +71,51 @@ export type paginationParams = {
   pageSize: number;
   pageIndex: number;
 };
+export type filterParams = {
+  categoryId: string;
+  authorId: string;
+  languageIds: string;
+  attributeId: string;
+  minPrice: number;
+  maxPrice: number;
+  rates: number[];
+};
+export const getBooksForSale = (
+  predicate: string,
+  filterParams?: filterParams,
+  params?: paginationParams,
+  
+) => async (dispatch: any) => {
+  dispatch({ type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE });
+  console.log("params:");
+  console.log({
+    predicate,
+    ...filterParams,
+    pageSize: params?.pageSize,
+    pageIndex: params?.pageIndex,
+   
+  })
+  const response = await api.get("/books/books-for-sale", {
+    params: {
+      predicate,
+      ...filterParams,
+      pageSize: params?.pageSize,
+      pageIndex: params?.pageIndex,
+     
+    },
+  });
+  console.log("re: "+ JSON.stringify(response));
 
-export const getBooksForSale =
-  (predicate: string, params?: paginationParams) => async (dispatch: any) => {
-    dispatch({ type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE });
-
-    const response = await api.get("/books/books-for-sale", {
-      params: {
-        predicate,
-        pageSize: params?.pageSize,
-        pageIndex: params?.pageIndex,
-      },
+  if (response.data.value) {
+    dispatch({
+      type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE_SUCCESS,
+      data: response.data.value,
+      pagination: response.headers.pagination,
     });
-
-    if (response.data.value) {
-      dispatch({
-        type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE_SUCCESS,
-        data: response.data.value,
-        pagination: response.headers.pagination,
-      });
-    } else {
-      dispatch({
-        type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE_FAIL,
-        data: response.data.error,
-      });
-    }
-  };
+  } else {
+    dispatch({
+      type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE_FAIL,
+      data: response.data.error,
+    });
+  }
+};
