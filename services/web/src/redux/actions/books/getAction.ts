@@ -97,3 +97,31 @@ export const getBooksForSale =
       });
     }
   };
+
+  
+export const getBooksForSaleCate =
+  (categortId: string, params?: paginationParams) => async (dispatch: any) => {
+    dispatch({ type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE });
+
+    const response = await api.get("/books/books-for-sale", {
+      params: {
+        categortId,
+        pageSize: params?.pageSize,
+        pageIndex: params?.pageIndex,
+      },
+    });
+
+    if (response.data.value) {
+      dispatch({
+        type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE_SUCCESS,
+        data: response.data.value,
+        pagination: response.headers.pagination,
+      });
+    } else {
+      dispatch({
+        type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE_FAIL,
+        data: response.data.error,
+      });
+    }
+  };
+
