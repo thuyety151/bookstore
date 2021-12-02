@@ -5,20 +5,20 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import BestSellerComponent from "../homepage/bestseller/BestSellerBanner";
 import "./slideEffect.css";
-import data from "../../mocks/feature";
+
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
   1024: { items: 4 },
 };
 
-const items = data.map((item, index) => {
-  return (
-    <div data-value="1" key={index}>
-      <BestSellerComponent item={item} />
-    </div>
-  );
-});
+// const items = data.map((item, index) => {
+//   return (
+//     <div data-value="1" key={index}>
+//       <BestSellerComponent item={item} />
+//     </div>
+//   );
+// });
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -68,12 +68,12 @@ const RecommendBooks: React.FC = () => {
         </Grid>
         <Grid item xs={9}>
           <Paper className={classes.paper} elevation={0}>
-            <AliceCarousel
+            {/* <AliceCarousel
               mouseTracking
               disableDotsControls
               items={items}
               responsive={responsive}
-            />
+            /> */}
           </Paper>
         </Grid>
       </Grid>

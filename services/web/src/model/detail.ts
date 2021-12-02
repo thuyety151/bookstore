@@ -1,4 +1,5 @@
 import Attribute from "./attribute";
+import Media from "./media";
 
 export interface Detail {
     id: string,
@@ -10,7 +11,7 @@ export interface Detail {
     stockStatus: number,
     totalStock: number,
     viewCount: number,
-    media: [],
+    media: Media[],
     authorId: string,
     authorName: string,
     attributes: Attribute [],
