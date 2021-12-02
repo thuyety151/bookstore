@@ -198,8 +198,11 @@ namespace Application.Books
                     SalePrice = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId)
                         .Price,
                     PictureUrl = x.Media.FirstOrDefault(m => m.IsMain == true).Url,
-                    TotalStock = x.Attributes
-                        .FirstOrDefault(a => a.AttributeId.ToString() == attributeId).TotalStock
+                    StockStatus = (x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).StockStatus).ToString(),
+                    Categories = String.Join(",", x.Categories.Select(c => c.Category.Name)) ,
+                    PublishDate = x.PublicationDate
+
+                  
                 }).AsQueryable();
                 
                 return Result<PagedList<BooksDto>>.Success

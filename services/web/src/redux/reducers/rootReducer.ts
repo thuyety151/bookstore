@@ -16,6 +16,7 @@ import newReleasesReducer from "./newReleasesReducer";
 import deliveryReducer from "./deliveryReducer";
 import orderReducer from "./orderReducer";
 import bestSellingReducer from "./bestSelling";
+import categoryBfsReducer from "./books-for-sale/categoryReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
   author: authorReducer,
   delivery: deliveryReducer,
   order: orderReducer,
-  bestSelling:bestSellingReducer
+  bestSelling:bestSellingReducer,
+  categoryBfs: categoryBfsReducer
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
