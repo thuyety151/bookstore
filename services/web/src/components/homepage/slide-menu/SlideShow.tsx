@@ -20,7 +20,7 @@ const responsive = {
 const SlideEffect: React.FC = () => {
   return (
     <Grid container justifyContent="center">
-      <Grid item xs={9}>
+      <Grid item xs={12}>
         <AliceCarousel
           mouseTracking
           disableDotsControls

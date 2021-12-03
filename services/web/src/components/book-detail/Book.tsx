@@ -97,11 +97,11 @@ export default function DetailBook() {
   const rateValue = 5;
 
   useEffect(() => {
-    setAttribute(attributeDb)
+    setAttribute(attributeDb);
   }, []);
 
   useEffect(() => {
-    setAttribute(attribute)
+    setAttribute(attribute);
   }, [attribute]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -185,15 +185,13 @@ export default function DetailBook() {
                 </Grid>
 
                 <Grid item>
-                  {attribute && (
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      className={classes.text}
-                    >
-                      {attribute.price} $
-                    </Typography>
-                  )}
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    className={classes.text}
+                  >
+                    {attribute?.price ?? attributeDb.price} $
+                  </Typography>
                 </Grid>
 
                 <Grid item>
