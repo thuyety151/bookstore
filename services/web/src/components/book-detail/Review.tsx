@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "40px 0px 0px 0px",
       textTransform: "none",
       color: "white",
-      background: "#000000"
+      background: "#000000",
     },
   })
 );
@@ -61,7 +61,7 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
     bar: {
       borderRadius: 5,
       backgroundColor: "#1a90ff",
-    }
+    },
   })
 )(LinearProgress);
 
@@ -92,7 +92,17 @@ export default function CenteredGrid() {
       rate: rateValue,
       bookId: bookId,
     };
-    dispatch(addReview(review));
+    dispatch(
+      addReview({
+        review,
+        onSuccess: () => {
+          enqueueSnackbar("Comment successfully!", { variant: "success" });
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
 
     setTitle("");
     setContent("");
@@ -222,10 +232,7 @@ export default function CenteredGrid() {
             <Typography variant="h6"> Write a review</Typography>
             <Grid item container spacing={2}>
               <Grid item>
-                <Typography variant="body1">
-                  {" "}
-                  Select a rating: {" "}
-                </Typography>
+                <Typography variant="body1"> Select a rating: </Typography>
               </Grid>
               <Grid item>
                 <Rating
@@ -280,4 +287,7 @@ export default function CenteredGrid() {
       </Box>
     </div>
   );
+}
+function enqueueSnackbar(arg0: string, arg1: { variant: string }) {
+  throw new Error("Function not implemented.");
 }
