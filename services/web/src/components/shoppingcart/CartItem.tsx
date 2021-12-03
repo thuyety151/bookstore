@@ -136,7 +136,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image: {
       // width: 200,
-      height: 200,
+      // height: 200,
+      height: "auto",
+      width: "130px",
     },
     paper: {
       padding: theme.spacing(2),

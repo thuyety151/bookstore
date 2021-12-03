@@ -152,7 +152,7 @@ const CartTable: React.FC = () => {
                         src={row.pictureUrl}
                         alt="img"
                       />
-                      <Grid item style={{ width: "70%" }}>
+                      <Grid item style={{ width: "50%" }}>
                         <Grid>
                           <span className={classes.bookname}>
                             {row.productName}
