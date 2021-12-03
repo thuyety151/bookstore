@@ -97,10 +97,12 @@ export default function DetailBook() {
   const rateValue = 5;
 
   useEffect(() => {
-    if (!attribute) {
-      setAttribute(attributeDb);
-    }
-  }, [attribute, attributeDb]);
+    setAttribute(attributeDb)
+  }, []);
+
+  useEffect(() => {
+    setAttribute(attribute)
+  }, [attribute]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const attributeId = event.target.value;
@@ -202,7 +204,7 @@ export default function DetailBook() {
                 <Grid item>
                   <FormControl className={classes.formControl}>
                     <Select
-                      value={attribute.id}
+                      value={attribute?.id ?? attributeId}
                       onChange={handleChange}
                       className={classes.selectEmpty}
                       inputProps={{ "aria-label": "Without label" }}

@@ -14,7 +14,7 @@ const initState: LanguageState = {
     data : []
 }
 
-const categoryReducer = (state: LanguageState = initState, payload: any): LanguageState => {
+const languageReducer = (state: LanguageState = initState, payload: any): LanguageState => {
     switch(payload.type){
         case ACTION_NAMES.GET_LANGUAGES.GET_LANGUAGES:
             return {
@@ -38,4 +38,4 @@ const categoryReducer = (state: LanguageState = initState, payload: any): Langua
     }
 }
 
-export default categoryReducer;
+export default languageReducer;

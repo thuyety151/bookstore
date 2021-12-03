@@ -91,7 +91,7 @@ const ListBookForSale: React.FC = () => {
       );
     } else if (predicate) {
       dispatch(
-        getBooksForSale(sortType.predicate, {
+        getBooksForSale(sortType.predicate, undefined, {
           ...pagination,
           pageIndex: pageIndex,
         })
