@@ -114,7 +114,17 @@ export default function ProductTable() {
           //setBooksState(bookState);
           enqueueSnackbar("Delete book successfully", { variant: "success" });
           setModelToDelete(null);
-          console.log(JSON.stringify(booksState))
+          dispatch(
+            getProductPagination({
+              pagination: {
+                ...pagination,
+                pageIndex: pageIndex + 1,
+                pageSize: rowsPerPage,
+              },
+              onSuccess: () => {},
+              onFailure: () => {},
+            })
+          );
         },
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });

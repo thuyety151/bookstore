@@ -9,7 +9,7 @@ using OrderParams = Application.Orders.OrderParams;
 using Upsert = Application.Orders.Upsert;
 namespace API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class OrdersController : BaseApiController
     {
         [HttpPost]
