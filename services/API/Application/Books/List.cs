@@ -45,24 +45,21 @@ namespace Application.Books
                     .Where(x => x.IsPublic == true && x.IsDeleted == false)
                     .AsQueryable();
                 var test = query.ToList();
-                if (request.Params.CategoryId != null)
+                if (!string.IsNullOrWhiteSpace(request.Params.CategoryId))
                 {
                     query = query.Where(
-                        x => x.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId));
+                        x => x.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId
+                        || c.Category.ParentId.ToString() == request.Params.CategoryId));
                 }
 
-                if (request.Params.AuthorId != null)
+                if (!string.IsNullOrWhiteSpace(request.Params.AuthorId))
                 {
                     query = query.Where(x => x.Author.Id.ToString() == request.Params.AuthorId);
                 }
 
-                if (request.Params.LanguageIds != null)
+                if (!string.IsNullOrWhiteSpace(request.Params.LanguageIds))
                 {
-                    var language = request.Params.LanguageIds.Split(",");
-                    foreach (var id in language)
-                    {
-                        query = query.Where(x => x.Language.Id.ToString() == id);
-                    }
+                    query = query.Where(x => x.Language.Id.ToString() == request.Params.LanguageIds);
                 }
 
                 string attributeId = request.Params.AttributeId;
@@ -79,22 +76,22 @@ namespace Application.Books
                     query = query.Where(x =>
                         x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price >
                         request.Params.MinPrice &&
-                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price >
+                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price <
                         request.Params.MaxPrice);
                 }
 
-                if (request.Params.Rates != null)
+                if (request.Params.Rates > 0)
                 {
-                    var rateStrings = request.Params.Rates.Split(",");
-                    List<int> rates = new List<int>();
-                    foreach (var s in rateStrings)
-                    {
-                        var rateInt = Int32.Parse(s);
-                        if (rateInt > 0 && rateInt <= 5)
-                        {
-                            rates.Add(rateInt);
-                        }
-                    }
+                    // var rateStrings = request.Params.Rates.Split(",");
+                    // List<int> rates = new List<int>();
+                    // foreach (var s in rateStrings)
+                    // {
+                    //     var rateInt = Int32.Parse(s);
+                    //     if (rateInt > 0 && rateInt <= 5)
+                    //     {
+                    //         rates.Add(rateInt);
+                    //     }
+                    // }
 
                     var reviews = _context.Reviews.AsNoTracking().GroupBy(x => x.BookId, r => r.Rate)
                         .Select(g => new
@@ -102,7 +99,7 @@ namespace Application.Books
                             BookId = g.Key,
                             Rating = (int) Math.Round(g.Average())
                         });
-                    var listBookId = reviews.Where(x => rates.Any(r => Equals(r, x.Rating))).Select(x => x.BookId);
+                    var listBookId = reviews.Where(x => x.Rating == request.Params.Rates).Select(x => x.BookId);
 
                     foreach (var bookId in listBookId)
                     {
@@ -110,7 +107,7 @@ namespace Application.Books
                     }
                 }
 
-                if (request.Params.Predicate != null)
+                if (!string.IsNullOrWhiteSpace(request.Params.Predicate))
                 {
                     var configQuantity = _context.ConfigHomePages;
 

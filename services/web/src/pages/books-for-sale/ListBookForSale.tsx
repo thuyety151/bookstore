@@ -63,6 +63,7 @@ const ListBookForSale: React.FC = () => {
   const {predicate} = useParams() as any;
   const [sortType, setSortType] = useState(sortValue.find(x=>x.predicate===predicate) || sortValue[0]);
   console.log("pre",sortType)
+  console.log("books:" + JSON.stringify(booksState))
 
   const rowsPerPage = () => {
     let itemInfo = pagination.pageIndex * pagination.pageSize;
@@ -79,7 +80,7 @@ const ListBookForSale: React.FC = () => {
 
   useEffect(() => {
     dispatch(
-      getBooksForSale(sortType.predicate, {
+      getBooksForSale(sortType.predicate, undefined, {
         ...pagination,
         pageIndex: pageIndex,
       })
