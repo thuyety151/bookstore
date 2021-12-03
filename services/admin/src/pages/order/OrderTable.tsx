@@ -129,6 +129,17 @@ const OrderTable: React.FC = () => {
         onSuccess: () => {
           enqueueSnackbar("Delete order successfully", { variant: "success" });
           setModelToDelete(null);
+          dispatch(
+            getOrderPagination({
+              pagination: {
+                ...pagination,
+                pageIndex: page + 1,
+                pageSize: rowsPerPage,
+              },
+              onSuccess: () => {},
+              onFailure: () => {},
+            })
+          );
         },
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });

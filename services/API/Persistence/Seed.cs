@@ -1308,7 +1308,7 @@ namespace Persistence
                         Price = 234,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
-                        SalePriceStartDate = DateTime.Now,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
                         SalePrice = 199
                     },
@@ -1319,7 +1319,7 @@ namespace Persistence
                         Price = 119,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
-                        SalePriceStartDate = DateTime.Now,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
                         SalePrice = 99
                     },
@@ -1330,7 +1330,7 @@ namespace Persistence
                         Price = 150,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
-                        SalePriceStartDate = DateTime.Now,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
                         SalePrice = 99
                     }
