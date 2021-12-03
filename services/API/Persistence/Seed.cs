@@ -306,14 +306,32 @@ namespace Persistence
                     },
                     new Media()
                     {
+                        Id = "mlwiruyyxllf1zk1kn9l",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638454280/mlwiruyyxllf1zk1kn9l.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "aleglevp9dj4mgzonrkv",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638454745/aleglevp9dj4mgzonrkv.webp",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "qstxf4703gudtpaxvqyb",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638454860/qstxf4703gudtpaxvqyb.png",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
                         Id = "jojo",
                         Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638281868/b8818d43b66cbef4217b8389028298da_squsjh.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
-                  
-                    
-                 
                 };
                 medias.AddRange(mediaList);
                 await context.Media.AddRangeAsync(mediaList);
@@ -454,7 +472,8 @@ namespace Persistence
                                 Slug = "economics",
                                 IsDeleted = false,
                             }
-                        }
+                        },
+                        Media = medias.Where(x=>x.Id=="qstxf4703gudtpaxvqyb").SingleOrDefault()
                     },
                     new Category()
                     {
@@ -485,7 +504,8 @@ namespace Persistence
                                 Slug = "self-sufficiency",
                                 IsDeleted = false,
                             },
-                        }
+                        },
+                        Media = medias.Where(x=>x.Id=="aleglevp9dj4mgzonrkv").SingleOrDefault()
                     },
                     new Category()
                     {
@@ -516,7 +536,8 @@ namespace Persistence
                                 Slug = "adventure",
                                 IsDeleted = false,
                             }
-                        }
+                        },
+                        Media = medias.Where((x=>x.Id=="mlwiruyyxllf1zk1kn9l")).SingleOrDefault()
                     }
                 };
                 categories.AddRange(categorieList);

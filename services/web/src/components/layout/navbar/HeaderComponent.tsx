@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { AppBar, makeStyles } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
@@ -55,38 +55,40 @@ const HeaderComponent: React.FC<{
   };
   return (
     <div className={classes.root}>
-      <div className={classes.container}>
-        <div className={classes.listItem}>
-          <ListItem style={{ width: "20rem" }} button>
-            <HelpOutlineIcon />
-            <span>Can we help you?</span>
-          </ListItem>
-          <ListItem button>
-            <SettingsCellOutlinedIcon />
-            <span>+84 123 456 789</span>
-          </ListItem>
+      <AppBar position="fixed" color="inherit" elevation={0}>
+        <div className={classes.container}>
+          <div className={classes.listItem}>
+            <ListItem style={{ width: "20rem" }} button>
+              <HelpOutlineIcon />
+              <span>Can we help you?</span>
+            </ListItem>
+            <ListItem button>
+              <SettingsCellOutlinedIcon />
+              <span>+84 123 456 789</span>
+            </ListItem>
+          </div>
+          <div className={classes.listItem}>
+            <ListItem button>
+              <LocationOnOutlinedIcon />
+            </ListItem>
+            <ListItem button>
+              <SwapHorizOutlinedIcon />
+            </ListItem>
+            <ListItem button>
+              <FavoriteBorderOutlinedIcon />
+            </ListItem>
+            <ListItem button onClick={handlePersonOutLine}>
+              <PersonOutlineOutlinedIcon />
+            </ListItem>
+            <ListItem button onClick={handleOpenCart}>
+              <Badge badgeContent={totalItem} overlap="circular" color="error">
+                <LocalMallOutlinedIcon />
+              </Badge>
+            </ListItem>
+          </div>
         </div>
-        <div className={classes.listItem}>
-          <ListItem button>
-            <LocationOnOutlinedIcon />
-          </ListItem>
-          <ListItem button>
-            <SwapHorizOutlinedIcon />
-          </ListItem>
-          <ListItem button>
-            <FavoriteBorderOutlinedIcon />
-          </ListItem>
-          <ListItem button onClick={handlePersonOutLine}>
-            <PersonOutlineOutlinedIcon />
-          </ListItem>
-          <ListItem button onClick={handleOpenCart}>
-            <Badge badgeContent={totalItem} overlap="circular" color="error">
-              <LocalMallOutlinedIcon />
-            </Badge>
-          </ListItem>
-        </div>
-      </div>
-      <Divider />
+        <Divider />
+      </AppBar>
     </div>
   );
 };

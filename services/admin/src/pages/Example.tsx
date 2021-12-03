@@ -24,6 +24,8 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import OrderStatus, {
   OrderStatusEnum,
 } from "../components/orderStatus/OrderStatus";
+import VInput from "components/form/VInput";
+
 interface Data {
   calories: number;
   carbs: number;
@@ -290,6 +292,7 @@ const Example: React.FC = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+        <VInput />
         <p>Button Order status</p>
         <OrderStatus status={OrderStatusEnum.Delivered} />
         <OrderStatus status={OrderStatusEnum.ReadyToPick} />

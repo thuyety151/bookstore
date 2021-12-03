@@ -12,6 +12,7 @@ export type CreateOrderProps = {
 export const createOrder =
   (props: CreateOrderProps) => async (dispatch: any) => {
     const state = store.getState();
+    dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER });
     const address = store.getState().address.currentAddress;
 
     const data = {
@@ -58,45 +59,41 @@ export const createOrder =
         }),
       };
 
-      const createDelivery = await apiGHN.post(
-        "/v2/shipping-order/create",
-        order
-      );
-
-      if (createDelivery.status === 200) {
-        console.log("Asds", {
-          id: response.data.value,
-          orderCode: createDelivery,
-        });
-        // TODO: Integrate API UPDATE ORDER CODE
-        const resultUpdateOrderCode = await api.post(
-          "/orders/update-order-code",
-          {
-            id: response.data.value,
-            orderCode: createDelivery.data.data.order_code,
-          }
+      try {
+        const createDelivery = await apiGHN.post(
+          "/v2/shipping-order/create",
+          order
         );
-        if (resultUpdateOrderCode.data.code === 400) {
-          props.onFailure(resultUpdateOrderCode.data.message);
-          dispatch({
-            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-              .CREATE_DELIVERY_FOR_ORDER_FAIL,
-            message: resultUpdateOrderCode.data.message,
-          });
+        if (createDelivery.data.code === 200) {
+          // TODO: Integrate API UPDATE ORDER CODE
+          const resultUpdateOrderCode = await api.post(
+            "/orders/update-order-code",
+            {
+              id: response.data.value[0].id,
+              orderCode: createDelivery.data.data.order_code,
+            }
+          );
+          if (resultUpdateOrderCode.data.isSuccess) {
+            props.onSuccess();
+            dispatch({
+              type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+                .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
+            });
+          } else {
+            props.onFailure(resultUpdateOrderCode.data.message);
+            dispatch({
+              type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+                .CREATE_DELIVERY_FOR_ORDER_FAIL,
+              message: resultUpdateOrderCode.data.message,
+            });
+          }
         }
-
-        props.onSuccess();
-        dispatch({
-          type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-            .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
-        });
-      } else {
-        console.log("cretae faile");
-        props.onFailure(createDelivery.data.error);
+      } catch (error: any) {
+        props.onFailure(error.message);
         dispatch({
           type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
             .CREATE_DELIVERY_FOR_ORDER_FAIL,
-          message: createDelivery.data.message,
+          message: error.message,
         });
       }
     } else {

@@ -76,7 +76,7 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
                 {item.item.author}
               </Typography>
             </Grid>
-            {item.item.salePrice === "" ? (
+            {!item.item.salePrice || item.item.salePrice === item.item.price ? (
               <Grid item>
                 <Typography
                   variant="subtitle1"
@@ -104,7 +104,7 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
                 variant="subtitle1"
                 className={classes.name}
               >
-                ADD TO CARD
+                ADD TO CART
               </Typography>
               <FavoriteBorderOutlined className={classes.favorite} />
             </Grid>

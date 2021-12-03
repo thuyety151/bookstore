@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import BestSellerComponent from "../../components/homepage/bestseller/BestSellerBanner";
-import { getBooksForSale } from "../../redux/actions/books/getAction";
+import {
+  getBooksForSale,
+  getBooksForSaleCate,
+} from "../../redux/actions/books/getAction";
 import { RootStore } from "../../redux/store";
 
 export const sortValue = [
@@ -60,10 +63,10 @@ const ListBookForSale: React.FC = () => {
   const booksState = useSelector((state: RootStore) => state.books);
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const [pageIndex, setPageIndex] = useState(1);
-  const {predicate} = useParams() as any;
-  const [sortType, setSortType] = useState(sortValue.find(x=>x.predicate===predicate) || sortValue[0]);
-  console.log("pre",sortType)
-  console.log("books:" + JSON.stringify(booksState))
+  const { predicate, categoryId } = useParams() as any;
+  const [sortType, setSortType] = useState(
+    sortValue.find((x) => x.predicate === predicate) || sortValue[0]
+  );
 
   const rowsPerPage = () => {
     let itemInfo = pagination.pageIndex * pagination.pageSize;
@@ -79,14 +82,23 @@ const ListBookForSale: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      getBooksForSale(sortType.predicate, undefined, {
-        ...pagination,
-        pageIndex: pageIndex,
-      })
-    );
+    if (categoryId) {
+      dispatch(
+        getBooksForSaleCate(categoryId, {
+          ...pagination,
+          pageIndex: pageIndex,
+        })
+      );
+    } else if (predicate) {
+      dispatch(
+        getBooksForSale(sortType.predicate, undefined, {
+          ...pagination,
+          pageIndex: pageIndex,
+        })
+      );
+    }
     // eslint-disable-next-line
-  }, [dispatch, pageIndex, sortType]);
+  }, [dispatch, pageIndex, sortType, categoryId]);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -160,7 +172,7 @@ const ListBookForSale: React.FC = () => {
         </Grid>
         <Grid container justifyContent="center" className={classes.pagination}>
           <Pagination
-          className={classes.pages}
+            className={classes.pages}
             count={pagination.totalPage}
             shape="rounded"
             page={pageIndex}
@@ -185,15 +197,14 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      marginTop:theme.spacing(5),
-      
+      marginTop: theme.spacing(5),
     },
-    pages :{
-      "& .Mui-selected":{
-        backgroundColor:"#000 !important" ,
-        color:"#fff"
-      }
-    }
+    pages: {
+      "& .Mui-selected": {
+        backgroundColor: "#000 !important",
+        color: "#fff",
+      },
+    },
   })
 );
 export default ListBookForSale;
