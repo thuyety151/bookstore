@@ -6,8 +6,8 @@ import store from "../../store";
 
 export type CreateOrderProps = {
   note: string;
-  onSuccess: any;
-  onFailure: any;
+  onSuccess: (code: any) => void;
+  onFailure: (error: any) => void;
 };
 export const createOrder =
   (props: CreateOrderProps) => async (dispatch: any) => {
@@ -20,7 +20,7 @@ export const createOrder =
       addressId: state.address.currentAddress.id,
       note: props.note,
     };
-    const response = await api.post("/orders", data);
+    const response = await api.post("/orders/create", data);
 
     if (response.data.value) {
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
@@ -69,18 +69,27 @@ export const createOrder =
           const resultUpdateOrderCode = await api.post(
             "/orders/update-order-code",
             {
-              id: response.data.value[0].id,
+              id: response.data.value,
               orderCode: createDelivery.data.data.order_code,
             }
           );
           if (resultUpdateOrderCode.data.isSuccess) {
-            props.onSuccess();
+            console.log("success");
+            props.onSuccess(createDelivery.data.data.order_code);
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
             });
           } else {
-            props.onFailure(resultUpdateOrderCode.data.message);
+            /**
+             * Delete order when create GHN fail
+             */
+            await api.delete("/orders", {
+              params: {
+                id: response.data.value,
+              },
+            });
+            props.onFailure("Create order fail!");
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_FAIL,
@@ -89,12 +98,20 @@ export const createOrder =
           }
         }
       } catch (error: any) {
-        props.onFailure(error.message);
-        dispatch({
-          type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-            .CREATE_DELIVERY_FOR_ORDER_FAIL,
-          message: error.message,
-        });
+        /**
+         * Delete order when create GHN fail
+         */
+        // await api.delete("/orders", {
+        //   params: {
+        //     id: response.data.value,
+        //   },
+        // });
+        // props.onFailure("Create order fail!");
+        // dispatch({
+        //   type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+        //     .CREATE_DELIVERY_FOR_ORDER_FAIL,
+        //   message: error.message,
+        // });
       }
     } else {
       props.onFailure(response.data.error);

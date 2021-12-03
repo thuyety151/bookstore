@@ -38,16 +38,21 @@ function CheckoutPage() {
   const loading = useSelector((state: RootStore) => state.order.requesting);
 
   const handleClick = () => {
+    // history.push(
+    //   generatePath(ROUTE_PLACE_ORDER, {
+    //     orderCode: "code",
+    //   })
+    // );
     dispatch(
       createOrder({
         note: note,
         onSuccess: (code: string) => {
-          dispatch(getPageCart());
           history.push(
             generatePath(ROUTE_PLACE_ORDER, {
               orderCode: code,
             })
           );
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });

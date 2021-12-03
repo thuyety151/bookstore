@@ -29,7 +29,7 @@ const CartItem: React.FC<{ item: Item; closeCart: any }> = (
     // closeCart();
     history.push(
       generatePath(ROUTE_BOOK_DETAIL, {
-        bookId: item.item.id,
+        bookId: item.item.productId,
         attributeId: item.item.attributeId,
       })
     );
