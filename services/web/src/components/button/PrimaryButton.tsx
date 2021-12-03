@@ -2,15 +2,17 @@ import React from "react";
 import {
   Button,
   ButtonProps,
+  CircularProgress,
   Grid,
   makeStyles,
   Theme,
 } from "@material-ui/core";
 
-const PrimaryButton: React.FC<{ props: ButtonProps; text: string }> = ({
-  props,
-  text,
-}) => {
+const PrimaryButton: React.FC<{
+  props: ButtonProps;
+  text: string;
+  loading?: boolean;
+}> = ({ props, text, loading }) => {
   const classes = useStyles();
 
   return (
@@ -22,7 +24,7 @@ const PrimaryButton: React.FC<{ props: ButtonProps; text: string }> = ({
         className={classes.btn}
         {...props}
       >
-        {text}
+        {loading ? <CircularProgress /> : text}
       </Button>
     </Grid>
   );

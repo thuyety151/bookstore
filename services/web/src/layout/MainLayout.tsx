@@ -14,7 +14,7 @@ const MainLayout: React.FC = () => {
   const [openCart, setOpenCart] = useState(false);
 
   return (
-    <div>
+    <div style={{ marginTop: "3rem" }}>
       <HeaderComponent setOpenCart={setOpenCart} />
       <NavBarComponent
         openSideBar={openSidebar}

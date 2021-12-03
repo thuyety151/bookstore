@@ -14,9 +14,10 @@ export const ROUTE_BLOGS = "/blogs";
 export const ROUTE_OTHERS = "/others";
 export const ROUTE_SHOPS = "/shops/:id";
 export const ROUTE_CART = "/cart";
-export const ROUTE_PLACE_ORDER = "/place-order";
+export const ROUTE_PLACE_ORDER = "/place-order:orderCode";
 export const ROUTE_CHECK_OUT = "/check-out";
 export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale/:predicate";
+export const ROUTE_BOOKS_FOR_SALE_CATE = "/books-for-sale-category/:categoryId";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -46,6 +47,7 @@ export const PRIVATE_ROUTES = {
     permissions: [sharedTypes.ROLE_CUSTOMER],
   },
   [ROUTE_BOOKS_FOR_SALE]: { permissions: [] },
+  [ROUTE_BOOKS_FOR_SALE_CATE]: { permissions: [] },
 };
 
 export type AppRoute =
@@ -64,9 +66,9 @@ export type NavigationItem = {
 };
 
 export enum Predicate {
-  Popular="popular",
-  Newest="newest",
-  LowPrice="low-price",
-  HighPrice="high-price",
-  NewRelease="new-release"
+  Popular = "popular",
+  Newest = "newest",
+  LowPrice = "low-price",
+  HighPrice = "high-price",
+  NewRelease = "new-release",
 }

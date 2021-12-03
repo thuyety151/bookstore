@@ -11,13 +11,16 @@ import { useParams } from "react-router-dom";
 const BookDetailPage: React.FunctionComponent<{}> = (props) => {
   const dispatch = useDispatch();
   const { bookId } = useParams() as any;
+  const user = localStorage.getItem("user");
 
   // const bookId = "367B359F-CDE9-4D15-BC37-08D99961828A";
   useEffect(() => {
     dispatch(getBook(bookId));
     dispatch(getReviews(bookId));
-    dispatch(getPageCart());
-  }, [dispatch, bookId]);
+    if (user) {
+      dispatch(getPageCart());
+    }
+  }, [dispatch, bookId, user]);
 
   return (
     <div className="App">

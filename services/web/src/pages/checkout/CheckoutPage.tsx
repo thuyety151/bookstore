@@ -7,19 +7,21 @@ import {
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { generatePath, useHistory } from "react-router-dom";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import BillDetailComponent from "../../components/checkout/BillDetail";
 import BillInfoComponent from "../../components/checkout/BillInfo";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { createOrder } from "../../redux/actions/order/postAction";
+import { RootStore } from "../../redux/store";
 import { ROUTE_PLACE_ORDER } from "../../routers/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: "#fff6f6",
+      backgroundColor: "#fff6f6!important",
+      minHeight: "100vh",
     },
     text: {
       fontWeight: "bold",
@@ -33,39 +35,48 @@ function CheckoutPage() {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const [note, setNote] = useState<string>("");
+  const loading = useSelector((state: RootStore) => state.order.requesting);
 
   const handleClick = () => {
     dispatch(
       createOrder({
         note: note,
-        onSuccess: () => {
+        onSuccess: (code: string) => {
           dispatch(getPageCart());
-          history.push(ROUTE_PLACE_ORDER);
+          history.push(
+            generatePath(ROUTE_PLACE_ORDER, {
+              orderCode: code,
+            })
+          );
         },
         onFailure: (error: any) => {
-          enqueueSnackbar(error.message, { variant: "error" });
+          enqueueSnackbar(error, { variant: "error" });
         },
       })
     );
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <Typography variant="h4" align="center" className={classes.text}>
         Checkout
       </Typography>
-      <Grid container>
-        <Grid item xs={7}>
+      <Grid container justifyContent="center">
+        <Grid item xs={6}>
           <BillDetailComponent {...{ note, setNote }} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <BillInfoComponent />
-          <Link to="/place-order">
+          <Grid item>
             <PrimaryButton
               text="Place order"
-              props={{ onClick: () => handleClick() }}
+              props={{
+                onClick: () => handleClick(),
+                style: { width: "350px" },
+              }}
+              loading={loading}
             />
-          </Link>
+          </Grid>
         </Grid>
       </Grid>
     </div>

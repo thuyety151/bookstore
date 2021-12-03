@@ -4,7 +4,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { Button, CircularProgress, Grid, LinearProgress } from "@material-ui/core";
+import { Button, Grid, LinearProgress } from "@material-ui/core";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import CartItem from "./CartItem";
 import { useHistory } from "react-router";
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { RootStore } from "../../redux/store";
 import { sum } from "lodash";
+import { ROUTE_CHECK_OUT } from "../../routers/types";
 
 type Anchor = "left" | "right";
 
@@ -23,6 +24,7 @@ const MainShoppingCart: React.FC<{
   const history = useHistory();
   const dispatch = useDispatch();
   const { requesting, data } = useSelector((state: RootStore) => state.cart);
+  const user = localStorage.getItem("user");
 
   const subTotal = () => {
     return sum(
@@ -33,8 +35,10 @@ const MainShoppingCart: React.FC<{
   };
 
   useEffect(() => {
-    dispatch(getPageCart());
-  }, [dispatch]);
+    if (user) {
+      dispatch(getPageCart());
+    }
+  }, [dispatch, user]);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -52,19 +56,23 @@ const MainShoppingCart: React.FC<{
     history.push("/cart");
     setOpenCart(false);
   };
-  const handleCloseCart=()=>{
+  const handleCloseCart = () => {
     setOpenCart(false);
-  }
-  const handleCheckout=()=>{
+  };
+
+  const handleCheckout = () => {
+    setOpenCart(false);
     
-  }
+    history.push(ROUTE_CHECK_OUT);
+  };
+
   const list = (anchor: Anchor) => (
     <div
       className={clsx(classes.list)}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {requesting && <LinearProgress  />}
+      {requesting && <LinearProgress />}
       <Grid container>
         <Grid
           container

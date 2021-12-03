@@ -1,10 +1,11 @@
 import { List, ListItem, makeStyles, Theme } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
 import { SidebarCategoryResponse } from "../../../model/category";
 import { getSub } from "../../../redux/actions/category/getAction";
 import { RootStore } from "../../../redux/store";
+import { ROUTE_BOOKS_FOR_SALE_CATE } from "../../../routers/types";
 
 const ChildSideBarComponent: React.FC<{
   idCategory: string;
@@ -35,7 +36,9 @@ const ChildSideBarComponent: React.FC<{
       );
     } else {
       handleChildNavigate();
-      history.push(`/category/${item.id}`);
+      history.push(
+        generatePath(ROUTE_BOOKS_FOR_SALE_CATE, { categoryId: item.id })
+      );
     }
   };
   return (

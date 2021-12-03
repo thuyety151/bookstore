@@ -2,11 +2,11 @@ import api from "../../../boot/axios";
 import { NAME_ACTIONS } from "../../constants/cart/actionTypes";
 import { getPageCart } from "./getAction";
 
-type Props ={
-  id:string;
-  onSuccess:()=>void;
-  onFailure:(err:any)=>void
-}
+type Props = {
+  id: string;
+  onSuccess: () => void;
+  onFailure: (err: any) => void;
+};
 export const deleteItem = (props: Props) => async (dispatch: any) => {
   try {
     dispatch({

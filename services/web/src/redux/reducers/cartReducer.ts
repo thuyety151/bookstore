@@ -19,8 +19,9 @@ const initState: CartState = {
   subTotal: 0,
 };
 
-const subTotal = (items: Item[]) => {
-  return sum(items.map((x) => x.quantity * x.price));
+export const subTotal = (items: Item[]) => {
+  console.log("đ", items);
+  return sum(items?.map((x) => x.quantity * x.price));
 };
 
 const cartReducer = (state: CartState = initState, payload: any): CartState => {
@@ -89,6 +90,12 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
           ]),
         };
       }
+    case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT:
+      console.log("asd", payload.data);
+      return {
+        ...state,
+        itemToCheckOut: payload.data,
+      };
     default:
       return state;
   }

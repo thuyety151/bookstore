@@ -89,12 +89,18 @@ export default function DetailBook() {
   const attributeDb = data?.attributes.find(
     (x) => x.id.toLowerCase() === attributeId
   ) as Attribute;
-  
+
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute>(attributeDb);
   const { enqueueSnackbar } = useSnackbar();
 
   const rateValue = 5;
+
+  useEffect(() => {
+    if (!attribute) {
+      setAttribute(attributeDb);
+    }
+  }, [attribute, attributeDb]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const attributeId = event.target.value;
