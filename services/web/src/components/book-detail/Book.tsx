@@ -23,6 +23,7 @@ import Item from "../../model/item";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import defaultBook from "../../assets/images/default.jpeg";
+import { Review } from "../../model/review";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,13 +85,17 @@ export default function DetailBook() {
   const displayCounter = true;
   const { bookId, attributeId } = useParams() as any;
 
+  //Selector
   const { data } = useSelector((state: RootStore) => state.book);
-
+  const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const attributeDb = data?.attributes.find(
     (x) => x.id.toLowerCase() === attributeId
   ) as Attribute;
+  const reviews: Review[] | null = useSelector(
+    (state: RootStore) => state.review.data
+  );
 
-  const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
+  //State
   const [attribute, setAttribute] = useState<Attribute>(attributeDb);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -179,7 +184,7 @@ export default function DetailBook() {
                   </Grid>
                   <Grid item>
                     <Typography gutterBottom variant="body2">
-                      (3,714) By (author) {data.authorName}
+                      ({reviews.length}) By (author) {data.authorName}
                     </Typography>
                   </Grid>
                 </Grid>
