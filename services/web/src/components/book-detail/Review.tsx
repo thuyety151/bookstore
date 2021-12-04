@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import {
@@ -68,7 +68,16 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
 export default function CenteredGrid() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { bookId } = useParams() as any;
 
+  //selector
+  const reviews: Review[] | null = useSelector(
+    (state: RootStore) => state.review.data
+  );
+
+  //const ratesDb = reviews?.map(x => x.rate);
+
+  //state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -79,11 +88,12 @@ export default function CenteredGrid() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-  const { bookId } = useParams() as any;
-  const reviews: Review[] | null = useSelector(
-    (state: RootStore) => state.review.data
-  );
 
+
+  //Effect
+  useEffect(() => {
+
+  },[])
   const handleSubmit = () => {
     const review: CreateReview = {
       id: uuidv4(),
@@ -140,7 +150,7 @@ export default function CenteredGrid() {
                   <Typography variant="h3">4.6</Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography variant="body1">3,714 reviews</Typography>
+                  <Typography variant="body1">{reviews.length} reviews</Typography>
                   <Rating name="read-only" value={rateValue} readOnly />
                 </Grid>
               </Grid>
