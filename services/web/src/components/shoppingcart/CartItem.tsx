@@ -29,7 +29,7 @@ const CartItem: React.FC<{ item: Item; closeCart: any }> = (
     // closeCart();
     history.push(
       generatePath(ROUTE_BOOK_DETAIL, {
-        bookId: item.item.id,
+        bookId: item.item.productId,
         attributeId: item.item.attributeId,
       })
     );
@@ -136,7 +136,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image: {
       // width: 200,
-      height: 200,
+      // height: 200,
+      height: "auto",
+      width: "130px",
     },
     paper: {
       padding: theme.spacing(2),

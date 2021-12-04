@@ -285,7 +285,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "50px 30px 0px 30px",
   },
   paper: {
-    width: "350px",
+    width: "290px",
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 0,

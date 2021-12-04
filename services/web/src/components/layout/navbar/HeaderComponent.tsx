@@ -55,40 +55,40 @@ const HeaderComponent: React.FC<{
   };
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" color="inherit" elevation={0}>
-        <div className={classes.container}>
-          <div className={classes.listItem}>
-            <ListItem style={{ width: "20rem" }} button>
-              <HelpOutlineIcon />
-              <span>Can we help you?</span>
-            </ListItem>
-            <ListItem button>
-              <SettingsCellOutlinedIcon />
-              <span>+84 123 456 789</span>
-            </ListItem>
-          </div>
-          <div className={classes.listItem}>
-            <ListItem button>
-              <LocationOnOutlinedIcon />
-            </ListItem>
-            <ListItem button>
-              <SwapHorizOutlinedIcon />
-            </ListItem>
-            <ListItem button>
-              <FavoriteBorderOutlinedIcon />
-            </ListItem>
-            <ListItem button onClick={handlePersonOutLine}>
-              <PersonOutlineOutlinedIcon />
-            </ListItem>
-            <ListItem button onClick={handleOpenCart}>
-              <Badge badgeContent={totalItem} overlap="circular" color="error">
-                <LocalMallOutlinedIcon />
-              </Badge>
-            </ListItem>
-          </div>
+      {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
+      <div className={classes.container}>
+        <div className={classes.listItem}>
+          <ListItem style={{ width: "20rem" }} button>
+            <HelpOutlineIcon />
+            <span>Can we help you?</span>
+          </ListItem>
+          <ListItem button>
+            <SettingsCellOutlinedIcon />
+            <span>+84 123 456 789</span>
+          </ListItem>
         </div>
-        <Divider />
-      </AppBar>
+        <div className={classes.listItem}>
+          <ListItem button>
+            <LocationOnOutlinedIcon />
+          </ListItem>
+          <ListItem button>
+            <SwapHorizOutlinedIcon />
+          </ListItem>
+          <ListItem button>
+            <FavoriteBorderOutlinedIcon />
+          </ListItem>
+          <ListItem button onClick={handlePersonOutLine}>
+            <PersonOutlineOutlinedIcon />
+          </ListItem>
+          <ListItem button onClick={handleOpenCart}>
+            <Badge badgeContent={totalItem} overlap="circular" color="error">
+              <LocalMallOutlinedIcon />
+            </Badge>
+          </ListItem>
+        </div>
+      </div>
+      <Divider />
+      {/* </AppBar> */}
     </div>
   );
 };

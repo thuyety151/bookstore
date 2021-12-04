@@ -82,3 +82,6 @@ label {
 .alice-carousel__wrapper {
   width: 100%;
 }
+.alice-carousel__prev-btn {
+  text-align: right !important;
+}

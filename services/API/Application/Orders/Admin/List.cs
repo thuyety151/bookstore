@@ -43,29 +43,29 @@ namespace Application.Orders.Admin
                     .Include(x => x.Items)
                     .Where(x => x.IsDeleted == false);
 
-                //Get status from GHN API
-                _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
-                foreach (var order in orders)
-                {
-                    var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
-
-                    var response = await _httpClient.GetAsync(url);
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
-                    }
-
-                    var orderDetailGhn =
-                        JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-
-                    var statusGhn = (string)orderDetailGhn.data.status;
-
-                    order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
-
-                }
-
-                await _context.SaveChangesAsync();
+                // Get status from GHN API
+                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
+                 foreach (var order in orders)
+                 {
+                     var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
+                
+                     var response = await _httpClient.GetAsync(url);
+                
+                     if (!response.IsSuccessStatusCode)
+                     {
+                         return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
+                     }
+                
+                     var orderDetailGhn =
+                         JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                
+                     var statusGhn = (string)orderDetailGhn.data.status;
+                
+                     order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
+                
+                 }
+                
+                 await _context.SaveChangesAsync();
 
                 var orderDtos = orders.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
 

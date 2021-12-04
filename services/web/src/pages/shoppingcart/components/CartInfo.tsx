@@ -52,6 +52,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     (state: RootStore) => state.cart.itemToCheckOut
   );
   const [serviceType, setServiceType] = useState<ServiceType>({} as any);
+  // const [subTotal, setSubTotal] = useState<ServiceType>(0);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
   const orderState = useSelector((state: RootStore) => state.order);
@@ -69,9 +70,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         (x) => x.service_id === parseInt(event.target.value as string)
       ) || deliveryState.services[0]
     );
-  };
-
-  useEffect(() => {
     dispatch(
       getFee({
         serviceType: serviceType,
@@ -81,8 +79,19 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         },
       })
     );
-    // eslint-disable-next-line
-  }, [serviceType]);
+  };
+
+  // const handleGetFee = () => {
+  //   dispatch(
+  //     getFee({
+  //       serviceType: serviceType,
+  //       onSuccess: (fee) => {},
+  //       onFailure: (error: any) => {
+  //         enqueueSnackbar(error, { variant: "error" });
+  //       },
+  //     })
+  //   );
+  // };
 
   const handleApplyCoupon = () => {
     dispatch(verifyCoupon(couponCode));
@@ -100,6 +109,13 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
       })
     );
   }, [dispatch]);
+  // useEffect(() => {
+  //   setSubTotal(
+  //     itemsToCheckout.map((x) => {
+  //       return x.price * x.quantity;
+  //     }) +fe
+  //   );
+  // }, [serviceType]);
 
   const subTotal = () => {
     return sum(

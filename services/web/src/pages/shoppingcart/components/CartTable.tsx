@@ -76,15 +76,17 @@ const CartTable: React.FC = () => {
   };
 
   const handleRemoveItem = (id: string) => {
-    dispatch(deleteItem({
-      id,
-      onSuccess:()=>{
-        enqueueSnackbar("Remove item successfully",{variant:"success"})
-      },
-      onFailure:(error:any)=>{
-        enqueueSnackbar(error,{variant:"error"});
-      }
-    }));
+    dispatch(
+      deleteItem({
+        id,
+        onSuccess: () => {
+          enqueueSnackbar("Remove item successfully", { variant: "success" });
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
   };
 
   const handleSetToCheckout = (item: Item) => {
@@ -97,7 +99,7 @@ const CartTable: React.FC = () => {
   const handleViewBook = (item: Item) => {
     history.push(
       generatePath(ROUTE_BOOK_DETAIL, {
-        bookId: item.id,
+        bookId: item.productId,
         attributeId: item.attributeId,
       })
     );
@@ -150,7 +152,7 @@ const CartTable: React.FC = () => {
                         src={row.pictureUrl}
                         alt="img"
                       />
-                      <Grid item style={{width:"70%"}}>
+                      <Grid item style={{ width: "50%" }}>
                         <Grid>
                           <span className={classes.bookname}>
                             {row.productName}

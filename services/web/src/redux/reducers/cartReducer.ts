@@ -20,7 +20,6 @@ const initState: CartState = {
 };
 
 export const subTotal = (items: Item[]) => {
-  console.log("đ", items);
   return sum(items?.map((x) => x.quantity * x.price));
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 import {
   PRIVATE_ROUTES,
@@ -33,6 +33,10 @@ const PrivateRoute: React.FC<{
     }
     return { redirect: true, path: ROUTE_PERMISSION_DENIED };
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const { redirect, path } = condition();
   return (
