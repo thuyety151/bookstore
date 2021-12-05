@@ -36,13 +36,13 @@ const headCells: HeadCell[] = [
     disablePadding: true,
     label: "Name",
   },
-  // {
-  //   id: "slug",
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: "Slug",
-  //   width: "10%",
-  // },
+  {
+    id: "slug",
+    numeric: true,
+    disablePadding: false,
+    label: "Slug",
+    width: "10%",
+  },
   {
     id: "actions",
     numeric: true,
@@ -76,7 +76,7 @@ const AttributeTable: React.FC = () => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, attrState.pagination]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -88,9 +88,7 @@ const AttributeTable: React.FC = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  // const handleCreate = () => {
-  //   history.push(ROUTE_ORDER_CREATE);
-  // };
+
   const handleOpenDelete = (id?: string) => {
     setModelToDelete(id || "");
   };
@@ -138,13 +136,14 @@ const AttributeTable: React.FC = () => {
               // loading={orderState.requesting}
             />
             <TableBody>
-              {attrState.data.map((row: Attribute, index: number) => {
+              {attrState.data?.map((row: Attribute, index: number) => {
                 return (
                   <TableRow hover tabIndex={-1} key={row.id}>
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.slug}</TableCell>
                     <TableCell>
                       <Button
                         className="btn-view"

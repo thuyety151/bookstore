@@ -18,6 +18,7 @@ import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
 import OrderEditPage from "../pages/order/detail/OrderEdit";
 import AttributePage from "pages/attribute/AttributePage";
+import Validation from "pages/Validation";
 
 export const routePage: Route[] = [
   {
@@ -79,7 +80,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_USERS,
     name: "Error",
-    component: Error404,
+    component: Validation,
     exact: true,
   },
   {

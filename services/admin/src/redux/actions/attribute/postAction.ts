@@ -10,22 +10,28 @@ export type CreateAttriProps = {
 
 export const createAttribute =
   (props: CreateAttriProps) => async (dispatch: any) => {
-    dispatch({ type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION });
-    const response = await api.get("/attributes", {
-      params: props.attr,
-    });
+    try {
+      dispatch({ type: ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE });
+      const response = await api.post("/attributes", props.attr);
 
-    if (response.data.isSuccess) {
+      if (response.data.isSuccess) {
+        dispatch({
+          type: ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE_SUCCESS,
+          data: response.data.value,
+        });
+        props.onSuccess();
+      } else {
+        dispatch({
+          type: ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE_FAIL,
+          data: response.data.error,
+        });
+        props.onFailure(response.data.error);
+      }
+    } catch (error: any) {
       dispatch({
-        type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION_SUCCESS,
-        data: response.data.value,
+        type: ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE_FAIL,
+        data: error,
       });
-      props.onSuccess();
-    } else {
-      dispatch({
-        type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION_FAIL,
-        data: response.data.error,
-      });
-      props.onFailure(response.data.error);
+      props.onFailure(error);
     }
   };

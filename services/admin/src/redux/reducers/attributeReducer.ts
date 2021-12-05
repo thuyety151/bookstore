@@ -48,10 +48,15 @@ const attributeReducer = (
         requesting: true,
       };
     case ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE_SUCCESS:
+      console.log({
+        ...state,
+        requesting: false,
+        pagination: { ...paginationValue },
+      });
       return {
         ...state,
         requesting: false,
-        data: payload.data,
+        pagination: { ...paginationValue, pageIndex: 0 },
       };
     case ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE_FAIL:
       return {
