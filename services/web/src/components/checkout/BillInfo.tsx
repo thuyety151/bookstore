@@ -20,6 +20,11 @@ import { RootStore } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { formatAddress } from "../../helper/format";
 import { verifyCoupon } from "../../redux/actions/coupon/getAction";
+import { subTotal } from "../../redux/reducers/cartReducer";
+import { total } from "../../redux/reducers/orderReducer";
+import { getFee } from "../../redux/actions/order/getActions";
+import { getServices } from "../../redux/actions/delivery/getAction";
+import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
 
 const BillInfo: React.FC = () => {
   const classes = useStyles();
@@ -40,6 +45,10 @@ const BillInfo: React.FC = () => {
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
+  const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
+  // const itemToCheckout = !cart.itemToCheckOut.length
+  //   ? cart.data
+  //   : cart.itemToCheckOut;
 
   const addressInfor = () => {
     return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
@@ -53,8 +62,32 @@ const BillInfo: React.FC = () => {
     dispatch(verifyCoupon(couponCode));
   };
   useEffect(() => {
+    if (!itemToCheckout.length) {
+      console.log("cart", cart);
+      setItemToCheckout(cart.data);
+      dispatch({
+        type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT,
+        data: cart.data,
+      });
+    }
     setCouponCode(couponState.data.code || "");
+    /**
+     * get fee based on default address
+     */
+    dispatch(
+      getServices({
+        onSuccess: () => {
+          dispatch(
+            getFee({
+              onSuccess: () => {},
+              onFailure: () => {},
+            })
+          );
+        },
+      })
+    );
   }, [couponState.data]);
+
   return (
     <div>
       <Grid
@@ -78,7 +111,7 @@ const BillInfo: React.FC = () => {
               </span>
             </div>
             <Grid item container direction="column">
-              {cart.itemToCheckOut.map((item: Item, index: number) => {
+              {itemToCheckout.map((item: Item, index: number) => {
                 return (
                   <div className="row" key={index}>
                     <span>
@@ -107,7 +140,7 @@ const BillInfo: React.FC = () => {
             <Grid item container direction="column">
               <div className="row">
                 <span>Subtotal</span>
-                <span>${cart.subTotal}</span>
+                <span>${subTotal(itemToCheckout)}</span>
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
@@ -186,7 +219,7 @@ const BillInfo: React.FC = () => {
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>$97.99</h3>
+            <h3>${total(itemToCheckout)}</h3>
           </div>
         </Paper>
 
@@ -214,25 +247,6 @@ const BillInfo: React.FC = () => {
                 onChange={handleChange}
               >
                 <FormControlLabel
-                  value="Direct bank transfer"
-                  control={<Radio />}
-                  label="Direct bank transfer"
-                />
-                <Typography className={classes.text}>
-                  Make your payment directly into our bank account. Please use
-                  your Order ID as the payment reference. Your order won’t be
-                  shipped until the funds have cleared in our account.
-                </Typography>
-                <FormControlLabel
-                  value="Check payments"
-                  control={<Radio />}
-                  label="Check payments"
-                />
-                <Typography className={classes.text}>
-                  Please send a check to Store Name, Store Street, Store Town,
-                  Store State / County, Store Postcode.
-                </Typography>
-                <FormControlLabel
                   value="Cash on delivery"
                   control={<Radio />}
                   label="Cash on delivery"
@@ -240,6 +254,20 @@ const BillInfo: React.FC = () => {
                 <Typography className={classes.text}>
                   Pay with cash upon delivery.
                 </Typography>
+                <FormControlLabel
+                  value="Direct bank transfer"
+                  control={<Radio />}
+                  label="Direct bank transfer"
+                  disabled
+                />
+                <Typography className={classes.text}>Comming soon</Typography>
+                <FormControlLabel
+                  value="Check payments"
+                  control={<Radio />}
+                  label="Check payments"
+                  disabled
+                />
+                <Typography className={classes.text}>Comming soon</Typography>
               </RadioGroup>
             </FormControl>
           </Paper>
@@ -257,7 +285,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "50px 30px 0px 30px",
   },
   paper: {
-    width: "350px",
+    width: "290px",
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 0,

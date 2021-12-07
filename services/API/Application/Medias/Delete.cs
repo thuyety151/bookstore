@@ -31,10 +31,6 @@ namespace Application.Medias
 
                 if (photo == null) return null;
 
-                var result = await _mediaAccessor.DeleteMedia(photo.Id);
-
-                if (result == null) return Result<Unit>.Failure("Error when delete photo");
-
                 _context.Media.Remove(photo);
 
                 var success = await _context.SaveChangesAsync() > 0;

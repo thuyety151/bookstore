@@ -52,6 +52,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     (state: RootStore) => state.cart.itemToCheckOut
   );
   const [serviceType, setServiceType] = useState<ServiceType>({} as any);
+  // const [subTotal, setSubTotal] = useState<ServiceType>(0);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
   const orderState = useSelector((state: RootStore) => state.order);
@@ -60,11 +61,15 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   const handleChangeAddress = () => {
     setChooseAddress(true);
   };
+
   const handleChangeServiceType = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
-    setServiceType(deliveryState.services[event.target.value as number]);
-    console.log("Asds", serviceType.service_id);
+    setServiceType(
+      deliveryState.services.find(
+        (x) => x.service_id === parseInt(event.target.value as string)
+      ) || deliveryState.services[0]
+    );
     dispatch(
       getFee({
         serviceType: serviceType,
@@ -76,16 +81,41 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     );
   };
 
+  // const handleGetFee = () => {
+  //   dispatch(
+  //     getFee({
+  //       serviceType: serviceType,
+  //       onSuccess: (fee) => {},
+  //       onFailure: (error: any) => {
+  //         enqueueSnackbar(error, { variant: "error" });
+  //       },
+  //     })
+  //   );
+  // };
+
   const handleApplyCoupon = () => {
     dispatch(verifyCoupon(couponCode));
   };
   useEffect(() => {
     dispatch(
       getDefaultAddress(() => {
-        dispatch(getServices());
+        dispatch(
+          getServices({
+            onSuccess: (firstService) => {
+              setServiceType(firstService);
+            },
+          })
+        );
       })
     );
   }, [dispatch]);
+  // useEffect(() => {
+  //   setSubTotal(
+  //     itemsToCheckout.map((x) => {
+  //       return x.price * x.quantity;
+  //     }) +fe
+  //   );
+  // }, [serviceType]);
 
   const subTotal = () => {
     return sum(
@@ -142,8 +172,9 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               </span>
             </div>
             <Grid item className="row">
+              {deliveryState.services && (
                 <RadioGroup
-                  value={serviceType}
+                  value={serviceType.service_id || null}
                   onChange={handleChangeServiceType}
                 >
                   <span>Service types</span>
@@ -151,21 +182,23 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
                     return (
                       <FormControlLabel
                         key={index}
-                        value={index}
+                        value={service.service_id}
                         control={<Radio />}
                         label={service.short_name}
                       />
                     );
                   })}
                 </RadioGroup>
-              </Grid>
+              )}
+            </Grid>
             <Grid item container direction="column">
-                <span>Shipping to</span>
-                <br/>
-                <span>{defaultAddress.firstName} {defaultAddress.lastName} ({defaultAddress.phone})</span>
-                <span>
-                  {formatAddress(defaultAddress)}
-                </span>
+              <span>Shipping to</span>
+              <br />
+              <span>
+                {defaultAddress.firstName} {defaultAddress.lastName} (
+                {defaultAddress.phone})
+              </span>
+              <span>{formatAddress(defaultAddress)}</span>
               <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>
               </div>

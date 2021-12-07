@@ -87,8 +87,7 @@ const SlideEffect: React.FC = () => {
             item
             className={classes.viewAll}
             onClick={() => handleNavBook()}
-          >
-          </Grid>
+          ></Grid>
         </Grid>
         <Grid item xs={9}>
           <Paper className={classes.paper} elevation={0}>

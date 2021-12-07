@@ -47,23 +47,7 @@ namespace Application.Orders
 
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
-                // CHECK COUPON
-                if (request.OrderParams.Coupon != null)
-                {
-                    var coupon = await _context.Coupons.Include(x => x.Books)
-                        .SingleOrDefaultAsync((x) =>
-                            x.Code.ToLower() == request.OrderParams.Coupon.Code.Trim().ToLower() && x.IsDeleted == false);
-                    if (coupon == null)
-                    {
-                        return Result<Guid>.Failure("Coupon is not exist");
-                    }
-
-                    if (DateTime.Now > coupon.ExpireDate)
-                    {
-                        return Result<Guid>.Failure("Coupon is expired");
-                    }
-                    
-                }
+               
 
                 //Get list item 
                 var items = _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString()));
@@ -86,20 +70,46 @@ namespace Application.Orders
                         bookAttribute.StockStatus = StockStatus.OutOfStock;
                     }
                 }
-                
-                
+
                 var order = new Order()
                 {
                     Id = new Guid(),
                     OrderDate = DateTime.Now,
                     Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name ,
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
-                    SubTotal = items.Select(x => x.Price).Sum(),
+                    SubTotal = items.Select(x => x.Price * x.Quantity).Sum(),
                     OrderNote = request.OrderParams.OrderNote,
                     UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
                     AddressToShip = _context.Addresses.FirstOrDefault(x => x.Id == request.OrderParams.AddressId),
                     Items = new List<Item>()
                 };
+                
+                // CHECK COUPON
+                if (request.OrderParams.Coupon != null)
+                {
+                    var coupon = await _context.Coupons.Include(x => x.Books)
+                        .SingleOrDefaultAsync((x) =>
+                            x.Code.ToLower() == request.OrderParams.Coupon.Code.Trim().ToLower() && x.IsDeleted == false);
+                    if (coupon == null)
+                    {
+                        return Result<Guid>.Failure("Coupon is not exist");
+                    }
+
+                    if (DateTime.Now > coupon.ExpireDate)
+                    {
+                        return Result<Guid>.Failure("Coupon is expired");
+                    }
+
+                    if (coupon.DiscountType == (int)DiscountType.Percentage)
+                    {
+                        order.SubTotal = order.SubTotal - (coupon.CouponAmount * order.SubTotal) / 100;
+                    }
+                    else if (coupon.DiscountType == (int) DiscountType.FixedCart)
+                    {
+                        order.SubTotal = order.SubTotal - coupon.CouponAmount;
+                    }
+                    
+                }
 
                 var cart = _context.Carts.Include(x => x.Items)
                     .FirstOrDefault(

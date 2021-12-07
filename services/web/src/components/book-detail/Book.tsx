@@ -89,12 +89,20 @@ export default function DetailBook() {
   const attributeDb = data?.attributes.find(
     (x) => x.id.toLowerCase() === attributeId
   ) as Attribute;
-  
+
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute>(attributeDb);
   const { enqueueSnackbar } = useSnackbar();
 
   const rateValue = 5;
+
+  useEffect(() => {
+    setAttribute(attributeDb)
+  }, []);
+
+  useEffect(() => {
+    setAttribute(attribute)
+  }, [attribute]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const attributeId = event.target.value;
@@ -196,7 +204,7 @@ export default function DetailBook() {
                 <Grid item>
                   <FormControl className={classes.formControl}>
                     <Select
-                      value={attribute.id}
+                      value={attribute?.id ?? attributeId}
                       onChange={handleChange}
                       className={classes.selectEmpty}
                       inputProps={{ "aria-label": "Without label" }}

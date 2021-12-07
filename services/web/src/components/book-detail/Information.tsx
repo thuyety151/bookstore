@@ -3,7 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import DescriptionComponent from "./Description";
 import ProductDetailsComponent from "./ProductDetails";
 import ReviewComponent from "./Review";
-import RecommendBooksComponent from "./RecommendBooks"
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -29,7 +29,7 @@ export default function SimpleTabs() {
 
       <ReviewComponent />
 
-      <RecommendBooksComponent/>
+      {/* <RecommendBooksComponent/> */}
     </div>
   );
 }

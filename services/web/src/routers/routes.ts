@@ -17,6 +17,7 @@ import {
   ROUTE_AUTHOR,
   ROUTE_BOOK,
   ROUTE_BOOKS_FOR_SALE,
+  ROUTE_BOOKS_FOR_SALE_CATE,
   ROUTE_BOOK_DETAIL,
   ROUTE_CART,
   ROUTE_CATEGORY,
@@ -64,6 +65,12 @@ export const routeMainLayout: Route[] = [
   },
   {
     path: ROUTE_BOOKS_FOR_SALE,
+    name: "Books For Sale",
+    component: BooksForSalePage,
+    exact: false,
+  },
+  {
+    path: ROUTE_BOOKS_FOR_SALE_CATE,
     name: "Books For Sale",
     component: BooksForSalePage,
     exact: false,

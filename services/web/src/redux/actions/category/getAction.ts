@@ -37,3 +37,22 @@ export const getSub = (obj: any) => async (dispatch: any) => {
 export const refreshSideBar = () => (dispatch: any) => {
   dispatch({ type: NAME_ACTIONS.SIDEBAR.REFRESH_SIDEBAR });
 };
+
+export const getCategories = () => async (dispatch: any) =>{
+  dispatch({type: NAME_ACTIONS.GET_CATEGORIES});
+
+  var response = await api.get('/categories/all');
+
+  if(response.data?.isSuccess){
+      dispatch({
+          type: NAME_ACTIONS.GET_CATEGORIES.GET_CATEGORIES_SUCCESS,
+          data: response.data.value
+      });
+  }
+  else{
+      dispatch({
+          type: NAME_ACTIONS.GET_CATEGORIES.GET_CATEGORIES_FAIL,
+          message: response.data.error
+      })
+  }
+}

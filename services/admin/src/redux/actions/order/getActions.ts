@@ -1,3 +1,4 @@
+import { omit } from "lodash";
 import api from "../../../boot/axios";
 import { Pagination } from "../../../helper/paginationValue";
 import { ACTION_NAMES } from "./actionTypes";
@@ -10,30 +11,41 @@ export type getPaginationType = {
 
 export const getOrderPagination =
   (props: getPaginationType) => async (dispatch: any) => {
-    dispatch({ type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION });
-    const response = await api.post(
-      "/orders",
-      {},
-      {
-        params: props.pagination,
-      }
-    );
-    // const response = await api.get("/orders",{data:{}}, {
-    //   params: props.pagination
-    // });
-
-    if (response.data.isSuccess) {
+    try {
       dispatch({
-        type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_SUCCESS,
-        data: response.data.value,
+        type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION,
       });
-      props.onSuccess();
-    } else {
+      const response = await api.post(
+        "/orders",
+        {},
+        {
+          params: omit(props.pagination, ["totalPage", "totalCount"]),
+        }
+      );
+      // const response = await api.get("/orders",{data:{}}, {
+      //   params: props.pagination
+      // });
+
+      if (response.data.isSuccess) {
+        dispatch({
+          type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_SUCCESS,
+          data: response.data.value,
+          pagination: response.headers.pagination,
+        });
+        props.onSuccess();
+      } else {
+        dispatch({
+          type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL,
+          data: response.data.error,
+        });
+        props.onFailure(response.data.error);
+      }
+    } catch (error: any) {
       dispatch({
         type: ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL,
-        data: response.data.error,
+        data: error,
       });
-      props.onFailure(response.data.error);
+      props.onFailure(error);
     }
   };
 

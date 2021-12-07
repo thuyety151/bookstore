@@ -2,16 +2,22 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import image1 from "../../../assets/images/menu-1.png";
-import image2 from "../../../assets/images/menu-2.png";
-import image3 from "../../../assets/images/menu-3.png";
 
 const handleDragStart = (e: any) => e.preventDefault();
 
 const items = [
-  <img src={image1} alt="menu1" onDragStart={handleDragStart} width="100%" />,
-  <img src={image2} alt="menu2" onDragStart={handleDragStart} width="100%" />,
-  <img src={image3} alt="menu3" onDragStart={handleDragStart} width="100%" />,
+  <img
+    src="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638473488/Gateway_Quote_A2_11-25_nlb6s2.jpg"
+    alt="menu1"
+    onDragStart={handleDragStart}
+    width="100%"
+  />,
+  <img
+    src="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638473478/Gateway_Quote_A2_11-28_vjdpr6.jpg"
+    alt="menu2"
+    onDragStart={handleDragStart}
+    width="100%"
+  />,
 ];
 
 const responsive = {
@@ -23,7 +29,7 @@ const responsive = {
 const SlideEffect: React.FC = () => {
   return (
     <Grid container justifyContent="center">
-      <Grid item xs={9}>
+      <Grid item xs={12}>
         <AliceCarousel
           mouseTracking
           disableDotsControls

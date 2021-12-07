@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { AppBar, makeStyles } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
@@ -55,6 +55,7 @@ const HeaderComponent: React.FC<{
   };
   return (
     <div className={classes.root}>
+      {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
       <div className={classes.container}>
         <div className={classes.listItem}>
           <ListItem style={{ width: "20rem" }} button>
@@ -87,6 +88,7 @@ const HeaderComponent: React.FC<{
         </div>
       </div>
       <Divider />
+      {/* </AppBar> */}
     </div>
   );
 };

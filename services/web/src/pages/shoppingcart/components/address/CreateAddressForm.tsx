@@ -52,7 +52,6 @@ const CreateAddressForm: React.FC<{ onClose: () => void; address?: Address }> =
     const [formValue, setFormValue] = React.useState<AddressFormSchema>(
       getInitValue()
     );
-    console.log("Asd", formValue);
     const loading = useSelector((state: RootStore) => state.address.requesting);
 
     const handleCreateAddress = () => {

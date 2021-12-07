@@ -26,6 +26,9 @@ namespace Application.Core
             CreateMap<Category, BooksCategoriesDto>();
             CreateMap<Book, BooksCategoriesDto>();
             CreateMap<Book, BookDetailDto>()
+                .ForMember(x => x.CategoryIds, o => o.MapFrom(c => c.Categories.Select(x => x.CategoryId.ToString()).ToList()))
+                .ForMember(x => x.LanguageId, o => o.MapFrom(l => l.Language.Id))
+                .ForMember(x => x.IsPublic, o => o.MapFrom(x => x.IsPublic))
                 .ForMember(x => x.Language, o => o.MapFrom(s => s.Language.Name))
                 .ForMember(x => x.AuthorId, o => o.MapFrom(s => s.Author.Id))
                 .ForMember(x => x.AuthorName, o => o.MapFrom(s => s.Author.Name))

@@ -16,42 +16,40 @@ import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { deleteItem } from "../../redux/actions/cart/deleteAction";
 
-const CartItem: React.FC<{ item: Item; closeCart:any }> = (
+const CartItem: React.FC<{ item: Item; closeCart: any }> = (
   item,
   closeCart
 ) => {
   const classes = useStyles();
   const history = useHistory();
-const dispatch= useDispatch();
-const {enqueueSnackbar} = useSnackbar();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleNavBook = () => {
     // closeCart();
     history.push(
       generatePath(ROUTE_BOOK_DETAIL, {
-        bookId: item.item.id,
+        bookId: item.item.productId,
         attributeId: item.item.attributeId,
       })
     );
   };
-const removeItem=()=>{
-  dispatch(deleteItem({
-    id:item.item.id,
-    onSuccess:()=>{
-      enqueueSnackbar("Remove item successfully",{variant:"success"})
-    },
-    onFailure:(error:any)=>{
-      enqueueSnackbar(error,{variant:"error"});
-    }
-  }));
-}
+  const removeItem = () => {
+    dispatch(
+      deleteItem({
+        id: item.item.id,
+        onSuccess: () => {
+          enqueueSnackbar("Remove item successfully", { variant: "success" });
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
+  };
   return (
     <div className={classes.root}>
-      <Paper
-        className={classes.paper}
-        elevation={0}
-        square
-      >
+      <Paper className={classes.paper} elevation={0} square>
         <Grid
           container
           direction="row"
@@ -59,7 +57,7 @@ const removeItem=()=>{
           alignItems="flex-start"
           spacing={3}
         >
-          <Grid item  onClick={handleNavBook}>
+          <Grid item xs={3} onClick={handleNavBook}>
             <ButtonBase className={classes.image}>
               <img
                 className={classes.image}
@@ -68,7 +66,13 @@ const removeItem=()=>{
               />
             </ButtonBase>
           </Grid>
-          <Grid item xs container direction="column"  onClick={handleNavBook}>
+          <Grid
+            item
+            xs={8}
+            container
+            direction="column"
+            onClick={handleNavBook}
+          >
             <Grid item>
               <Typography
                 gutterBottom
@@ -115,8 +119,8 @@ const removeItem=()=>{
               </Grid>
             )}
           </Grid>
-          <Grid item className={classes.extension}>
-            <CloseIcon style={{ fontSize: 20 }} onClick={removeItem}/>
+          <Grid item xs={1} className={classes.extension}>
+            <CloseIcon style={{ fontSize: 20 }} onClick={removeItem} />
           </Grid>
         </Grid>
       </Paper>
@@ -132,7 +136,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image: {
       // width: 200,
-      height: 200,
+      // height: 200,
+      height: "auto",
+      width: "130px",
     },
     paper: {
       padding: theme.spacing(2),
@@ -179,9 +185,9 @@ const useStyles = makeStyles((theme: Theme) =>
       cursor: "pointer",
       display: "flex",
       justifyContent: "space-between",
-      "& :hover":{
-        color:"red"
-      }
+      "& :hover": {
+        color: "red",
+      },
     },
     favorite: {
       "&:hover": {

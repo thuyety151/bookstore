@@ -165,17 +165,15 @@ namespace Persistence
                     {
                         Id = "The Overdue Life of Amy Byler",
                         Name = "The Overdue Life of Amy Byler",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/324c1a39b6408ed0828dc2797ca7a7ba.jpg?alt=media&token=99428705-a33c-47d1-99ec-9aac2b5671a3",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638283159/91Fu3IZ94dL_zovqpr.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
                     new Media()
                     {
-                        Id = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
+                        Id = "Harry-Potter",
                         Name = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/The%20Overdue%20Life%20of%20Amy%20Byler.jpg?alt=media&token=c3f57044-da2c-4a64-a744-73b76c774d5e",
+                        Url ="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638280759/b94e8848ea41470c767f0266604975c4_ogeezy.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -183,8 +181,7 @@ namespace Persistence
                     {
                         Id = "The Alchemist",
                         Name = "The Alchemist",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/harry_potter_and_the_goblet_of_fire_book_4_.jpg?alt=media&token=1449641d-45de-4007-8548-631024f87f36",
+                        Url ="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638283152/18144590._UY2404_SS2404__qfego2.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -192,8 +189,7 @@ namespace Persistence
                     {
                         Id = "The Subtle Art of Not Giving a F*Ck",
                         Name = "The Subtle Art of Not Giving a F*Ck",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url ="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638281086/324c1a39b6408ed0828dc2797ca7a7ba_ufu97l.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -201,8 +197,7 @@ namespace Persistence
                     {
                         Id = "Call Me By Your Name",
                         Name = "Call Me By Your Name",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631893/xaf8lnujl3awvje051wc.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -210,8 +205,7 @@ namespace Persistence
                     {
                         Id = "Sapiens : A Brief History Of Humankind",
                         Name = "Sapiens : A Brief History Of Humankind",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631571/gvrrv7brlw1n7p5ja7wy.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -219,8 +213,7 @@ namespace Persistence
                     {
                         Id = "Homo Deus: A Brief History Of Tomorrow",
                         Name = "Homo Deus: A Brief History Of Tomorrow",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638268740/azsw2cuvwqkkkpswveeg.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -228,8 +221,7 @@ namespace Persistence
                     {
                         Id = "Me Before You",
                         Name = "Me Before You",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638282596/81COeJEEL7L_rcmocb.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -237,8 +229,7 @@ namespace Persistence
                     {
                         Id = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
                         Name = "Harry Potter Part 6: Harry Potter And The Half-Blood Prince",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638001547/tyidcqekzkiwbel8rrp8.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -246,8 +237,7 @@ namespace Persistence
                     {
                         Id = "A Midsummer Night's Dream",
                         Name = "A Midsummer Night's Dream",
-                        Url =
-                            "https://firebasestorage.googleapis.com/v0/b/internship-august-2021-b1566.appspot.com/o/the-alchemist-by-paulo-coelho-bookworm-hanoi.jpg?alt=media&token=33dc7072-e3d7-4c98-9657-52c84c959f29",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637991420/soflh6ojpomhqytdqxlv.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -281,36 +271,64 @@ namespace Persistence
                     },
                     new Media()
                     {
-                        Id = "lkrclxm7pjx1nqqtmynf",
-                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637632121/lkrclxm7pjx1nqqtmynf.jpg",
+                        Id = "b8818d43b66cbef4217b8389028298da",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638281868/b8818d43b66cbef4217b8389028298da_squsjh.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
                     new Media()
                     {
-                        Id = "nfxrkmgzrzcsanqv3c6h",
-                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637632501/nfxrkmgzrzcsanqv3c6h.jpg",
+                        Id = "Atomic-habit",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638282045/2021_10_25_16_04_02_1-390x510_rqdhpn.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
                     new Media()
                     {
-                        Id = "xaf8lnujl3awvje051wc",
-                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631893/xaf8lnujl3awvje051wc.jpg",
+                        Id = "Search-inside-yourself",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638255851/mgweajs2bd9zoaczczyx.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
                     new Media()
                     {
-                        Id = "ivkjdto0blzz99zsx2cj",
-                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631791/ivkjdto0blzz99zsx2cj.jpg",
+                        Id = "violent",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638269078/djezmsg9evmxbrmmqqnt.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
                     new Media()
                     {
-                        Id = "gvrrv7brlw1n7p5ja7wy",
-                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637631571/gvrrv7brlw1n7p5ja7wy.jpg",
+                        Id = "the-greate-catsby",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1637991420/soflh6ojpomhqytdqxlv.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "mlwiruyyxllf1zk1kn9l",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638454280/mlwiruyyxllf1zk1kn9l.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "aleglevp9dj4mgzonrkv",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638454745/aleglevp9dj4mgzonrkv.webp",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "qstxf4703gudtpaxvqyb",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638454860/qstxf4703gudtpaxvqyb.png",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "jojo",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638281868/b8818d43b66cbef4217b8389028298da_squsjh.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -387,7 +405,7 @@ namespace Persistence
                         Id = new Guid(),
                         Name = "Jojo Moyes",
                         IsDeleted = false,
-                        Media = medias.FirstOrDefault(x => x.Id == "ppouorllrmfrhsohussm")
+                        Media = medias.FirstOrDefault(x => x.Id == "jojo")
                     },
                 };
                 authors.AddRange(authorList);
@@ -454,7 +472,8 @@ namespace Persistence
                                 Slug = "economics",
                                 IsDeleted = false,
                             }
-                        }
+                        },
+                        Media = medias.Where(x=>x.Id=="qstxf4703gudtpaxvqyb").SingleOrDefault()
                     },
                     new Category()
                     {
@@ -485,7 +504,8 @@ namespace Persistence
                                 Slug = "self-sufficiency",
                                 IsDeleted = false,
                             },
-                        }
+                        },
+                        Media = medias.Where(x=>x.Id=="aleglevp9dj4mgzonrkv").SingleOrDefault()
                     },
                     new Category()
                     {
@@ -516,7 +536,8 @@ namespace Persistence
                                 Slug = "adventure",
                                 IsDeleted = false,
                             }
-                        }
+                        },
+                        Media = medias.Where((x=>x.Id=="mlwiruyyxllf1zk1kn9l")).SingleOrDefault()
                     }
                 };
                 categories.AddRange(categorieList);
@@ -576,7 +597,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "Harry Potter Part 4").ToList(),
+                        Media = medias.Where(x => x.Id == "Harry-Potter").ToList(),
                         ViewCount = 100,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -688,7 +709,7 @@ namespace Persistence
                                 Category = categories[1].SubCategories.ElementAt(1)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "gvrrv7brlw1n7p5ja7wy").ToList(),
+                        Media = medias.Where(x => x.Id == "Sapiens : A Brief History Of Humankind").ToList(),
                         ViewCount = 25,
                         Dimensions = "9126 x 194 x 28mm | 301g",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -829,7 +850,7 @@ namespace Persistence
                                 Category = categories[0].SubCategories.ElementAt(1)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "ivkjdto0blzz99zsx2cj").ToList(),
+                        Media = medias.Where(x => x.Id == "Atomic-habit").ToList(),
                         ViewCount = 150,
                         Dimensions = "15.7 x 2.7 x 18.3 cm",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -839,7 +860,7 @@ namespace Persistence
                     new Book()
                     {
                         Id = new Guid(),
-                        Name = "Call Me By Your Name",
+                        Name = "The Greate Catsby",
                         ShortDescription =
                             "No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.",
                         Description =
@@ -857,7 +878,7 @@ namespace Persistence
                                 Category =  categories[1].SubCategories.ElementAt(0)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "xaf8lnujl3awvje051wc").ToList(),
+                        Media = medias.Where(x => x.Id == "the-greate-catsby").ToList(),
                         ViewCount = 150,
                         Dimensions = "15.7 x 2.7 x 18.3 cm",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -885,7 +906,7 @@ namespace Persistence
                                 Category =  categories[2].SubCategories.ElementAt(0)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "nfxrkmgzrzcsanqv3c6h").ToList(),
+                        Media = medias.Where(x => x.Id == "Search-inside-yourself").ToList(),
                         ViewCount = 150,
                         Dimensions = "15.7 x 2.7 x 18.3 cm",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -913,7 +934,7 @@ namespace Persistence
                                 Category = categories[2].SubCategories.ElementAt(2)
                             }
                         },
-                        Media = medias.Where(x => x.Id == "lkrclxm7pjx1nqqtmynf").ToList(),
+                        Media = medias.Where(x => x.Id == "violent").ToList(),
                         ViewCount = 150,
                         Dimensions = "15.7 x 2.7 x 18.3 cm",
                         PublicationDate = new DateTime(2020, 3, 12),
@@ -1287,7 +1308,7 @@ namespace Persistence
                         Price = 234,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
-                        SalePriceStartDate = DateTime.Now,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
                         SalePrice = 199
                     },
@@ -1298,7 +1319,7 @@ namespace Persistence
                         Price = 119,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
-                        SalePriceStartDate = DateTime.Now,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
                         SalePrice = 99
                     },
@@ -1309,7 +1330,7 @@ namespace Persistence
                         Price = 150,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
-                        SalePriceStartDate = DateTime.Now,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
                         SalePrice = 99
                     }

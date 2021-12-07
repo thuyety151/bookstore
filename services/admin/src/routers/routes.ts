@@ -11,11 +11,15 @@ import {
   ROUTE_ORDER_DETAIL,
   ROUTE_ORDER_EDIT,
   ROUTE_PRODUCTS,
+  ROUTE_PRODUCT_ADD,
+  ROUTE_PRODUCT_DETAIL,
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
 import Example from "../pages/Example";
 import OrderPage from "../pages/order/OrderPage";
+import ProductPage from "pages/product/ProductPage";
+import ProductDetailPage from "../pages/product/detail/ProductDetail";
 import OrderEditPage from "../pages/order/detail/OrderEdit";
 import AttributePage from "pages/attribute/AttributePage";
 import Validation from "pages/Validation";
@@ -43,8 +47,8 @@ export const routes: Route[] = [
   },
   {
     path: ROUTE_PRODUCTS,
-    name: "Error",
-    component: Error404,
+    name: "Book",
+    component: ProductPage,
     exact: true,
   },
   {
@@ -99,6 +103,18 @@ export const routes: Route[] = [
     path: ROUTE_ORDER_EDIT,
     name: "Edit Order",
     component: OrderEditPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_PRODUCT_DETAIL,
+    name: "Product",
+    component: ProductDetailPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_PRODUCT_ADD,
+    name: "Add product",
+    component: ProductDetailPage,
     exact: true,
   },
 ];

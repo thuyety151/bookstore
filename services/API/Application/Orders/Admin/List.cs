@@ -43,7 +43,7 @@ namespace Application.Orders.Admin
                     .Include(x => x.Items)
                     .Where(x => x.IsDeleted == false);
 
-                //Get status from GHN API
+                // Get status from GHN API
                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
                 foreach (var order in orders)
                 {
@@ -51,18 +51,19 @@ namespace Application.Orders.Admin
 
                     var response = await _httpClient.GetAsync(url);
 
-                    if (!response.IsSuccessStatusCode)
+                    // if (!response.IsSuccessStatusCode)
+                    // {
+                    //     return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
+                    // }
+                    if (response.IsSuccessStatusCode)
                     {
-                        return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
+                        var orderDetailGhn =
+                            JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+
+                        var statusGhn = (string) orderDetailGhn.data.status;
+
+                        order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
                     }
-
-                    var orderDetailGhn =
-                        JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-
-                    var statusGhn = (string)orderDetailGhn.data.status;
-
-                    order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
-
                 }
 
                 await _context.SaveChangesAsync();

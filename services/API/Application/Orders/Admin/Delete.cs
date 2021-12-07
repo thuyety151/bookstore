@@ -63,7 +63,7 @@ namespace Application.Orders.Admin
 
                 var response = await _httpClient.PostAsync(url, requestContent);
                 
-                if (!response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode && order.OrderCode!=null)
                 {
                     return Result<Unit>.Failure("Error when cancel order from Giao Hang Nhanh");
                 }
