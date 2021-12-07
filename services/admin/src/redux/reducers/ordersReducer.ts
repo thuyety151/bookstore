@@ -21,6 +21,7 @@ const ordersReducer = (
   state: OrderState = initState,
   payload: any
 ): OrderState => {
+  console.log(payload);
   switch (payload.type) {
     case ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION:
       return {
@@ -32,6 +33,7 @@ const ordersReducer = (
         ...state,
         requesting: false,
         data: payload.data,
+        pagination: JSON.parse(payload.pagination),
       };
     case ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL:
       return {

@@ -82,7 +82,7 @@ const headCells: HeadCell[] = [
 const OrderTable: React.FC = () => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const orderState = useSelector((state: RootStore) => state.orders);
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootStore) => state.orders.pagination);
@@ -96,8 +96,8 @@ const OrderTable: React.FC = () => {
       getOrderPagination({
         pagination: {
           ...pagination,
-          pageIndex: page + 1,
           pageSize: rowsPerPage,
+          pageIndex: page + 1,
         },
         onSuccess: () => {},
         onFailure: () => {},

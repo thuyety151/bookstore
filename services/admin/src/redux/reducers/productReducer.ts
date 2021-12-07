@@ -75,7 +75,7 @@ const productReducer = (
         requesting: false,
         message: payload.message,
       };
-      case ACTION_NAMES.DELETE_PRODUCT.DELETE_PRODUCT:
+    case ACTION_NAMES.DELETE_PRODUCT.DELETE_PRODUCT:
       return {
         ...state,
         requesting: true,
