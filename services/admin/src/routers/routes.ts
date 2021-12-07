@@ -22,6 +22,7 @@ import ProductPage from "pages/product/ProductPage";
 import ProductDetailPage from "../pages/product/detail/ProductDetail";
 import OrderEditPage from "../pages/order/detail/OrderEdit";
 import Validation from "pages/Validation";
+import Dashboard from "pages/dashboard/Dashboard";
 export const routePage: Route[] = [
   {
     path: "/",
@@ -40,7 +41,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_DASHBOARD,
     name: "Example",
-    component: Example,
+    component: Dashboard,
     exact: true,
   },
   {
