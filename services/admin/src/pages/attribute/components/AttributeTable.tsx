@@ -52,7 +52,11 @@ const headCells: HeadCell[] = [
   },
 ];
 
-const AttributeTable: React.FC = () => {
+export type AttributeTableProps = {
+  setModelEdit: any;
+};
+
+const AttributeTable: React.FC<AttributeTableProps> = (props) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -110,7 +114,8 @@ const AttributeTable: React.FC = () => {
     // setModelToViewDetail(item);
   };
 
-  const handleEdit = (id?: string) => {
+  const handleEdit = (model: Attribute) => {
+    props.setModelEdit(model);
     // history.push(
     //   generatePath(ROUTE_ORDER_EDIT, {
     //     orderId: id || modelToViewDetail.id,
@@ -153,7 +158,7 @@ const AttributeTable: React.FC = () => {
                       <Button
                         className="btn-edit"
                         startIcon={<Edit />}
-                        onClick={() => handleEdit(row.id)}
+                        onClick={() => handleEdit(row)}
                       />
                       <Button
                         className="btn-delete"

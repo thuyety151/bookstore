@@ -1,20 +1,25 @@
 import { Grid } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useState } from "react";
 import AddForm from "./components/AddForm";
 import AttributeTable from "./components/AttributeTable";
+import EditForm from "./components/EditForm";
 
 const AttributePage: React.FC = () => {
   const classes = useStyles();
+  const [modelEdit, setModelEdit] = useState(null);
 
   return (
     <div>
-      <Grid container justifyContent="space-between">
+      <Grid container justifyContent="space-evenly">
+        <Grid item xs={6} className={classes.table}>
+          <AttributeTable setModelEdit={setModelEdit} />
+        </Grid>
         <Grid item xs={5}>
           <AddForm />
         </Grid>
-        <Grid item xs={6} className={classes.table}>
-          <AttributeTable />
+        <Grid item xs={12}>
+          <EditForm model={modelEdit} setModel={setModelEdit} />
         </Grid>
       </Grid>
     </div>

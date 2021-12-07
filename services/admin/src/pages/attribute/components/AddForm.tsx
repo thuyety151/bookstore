@@ -13,13 +13,17 @@ import { get, keys } from "lodash";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { createAttribute } from "redux/actions/attribute/postAction";
+import { Attribute } from "redux/reducers/attributeReducer";
 
-const AddForm: React.FC = () => {
+export type AddFormProps = {
+  model?: Attribute | null;
+};
+const AddForm: React.FC<AddFormProps> = (props) => {
   const classes = useStyles();
   const [isSubmit, setIsSubmit] = useState(false);
   const getInitForm = () => ({
-    name: "",
-    slug: "",
+    name: props.model?.name || "",
+    slug: props.model?.slug || "",
   });
   const [formValue, setFormValue] = useState(getInitForm());
   const dispatch = useDispatch();
@@ -71,7 +75,9 @@ const AddForm: React.FC = () => {
   return (
     <div className={classes.root}>
       <Grid>
-        <Typography className="bolder">Add new attribute</Typography>
+        {!props.model && (
+          <Typography className="bolder">Add new attribute</Typography>
+        )}
         <br />
         <Typography>Name</Typography>
         <VInput
@@ -103,7 +109,7 @@ const AddForm: React.FC = () => {
         />
         <br />
         <ContainedButton
-          text="Add attribute"
+          text={props.model ? "Save" : "Add attribute"}
           props={{
             style: {
               width: "fit-content",
