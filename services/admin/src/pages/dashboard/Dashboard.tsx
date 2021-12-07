@@ -58,21 +58,8 @@ const Dashboard: React.FC = () => {
       </Grid>
       <ComposedChart width={1500} height={800} data={data}>
         <XAxis dataKey="name" axisLine={false} tickLine={false} />
-        <YAxis
-          yAxisId="left"
-          tickCount={1}
-          tickLine={false}
-          axisLine={false}
-          minTickGap={600}
-        />
-        <YAxis
-          yAxisId="right"
-          orientation="right"
-          //   tickCount={10}
-          tickLine={false}
-          axisLine={false}
-          minTickGap={600}
-        />
+        <YAxis yAxisId="left" />
+        <YAxis yAxisId="right" orientation="right" />
         <Tooltip />
         <Legend />
         <CartesianGrid stroke="#f5f5f5" />

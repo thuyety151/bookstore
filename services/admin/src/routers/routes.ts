@@ -6,6 +6,7 @@ import {
   ROUTE_CATEGORIES,
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
+  ROUTE_EXAMPLE,
   ROUTE_ORDERS,
   ROUTE_ORDER_CREATE,
   ROUTE_ORDER_DETAIL,
@@ -114,6 +115,12 @@ export const routes: Route[] = [
     path: ROUTE_PRODUCT_ADD,
     name: "Add product",
     component: ProductDetailPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_EXAMPLE,
+    name: "Example",
+    component: Example,
     exact: true,
   },
 ];

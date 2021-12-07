@@ -17,6 +17,7 @@ export const ROUTE_PRODUCT_DETAIL = "/products/:bookId";
 export const ROUTE_PRODUCT_ADD = "/product/add";
 export const ROUTE_ORDER_CREATE = "/orders/create";
 export const ROUTE_ORDER_EDIT = "/orders/edit/:orderId";
+export const ROUTE_EXAMPLE = "/example";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -40,6 +41,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_ORDER_CREATE]: { permissions: [] },
   [ROUTE_ORDER_EDIT]: { permissions: [] },
   [ROUTE_PRODUCT_ADD]: { permissions: [] },
+  [ROUTE_EXAMPLE]: { permissions: [] },
 };
 
 export type AppRoute =
@@ -97,5 +99,10 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     title: "Users",
     icon: "people_outline",
     pathName: ROUTE_USERS,
+  },
+  {
+    title: "Example",
+    icon: "people_outline",
+    pathName: ROUTE_EXAMPLE,
   },
 ];
