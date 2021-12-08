@@ -1,4 +1,5 @@
 using System;
+using Domain;
 
 namespace Application.Categories.Admin
 {
@@ -9,6 +10,7 @@ namespace Application.Categories.Admin
         public string Slug { get; set; }
         public string Description { get; set; }
         public string MediaUrl { get; set; }
+        public Media Media { get; set; }
         public int Count { get; set; }
     }
 }

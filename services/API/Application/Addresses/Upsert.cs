@@ -67,6 +67,14 @@ namespace Application.Addresses
                         ProvinceName = request.AddressParams.ProvinceName,
                         IsMain = user.Address.Count > 0 ? false : true
                     };
+                    if (request.AddressParams.IsMain)
+                    {
+                        foreach (var ad in user.Address)
+                        {
+                            ad.IsMain = false;
+                        }
+                        newAddress.IsMain = true;
+                    }
                     user.Address.Add(newAddress);
                 }
                 //Update ...
