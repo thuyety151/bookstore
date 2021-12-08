@@ -101,12 +101,18 @@ label {
 .btn-view {
   background-color: #f0f0f5 !important;
   color: #a2a2a8 !important;
+  margin: 4px !important;
 }
-.btn-delete{
+.btn-delete {
   background-color: #e2edfe !important;
   color: #639dfa !important;
+  margin: 4px !important;
 }
-.btn-edit{
-  background-color:#faded7 !important;
-                            color: #e13610 !important
+.btn-edit {
+  background-color: #faded7 !important;
+  color: #e13610 !important;
+  margin: 4px !important;
+}
+.MuiButton-root {
+  min-width: inherit !important;
 }

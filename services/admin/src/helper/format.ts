@@ -26,7 +26,7 @@ export const formatFullName = ({
 }: {
   firstName?: string;
   lastName?: string;
-}) => {
+  }) => {
   return (
     [firstName, lastName]
       .filter((item) => !isNil(item) && !isEmpty(item))
