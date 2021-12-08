@@ -16,12 +16,11 @@ import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
-import { useSnackbar } from "notistack";
-import { deleteOrder } from "redux/actions/order/deleteActions";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
 import { Attribute } from "redux/reducers/attributeReducer";
-import { getAttributePagination } from "redux/actions/attribute/getAction";
+import { Category } from "redux/reducers/categoryReducer";
+import { getCategoryPagination } from "redux/actions/category/getAction";
 
 const headCells: HeadCell[] = [
   {
@@ -31,16 +30,37 @@ const headCells: HeadCell[] = [
     label: "#",
   },
   {
-    id: "name",
+    id: "image",
     numeric: false,
     disablePadding: true,
+    label: "Image",
+  },
+  {
+    id: "name",
+    numeric: true,
+    disablePadding: false,
     label: "Name",
+    width: "10%",
+  },
+  {
+    id: "description",
+    numeric: true,
+    disablePadding: false,
+    label: "Description",
+    width: "10%",
   },
   {
     id: "slug",
     numeric: true,
     disablePadding: false,
     label: "Slug",
+    width: "10%",
+  },
+  {
+    id: "count",
+    numeric: true,
+    disablePadding: false,
+    label: "Count",
     width: "10%",
   },
   {
@@ -56,20 +76,20 @@ export type AttributeTableProps = {
   setModelEdit: any;
 };
 
-const AttributeTable: React.FC<AttributeTableProps> = (props) => {
+const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const attrState = useSelector((state: RootStore) => state.attributes);
+  const cateState = useSelector((state: RootStore) => state.categories);
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootStore) => state.orders.pagination);
   // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(
-      getAttributePagination({
+      getCategoryPagination({
         pagination: {
           ...pagination,
           pageIndex: page + 1,
@@ -80,7 +100,7 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage, attrState.pagination]);
+  }, [dispatch, page, rowsPerPage, cateState.pagination]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -124,19 +144,28 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
               classes={classes}
               // order={order}
               // orderBy={orderBy}
-              rowCount={attrState.data.length}
+              rowCount={cateState.data.length}
               headerCells={headCells}
               // loading={orderState.requesting}
             />
             <TableBody>
-              {attrState.data?.map((row: Attribute, index: number) => {
+              {cateState.data?.map((row: Category, index: number) => {
                 return (
                   <TableRow hover tabIndex={-1} key={row.id}>
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
                     </TableCell>
+                    <TableCell>
+                      <img
+                        src={row.mediaUrl}
+                        alt="media"
+                        style={{ width: "100px" }}
+                      />
+                    </TableCell>
                     <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.description}</TableCell>
                     <TableCell>{row.slug}</TableCell>
+                    <TableCell>{row.count}</TableCell>
                     <TableCell>
                       <Button
                         className="btn-view"
@@ -179,7 +208,7 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
       >
         <DialogConfirm
           modelId={modelToDelete}
-          loading={attrState.requesting}
+          loading={cateState.requesting}
           title="Delete order"
           message="Are you sure you want to delete this order?"
           handleClose={() => setModelToDelete(null)}
@@ -231,4 +260,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default AttributeTable;
+export default CategoryTable;

@@ -48,7 +48,7 @@ import { useSnackbar } from "notistack";
 export default function ProductDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   let { bookId } = useParams() as any;
 
   const initialBookParams: BookDetail = {
@@ -82,7 +82,9 @@ export default function ProductDetail() {
   const attributesSelectMenu = useSelector(
     (state: RootStore) => state.attributes.data
   );
-  const categories = useSelector((state: RootStore) => state.categories.data);
+  const categories = useSelector(
+    (state: RootStore) => state.categories.dataOptions
+  );
   const languages = useSelector((state: RootStore) => state.languages.data);
 
   //State
@@ -113,20 +115,19 @@ export default function ProductDetail() {
 
   const [categoryState, setCategoryState] = useState(new Array(0).fill(false));
 
-  const [attributeMenuState, setAttributeMenuState] = useState(
-    attributesSelectMenu
-  );
+  const [attributeMenuState, setAttributeMenuState] =
+    useState(attributesSelectMenu);
 
   const [isAdd, setAdd] = useState(false);
 
   //Function
 
-  function handlePublicationDateChange(date: Date | null){
-    if(date){
+  function handlePublicationDateChange(date: Date | null) {
+    if (date) {
       setBooksParams({
         ...bookParams,
-        publicationDate: new Date(date)
-      })
+        publicationDate: new Date(date),
+      });
     }
   }
 
@@ -140,7 +141,7 @@ export default function ProductDetail() {
       setBookAttributeSelected(
         bookAttributeSelected.map((item) =>
           item.id === attributeId
-            ? { ...item, [event.target.name]: Number( event.target.value)}
+            ? { ...item, [event.target.name]: Number(event.target.value) }
             : item
         )
       );
@@ -149,7 +150,7 @@ export default function ProductDetail() {
       setBookAttributeSelected(
         bookAttributeSelected.map((item) =>
           item.id === attributeId
-            ? { ...item, salePriceStartDate: new Date(date)}
+            ? { ...item, salePriceStartDate: new Date(date) }
             : item
         )
       );
@@ -159,7 +160,7 @@ export default function ProductDetail() {
       setBookAttributeSelected(
         bookAttributeSelected.map((item) =>
           item.id === attributeId
-            ? { ...item, salePriceEndDate: new Date(date)}
+            ? { ...item, salePriceEndDate: new Date(date) }
             : item
         )
       );
@@ -187,7 +188,7 @@ export default function ProductDetail() {
 
     if (attributeSelectedItem) {
       const newAttribute: BookAttribute = {
-        id: attributeSelectedItem.id,
+        id: attributeSelectedItem.id || "",
         name: attributeSelectedItem.name,
         price: 0,
         salePrice: 0,
@@ -292,29 +293,30 @@ export default function ProductDetail() {
       description: convertToHTML(description.getCurrentContent()),
       shortDescription: convertToHTML(shortDescription.getCurrentContent()),
       attributes: [...bookAttributeSelected],
-      media: [...mediaState]
+      media: [...mediaState],
     });
 
-    console.log("params in detail: "+ JSON.stringify(bookParams));
+    console.log("params in detail: " + JSON.stringify(bookParams));
     setAdd(true);
   };
 
   //Effect
   useEffect(() => {
-    dispatch(addBook({
-      bookParams: bookParams,
-      onSuccess: () => {
-        if(bookId){
-          enqueueSnackbar("Edit book successfully", {variant : "success"});
-        }
-        else{
-          enqueueSnackbar("Add book successfully", {variant : "success"});
-        }
-      },
-      onFailure: () => {}
-    }))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[isAdd]);
+    dispatch(
+      addBook({
+        bookParams: bookParams,
+        onSuccess: () => {
+          if (bookId) {
+            enqueueSnackbar("Edit book successfully", { variant: "success" });
+          } else {
+            enqueueSnackbar("Add book successfully", { variant: "success" });
+          }
+        },
+        onFailure: () => {},
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdd]);
   useEffect(() => {
     if (bookId) {
       dispatch(

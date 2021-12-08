@@ -23,6 +23,7 @@ import ProductDetailPage from "../pages/product/detail/ProductDetail";
 import OrderEditPage from "../pages/order/detail/OrderEdit";
 import AttributePage from "pages/attribute/AttributePage";
 import Validation from "pages/Validation";
+import CategoryPage from "pages/category/CategoryPage";
 
 export const routePage: Route[] = [
   {
@@ -59,8 +60,8 @@ export const routes: Route[] = [
   },
   {
     path: ROUTE_CATEGORIES,
-    name: "Error",
-    component: Error404,
+    name: "Category",
+    component: CategoryPage,
     exact: true,
   },
   {

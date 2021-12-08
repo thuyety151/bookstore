@@ -2,7 +2,7 @@ import { ACTION_NAMES } from "redux/actions/attribute/actionTypes";
 import { Pagination, paginationValue } from "../../helper/paginationValue";
 
 export type Attribute = {
-  id?: string;
+  id: string;
   name: string;
   slug: string;
 };
