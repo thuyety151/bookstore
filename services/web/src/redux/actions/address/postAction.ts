@@ -18,6 +18,7 @@ export const createAddress =
       wardCode: data?.value.ward?.code,
       districtName: data?.value.district?.name,
       provinceName: data?.value.province?.name,
+      isMain: data?.value.isDefault,
     };
     const response = await api.post("/addresses", model);
     if (response.data?.isSuccess) {
