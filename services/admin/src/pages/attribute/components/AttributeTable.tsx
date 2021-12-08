@@ -79,7 +79,7 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage, attrState.pagination]);
+  }, [dispatch, page, rowsPerPage]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

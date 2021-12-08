@@ -69,17 +69,27 @@ const categoryReducer = (
         requesting: true,
       };
     case ACTION_NAMES.CREATE_CATEGORY.CREATE_CATEGORY_SUCCESS:
-      console.log({
-        ...state,
-        requesting: false,
-        pagination: { ...paginationValue },
-      });
       return {
         ...state,
         requesting: false,
         pagination: { ...paginationValue, pageIndex: 0 },
       };
     case ACTION_NAMES.CREATE_CATEGORY.CREATE_CATEGORY_FAIL:
+      return {
+        ...state,
+        requesting: false,
+      };
+    case ACTION_NAMES.DELETE_CATEGORY.DELETE_CATEGORY:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.DELETE_CATEGORY.DELETE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        requesting: false
+      };
+    case ACTION_NAMES.DELETE_CATEGORY.DELETE_CATEGORY_FAIL:
       return {
         ...state,
         requesting: false,

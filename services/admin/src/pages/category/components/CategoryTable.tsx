@@ -21,6 +21,8 @@ import { rowsPerPageOptions } from "helper/paginationValue";
 import { Attribute } from "redux/reducers/attributeReducer";
 import { Category } from "redux/reducers/categoryReducer";
 import { getCategoryPagination } from "redux/actions/category/getAction";
+import { deleteCategory } from "redux/actions/category/postAction";
+import { useSnackbar } from "notistack";
 
 const headCells: HeadCell[] = [
   {
@@ -87,7 +89,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   );
   // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
-  // const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(
@@ -131,7 +133,35 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
     //   })
     // );
   };
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    dispatch(
+      deleteCategory({
+        id: modelToDelete || "",
+        onSuccess: () => {
+          enqueueSnackbar("Delete category successfully", {
+            variant: "success",
+          });
+          setModelToDelete(null);
+          dispatch(
+            getCategoryPagination({
+              pagination: {
+                ...pagination,
+                pageIndex: page + 1,
+                pageSize: rowsPerPage,
+              },
+              onSuccess: () => {},
+              onFailure: () => {},
+            })
+          );
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, {
+            variant: "error",
+          });
+        },
+      })
+    );
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
