@@ -12,14 +12,12 @@ import VInput from "components/form/VInput";
 import React, { useEffect, useState } from "react";
 import { ValidationName } from "helper/useValidator";
 import ContainedButton from "components/button/ContainedButton";
-import { get, keys } from "lodash";
+import { get } from "lodash";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
-import { createAttribute } from "redux/actions/attribute/postAction";
-import { Attribute } from "redux/reducers/attributeReducer";
 import { Category } from "redux/reducers/categoryReducer";
 import ProductImage from "pages/product/detail/components/ProductImage";
-import { getCategories, getListParent } from "redux/actions/category/getAction";
+import { getListParent } from "redux/actions/category/getAction";
 import { createCategory } from "redux/actions/category/postAction";
 
 export type AddFormProps = {
@@ -119,6 +117,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
           value={formValue.slug}
           multiline
           onChange={handleChange("slug")}
+          margin="dense"
         />
         <br />
         <Typography>Parent category</Typography>
@@ -127,6 +126,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
           value={formValue.parentId}
           fullWidth
           onChange={handleChange("parentId")}
+          margin="dense"
         >
           {options.map((item: any, index: number) => {
             return (
@@ -143,6 +143,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
           value={formValue.description}
           multiline
           onChange={handleChange("description")}
+          margin="dense"
         />
         <br />
         <Typography>Image</Typography>

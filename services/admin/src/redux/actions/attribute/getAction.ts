@@ -7,7 +7,6 @@ export type getAtributeType = {
   onFailure: (error: any) => void;
 };
 
-
 export const getAttributes =
   (props: getAtributeType) => async (dispatch: any) => {
     dispatch({ type: ACTION_NAMES.GET_ATTRIBUTES });
@@ -29,7 +28,6 @@ export const getAttributes =
     }
   };
 
-  
 export type getPaginationType = {
   pagination: Pagination;
   onSuccess: () => void;
@@ -46,6 +44,7 @@ export const getAttributePagination =
       dispatch({
         type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION_SUCCESS,
         data: response.data.value,
+        pagination: response.headers.pagination,
       });
       props.onSuccess();
     } else {

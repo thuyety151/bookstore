@@ -82,7 +82,9 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const cateState = useSelector((state: RootStore) => state.categories);
   const dispatch = useDispatch();
-  const pagination = useSelector((state: RootStore) => state.orders.pagination);
+  const pagination = useSelector(
+    (state: RootStore) => state.categories.pagination
+  );
   // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
   // const { enqueueSnackbar } = useSnackbar();
@@ -100,7 +102,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage, cateState.pagination]);
+  }, [dispatch, page, rowsPerPage]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -157,7 +159,10 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
                     </TableCell>
                     <TableCell>
                       <img
-                        src={row.mediaUrl}
+                        src={
+                          row.mediaUrl ||
+                          "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"
+                        }
                         alt="media"
                         style={{ width: "100px" }}
                       />

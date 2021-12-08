@@ -21,7 +21,6 @@ const ordersReducer = (
   state: OrderState = initState,
   payload: any
 ): OrderState => {
-  console.log(payload);
   switch (payload.type) {
     case ACTION_NAMES.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION:
       return {

@@ -1,6 +1,4 @@
 import api from "boot/axios";
-import { omit } from "lodash";
-import { Attribute } from "redux/reducers/attributeReducer";
 import { ACTION_NAMES } from "./actionTypes";
 
 export type CreateAttriProps = {

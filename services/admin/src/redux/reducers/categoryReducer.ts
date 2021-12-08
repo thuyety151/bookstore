@@ -40,6 +40,7 @@ const categoryReducer = (
         ...state,
         requesting: false,
         data: payload.data,
+        pagination: JSON.parse(payload.pagination),
       };
     case ACTION_NAMES.GET_PAGINATION.GET_PAGINATION_FAIL:
       return {

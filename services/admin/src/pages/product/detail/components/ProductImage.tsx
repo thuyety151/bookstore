@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, deletePhoto } from "redux/actions/media/postAction";
 import { RootStore } from "redux/store";
-import DeleteIcon from '@material-ui/icons/Delete';
-
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles({
   remove: {
@@ -14,19 +13,23 @@ const useStyles = makeStyles({
     backgroundColor: "#b32d2e",
     padding: "5px 80px",
     borderRadius: "5px",
-    margin: "0px 30px"
+    margin: "0px 30px",
   },
   container: {
-    width: 250,
+    // width: 250,
+    display: "flex",
+    justifyContent: "center",
   },
   image: {
-    height: "100%",
-    width: "100%",
+    // height: "100%",
+    // width: "100%",
+    height: "15rem",
+    width: "auto",
   },
 });
 interface Props {
   media: Media[];
-  changeImage: (image : any) => void;
+  changeImage: (image: any) => void;
 }
 export default function ProductImage({ media, changeImage }: Props) {
   const classes = useStyles();
@@ -39,21 +42,20 @@ export default function ProductImage({ media, changeImage }: Props) {
     name: "",
     isMain: true,
     isVideo: false,
-    url: ""
+    url: "",
   };
   const [mediaMain, setMediaMain] = useState(initMedia);
 
   useEffect(() => {
-    setAddPhotoMode((media && media.length > 0) ? false: true);
-    if(!isNewPhoto){
-      setMediaMain((media && media.length > 0) ? media[0] : initMedia);
-    }
-    else{
+    setAddPhotoMode(media && media.length > 0 ? false : true);
+    if (!isNewPhoto) {
+      setMediaMain(media && media.length > 0 ? media[0] : initMedia);
+    } else {
       setMediaMain(data);
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[media, data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [media, data]);
 
   function handleImageUpload(file: Blob) {
     dispatch(
@@ -67,7 +69,6 @@ export default function ProductImage({ media, changeImage }: Props) {
         onFailure: () => {},
       })
     );
-   
   }
 
   function handleDeleteImage() {
@@ -80,7 +81,6 @@ export default function ProductImage({ media, changeImage }: Props) {
         onFailure: () => {},
       })
     );
-   
   }
 
   return (
@@ -89,13 +89,15 @@ export default function ProductImage({ media, changeImage }: Props) {
         <ImageReview uploadImage={handleImageUpload} />
       ) : (
         <div className={classes.container}>
-          <img className={classes.image} src={mediaMain.url} alt="Book" />
+          <div>
+            <img className={classes.image} src={mediaMain.url} alt="Book" />
+          </div>
           <Button
             size="small"
             className={classes.remove}
             onClick={() => handleDeleteImage()}
           >
-           <DeleteIcon/>
+            <DeleteIcon />
           </Button>
         </div>
       )}

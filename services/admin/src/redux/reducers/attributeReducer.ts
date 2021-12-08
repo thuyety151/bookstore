@@ -35,6 +35,7 @@ const attributeReducer = (
         ...state,
         requesting: false,
         data: payload.data,
+        pagination: JSON.parse(payload.pagination),
       };
     case ACTION_NAMES.GET_PAGINATION.GET_PAGINATION_FAIL:
       return {
@@ -48,11 +49,6 @@ const attributeReducer = (
         requesting: true,
       };
     case ACTION_NAMES.CREATE_ATTRIBUTE.CREATE_ATTRIBUTE_SUCCESS:
-      console.log({
-        ...state,
-        requesting: false,
-        pagination: { ...paginationValue },
-      });
       return {
         ...state,
         requesting: false,

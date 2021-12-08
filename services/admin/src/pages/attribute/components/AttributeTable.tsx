@@ -16,8 +16,6 @@ import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
-import { useSnackbar } from "notistack";
-import { deleteOrder } from "redux/actions/order/deleteActions";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
 import { Attribute } from "redux/reducers/attributeReducer";
@@ -62,10 +60,11 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const attrState = useSelector((state: RootStore) => state.attributes);
   const dispatch = useDispatch();
-  const pagination = useSelector((state: RootStore) => state.orders.pagination);
+  const pagination = useSelector(
+    (state: RootStore) => state.attributes.pagination
+  );
   // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
-  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(

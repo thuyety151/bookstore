@@ -3,7 +3,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import AddForm from "./components/AddForm";
 import CategoryTable from "./components/CategoryTable";
-import EditForm from "./components/EditForm";
 
 const CategoryPage: React.FC = () => {
   const classes = useStyles();
@@ -11,7 +10,7 @@ const CategoryPage: React.FC = () => {
 
   return (
     <div>
-      <Grid container justifyContent="space-evenly">
+      <Grid container justifyContent="space-around">
         <Grid item xs={6} className={classes.table}>
           <CategoryTable setModelEdit={setModelEdit} />
         </Grid>
@@ -29,7 +28,7 @@ const CategoryPage: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     table: {
-      marginLeft: theme.spacing(5),
+      // marginLeft: theme.spacing(5),
     },
   })
 );

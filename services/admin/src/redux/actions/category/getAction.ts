@@ -37,6 +37,7 @@ export const getCategoryPagination =
       dispatch({
         type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION_SUCCESS,
         data: response.data.value,
+        pagination: response.headers.pagination,
       });
       props.onSuccess();
     } else {
