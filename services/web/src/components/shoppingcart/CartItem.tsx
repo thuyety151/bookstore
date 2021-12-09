@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  ButtonBase,
   createStyles,
   Grid,
   makeStyles,
@@ -54,17 +53,14 @@ const CartItem: React.FC<{ item: Item; closeCart: any }> = (
           container
           direction="row"
           justifyContent="center"
-          alignItems="flex-start"
-          spacing={3}
+          alignItems="center"
         >
-          <Grid item xs={3} onClick={handleNavBook}>
-            <ButtonBase className={classes.image}>
-              <img
-                className={classes.image}
-                src={item.item.pictureUrl}
-                alt="img"
-              />
-            </ButtonBase>
+          <Grid item xs={3} onClick={handleNavBook} style={{ padding: 0 }}>
+            <img
+              className={classes.image}
+              src={item.item.pictureUrl}
+              alt="img"
+            />
           </Grid>
           <Grid
             item
@@ -87,6 +83,9 @@ const CartItem: React.FC<{ item: Item; closeCart: any }> = (
                 className={classes.name}
               >
                 {item.item.productName}
+              </Typography>
+              <Typography gutterBottom variant="body2" className={classes.name}>
+                x{item.item.quantity}
               </Typography>
               <Typography
                 variant="body2"
@@ -138,7 +137,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // width: 200,
       // height: 200,
       height: "auto",
-      width: "130px",
+      width: "100%",
     },
     paper: {
       padding: theme.spacing(2),

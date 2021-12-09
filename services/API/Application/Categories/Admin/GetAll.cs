@@ -36,6 +36,7 @@ namespace Application.Categories.Admin
                         Description = x.Description,
                         Slug = x.Slug,
                         MediaUrl = x.Media.Url,
+                        Media=x.Media,
                         Count = x.Books.Count
                     }).AsQueryable();
 

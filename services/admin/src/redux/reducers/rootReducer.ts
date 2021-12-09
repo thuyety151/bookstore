@@ -12,11 +12,11 @@ const rootReducer = combineReducers({
   // authenticate: authenticateReducer,
   orders: ordersReducer,
   addresses: addressReducer,
+  attributes: attributeReducer,
   books: productReducer,
   media: mediaReducer,
-  attributes: attributeReducer,
   categories: categoryReducer,
-  languages: languageReducer
+  languages: languageReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

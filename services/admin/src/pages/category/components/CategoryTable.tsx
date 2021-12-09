@@ -7,34 +7,22 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { rowsPerPageOptions } from "../../helper/paginationValue";
-import { RootStore } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { formatFullName } from "../../helper/format";
-import moment from "moment";
-import OrderStatus from "../../components/orderStatus/OrderStatus";
-import { generatePath, useHistory } from "react-router";
-import { ROUTE_ORDER_EDIT } from "../../routers/types";
-import { Order } from "../../model/order";
-import { getOrderPagination } from "../../redux/actions/order/getActions";
 import EnhancedTableHead, {
   HeadCell,
 } from "components/table/EnhancedTableHead";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-} from "@material-ui/core";
+import { Button, Dialog } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
-import OrderDetailContent from "./OrderDetailContent";
+import { RootStore } from "redux/store";
+import { rowsPerPageOptions } from "helper/paginationValue";
+import { Attribute } from "redux/reducers/attributeReducer";
+import { Category } from "redux/reducers/categoryReducer";
+import { getCategoryPagination } from "redux/actions/category/getAction";
+import { deleteCategory } from "redux/actions/category/postAction";
 import { useSnackbar } from "notistack";
-import { deleteOrder } from "redux/actions/order/deleteActions";
 
 const headCells: HeadCell[] = [
   {
@@ -44,30 +32,37 @@ const headCells: HeadCell[] = [
     label: "#",
   },
   {
-    id: "code",
+    id: "image",
     numeric: false,
     disablePadding: true,
-    label: "Order",
+    label: "Image",
   },
   {
-    id: "date",
+    id: "name",
     numeric: true,
     disablePadding: false,
-    label: "Date",
+    label: "Name",
     width: "10%",
   },
   {
-    id: "status",
+    id: "description",
     numeric: true,
     disablePadding: false,
-    label: "Status",
+    label: "Description",
     width: "10%",
   },
   {
-    id: "total",
+    id: "slug",
     numeric: true,
     disablePadding: false,
-    label: "Total",
+    label: "Slug",
+    width: "10%",
+  },
+  {
+    id: "count",
+    numeric: true,
+    disablePadding: false,
+    label: "Count",
     width: "10%",
   },
   {
@@ -79,25 +74,30 @@ const headCells: HeadCell[] = [
   },
 ];
 
-const OrderTable: React.FC = () => {
+export type AttributeTableProps = {
+  setModelEdit: any;
+};
+
+const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const orderState = useSelector((state: RootStore) => state.orders);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const cateState = useSelector((state: RootStore) => state.categories);
   const dispatch = useDispatch();
-  const pagination = useSelector((state: RootStore) => state.orders.pagination);
-  const history = useHistory();
+  const pagination = useSelector(
+    (state: RootStore) => state.categories.pagination
+  );
+  // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
-  const [modelToViewDetail, setModelToViewDetail] = useState<Order | any>(null);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(
-      getOrderPagination({
+      getCategoryPagination({
         pagination: {
           ...pagination,
-          pageSize: rowsPerPage,
           pageIndex: page + 1,
+          pageSize: rowsPerPage,
         },
         onSuccess: () => {},
         onFailure: () => {},
@@ -116,21 +116,34 @@ const OrderTable: React.FC = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  // const handleCreate = () => {
-  //   history.push(ROUTE_ORDER_CREATE);
-  // };
-  const handleOpenDelete = (id: string) => {
-    setModelToDelete(id);
+
+  const handleOpenDelete = (id?: string) => {
+    setModelToDelete(id || "");
   };
-  const handleDeleteOrder = () => {
+
+  const handleOpenDetail = (item: Attribute) => {
+    // setModelToViewDetail(item);
+  };
+
+  const handleEdit = (model: Attribute) => {
+    props.setModelEdit(model);
+    // history.push(
+    //   generatePath(ROUTE_ORDER_EDIT, {
+    //     orderId: id || modelToViewDetail.id,
+    //   })
+    // );
+  };
+  const handleDelete = () => {
     dispatch(
-      deleteOrder({
+      deleteCategory({
         id: modelToDelete || "",
         onSuccess: () => {
-          enqueueSnackbar("Delete order successfully", { variant: "success" });
+          enqueueSnackbar("Delete category successfully", {
+            variant: "success",
+          });
           setModelToDelete(null);
           dispatch(
-            getOrderPagination({
+            getCategoryPagination({
               pagination: {
                 ...pagination,
                 pageIndex: page + 1,
@@ -141,20 +154,11 @@ const OrderTable: React.FC = () => {
             })
           );
         },
-        onFailure: (error) => {
-          enqueueSnackbar(error, { variant: "error" });
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, {
+            variant: "error",
+          });
         },
-      })
-    );
-  };
-  const handleOpenDetail = (item: Order) => {
-    setModelToViewDetail(item);
-  };
-
-  const handleEdit = (id?: string) => {
-    history.push(
-      generatePath(ROUTE_ORDER_EDIT, {
-        orderId: id || modelToViewDetail.id,
       })
     );
   };
@@ -172,27 +176,31 @@ const OrderTable: React.FC = () => {
               classes={classes}
               // order={order}
               // orderBy={orderBy}
-              rowCount={orderState.data.length}
+              rowCount={cateState.data.length}
               headerCells={headCells}
               // loading={orderState.requesting}
             />
             <TableBody>
-              {orderState.data.map((row: Order, index: number) => {
+              {cateState.data?.map((row: Category, index: number) => {
                 return (
                   <TableRow hover tabIndex={-1} key={row.id}>
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
                     </TableCell>
-                    <TableCell className="primary bolder">{`#${
-                      row.orderCode
-                    } ${formatFullName(row.addressToShip)}`}</TableCell>
                     <TableCell>
-                      {moment(new Date(row.orderDate)).format("ll")}
+                      <img
+                        src={
+                          row.mediaUrl ||
+                          "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"
+                        }
+                        alt="media"
+                        style={{ width: "100px" }}
+                      />
                     </TableCell>
-                    <TableCell>
-                      <OrderStatus status={row.status} />
-                    </TableCell>
-                    <TableCell>{`$${row.total}`}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.description}</TableCell>
+                    <TableCell>{row.slug}</TableCell>
+                    <TableCell>{row.count}</TableCell>
                     <TableCell>
                       <Button
                         className="btn-view"
@@ -202,11 +210,11 @@ const OrderTable: React.FC = () => {
                       <Button
                         className="btn-edit"
                         startIcon={<Edit />}
-                        onClick={() => handleEdit(row.id)}
+                        onClick={() => handleEdit(row)}
                       />
                       <Button
                         className="btn-delete"
-                        onClick={() => handleOpenDelete(row.id)}
+                        onClick={() => handleOpenDelete(row?.id)}
                         startIcon={<Delete />}
                       />
                     </TableCell>
@@ -235,39 +243,15 @@ const OrderTable: React.FC = () => {
       >
         <DialogConfirm
           modelId={modelToDelete}
-          loading={orderState.requesting}
+          loading={cateState.requesting}
           title="Delete order"
           message="Are you sure you want to delete this order?"
           handleClose={() => setModelToDelete(null)}
-          onConfirm={handleDeleteOrder}
+          onConfirm={handleDelete}
         />
       </Dialog>
       {/* End dialog confirm delete */}
       {/* Dialog view detail */}
-      <Dialog
-        open={!!modelToViewDetail}
-        onClose={() => setModelToViewDetail(null)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle id="alert-dialog-title">
-          Order #{modelToViewDetail?.orderCode}
-        </DialogTitle>
-        <Divider />
-        <DialogContent>
-          <OrderDetailContent order={modelToViewDetail} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setModelToViewDetail(null)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={() => handleEdit()} color="primary" autoFocus>
-            Edit
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
@@ -311,4 +295,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default OrderTable;
+export default CategoryTable;
