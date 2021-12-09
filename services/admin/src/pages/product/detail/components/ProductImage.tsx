@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
   container: {
     // width: 250,
-    display: "flex",
+    display: "grid",
     justifyContent: "center",
   },
   image: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 interface Props {
-  media: Media[];
+  media?: Media[];
   changeImage: (image: any) => void;
 }
 export default function ProductImage({ media, changeImage }: Props) {
@@ -47,9 +47,13 @@ export default function ProductImage({ media, changeImage }: Props) {
   const [mediaMain, setMediaMain] = useState(initMedia);
 
   useEffect(() => {
-    setAddPhotoMode(media && media.length > 0 ? false : true);
+    setAddPhotoMode(
+      media && media.filter((x) => !!x.id).length > 0 ? false : true
+    );
     if (!isNewPhoto) {
-      setMediaMain(media && media.length > 0 ? media[0] : initMedia);
+      setMediaMain(
+        media && media.filter((x) => !!x.id).length > 0 ? media[0] : initMedia
+      );
     } else {
       setMediaMain(data);
     }
@@ -89,7 +93,7 @@ export default function ProductImage({ media, changeImage }: Props) {
         <ImageReview uploadImage={handleImageUpload} />
       ) : (
         <div className={classes.container}>
-          <div>
+          <div style={{ justifySelf: "center" }}>
             <img className={classes.image} src={mediaMain.url} alt="Book" />
           </div>
           <Button

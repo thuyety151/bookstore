@@ -19,6 +19,7 @@ import { Category } from "redux/reducers/categoryReducer";
 import ProductImage from "pages/product/detail/components/ProductImage";
 import { getListParent } from "redux/actions/category/getAction";
 import { createCategory } from "redux/actions/category/postAction";
+import { Media } from "model/media";
 
 export type AddFormProps = {
   model?: Category | null;
@@ -27,12 +28,14 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const classes = useStyles();
   const [isSubmit, setIsSubmit] = useState(false);
   const getInitForm = (): Category => ({
-    id: "",
+    id: props.model?.id || "",
     name: props.model?.name || "",
     slug: props.model?.slug || "",
-    parentId: "",
-    mediaId: "",
-    description: "",
+    parentId: props.model?.parentId || "",
+    mediaUrl: props.model?.mediaUrl || "",
+    mediaId: props.model?.mediaId || "",
+    description: props.model?.description || "",
+    media: ([props.model?.media || {}] || []) as Media[],
   });
   const [formValue, setFormValue] = useState<Category>(getInitForm());
   const [options, setOptions] = useState([]);
@@ -89,7 +92,12 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     );
   };
 
-  const handleImageChange = () => {};
+  const handleImageChange = (media: any) => {
+    setFormValue({
+      ...formValue,
+      mediaId: media[0].id,
+    });
+  };
   return (
     <div className={classes.root}>
       <Grid>
@@ -147,10 +155,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
         />
         <br />
         <Typography>Image</Typography>
-        <ProductImage
-          media={formValue.mediaUrl}
-          changeImage={handleImageChange}
-        />
+        <ProductImage media={formValue.media} changeImage={handleImageChange} />
         <br />
         <ContainedButton
           text={props.model ? "Save" : "Add category"}

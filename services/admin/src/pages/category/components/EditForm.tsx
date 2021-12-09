@@ -9,9 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { TransitionProps } from "@material-ui/core/transitions";
-import { Attribute } from "redux/reducers/attributeReducer";
 import AddForm from "./AddForm";
 import { Grid } from "@material-ui/core";
+import { Category } from "redux/reducers/categoryReducer";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
@@ -23,7 +23,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export type EditAttributeProps = {
-  model: Attribute | null;
+  model: Category | null;
   setModel: any;
 };
 const EditForm: React.FC<EditAttributeProps> = (props) => {
@@ -53,7 +53,7 @@ const EditForm: React.FC<EditAttributeProps> = (props) => {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Edit Attribute
+              Edit Category
             </Typography>
           </Toolbar>
         </AppBar>

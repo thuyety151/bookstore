@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import AddForm from "./components/AddForm";
 import CategoryTable from "./components/CategoryTable";
+import EditForm from "./components/EditForm";
 
 const CategoryPage: React.FC = () => {
   const classes = useStyles();
@@ -18,7 +19,7 @@ const CategoryPage: React.FC = () => {
           <AddForm />
         </Grid>
         <Grid item xs={12}>
-          {/* <EditForm model={modelEdit} setModel={setModelEdit} /> */}
+          <EditForm model={modelEdit} setModel={setModelEdit} />
         </Grid>
       </Grid>
     </div>

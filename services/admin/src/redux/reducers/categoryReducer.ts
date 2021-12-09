@@ -1,3 +1,4 @@
+import { Media } from "model/media";
 import { ACTION_NAMES } from "redux/actions/category/actionTypes";
 import { Pagination, paginationValue } from "../../helper/paginationValue";
 
@@ -10,6 +11,7 @@ export type Category = {
   count?: number;
   parentId?: string;
   mediaId?: string;
+  media: Media[];
 };
 
 export type CategoryState = {
@@ -87,7 +89,7 @@ const categoryReducer = (
     case ACTION_NAMES.DELETE_CATEGORY.DELETE_CATEGORY_SUCCESS:
       return {
         ...state,
-        requesting: false
+        requesting: false,
       };
     case ACTION_NAMES.DELETE_CATEGORY.DELETE_CATEGORY_FAIL:
       return {
