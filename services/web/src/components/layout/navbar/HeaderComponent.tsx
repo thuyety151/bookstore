@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
@@ -88,7 +88,6 @@ const HeaderComponent: React.FC<{
         </div>
       </div>
       <Divider />
-      {/* </AppBar> */}
     </div>
   );
 };

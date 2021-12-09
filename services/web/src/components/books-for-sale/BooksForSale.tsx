@@ -106,6 +106,7 @@ export default function BooksForSale() {
       onSuccess: () =>{},
       onFailure: () => {}
     }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
