@@ -68,6 +68,7 @@ const CartItem: React.FC<{ item: Item; closeCart: any }> = (
             container
             direction="column"
             onClick={handleNavBook}
+            style={{ paddingLeft: 16 }}
           >
             <Grid item>
               <Typography
@@ -183,7 +184,7 @@ const useStyles = makeStyles((theme: Theme) =>
     extension: {
       cursor: "pointer",
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "center",
       "& :hover": {
         color: "red",
       },

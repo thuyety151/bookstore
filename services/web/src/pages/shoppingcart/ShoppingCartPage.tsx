@@ -13,6 +13,7 @@ import { RootStore } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { vnf_regex } from "../../helper/validator";
 // import { getServices } from "../../redux/actions/delivery/getAction";
 
 const ShoppingCartPage: React.FC = () => {
@@ -27,6 +28,10 @@ const ShoppingCartPage: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = () => {
+    if (currentAddress && !vnf_regex.test(currentAddress.phone)) {
+      enqueueSnackbar("Phone number is not valid", { variant: "error" });
+      return;
+    }
     if (!items.itemToCheckOut.length || !currentAddress) {
       enqueueSnackbar("Please choose items", { variant: "error" });
     } else {
