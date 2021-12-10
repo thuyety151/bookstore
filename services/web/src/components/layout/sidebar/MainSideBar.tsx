@@ -100,6 +100,7 @@ const MainSideBar: React.FC<{
       className={clsx(classes.list)}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
+      item
       xs={4}
     >
       <div className={classes.title}>

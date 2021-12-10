@@ -81,7 +81,7 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <Grid item xs={9}>
+      <Grid item className="featured-book-container">
         <Typography variant="h4" gutterBottom align="center">
           Featured Books
         </Typography>
