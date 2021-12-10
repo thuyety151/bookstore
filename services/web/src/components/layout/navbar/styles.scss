@@ -1,0 +1,22 @@
+.main-header {
+  width: 100%;
+  @media screen and (max-width: 1025px) {
+    flex-wrap: nowrap !important;
+  }
+  @media screen and (max-width: 1340px) {
+  }
+  @media screen and (max-width: 1025px) {
+    flex-wrap: nowrap !important;
+  }
+  &__phone-number {
+    display: inherit;
+    @media screen and (max-width: 1025px) {
+      display: none !important;
+    }
+  }
+  &__quote {
+    @media screen and (max-width: 595px) {
+      display: none !important;
+    }
+  }
+}

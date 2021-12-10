@@ -13,6 +13,7 @@ import { getPageCart } from "../../redux/actions/cart/getAction";
 import { RootStore } from "../../redux/store";
 import { sum } from "lodash";
 import { ROUTE_CHECK_OUT } from "../../routers/types";
+import "./styles.scss";
 
 type Anchor = "left" | "right";
 
@@ -62,7 +63,7 @@ const MainShoppingCart: React.FC<{
 
   const handleCheckout = () => {
     setOpenCart(false);
-    
+
     history.push(ROUTE_CHECK_OUT);
   };
 
@@ -168,8 +169,7 @@ export default MainShoppingCart;
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {
-    width: "35vw",
-    padding: theme.spacing(0, 0, 3),
+    display: "contents",
   },
   fullList: {
     width: "auto",

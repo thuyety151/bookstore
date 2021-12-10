@@ -1,0 +1,18 @@
+.featured-book-item {
+  width: calc(100% / 4);
+  @media screen and (max-width: 1400px) {
+    width: calc(100% / 4);
+  }
+  @media screen and (max-width: 1340px) {
+    width: calc(100% / 4);
+  }
+  @media screen and (max-width: 1025px) {
+    width: calc(100% / 3);
+  }
+  @media screen and (max-width: 568px) {
+    width: calc(100% / 2);
+  }
+  @media screen and (max-width: 468px) {
+    width: calc(100% / 2);
+  }
+}

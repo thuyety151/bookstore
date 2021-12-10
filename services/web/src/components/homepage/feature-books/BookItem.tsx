@@ -1,5 +1,4 @@
 import {
-  ButtonBase,
   createStyles,
   Grid,
   makeStyles,
@@ -13,6 +12,8 @@ import { FavoriteBorderOutlined } from "@material-ui/icons";
 import { ROUTE_BOOK, ROUTE_BOOK_DETAIL } from "../../../routers/types";
 import { generatePath, useHistory } from "react-router-dom";
 import defaultBook from "../../../assets/images/default.jpeg";
+import clsx from "clsx";
+import "./styles.scss";
 
 const BookItem: React.FC<{ item: Book }> = (item) => {
   const classes = useStyles();
@@ -30,7 +31,7 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
     }
   };
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, "featured-item")}>
       <Paper className={classes.paper} variant="outlined" square>
         <Grid
           container
@@ -40,16 +41,16 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
           spacing={3}
         >
           <Grid item>
-            <ButtonBase
+            {/* <ButtonBase
               className={classes.image}
               onClick={() => handleNavBook(item.item)}
-            >
-              <img
-                className={classes.image}
-                src={item.item.pictureUrl ?? defaultBook}
-                alt="img"
-              />
-            </ButtonBase>
+            > */}
+            <img
+              className={classes.image}
+              src={item.item.pictureUrl ?? defaultBook}
+              alt="img"
+            />
+            {/* </ButtonBase> */}
           </Grid>
           <Grid item xs container direction="column">
             <Grid item>
@@ -122,8 +123,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
     },
     image: {
-      // width: 200,
-      height: 200,
+      width: "100%",
+      height: "auto",
+      maxHeight: "12rem",
     },
     paper: {
       padding: theme.spacing(0, 2),

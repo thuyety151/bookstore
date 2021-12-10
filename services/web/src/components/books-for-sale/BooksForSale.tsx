@@ -59,7 +59,7 @@ export default function BooksForSale() {
     maxPrice: 1000,
     rates: 0,
   });
- 
+
   //Function
   function handleLanguageChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.checked) {
@@ -102,24 +102,23 @@ export default function BooksForSale() {
     dispatch(getLanguages());
     dispatch(getCategories());
     dispatch(getAllAuthor());
-    dispatch(getAttributes({
-      onSuccess: () =>{},
-      onFailure: () => {}
-    }));
+    dispatch(
+      getAttributes({
+        onSuccess: () => {},
+        onFailure: () => {},
+      })
+    );
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    console.log("bfs: " + JSON.stringify(bookFilterParams))
+    console.log("bfs: " + JSON.stringify(bookFilterParams));
     dispatch(
-      getBooksForSale(
-        predicate,
-        bookFilterParams,
-        {
-          ...pagination,
-        }
-      )
+      getBooksForSale(predicate, bookFilterParams, {
+        ...pagination,
+      })
     );
-    console.log("change :")
+    console.log("change :");
     // eslint-disable-next-line
   }, [bookFilterParams]);
 
@@ -128,7 +127,7 @@ export default function BooksForSale() {
     setBookFilterParams({
       ...bookFilterParams,
       minPrice: price[0],
-      maxPrice: price[1]
+      maxPrice: price[1],
     });
   };
 
@@ -137,7 +136,7 @@ export default function BooksForSale() {
     2: false,
     3: false,
     4: false,
-    5: false
+    5: false,
   });
 
   const handleRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,8 +144,8 @@ export default function BooksForSale() {
     const rateValue = parseInt(event.target.name);
     setBookFilterParams({
       ...bookFilterParams,
-      rates: rateValue
-    })
+      rates: rateValue,
+    });
   };
 
   return (
@@ -354,7 +353,10 @@ export default function BooksForSale() {
                 className={classes.slider}
                 max={1000}
               />
-              <p className={classes.price}>Price: ${bookFilterParams.minPrice} - ${bookFilterParams.maxPrice}</p>
+              <p className={classes.price}>
+                Price: ${bookFilterParams.minPrice} - $
+                {bookFilterParams.maxPrice}
+              </p>
             </Grid>
           </Paper>
         </Collapse>
@@ -433,7 +435,7 @@ export default function BooksForSale() {
             </Grid>
           </Paper>
         </Collapse>
-{/* 
+        {/* 
         <Collapse in={isOpen.feature} collapsedSize={82}>
           <Paper variant="outlined" className={classes.paper}>
             <div>
