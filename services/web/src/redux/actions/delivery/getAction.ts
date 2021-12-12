@@ -5,7 +5,6 @@ import { Address } from "../../../model/address";
 import { NAME_ACTIONS } from "../../constants/delivery/actionTypes";
 import { NAME_ACTIONS as ADDRESS_ACTIONS } from "../../constants/address/actionTypes";
 import store from "../../store";
-import { getDefaultAddress } from "../address/getAction";
 
 export type GetServiceProps = {
   onSuccess: (firstService: any) => void;
