@@ -24,5 +24,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() {AttributeParams = attributeParams}));
         }
+        [HttpGet]
+        [Route("admin")]
+        public async Task<IActionResult> GetAtributesAdmin([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() {Params = pagingParams}));
+        }
     }
 }
