@@ -15,7 +15,7 @@ import BillInfoComponent from "../../components/checkout/BillInfo";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { createOrder } from "../../redux/actions/order/postAction";
 import { RootStore } from "../../redux/store";
-import { ROUTE_PLACE_ORDER } from "../../routers/types";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,34 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
 function CheckoutPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
-  const [note, setNote] = useState<string>("");
-  const loading = useSelector((state: RootStore) => state.order.requesting);
 
-  const handleClick = () => {
-    // history.push(
-    //   generatePath(ROUTE_PLACE_ORDER, {
-    //     orderCode: "code",
-    //   })
-    // );
-    dispatch(
-      createOrder({
-        note: note,
-        onSuccess: (code: string) => {
-          history.push(
-            generatePath(ROUTE_PLACE_ORDER, {
-              orderCode: code,
-            })
-          );
-          dispatch(getPageCart());
-        },
-        onFailure: (error: any) => {
-          enqueueSnackbar(error, { variant: "error" });
-        },
-      })
-    );
-  };
+  const [note, setNote] = useState<string>("");
+  
+
+  
 
   return (
     <div className={classes.root}>
@@ -71,17 +48,8 @@ function CheckoutPage() {
           <BillDetailComponent {...{ note, setNote }} />
         </Grid>
         <Grid item xs={3}>
-          <BillInfoComponent />
-          <Grid item>
-            <PrimaryButton
-              text="Place order"
-              props={{
-                onClick: () => handleClick(),
-                style: { width: "350px" },
-              }}
-              loading={loading}
-            />
-          </Grid>
+          <BillInfoComponent {...{note}} />
+         
         </Grid>
       </Grid>
     </div>
