@@ -36,7 +36,7 @@ export type getPaginationType = {
 export const getAttributePagination =
   (props: getPaginationType) => async (dispatch: any) => {
     dispatch({ type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION });
-    const response = await api.get("/attributes", {
+    const response = await api.get("/attributes/admin", {
       params: props.pagination,
     });
 
