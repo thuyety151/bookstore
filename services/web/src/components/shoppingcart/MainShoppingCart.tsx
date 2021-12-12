@@ -14,6 +14,7 @@ import { RootStore } from "../../redux/store";
 import { sum } from "lodash";
 import { ROUTE_CHECK_OUT } from "../../routers/types";
 import "./styles.scss";
+import { useSnackbar } from "notistack";
 
 type Anchor = "left" | "right";
 
@@ -26,6 +27,7 @@ const MainShoppingCart: React.FC<{
   const dispatch = useDispatch();
   const { requesting, data } = useSelector((state: RootStore) => state.cart);
   const user = localStorage.getItem("user");
+  const { enqueueSnackbar } = useSnackbar();
 
   const subTotal = () => {
     return sum(
@@ -62,8 +64,11 @@ const MainShoppingCart: React.FC<{
   };
 
   const handleCheckout = () => {
+    if (!data.length) {
+      enqueueSnackbar("Your cart is empty", { variant: "error" });
+      return;
+    }
     setOpenCart(false);
-
     history.push(ROUTE_CHECK_OUT);
   };
 

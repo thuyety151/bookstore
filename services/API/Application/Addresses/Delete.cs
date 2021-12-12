@@ -46,9 +46,9 @@ namespace Application.Addresses
                 {
                     return Result<Guid>.Failure("Address does not exist");
                 }
-                if (address.IsMain && user.Address.Count >0)
+                if (address.IsMain && user.Address.Count >1)
                 {
-                    user.Address.FirstOrDefault().IsMain = true;
+                    user.Address.FirstOrDefault(x=>x.Id!=request.Id).IsMain = true;
                 }
                 user.Address.Remove(address);
                 await _context.SaveChangesAsync(cancellationToken);

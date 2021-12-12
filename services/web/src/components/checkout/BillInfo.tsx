@@ -51,7 +51,9 @@ const BillInfo: React.FC = () => {
   //   : cart.itemToCheckOut;
 
   const addressInfor = () => {
-    return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
+    return currentAddress?.id
+      ? `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`
+      : "--";
   };
   const dispatch = useDispatch();
   const [couponCode, setCouponCode] = useState("");
@@ -63,7 +65,6 @@ const BillInfo: React.FC = () => {
   };
   useEffect(() => {
     if (!itemToCheckout.length) {
-      console.log("cart", cart);
       setItemToCheckout(cart.data);
       dispatch({
         type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT,
@@ -145,7 +146,6 @@ const BillInfo: React.FC = () => {
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
-                <span>${shippingFee}</span>
               </Grid>
             </Grid>
           </Paper>
@@ -170,7 +170,11 @@ const BillInfo: React.FC = () => {
             <Grid item className="row">
               <span>{addressInfor()}</span>
               <span>{formatAddress(currentAddress)}</span>
+              <span>${shippingFee}</span>
             </Grid>
+            <div className="row">
+              <span className={classes.changeAddress}>Change Address</span>
+            </div>
           </Paper>
         </Collapse>
         {/* coupon */}
@@ -340,6 +344,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   text: {
     color: "grey",
     marginLeft: "30px",
+  },
+  changeAddress: {
+    fontWeight: "bold",
+    cursor: "pointer",
+    "&:hover": {
+      color: "red",
+    },
   },
 }));
 export default BillInfo;

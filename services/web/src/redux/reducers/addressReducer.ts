@@ -180,8 +180,29 @@ const addressReducer = (state = initState, payload: any) => {
         ...state,
         requesting: false,
         success: true,
+        currentAddress: null,
       };
     case NAME_ACTIONS.UPDATE_ADDRESS.UPDATE_ADDRESS_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        success: false,
+        message: payload.message,
+      };
+    case NAME_ACTIONS.DELETE_ADDRESS.DELETE_ADDRESS:
+      return {
+        ...state,
+        requesting: true,
+        success: false,
+      };
+    case NAME_ACTIONS.DELETE_ADDRESS.DELETE_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+        currentAddress: null,
+      };
+    case NAME_ACTIONS.DELETE_ADDRESS.DELETE_ADDRESS_FAIL:
       return {
         ...state,
         requesting: false,
