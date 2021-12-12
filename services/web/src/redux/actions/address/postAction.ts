@@ -59,3 +59,32 @@ export const deleteAddress = (props: deleteProps) => async (dispatch: any) => {
     props.onFailure(response.data.error);
   }
 };
+
+export const updateAddress =
+  (data: { value: AddressFormSchema; onSuccess: any; onFailure: any }) =>
+  async (dispatch: any) => {
+    console.log(data.value);
+    dispatch({ type: NAME_ACTIONS.UPDATE_ADDRESS.UPDATE_ADDRESS });
+    const model = {
+      id: data?.value?.id,
+      firstName: data?.value.firstName,
+      lastName: data?.value.lastName,
+      phone: data?.value.phoneNumber,
+      apartmentNumber: data?.value.appartmentNumber,
+      streetAddress: data?.value.street,
+      districtID: data?.value.district?.id,
+      provinceID: data?.value.province?.id,
+      wardName: data?.value.ward?.name,
+      wardCode: data?.value.ward?.code,
+      districtName: data?.value.district?.name,
+      provinceName: data?.value.province?.name,
+      isMain: data?.value.isDefault,
+    };
+    const response = await api.post("/addresses", model);
+    if (response.data?.isSuccess) {
+      data.onSuccess();
+      dispatch({ type: NAME_ACTIONS.UPDATE_ADDRESS.UPDATE_ADDRESS_SUCCESS });
+    } else {
+      data.onFailure();
+    }
+  };
