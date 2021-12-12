@@ -8,9 +8,9 @@ namespace API.Controllers
     public class MoMoController : BaseApiController
     {
         [HttpPost]
-        public async Task<IActionResult> Add(Guid orderId)
+        public async Task<IActionResult> Add(Create.Command command)
         {
-            return HandleResult(await Mediator.Send(new Create.Command() {OrderId = orderId}));
+            return HandleResult(await Mediator.Send(command));
         }
     }
 }

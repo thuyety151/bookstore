@@ -34,21 +34,21 @@ import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
 
 type Props = {
-  note: string
-}
-export default function BillInfo(props : Props){
+  note: string;
+};
+export default function BillInfo(props: Props) {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
-  
+
   //Selector
   const cart = useSelector((state: RootStore) => state.cart);
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
   const loading = useSelector((state: RootStore) => state.order.requesting);
- 
+
   //State
   const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
   const [couponCode, setCouponCode] = useState("");
@@ -63,7 +63,7 @@ export default function BillInfo(props : Props){
   });
 
   const [value, setValue] = React.useState("Cash on delivery");
-  
+
   //Function
   const addressInfor = () => {
     return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
@@ -78,8 +78,7 @@ export default function BillInfo(props : Props){
   };
 
   const handleClickPayment = () => {
-
-    if(value === "Cash on delivery"){
+    if (value === "Cash on delivery") {
       dispatch(
         createOrder({
           note: props.note,
@@ -96,23 +95,19 @@ export default function BillInfo(props : Props){
           },
         })
       );
-    }
-
-    else if(value === "MoMo"){
+    } else if (value === "MoMo") {
       dispatch(
         createOrder({
           note: props.note,
-          onSuccess: async (code: string, orderId:string) => {
+          onSuccess: async (code: string, orderId: string) => {
+            var response = await api.post("/momo", { orderId: orderId });
 
-            var response = await api.post("/momo", orderId);
-
-            if(response.data?.isSuccess){
+            if (response.data?.isSuccess) {
               window.open(response.data.value);
-            }
-            else {
+            } else {
               enqueueSnackbar("Error when payment", { variant: "error" });
             }
-           
+
             dispatch(getPageCart());
           },
           onFailure: (error: any) => {
@@ -121,7 +116,6 @@ export default function BillInfo(props : Props){
         })
       );
     }
-    
   };
 
   //Effect
@@ -150,7 +144,7 @@ export default function BillInfo(props : Props){
         },
       })
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponState.data]);
 
   return (
@@ -338,18 +332,18 @@ export default function BillInfo(props : Props){
         </Collapse>
       </Grid>
       <Grid item>
-            <PrimaryButton
-              text="Place order"
-              props={{
-                onClick: () => handleClickPayment(),
-                style: { width: "350px" },
-              }}
-              loading={loading}
-            />
-          </Grid>
+        <PrimaryButton
+          text="Place order"
+          props={{
+            onClick: () => handleClickPayment(),
+            style: { width: "350px" },
+          }}
+          loading={loading}
+        />
+      </Grid>
     </div>
   );
-};
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   payment: {
