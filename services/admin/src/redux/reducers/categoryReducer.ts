@@ -19,12 +19,14 @@ export type CategoryState = {
   dataOptions: Category[];
   data: Category[];
   pagination: Pagination;
+  success: boolean;
 };
 const initState: CategoryState = {
   requesting: false,
   dataOptions: [],
   data: [],
   pagination: { ...paginationValue },
+  success: false,
 };
 
 const categoryReducer = (
@@ -65,21 +67,23 @@ const categoryReducer = (
         ...state,
         requesting: false,
       };
-    case ACTION_NAMES.CREATE_CATEGORY.CREATE_CATEGORY:
+    case ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY:
       return {
         ...state,
         requesting: true,
+        success: false,
       };
-    case ACTION_NAMES.CREATE_CATEGORY.CREATE_CATEGORY_SUCCESS:
+    case ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY_SUCCESS:
       return {
         ...state,
         requesting: false,
-        pagination: { ...paginationValue, pageIndex: 0 },
+        success: true,
       };
-    case ACTION_NAMES.CREATE_CATEGORY.CREATE_CATEGORY_FAIL:
+    case ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY_FAIL:
       return {
         ...state,
         requesting: false,
+        success: false,
       };
     case ACTION_NAMES.DELETE_CATEGORY.DELETE_CATEGORY:
       return {

@@ -84,12 +84,32 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const cateState = useSelector((state: RootStore) => state.categories);
   const dispatch = useDispatch();
-  const pagination = useSelector(
-    (state: RootStore) => state.categories.pagination
+  const { pagination, success } = useSelector(
+    (state: RootStore) => state.categories
   );
   // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (success) {
+      props.setModelEdit(null);
+      dispatch(
+        getCategoryPagination({
+          pagination: {
+            ...pagination,
+            pageIndex: page + 1,
+            pageSize: rowsPerPage,
+          },
+          onSuccess: () => {},
+          onFailure: (error) => {
+            enqueueSnackbar(error, { variant: "error" });
+          },
+        })
+      );
+    }
+    //eslint-disable-next-line
+  }, [success]);
 
   useEffect(() => {
     dispatch(
@@ -100,7 +120,9 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
           pageSize: rowsPerPage,
         },
         onSuccess: () => {},
-        onFailure: () => {},
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
       })
     );
     // eslint-disable-next-line

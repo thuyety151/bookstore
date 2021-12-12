@@ -18,7 +18,7 @@ import { useSnackbar } from "notistack";
 import { Category } from "redux/reducers/categoryReducer";
 import ProductImage from "pages/product/detail/components/ProductImage";
 import { getListParent } from "redux/actions/category/getAction";
-import { createCategory } from "redux/actions/category/postAction";
+import { upsertCategory } from "redux/actions/category/postAction";
 import { Media } from "model/media";
 
 export type AddFormProps = {
@@ -76,13 +76,18 @@ const AddForm: React.FC<AddFormProps> = (props) => {
      *  integrate api
      */
     dispatch(
-      createCategory({
+      upsertCategory({
         data: formValue,
         onSuccess: () => {
           setIsSubmit(false);
-          enqueueSnackbar("Create new category successfully!", {
-            variant: "success",
-          });
+          enqueueSnackbar(
+            formValue.id
+              ? "Update category successfully"
+              : "Create new category successfully!",
+            {
+              variant: "success",
+            }
+          );
           setFormValue(getInitForm());
         },
         onFailure: (error: any) => {
