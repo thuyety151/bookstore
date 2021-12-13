@@ -87,7 +87,7 @@ const BillInfo: React.FC = () => {
         },
       })
     );
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponState.data]);
 
   return (

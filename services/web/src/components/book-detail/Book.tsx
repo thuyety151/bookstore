@@ -100,7 +100,7 @@ export default function DetailBook() {
 
   useEffect(() => {
     setAttribute(attributeDb);
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -182,7 +182,7 @@ export default function DetailBook() {
                   </Grid>
                   <Grid item>
                     <Typography gutterBottom variant="body2">
-                      (3,714) By (author) {data.authorName}
+                      (3) By (author) {data.authorName}
                     </Typography>
                   </Grid>
                 </Grid>
