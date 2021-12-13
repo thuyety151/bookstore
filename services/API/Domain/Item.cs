@@ -15,6 +15,9 @@ namespace Domain
         public string PictureUrl { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public string StockStatus { get; set; } 
+        public string StockStatus { get; set; }
+        public Guid? OrderId { get; set; }
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
     }
 }
