@@ -59,7 +59,7 @@ namespace Application.Orders
                         .SingleOrDefault(x => x.BookId == item.ProductId && x.AttributeId == item.AttributeId);
                     if (bookAttribute == null || bookAttribute.TotalStock < item.Quantity)
                     {
-                        return Result<Guid>.Failure("Not valid ...");
+                        return Result<Guid>.Failure("Book is out of stock");
                     }
                 
                     bookAttribute.TotalStock -= item.Quantity;
@@ -77,6 +77,7 @@ namespace Application.Orders
                     OrderDate = DateTime.Now,
                     Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name ,
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
+                    PaymentStatus = PaymentStatus.Pending,
                     SubTotal = items.Select(x => x.Price * x.Quantity).Sum(),
                     OrderNote = request.OrderParams.OrderNote,
                     UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),

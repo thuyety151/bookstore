@@ -16,7 +16,7 @@ import { vnf_regex } from "../../helper/validator";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { createOrder } from "../../redux/actions/order/postAction";
 import { RootStore } from "../../redux/store";
-import { ROUTE_PLACE_ORDER } from "../../routers/types";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,39 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
 function CheckoutPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
-  const [note, setNote] = useState<string>("");
-  const loading = useSelector((state: RootStore) => state.order.requesting);
-  const { currentAddress } = useSelector((state: RootStore) => state.address);
-  const { itemToCheckOut } = useSelector((state: RootStore) => state.cart);
 
-  const handleClick = () => {
-    if (currentAddress?.id && !vnf_regex.test(currentAddress.phone)) {
-      enqueueSnackbar("Phone number is not valid", { variant: "error" });
-      return;
-    }
-    if (!itemToCheckOut.length || !currentAddress?.id) {
-      enqueueSnackbar("Please choose items and address", { variant: "error" });
-      return;
-    }
-    dispatch(
-      createOrder({
-        note: note,
-        onSuccess: (code: string) => {
-          history.push(
-            generatePath(ROUTE_PLACE_ORDER, {
-              orderCode: code,
-            })
-          );
-          dispatch(getPageCart());
-        },
-        onFailure: (error: any) => {
-          enqueueSnackbar(error, { variant: "error" });
-        },
-      })
-    );
-  };
+  const [note, setNote] = useState<string>("");
+  
 
   return (
     <div className={classes.root}>
@@ -77,17 +47,8 @@ function CheckoutPage() {
           <BillDetailComponent {...{ note, setNote }} />
         </Grid>
         <Grid item xs={3}>
-          <BillInfoComponent />
-          <Grid item>
-            <PrimaryButton
-              text="Place order"
-              props={{
-                onClick: () => handleClick(),
-                style: { width: "350px" },
-              }}
-              loading={loading}
-            />
-          </Grid>
+          <BillInfoComponent {...{note}} />
+         
         </Grid>
       </Grid>
     </div>
