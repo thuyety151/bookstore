@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Domain.Enum;
 using MediatR;
 using Persistence;
 
@@ -33,7 +34,7 @@ namespace Application.Report
                 {
                     case "year":
                         var currentYear = DateTime.Now.Year;
-                        var orders = _context.Orders.Where(x => x.OrderDate.Year == currentYear);
+                        var orders = _context.Orders.Where(x => x.OrderDate.Year == currentYear && x.IsDeleted == false);
                         for (int i = 1; i <= 12; i++)
                         {
                             ReportDto reportDto = new ReportDto();
@@ -48,8 +49,15 @@ namespace Application.Report
                                     (order, item) => new
                                     {
                                         OrderId = order.Id,
-                                        ItemId = item.Id
-                                    }).Count();
+                                        ItemId = item.Id,
+                                        TotalItem = item.Quantity
+                                    }).Sum(x => x.TotalItem);
+                            reportDto.Refunded = ordersInMonth.Where(x => x.PaymentStatus == PaymentStatus.Refund)
+                                .Sum(x => x.SubTotal);
+                            reportDto.ShippingFee = ordersInMonth.Sum(x => x.OrderFee);
+                            
+                            reports.Add(reportDto);
+                            
                         }
                         break;
                 }
