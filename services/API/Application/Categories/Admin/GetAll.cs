@@ -36,7 +36,9 @@ namespace Application.Categories.Admin
                         Description = x.Description,
                         Slug = x.Slug,
                         MediaUrl = x.Media.Url,
-                        Count = x.Books.Count
+                        Media=x.Media,
+                        Count = x.Books.Count,
+                        ParentId = x.ParentId
                     }).AsQueryable();
 
                 return Result<PagedList<CategoryDto>>.Success(

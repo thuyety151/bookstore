@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
@@ -13,6 +14,7 @@ import { Badge } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
+import "./styles.scss";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginLeft: "2rem",
-    marginRight: "2rem",
+    // marginLeft: "2rem",
+    // marginRight: "2rem",
   },
   paper: {
     padding: theme.spacing(2),
@@ -56,13 +58,17 @@ const HeaderComponent: React.FC<{
   return (
     <div className={classes.root}>
       {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
-      <div className={classes.container}>
+      <div className={clsx(classes.container, "main-header")}>
         <div className={classes.listItem}>
-          <ListItem style={{ width: "20rem" }} button>
+          <ListItem
+            style={{ width: "20rem" }}
+            button
+            className="main-header__quote"
+          >
             <HelpOutlineIcon />
             <span>Can we help you?</span>
           </ListItem>
-          <ListItem button>
+          <ListItem button className="main-header__phone-number">
             <SettingsCellOutlinedIcon />
             <span>+84 123 456 789</span>
           </ListItem>

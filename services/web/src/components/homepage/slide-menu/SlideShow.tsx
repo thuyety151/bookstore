@@ -32,6 +32,9 @@ const SlideEffect: React.FC = () => {
       <Grid item xs={12}>
         <AliceCarousel
           mouseTracking
+          autoPlay
+          autoPlayInterval={500}
+          infinite
           disableDotsControls
           items={items}
           responsive={responsive}

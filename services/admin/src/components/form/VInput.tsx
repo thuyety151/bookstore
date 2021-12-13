@@ -1,18 +1,30 @@
 import { TextField, TextFieldProps } from "@material-ui/core";
 import { useValidator } from "helper/useValidator";
 import { get, head } from "lodash";
-import { useEffect } from "react";
+import React, { useState } from "react";
 
-const VInput: React.FC<TextFieldProps> = (props) => {
-  const value: { value: string; onBlur: boolean; ruleNames: Array<string> } =
-    props.value as any;
-  const validator = useValidator(value);
+export interface VRule {
+  rules?: Array<string>;
+}
+
+const VInput: React.FC<TextFieldProps & VRule> = (props) => {
+  const { value } = props;
   const helperText = props.helperText as string;
+  const [onBlur, setOnBlur] = useState(false);
+  const validator = useValidator(value, onBlur);
 
-  const rules = value.ruleNames.map((x: string) => {
-    const m = get(validator, x);
-    return m(helperText);
-  });
+  const handleBlur = (
+    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setOnBlur(true);
+  };
+
+  const rules =
+    props.rules?.map((x: string) => {
+      const m = get(validator, x);
+      return m(helperText);
+    }) || [];
+
   return (
     <div>
       <TextField
@@ -21,8 +33,8 @@ const VInput: React.FC<TextFieldProps> = (props) => {
         id="outlined-error-helper-text"
         helperText={head(rules.filter((e) => !!e))}
         variant="outlined"
-        value={value.value}
-        type="number"
+        value={value}
+        onBlur={handleBlur}
       />
     </div>
   );

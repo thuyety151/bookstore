@@ -18,6 +18,8 @@ import { getRoot } from "../../../redux/actions/category/getAction";
 import { SidebarCategoryResponse } from "../../../model/category";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { RootStore } from "../../../redux/store";
+import { Grid } from "@material-ui/core";
+import "./styles.scss";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -94,10 +96,12 @@ const MainSideBar: React.FC<{
   };
 
   const list = (anchor: Anchor) => (
-    <div
+    <Grid
       className={clsx(classes.list)}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
+      item
+      xs={4}
     >
       <div className={classes.title}>
         <span>Shop by category</span>
@@ -175,7 +179,7 @@ const MainSideBar: React.FC<{
       </div>
       <Divider />
       <BottomSidebar />
-    </div>
+    </Grid>
   );
   return (
     <div>
@@ -214,7 +218,9 @@ export default MainSideBar;
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {
-    width: "20vw",
+    // width: "20vw",
+    display: "contents",
+    width: "100%",
   },
   fullList: {
     width: "auto",

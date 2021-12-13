@@ -6,6 +6,7 @@ export const ROUTE_PERMISSION_DENIED = "403";
 export const ROUTE_LOGIN = "/login";
 export const ROUTE_REGISTER = "/register";
 export const ROUTE_BOOK_DETAIL = "/book-detail/:bookId/:attributeId";
+export const ROUTE_BOOK_DETAIL_ADMIN = "/book-detail/:bookId";
 export const ROUTE_PROFILE = "/profile";
 export const ROUTE_AUTHOR = "/author";
 export const ROUTE_BOOK = "/book";
@@ -30,6 +31,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_REGISTER]: { permissions: [] },
   [ROUTE_NOT_FOUND]: { permissions: [] },
   [ROUTE_BOOK_DETAIL]: { permissions: [] },
+  [ROUTE_BOOK_DETAIL_ADMIN]: { permissions: [] },
   [ROUTE_BOOK]: { permissions: [] },
   [ROUTE_CATEGORY]: { permissions: [] },
   [ROUTE_BLOGS]: { permissions: [] },
@@ -72,3 +74,8 @@ export enum Predicate {
   HighPrice = "high-price",
   NewRelease = "new-release",
 }
+
+export const CLIENT_URL = {
+  PRODUCT_DETAIL:
+    "http://localhost:3000/book-detail/471c829f-492b-49a2-deb9-08d9b6b9d511/d7428286-8ee8-4ee5-deb3-08d9b6b9d4c0",
+};

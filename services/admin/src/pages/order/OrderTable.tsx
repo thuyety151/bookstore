@@ -174,7 +174,7 @@ const OrderTable: React.FC = () => {
               // orderBy={orderBy}
               rowCount={orderState.data.length}
               headerCells={headCells}
-              loading={orderState.requesting}
+              // loading={orderState.requesting}
             />
             <TableBody>
               {orderState.data.map((row: Order, index: number) => {

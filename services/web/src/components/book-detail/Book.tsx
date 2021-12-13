@@ -86,9 +86,11 @@ export default function DetailBook() {
 
   const { data } = useSelector((state: RootStore) => state.book);
 
-  const attributeDb = data?.attributes.find(
-    (x) => x.id.toLowerCase() === attributeId
-  ) as Attribute;
+  const attributeDb = attributeId
+    ? (data?.attributes?.find(
+        (x) => x.id.toLowerCase() === attributeId
+      ) as Attribute)
+    : (data?.attributes[0] as Attribute);
 
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute>(attributeDb);
@@ -97,12 +99,12 @@ export default function DetailBook() {
   const rateValue = 5;
 
   useEffect(() => {
-    setAttribute(attributeDb)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setAttribute(attributeDb);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setAttribute(attribute)
+    setAttribute(attribute);
   }, [attribute]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {

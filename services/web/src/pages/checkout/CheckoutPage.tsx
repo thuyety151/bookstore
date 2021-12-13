@@ -12,6 +12,7 @@ import { generatePath, useHistory } from "react-router-dom";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import BillDetailComponent from "../../components/checkout/BillDetail";
 import BillInfoComponent from "../../components/checkout/BillInfo";
+import { vnf_regex } from "../../helper/validator";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { createOrder } from "../../redux/actions/order/postAction";
 import { RootStore } from "../../redux/store";
@@ -36,13 +37,18 @@ function CheckoutPage() {
   const { enqueueSnackbar } = useSnackbar();
   const [note, setNote] = useState<string>("");
   const loading = useSelector((state: RootStore) => state.order.requesting);
+  const { currentAddress } = useSelector((state: RootStore) => state.address);
+  const { itemToCheckOut } = useSelector((state: RootStore) => state.cart);
 
   const handleClick = () => {
-    // history.push(
-    //   generatePath(ROUTE_PLACE_ORDER, {
-    //     orderCode: "code",
-    //   })
-    // );
+    if (currentAddress?.id && !vnf_regex.test(currentAddress.phone)) {
+      enqueueSnackbar("Phone number is not valid", { variant: "error" });
+      return;
+    }
+    if (!itemToCheckOut.length || !currentAddress?.id) {
+      enqueueSnackbar("Please choose items and address", { variant: "error" });
+      return;
+    }
     dispatch(
       createOrder({
         note: note,

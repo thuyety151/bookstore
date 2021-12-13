@@ -7,7 +7,6 @@ import BookItem from "./BookItem";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
-
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
@@ -82,7 +81,7 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <Grid item xs={9}>
+      <Grid item className="featured-book-container">
         <Typography variant="h4" gutterBottom align="center">
           Featured Books
         </Typography>
@@ -96,15 +95,11 @@ export default function SimpleTabs() {
 
         <TabPanel value={value} index={0}>
           {mostView && (
-            <Grid
-              container
-              justifyContent="flex-start"
-              className={classes.colContainer}
-            >
+            <Grid container justifyContent="flex-start">
               {mostView.map((item, index) => (
-                <Grid item xs={3} key={index} className={classes.col}>
+                <div className="featured-book-item" key={index}>
                   <BookItem item={item} />
-                </Grid>
+                </div>
               ))}
             </Grid>
           )}
@@ -115,12 +110,12 @@ export default function SimpleTabs() {
             <Grid
               container
               justifyContent="flex-start"
-              className={classes.grid}
+              // className={classes.grid}
             >
               {onSale.map((item, index) => (
-                <Grid item xs={3} key={index}>
+                <div className="featured-book-item" key={index}>
                   <BookItem item={item} />
-                </Grid>
+                </div>
               ))}
             </Grid>
           )}

@@ -1,0 +1,20 @@
+.MuiDrawer-paperAnchorRight {
+  @media screen and (min-width: 1401px) {
+    width: 30%;
+  }
+  @media screen and (max-width: 1400px) {
+    width: 30%;
+  }
+  @media screen and (max-width: 1340px) {
+    width: 35%;
+  }
+  @media screen and (max-width: 1025px) {
+    width: 45%;
+  }
+  @media screen and (max-width: 568px) {
+    width: 50%;
+  }
+  @media screen and (max-width: 468px) {
+    width: 65%;
+  }
+}

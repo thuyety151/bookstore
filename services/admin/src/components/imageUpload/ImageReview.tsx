@@ -18,11 +18,16 @@ const useStyles = makeStyles({
     margin: "5px 10px",
   },
   container: {
-    width: 250,
+    // width: 250,
+    display: "grid",
+    justifyContent: "center",
   },
   image: {
-    height: "100%",
-    width: "100%",
+    // height: "100%",
+    // width: "100%",
+    justifySelf: "center",
+    height: "15rem",
+    width: "auto",
   },
 });
 
@@ -48,29 +53,27 @@ export default function ImageReview({ uploadImage }: Props) {
   function handleCancelImage() {
     setFiles([]);
   }
-  return (
+  return files && files.length > 0 ? (
     <div className={classes.container}>
-      {files && files.length > 0 ? (
-        <>
-          <img className={classes.image} src={files[0].preview} alt="Book" />
-          <Button
-            size="small"
-            className={classes.remove}
-            onClick={() => handleCancelImage()}
-          >
-            Change other
-          </Button>
-          <Button
-            size="small"
-            className={classes.update}
-            onClick={() => onUpload(files[0])}
-          >
-            Upload
-          </Button>
-        </>
-      ) : (
-        <ImageUploadWidget setFiles={setFiles} />
-      )}
+      <img className={classes.image} src={files[0].preview} alt="Book" />
+      <div>
+        <Button
+          size="small"
+          className={classes.remove}
+          onClick={() => handleCancelImage()}
+        >
+          Change other
+        </Button>
+        <Button
+          size="small"
+          className={classes.update}
+          onClick={() => onUpload(files[0])}
+        >
+          Upload
+        </Button>
+      </div>
     </div>
+  ) : (
+    <ImageUploadWidget setFiles={setFiles} />
   );
 }
