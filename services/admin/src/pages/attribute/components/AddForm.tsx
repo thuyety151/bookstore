@@ -11,10 +11,11 @@ import React, { useState } from "react";
 import { ValidationName } from "helper/useValidator";
 import ContainedButton from "components/button/ContainedButton";
 import { get, keys } from "lodash";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import { Attribute } from "redux/reducers/attributeReducer";
 import { upsertAttribute } from "redux/actions/attribute/postAction";
+import { RootStore } from "redux/store";
 
 export type AddFormProps = {
   model?: Attribute | null;
@@ -29,6 +30,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   });
   const [formValue, setFormValue] = useState(getInitForm());
   const dispatch = useDispatch();
+  const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleChange =
@@ -121,6 +123,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
               style: {
                 width: "fit-content",
               },
+              disabled: resquesting,
               onClick: () => handleSubmit(),
             }}
           />

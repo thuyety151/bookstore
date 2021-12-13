@@ -1,4 +1,5 @@
 import api from "boot/axios";
+import { omit } from "lodash";
 import { FnActionProps } from "model/actionProps";
 import { Category } from "redux/reducers/categoryReducer";
 import { ACTION_NAMES } from "./actionTypes";
@@ -8,7 +9,7 @@ export const upsertCategory =
     try {
       dispatch({ type: ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY });
 
-      const response = await api.post("/categories", props.data);
+      const response = await api.post("/categories", omit(props.data, "media"));
       if (response.data.isSuccess) {
         dispatch({
           type: ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY_SUCCESS,
