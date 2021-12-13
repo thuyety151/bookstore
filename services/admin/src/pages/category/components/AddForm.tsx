@@ -50,7 +50,8 @@ const AddForm: React.FC<AddFormProps> = (props) => {
         setOptions(data);
       })
     );
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleChange = (key: string) => (event: any) => {
     setIsSubmit(false);
@@ -90,7 +91,6 @@ const AddForm: React.FC<AddFormProps> = (props) => {
               variant: "success",
             }
           );
-          setFormValue(getInitForm());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });

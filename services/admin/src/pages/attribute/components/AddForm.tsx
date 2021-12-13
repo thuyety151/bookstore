@@ -70,8 +70,6 @@ const AddForm: React.FC<AddFormProps> = (props) => {
               variant: "success",
             }
           );
-          setIsSubmit(false);
-          setFormValue(getInitForm());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });

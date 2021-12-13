@@ -9,7 +9,12 @@ export const upsertCategory =
     try {
       dispatch({ type: ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY });
 
-      const response = await api.post("/categories", omit(props.data, "media"));
+      const response = await api.post(
+        "/categories",
+        props.data.id
+          ? omit(props.data, "media")
+          : omit(props.data, ["media", "id"])
+      );
       if (response.data.isSuccess) {
         dispatch({
           type: ACTION_NAMES.UPSERT_CATEGORY.UPSERT_CATEGORY_SUCCESS,
