@@ -24,6 +24,7 @@ import OrderEditPage from "../pages/order/detail/OrderEdit";
 import AttributePage from "pages/attribute/AttributePage";
 import Validation from "pages/Validation";
 import CategoryPage from "pages/category/CategoryPage";
+import CouponsPage from "pages/coupon/CouponPage";
 
 export const routePage: Route[] = [
   {
@@ -78,8 +79,8 @@ export const routes: Route[] = [
   },
   {
     path: ROUTE_COUPONS,
-    name: "Error",
-    component: Error404,
+    name: "Coupon",
+    component: CouponsPage,
     exact: true,
   },
   {
