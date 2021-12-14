@@ -63,7 +63,7 @@ export const loginFacebook = (props: FacebookLoginType) => async (
 
   console.log(JSON.stringify(response));
 
-  if (response.data.token) {
+  if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
     props.onSuccess();
   }
