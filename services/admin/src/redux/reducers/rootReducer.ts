@@ -6,6 +6,7 @@ import languageReducer from "./languageReducer";
 import mediaReducer from "./mediaReducer";
 import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
+import settingsReducer from "./settingsReducer";
 // import authenticateReducer from "./authenticationReducer";
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   media: mediaReducer,
   categories: categoryReducer,
   languages: languageReducer,
+  settings: settingsReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

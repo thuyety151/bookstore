@@ -24,6 +24,7 @@ import OrderEditPage from "../pages/order/detail/OrderEdit";
 import AttributePage from "pages/attribute/AttributePage";
 import Validation from "pages/Validation";
 import CategoryPage from "pages/category/CategoryPage";
+import SettingsPage from "pages/settings/SettingsPage";
 
 export const routePage: Route[] = [
   {
@@ -73,7 +74,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_SETTINGS,
     name: "Error",
-    component: Error404,
+    component: SettingsPage,
     exact: true,
   },
   {

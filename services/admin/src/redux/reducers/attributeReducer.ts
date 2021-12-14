@@ -60,6 +60,23 @@ const attributeReducer = (
         requesting: false,
         message: payload.message,
       };
+    case ACTION_NAMES.GET_ATTRIBUTES.GET_ATTRIBUTES:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.GET_ATTRIBUTES.GET_ATTRIBUTES_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        data: payload.data,
+      };
+    case ACTION_NAMES.GET_ATTRIBUTES.GET_ATTRIBUTES_FAIL:
+      return {
+        ...state,
+        requesting: false,
+        message: payload.message,
+      };
     default:
       return state;
   }
