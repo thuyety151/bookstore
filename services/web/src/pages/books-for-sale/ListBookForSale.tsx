@@ -163,7 +163,7 @@ const ListBookForSale: React.FC = () => {
           >
             {booksState.data.map((book, index) => {
               return (
-                <Grid item xs={3} key={index}>
+                <Grid item className="featured-book-item" key={index}>
                   <BestSellerComponent item={book} />
                 </Grid>
               );

@@ -1,15 +1,28 @@
 import {
+  AppBar,
+  Button,
   Checkbox,
   Collapse,
+  Dialog,
+  Divider,
+  Fab,
   FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
   makeStyles,
   Paper,
+  Slide,
   Slider,
   Theme,
+  Toolbar,
+  Typography,
 } from "@material-ui/core";
+import { TransitionProps } from "@material-ui/core/transitions";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { Rating } from "@material-ui/lab";
@@ -27,6 +40,8 @@ import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { getCategories } from "../../redux/actions/category/getAction";
 import { getLanguages } from "../../redux/actions/language/getAction";
 import { RootStore } from "../../redux/store";
+import CloseIcon from "@material-ui/icons/Close";
+import FilterListRoundedIcon from '@material-ui/icons/FilterListRounded';
 
 export default function BooksForSale() {
   const classes = useStyles();
@@ -148,320 +163,369 @@ export default function BooksForSale() {
     });
   };
 
+  //For mobile filter
+  const [openFilter, setOpenFilter] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpenFilter(true);
+  };
+
+  const handleClose = () => {
+    setOpenFilter(false);
+  };
+
+  const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement },
+    ref: React.Ref<unknown>
+  ) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
   return (
-    <Grid container>
-      {/* <Grid item xs={4}> */}
-      <Grid container direction="column" className={classes.grid}>
-        <Collapse in={isOpen.category} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Category</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() =>
-                  setOpen({ ...isOpen, category: !isOpen.category })
-                }
+    <div >
+      <Grid container className={classes.desktop}>
+        {/* <Grid item xs={4}> */}
+        <Grid container direction="column" className={classes.grid}>
+          <Collapse in={isOpen.category} collapsedSize={82}>
+            <Paper variant="outlined" className={classes.paper}>
+              <div>
+                <h3>Category</h3>
+                <span
+                  className="curso r-pointer icon"
+                  onClick={() =>
+                    setOpen({ ...isOpen, category: !isOpen.category })
+                  }
+                >
+                  {isOpen.category ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
               >
-                {isOpen.category ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <span>
+                <span>
+                  <FormControl component="fieldset">
+                    <FormGroup>
+                      {categories?.map((category: Category) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                category.id === bookFilterParams.categoryId
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleCategoryChange}
+                              name={category.id}
+                            />
+                          }
+                          label={category.name}
+                        />
+                      ))}
+                    </FormGroup>
+                  </FormControl>
+                </span>
+              </Grid>
+            </Paper>
+          </Collapse>
+
+          <Collapse in={isOpen.author} collapsedSize={82}>
+            <Paper variant="outlined" className={classes.paper}>
+              <div>
+                <h3>Author</h3>
+                <span
+                  className="curso r-pointer icon"
+                  onClick={() => setOpen({ ...isOpen, author: !isOpen.author })}
+                >
+                  {isOpen.author ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
+              >
+                <span>
+                  <FormControl component="fieldset">
+                    <FormGroup>
+                      {authours?.map((author: Author) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                author.id === bookFilterParams.authorId
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleAuthorChange}
+                              name={author.id}
+                            />
+                          }
+                          label={author.name}
+                        />
+                      ))}
+                    </FormGroup>
+                  </FormControl>
+                </span>
+              </Grid>
+            </Paper>
+          </Collapse>
+
+          <Collapse in={isOpen.language} collapsedSize={82}>
+            <Paper variant="outlined" className={classes.paper}>
+              <div>
+                <h3>Language</h3>
+                <span
+                  className="curso r-pointer icon"
+                  onClick={() =>
+                    setOpen({ ...isOpen, language: !isOpen.language })
+                  }
+                >
+                  {isOpen.language ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
+              >
+                <span>
+                  <FormControl component="fieldset">
+                    <FormGroup>
+                      {languages?.map((language: Language) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                language.id === bookFilterParams.languageIds
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleLanguageChange}
+                              name={language.id}
+                            />
+                          }
+                          label={language.name}
+                        />
+                      ))}
+                    </FormGroup>
+                  </FormControl>
+                </span>
+              </Grid>
+            </Paper>
+          </Collapse>
+
+          <Collapse in={isOpen.format} collapsedSize={82}>
+            <Paper variant="outlined" className={classes.paper}>
+              <div>
+                <h3>Format</h3>
+                <span
+                  className="curso r-pointer icon"
+                  onClick={() => setOpen({ ...isOpen, format: !isOpen.format })}
+                >
+                  {isOpen.format ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
+              >
+                <span>
+                  <FormControl component="fieldset">
+                    <FormGroup>
+                      {attributes?.map((attribute: Attribute) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                attribute.id === bookFilterParams.attributeId
+                                  ? true
+                                  : false
+                              }
+                              onChange={handleAttributeChange}
+                              name={attribute.id}
+                            />
+                          }
+                          label={attribute.name}
+                        />
+                      ))}
+                    </FormGroup>
+                  </FormControl>
+                </span>
+              </Grid>
+            </Paper>
+          </Collapse>
+
+          <Collapse in={isOpen.price} collapsedSize={82}>
+            <Paper variant="outlined" className={classes.paper}>
+              <div>
+                <h3>Filter by price</h3>
+                <span
+                  className="curso r-pointer icon"
+                  onClick={() => setOpen({ ...isOpen, price: !isOpen.price })}
+                >
+                  {isOpen.price ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
+              >
+                <Slider
+                  value={[bookFilterParams.minPrice, bookFilterParams.maxPrice]}
+                  onChange={handleChangePrice}
+                  valueLabelDisplay="auto"
+                  aria-labelledby="range-slider"
+                  className={classes.slider}
+                  max={1000}
+                />
+                <p className={classes.price}>
+                  Price: ${bookFilterParams.minPrice} - $
+                  {bookFilterParams.maxPrice}
+                </p>
+              </Grid>
+            </Paper>
+          </Collapse>
+
+          <Collapse in={isOpen.review} collapsedSize={82}>
+            <Paper variant="outlined" className={classes.paper}>
+              <div>
+                <h3>By Reivew</h3>
+                <span
+                  className="curso r-pointer icon"
+                  onClick={() => setOpen({ ...isOpen, review: !isOpen.review })}
+                >
+                  {isOpen.review ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
+              >
                 <FormControl component="fieldset">
                   <FormGroup>
-                    {categories?.map((category: Category) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              category.id === bookFilterParams.categoryId
-                                ? true
-                                : false
-                            }
-                            onChange={handleCategoryChange}
-                            name={category.id}
-                          />
-                        }
-                        label={category.name}
-                      />
-                    ))}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bookFilterParams.rates === 5 ? true : false}
+                          onChange={handleRateChange}
+                          name="5"
+                        />
+                      }
+                      label={<Rating name="read-only" value={5} readOnly />}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bookFilterParams.rates === 4 ? true : false}
+                          onChange={handleRateChange}
+                          name="4"
+                        />
+                      }
+                      label={<Rating name="read-only" value={4} readOnly />}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bookFilterParams.rates === 3 ? true : false}
+                          onChange={handleRateChange}
+                          name="3"
+                        />
+                      }
+                      label={<Rating name="read-only" value={3} readOnly />}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bookFilterParams.rates === 2 ? true : false}
+                          onChange={handleRateChange}
+                          name="2"
+                        />
+                      }
+                      label={<Rating name="read-only" value={2} readOnly />}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bookFilterParams.rates === 1 ? true : false}
+                          onChange={handleRateChange}
+                          name="1"
+                        />
+                      }
+                      label={<Rating name="read-only" value={1} readOnly />}
+                    />
                   </FormGroup>
                 </FormControl>
-              </span>
-            </Grid>
-          </Paper>
-        </Collapse>
-
-        <Collapse in={isOpen.author} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Author</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() => setOpen({ ...isOpen, author: !isOpen.author })}
-              >
-                {isOpen.author ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <span>
-                <FormControl component="fieldset">
-                  <FormGroup>
-                    {authours?.map((author: Author) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              author.id === bookFilterParams.authorId
-                                ? true
-                                : false
-                            }
-                            onChange={handleAuthorChange}
-                            name={author.id}
-                          />
-                        }
-                        label={author.name}
-                      />
-                    ))}
-                  </FormGroup>
-                </FormControl>
-              </span>
-            </Grid>
-          </Paper>
-        </Collapse>
-
-        <Collapse in={isOpen.language} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Language</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() =>
-                  setOpen({ ...isOpen, language: !isOpen.language })
-                }
-              >
-                {isOpen.language ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <span>
-                <FormControl component="fieldset">
-                  <FormGroup>
-                    {languages?.map((language: Language) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              language.id === bookFilterParams.languageIds
-                                ? true
-                                : false
-                            }
-                            onChange={handleLanguageChange}
-                            name={language.id}
-                          />
-                        }
-                        label={language.name}
-                      />
-                    ))}
-                  </FormGroup>
-                </FormControl>
-              </span>
-            </Grid>
-          </Paper>
-        </Collapse>
-
-        <Collapse in={isOpen.format} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Format</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() => setOpen({ ...isOpen, format: !isOpen.format })}
-              >
-                {isOpen.format ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <span>
-                <FormControl component="fieldset">
-                  <FormGroup>
-                    {attributes?.map((attribute: Attribute) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              attribute.id === bookFilterParams.attributeId
-                                ? true
-                                : false
-                            }
-                            onChange={handleAttributeChange}
-                            name={attribute.id}
-                          />
-                        }
-                        label={attribute.name}
-                      />
-                    ))}
-                  </FormGroup>
-                </FormControl>
-              </span>
-            </Grid>
-          </Paper>
-        </Collapse>
-
-        <Collapse in={isOpen.price} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Filter by price</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() => setOpen({ ...isOpen, price: !isOpen.price })}
-              >
-                {isOpen.price ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <Slider
-                value={[bookFilterParams.minPrice, bookFilterParams.maxPrice]}
-                onChange={handleChangePrice}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-                className={classes.slider}
-                max={1000}
-              />
-              <p className={classes.price}>
-                Price: ${bookFilterParams.minPrice} - $
-                {bookFilterParams.maxPrice}
-              </p>
-            </Grid>
-          </Paper>
-        </Collapse>
-
-        <Collapse in={isOpen.review} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>By Reivew</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() => setOpen({ ...isOpen, review: !isOpen.review })}
-              >
-                {isOpen.review ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <FormControl component="fieldset">
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={bookFilterParams.rates === 5 ? true : false}
-                        onChange={handleRateChange}
-                        name="5"
-                      />
-                    }
-                    label={<Rating name="read-only" value={5} readOnly />}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={bookFilterParams.rates === 4 ? true : false}
-                        onChange={handleRateChange}
-                        name="4"
-                      />
-                    }
-                    label={<Rating name="read-only" value={4} readOnly />}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={bookFilterParams.rates === 3 ? true : false}
-                        onChange={handleRateChange}
-                        name="3"
-                      />
-                    }
-                    label={<Rating name="read-only" value={3} readOnly />}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={bookFilterParams.rates === 2 ? true : false}
-                        onChange={handleRateChange}
-                        name="2"
-                      />
-                    }
-                    label={<Rating name="read-only" value={2} readOnly />}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={bookFilterParams.rates === 1 ? true : false}
-                        onChange={handleRateChange}
-                        name="1"
-                      />
-                    }
-                    label={<Rating name="read-only" value={1} readOnly />}
-                  />
-                </FormGroup>
-              </FormControl>
-            </Grid>
-          </Paper>
-        </Collapse>
-        {/* 
-        <Collapse in={isOpen.feature} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Feature Books</h3>
-              <span
-                className="curso r-pointer icon"
-                onClick={() => setOpen({ ...isOpen, feature: !isOpen.feature })}
-              >
-                {isOpen.feature ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid
-              item
-              container
-              direction="column"
-              className={classes.collapse}
-            >
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-              <span className={classes.item}>Bussiness</span>
-            </Grid>
-          </Paper>
-        </Collapse> */}
+              </Grid>
+            </Paper>
+          </Collapse>
+        </Grid>
       </Grid>
-    </Grid>
+
+      {/*-------------------------------MobileFilter--------------------------------*/}
+      <div className={classes.mobile}>
+        <Button variant="outlined" color="primary" onClick={handleClickOpen} className={classes.btnFilter}>
+          Open full-screen dialog
+        </Button>
+        <Fab
+          variant="extended"
+          size="medium"
+          color="primary"
+          aria-label="add"
+          className={classes.margin}
+        >
+          <FilterListRoundedIcon className={classes.extendedIcon} />
+          Filter
+        </Fab>
+        <Dialog
+          fullScreen
+          open={openFilter}
+          onClose={handleClose}
+          TransitionComponent={Transition}
+        >
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                Sound
+              </Typography>
+              <Button autoFocus color="inherit" onClick={handleClose}>
+                save
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <List>
+            <ListItem button>
+              <ListItemText primary="Phone ringtone" secondary="Titania" />
+            </ListItem>
+            <Divider />
+            <ListItem button>
+              <ListItemText
+                primary="Default notification ringtone"
+                secondary="Tethys"
+              />
+            </ListItem>
+          </List>
+        </Dialog>
+      </div>
+    </div>
   );
 }
 
@@ -495,4 +559,32 @@ const useStyles = makeStyles((theme: Theme) => ({
   price: {
     textAlign: "center",
   },
-}));
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  mobile: {
+    display: "none",
+    [theme.breakpoints.down('md')]:{
+      display: "block"
+    }
+  },
+  desktop: {
+    [theme.breakpoints.down('md')]:{
+      display: "none"
+    }
+  },
+  btnFilter: {
+    display: "inline-block"
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}),
+)
