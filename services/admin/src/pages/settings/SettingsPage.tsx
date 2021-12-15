@@ -94,7 +94,7 @@ const SettingsPage: React.FC = () => {
     ]);
   };
   return (
-    <div>
+    <div style={{ margin: "0 16px" }}>
       <Paper className={classes.root} variant="outlined">
         <Typography variant="h5" className={classes.name}>
           Settings for Homepage
@@ -259,7 +259,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
       padding: theme.spacing(2, 4),
-      margin: theme.spacing(0, 2),
     },
     formControl: {
       "& .MuiFormLabel-root": {
