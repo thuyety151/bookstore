@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
-using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -44,14 +43,12 @@ namespace Application.Addresses
                 var user = _context.Users.Include(x => x.Address)
                     .FirstOrDefault(
                         x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var address = await _context.Users.Where(x => x.Id == _httpContext.HttpContext.User
-                        .FindFirstValue(ClaimTypes.NameIdentifier))
-                    .SelectMany(x => x.Address).Where(x => x.Id == request.AddressParams.Id)
-                    .SingleOrDefaultAsync();
+                var address = user.Address.SingleOrDefault(x => x.Id == request.AddressParams.Id);
                 //Add
+
                 if (address == null)
                 {
-                    var newAddress = new Address()
+                    var newAddress = new Domain.Address()
                     {
                         Id = new Guid(),
                         FirstName = request.AddressParams.FirstName,
@@ -65,7 +62,7 @@ namespace Application.Addresses
                         WardCode = request.AddressParams.WardCode,
                         DistrictName = request.AddressParams.DistrictName,
                         ProvinceName = request.AddressParams.ProvinceName,
-                        IsMain = user.Address.Count > 0 ? false : true
+                        IsMain = !(user.Address.Count > 0)
                     };
                     if (request.AddressParams.IsMain)
                     {
@@ -77,9 +74,30 @@ namespace Application.Addresses
                     }
                     user.Address.Add(newAddress);
                 }
-                //Update ...
-
-                await _context.SaveChangesAsync();
+                else
+                {
+                    //Update ...
+                    address.FirstName = request.AddressParams.FirstName;
+                    address.LastName = request.AddressParams.LastName;
+                    address.Phone = request.AddressParams.Phone;
+                    address.ApartmentNumber = request.AddressParams.ApartmentNumber;
+                    address.StreetAddress = request.AddressParams.StreetAddress;
+                    address.DistrictId = request.AddressParams.DistrictId;
+                    address.ProvinceId = request.AddressParams.ProvinceId;
+                    address.WardName = request.AddressParams.WardName;
+                    address.WardCode = request.AddressParams.WardCode;
+                    address.DistrictName = request.AddressParams.DistrictName;
+                    address.ProvinceName = request.AddressParams.ProvinceName;
+                    if (request.AddressParams.IsMain)
+                    {
+                        foreach (var ad in user.Address)
+                        {
+                            ad.IsMain = false;
+                        }
+                        address.IsMain = true;
+                    }
+                }
+                await _context.SaveChangesAsync(cancellationToken);
                 return Result<Unit>.Success(Unit.Value);
             }
         }

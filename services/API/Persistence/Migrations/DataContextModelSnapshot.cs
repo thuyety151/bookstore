@@ -396,6 +396,9 @@ namespace Persistence.Migrations
                     b.Property<double>("CouponAmount")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -543,6 +546,9 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -847,7 +853,7 @@ namespace Persistence.Migrations
                         .WithMany("Items")
                         .HasForeignKey("CartId");
 
-                    b.HasOne("Domain.Order", null)
+                    b.HasOne("Domain.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
 

@@ -101,7 +101,7 @@ namespace Application.Categories.Admin
                         category.Description = request.CategoryParams.Description;
                     }
                     
-                    if (!string.IsNullOrWhiteSpace(request.CategoryParams.MediaId) && category.Media.Id != request.CategoryParams.MediaId)
+                    if (category.Media==null || (!string.IsNullOrWhiteSpace(request.CategoryParams.MediaId) && category.Media.Id != request.CategoryParams.MediaId))
                     {
                         var media = _context.Media.FirstOrDefault(x => x.Id == request.CategoryParams.MediaId);
                         if (media != null)

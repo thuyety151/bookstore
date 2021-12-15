@@ -12,5 +12,6 @@ namespace Application.Categories.Admin
         public string MediaUrl { get; set; }
         public Media Media { get; set; }
         public int Count { get; set; }
+        public Guid? ParentId { get; set; }
     }
 }

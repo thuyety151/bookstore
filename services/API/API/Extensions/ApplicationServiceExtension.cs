@@ -26,8 +26,10 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3001");
+                    policy.WithOrigins("http://localhost:3000",
+                        "http://localhost:3001",
+                        "https://bookworm-client.herokuapp.com")
+                        .AllowAnyMethod().AllowAnyHeader();
                 });
             });
             services.Configure<CloudinarySetting>(configuration.GetSection("Cloudinary"));

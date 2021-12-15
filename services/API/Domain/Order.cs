@@ -20,6 +20,7 @@ namespace Domain
         public ICollection<Item> Items { get; set; }
         public Address AddressToShip { get; set; }
         public bool IsDeleted { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
 
         public double GetTotal()
         {

@@ -94,7 +94,6 @@ const HeaderComponent: React.FC<{
         </div>
       </div>
       <Divider />
-      {/* </AppBar> */}
     </div>
   );
 };

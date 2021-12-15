@@ -14,7 +14,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountDetail from "./AccountDetail";
 import { userService } from "../../service/auth.service";
 import { createBrowserHistory } from "history";
-import Address from "./address/AddressDashBoard";
+import AddressDashboard from "./address/AddressDashBoard";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -183,7 +183,7 @@ export default function MyAccount() {
           </TabPanel>
           <TabPanel value={value} index={2}>
             <Typography variant="h5">Addresses</Typography>
-            <Address />
+            <AddressDashboard />
           </TabPanel>
           <TabPanel value={value} index={3}>
             <Typography variant="h5">Your Cart</Typography>

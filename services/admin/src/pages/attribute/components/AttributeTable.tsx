@@ -20,6 +20,8 @@ import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
 import { Attribute } from "redux/reducers/attributeReducer";
 import { getAttributePagination } from "redux/actions/attribute/getAction";
+import { useSnackbar } from "notistack";
+import { deleteAttribute } from "redux/actions/attribute/postAction";
 
 const headCells: HeadCell[] = [
   {
@@ -27,26 +29,28 @@ const headCells: HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: "#",
+    width: "10%",
   },
   {
     id: "name",
     numeric: false,
     disablePadding: true,
     label: "Name",
+    width: "40%",
   },
   {
     id: "slug",
     numeric: true,
     disablePadding: false,
     label: "Slug",
-    width: "10%",
+    width: "20%",
   },
   {
     id: "actions",
     numeric: true,
     disablePadding: false,
     label: "",
-    width: "15%",
+    width: "25%",
   },
 ];
 
@@ -60,11 +64,28 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const attrState = useSelector((state: RootStore) => state.attributes);
   const dispatch = useDispatch();
-  const pagination = useSelector(
-    (state: RootStore) => state.attributes.pagination
-  );
+  const { pagination } = useSelector((state: RootStore) => state.attributes);
   // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (attrState.success) {
+      props.setModelEdit(null);
+      dispatch(
+        getAttributePagination({
+          pagination: {
+            ...pagination,
+            pageIndex: page + 1,
+            pageSize: rowsPerPage,
+          },
+          onSuccess: () => {},
+          onFailure: () => {},
+        })
+      );
+    }
+    // eslint-disable-next-line
+  }, [attrState.success]);
 
   useEffect(() => {
     dispatch(
@@ -102,13 +123,25 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
 
   const handleEdit = (model: Attribute) => {
     props.setModelEdit(model);
-    // history.push(
-    //   generatePath(ROUTE_ORDER_EDIT, {
-    //     orderId: id || modelToViewDetail.id,
-    //   })
-    // );
   };
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    dispatch(
+      deleteAttribute({
+        id: modelToDelete || "",
+        onSuccess: () => {
+          enqueueSnackbar("Delete attribute successfully", {
+            variant: "success",
+          });
+          setModelToDelete(null);
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, {
+            variant: "error",
+          });
+        },
+      })
+    );
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -179,8 +212,8 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
         <DialogConfirm
           modelId={modelToDelete}
           loading={attrState.requesting}
-          title="Delete order"
-          message="Are you sure you want to delete this order?"
+          title="Delete attribute"
+          message="Are you sure you want to delete this attribute?"
           handleClose={() => setModelToDelete(null)}
           onConfirm={handleDelete}
         />
