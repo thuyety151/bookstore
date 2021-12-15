@@ -35,7 +35,7 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
       {options.length && (
         <Autocomplete
           multiple
-          fullWidth
+          // fullWidth
           id="fixed-tags-demo"
           value={value || null}
           onChange={(event, newValue) => {
@@ -52,7 +52,6 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
               <Chip label={option.name} {...getTagProps({ index })} />
             ))
           }
-          style={{ width: 500 }}
           renderInput={(params) => (
             <TextField
               {...params}
