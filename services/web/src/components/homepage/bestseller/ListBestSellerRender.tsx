@@ -52,7 +52,7 @@ const SlideEffect: React.FC = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item xs={9} container className={classes.title}>
+        <Grid item xs={12} className={classes.title}>
           <Grid item>
             <Grid item>
               <Typography variant="h4" gutterBottom>
@@ -71,7 +71,7 @@ const SlideEffect: React.FC = () => {
             <SvgIcon component={Icon} className="icon" />
           </Grid>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12}>
           <Paper className={classes.paper} elevation={0}>
             <AliceCarousel
               mouseTracking
@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       justifyContent: "space-between",
       alignItems: "center",
+      display: "flex",
     },
     viewAll: {
       display: "flex",

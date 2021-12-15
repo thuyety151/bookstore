@@ -31,7 +31,7 @@ import { RootStore } from "../../redux/store";
 export default function BooksForSale() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { predicate } = useParams() as any;
+  const { predicate, categoryId } = useParams() as any;
 
   //Selector
   const categories = useSelector((state: RootStore) => state.categoryBfs.data);
@@ -51,7 +51,7 @@ export default function BooksForSale() {
     feature: true,
   });
   const [bookFilterParams, setBookFilterParams] = useState({
-    categoryId: "",
+    categoryId: categoryId || "",
     authorId: "",
     languageIds: "",
     attributeId: "",
@@ -112,13 +112,11 @@ export default function BooksForSale() {
   }, []);
 
   useEffect(() => {
-    console.log("bfs: " + JSON.stringify(bookFilterParams));
     dispatch(
       getBooksForSale(predicate, bookFilterParams, {
         ...pagination,
       })
     );
-    console.log("change :");
     // eslint-disable-next-line
   }, [bookFilterParams]);
 
@@ -174,8 +172,9 @@ export default function BooksForSale() {
               <span>
                 <FormControl component="fieldset">
                   <FormGroup>
-                    {categories?.map((category: Category) => (
+                    {categories?.map((category: Category, index: number) => (
                       <FormControlLabel
+                        key={`category-opt-${index}`}
                         control={
                           <Checkbox
                             checked={
@@ -217,8 +216,9 @@ export default function BooksForSale() {
               <span>
                 <FormControl component="fieldset">
                   <FormGroup>
-                    {authours?.map((author: Author) => (
+                    {authours?.map((author: Author, index: number) => (
                       <FormControlLabel
+                        key={`author-opt-${index}`}
                         control={
                           <Checkbox
                             checked={
@@ -262,8 +262,9 @@ export default function BooksForSale() {
               <span>
                 <FormControl component="fieldset">
                   <FormGroup>
-                    {languages?.map((language: Language) => (
+                    {languages?.map((language: Language, index: number) => (
                       <FormControlLabel
+                        key={`lang-opt-${index}`}
                         control={
                           <Checkbox
                             checked={
@@ -305,8 +306,9 @@ export default function BooksForSale() {
               <span>
                 <FormControl component="fieldset">
                   <FormGroup>
-                    {attributes?.map((attribute: Attribute) => (
+                    {attributes?.map((attribute: Attribute, index: number) => (
                       <FormControlLabel
+                        key={`attr-opt-${index}`}
                         control={
                           <Checkbox
                             checked={
