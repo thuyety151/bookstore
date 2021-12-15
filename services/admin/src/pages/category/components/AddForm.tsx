@@ -13,13 +13,14 @@ import React, { useEffect, useState } from "react";
 import { ValidationName } from "helper/useValidator";
 import ContainedButton from "components/button/ContainedButton";
 import { get } from "lodash";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import { Category } from "redux/reducers/categoryReducer";
 import ProductImage from "pages/product/detail/components/ProductImage";
 import { getListParent } from "redux/actions/category/getAction";
-import { createCategory } from "redux/actions/category/postAction";
+import { upsertCategory } from "redux/actions/category/postAction";
 import { Media } from "model/media";
+import { RootStore } from "redux/store";
 
 export type AddFormProps = {
   model?: Category | null;
@@ -40,6 +41,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const [formValue, setFormValue] = useState<Category>(getInitForm());
   const [options, setOptions] = useState([]);
   const dispatch = useDispatch();
+  const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -48,7 +50,8 @@ const AddForm: React.FC<AddFormProps> = (props) => {
         setOptions(data);
       })
     );
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleChange = (key: string) => (event: any) => {
     setIsSubmit(false);
@@ -76,14 +79,18 @@ const AddForm: React.FC<AddFormProps> = (props) => {
      *  integrate api
      */
     dispatch(
-      createCategory({
+      upsertCategory({
         data: formValue,
         onSuccess: () => {
           setIsSubmit(false);
-          enqueueSnackbar("Create new category successfully!", {
-            variant: "success",
-          });
-          setFormValue(getInitForm());
+          enqueueSnackbar(
+            formValue.id
+              ? "Update category successfully"
+              : "Create new category successfully!",
+            {
+              variant: "success",
+            }
+          );
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -163,6 +170,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
             style: {
               width: "fit-content",
             },
+            disabled: resquesting,
             onClick: () => handleSubmit(),
           }}
         />

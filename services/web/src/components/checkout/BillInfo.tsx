@@ -25,9 +25,35 @@ import { total } from "../../redux/reducers/orderReducer";
 import { getFee } from "../../redux/actions/order/getActions";
 import { getServices } from "../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
+import PrimaryButton from "../button/PrimaryButton";
+import { createOrder } from "../../redux/actions/order/postAction";
+import { generatePath, useHistory } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import { ROUTE_PLACE_ORDER } from "../../routers/types";
+import { getPageCart } from "../../redux/actions/cart/getAction";
+import api from "../../boot/axios";
 
-const BillInfo: React.FC = () => {
+type Props = {
+  note: string;
+};
+export default function BillInfo(props: Props) {
   const classes = useStyles();
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+
+  //Selector
+  const cart = useSelector((state: RootStore) => state.cart);
+  const currentAddress = useSelector(
+    (state: RootStore) => state.address.currentAddress
+  );
+  const loading = useSelector((state: RootStore) => state.order.requesting);
+
+  //State
+  const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
+  const [couponCode, setCouponCode] = useState("");
+  const couponState = useSelector((state: RootStore) => state.coupon);
+  const shippingFee = useSelector((state: RootStore) => state.order.fee);
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
@@ -38,32 +64,65 @@ const BillInfo: React.FC = () => {
 
   const [value, setValue] = React.useState("Cash on delivery");
 
+  //Function
+  const addressInfor = () => {
+    return currentAddress?.id
+      ? `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`
+      : "--";
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
-  const cart = useSelector((state: RootStore) => state.cart);
-  const currentAddress = useSelector(
-    (state: RootStore) => state.address.currentAddress
-  );
-  const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
-  // const itemToCheckout = !cart.itemToCheckOut.length
-  //   ? cart.data
-  //   : cart.itemToCheckOut;
-
-  const addressInfor = () => {
-    return `${currentAddress.firstName} ${currentAddress.lastName} (${currentAddress.phone})`;
-  };
-  const dispatch = useDispatch();
-  const [couponCode, setCouponCode] = useState("");
-  const couponState = useSelector((state: RootStore) => state.coupon);
-  const shippingFee = useSelector((state: RootStore) => state.order.fee);
 
   const handleApplyCoupon = () => {
     dispatch(verifyCoupon(couponCode));
   };
+
+  const handleClickPayment = () => {
+    if (value === "Cash on delivery") {
+      dispatch(
+        createOrder({
+          note: props.note,
+          onSuccess: (code: string, orderId: string) => {
+            history.push(
+              generatePath(ROUTE_PLACE_ORDER, {
+                orderCode: code,
+              })
+            );
+            dispatch(getPageCart());
+          },
+          onFailure: (error: any) => {
+            enqueueSnackbar(error, { variant: "error" });
+          },
+        })
+      );
+    } else if (value === "MoMo") {
+      dispatch(
+        createOrder({
+          note: props.note,
+          onSuccess: async (code: string, orderId: string) => {
+            var response = await api.post("/momo", { orderId: orderId });
+
+            if (response.data?.isSuccess) {
+              window.open(response.data.value);
+            } else {
+              enqueueSnackbar("Error when payment", { variant: "error" });
+            }
+
+            dispatch(getPageCart());
+          },
+          onFailure: (error: any) => {
+            enqueueSnackbar(error, { variant: "error" });
+          },
+        })
+      );
+    }
+  };
+
+  //Effect
   useEffect(() => {
     if (!itemToCheckout.length) {
-      console.log("cart", cart);
       setItemToCheckout(cart.data);
       dispatch({
         type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT,
@@ -86,7 +145,7 @@ const BillInfo: React.FC = () => {
         },
       })
     );
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponState.data]);
 
   return (
@@ -145,7 +204,6 @@ const BillInfo: React.FC = () => {
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
-                <span>${shippingFee}</span>
               </Grid>
             </Grid>
           </Paper>
@@ -170,7 +228,11 @@ const BillInfo: React.FC = () => {
             <Grid item className="row">
               <span>{addressInfor()}</span>
               <span>{formatAddress(currentAddress)}</span>
+              <span>${shippingFee}</span>
             </Grid>
+            <div className="row">
+              <span className={classes.changeAddress}>Change Address</span>
+            </div>
           </Paper>
         </Collapse>
         {/* coupon */}
@@ -256,10 +318,9 @@ const BillInfo: React.FC = () => {
                   Pay with cash upon delivery.
                 </Typography>
                 <FormControlLabel
-                  value="Direct bank transfer"
+                  value="MoMo"
                   control={<Radio />}
-                  label="Direct bank transfer"
-                  disabled
+                  label="MoMo"
                 />
                 <Typography className={classes.text}>Comming soon</Typography>
                 <FormControlLabel
@@ -274,9 +335,19 @@ const BillInfo: React.FC = () => {
           </Paper>
         </Collapse>
       </Grid>
+      <Grid item>
+        <PrimaryButton
+          text="Place order"
+          props={{
+            onClick: () => handleClickPayment(),
+            style: { width: "350px" },
+          }}
+          loading={loading}
+        />
+      </Grid>
     </div>
   );
-};
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   payment: {
@@ -341,5 +412,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: "grey",
     marginLeft: "30px",
   },
+  changeAddress: {
+    fontWeight: "bold",
+    cursor: "pointer",
+    "&:hover": {
+      color: "red",
+    },
+  },
 }));
-export default BillInfo;

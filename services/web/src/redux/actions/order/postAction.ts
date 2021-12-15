@@ -8,7 +8,7 @@ import store from "../../store";
 
 export type CreateOrderProps = {
   note: string;
-  onSuccess: (code: any) => void;
+  onSuccess: (code: any, orderId: any) => void;
   onFailure: (error: any) => void;
 };
 export const createOrder =
@@ -27,6 +27,7 @@ export const createOrder =
     if (response.data.isSuccess) {
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
 
+      //call api GHN
       const order = {
         payment_type_id: 2,
         note: props.note,
@@ -82,7 +83,7 @@ export const createOrder =
           );
           if (resultUpdateOrderCode.data.isSuccess) {
             console.log("success");
-            props.onSuccess(createDelivery.data.data.order_code);
+            props.onSuccess(createDelivery.data.data.order_code, response.data.value);
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_SUCCESS,

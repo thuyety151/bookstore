@@ -37,7 +37,7 @@ namespace Application.Attributes
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var isNameExist = _context.Attributes.Any(x => x.Name == request.AttributeParams.Name && x.IsDeleted == false && x.Id != request.AttributeParams.Id);
-                if (isNameExist)
+                if (isNameExist )
                 {
                     return Result<Guid>.Failure("Name is already exist");
                 }

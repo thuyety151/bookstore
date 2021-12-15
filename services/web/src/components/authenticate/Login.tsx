@@ -16,10 +16,13 @@ import { GitHub, Facebook } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { loginFacebook } from "../../service/auth.service";
+import { useSnackbar } from "notistack";
 
 export default function LoginComponent() {
   const classes = useStyles();
   const history = useHistory();
+  const {enqueueSnackbar} = useSnackbar();
 
   const dispatch = useDispatch();
 
@@ -51,6 +54,49 @@ export default function LoginComponent() {
   const handleOnClick = () => {
     history.push("/register");
   };
+
+
+  const handleFacebookLogin = () => {
+    enqueueSnackbar("Login successfully!", { variant: "success" });
+    var facebookAccessToken = null;
+
+    window.FB.getLoginStatus(response => {
+      if(response.status === 'connected'){
+         facebookAccessToken = response.authResponse.accessToken;
+      }
+    })
+
+    enqueueSnackbar(facebookAccessToken, { variant: "success" });
+
+    if(facebookAccessToken){
+        loginFacebook({
+          accessToken: facebookAccessToken,
+          onSuccess: () => {
+            enqueueSnackbar("Login successfully!", { variant: "success" });
+            history.push("/");
+          },
+          onFailure: (error) => {
+            enqueueSnackbar(error, {variant: "error"})
+          }
+         
+        })
+    }
+    else {
+      window.FB.login(response => {
+        loginFacebook({
+          accessToken: response.authResponse.accessToken,
+          onSuccess: () => {
+            enqueueSnackbar("Login successfully!", { variant: "success" });
+            history.push("/");
+          },
+          onFailure: (error) => {
+            enqueueSnackbar(error, {variant: "error"})
+          }
+        })
+      }, {scope: 'public_profile, email'});
+    }
+   
+  }
 
   return (
     <div className={classes.root}>
@@ -142,6 +188,7 @@ export default function LoginComponent() {
                 variant="outlined"
                 className={classes.facebook}
                 startIcon={<Facebook />}
+                onClick = {handleFacebookLogin}
               >
                 Continue with Facebook
               </Button>

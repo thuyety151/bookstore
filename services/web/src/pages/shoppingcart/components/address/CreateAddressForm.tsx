@@ -15,7 +15,10 @@ import {
 import AddressForm from "../../../../components/address/AddressForm";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../../redux/store";
-import { createAddress } from "../../../../redux/actions/address/postAction";
+import {
+  createAddress,
+  updateAddress,
+} from "../../../../redux/actions/address/postAction";
 import { Address, AddressFormSchema } from "../../../../model/address";
 import { getAllAddresses } from "../../../../redux/actions/address/getAction";
 import { useSnackbar } from "notistack";
@@ -55,18 +58,34 @@ const CreateAddressForm: React.FC<{ onClose: () => void; address?: Address }> =
     const loading = useSelector((state: RootStore) => state.address.requesting);
 
     const handleCreateAddress = () => {
-      dispatch(
-        createAddress({
-          value: formValue as AddressFormSchema,
-          onSuccess: () => {
-            dispatch(getAllAddresses());
-            onClose();
-          },
-          onFailure: (error: any) => {
-            enqueueSnackbar(error, { variant: "error" });
-          },
-        })
-      );
+      if (formValue.id) {
+        //update
+        dispatch(
+          updateAddress({
+            value: formValue as AddressFormSchema,
+            onSuccess: () => {
+              dispatch(getAllAddresses());
+              onClose();
+            },
+            onFailure: (error: any) => {
+              enqueueSnackbar(error, { variant: "error" });
+            },
+          })
+        );
+      } else {
+        dispatch(
+          createAddress({
+            value: formValue as AddressFormSchema,
+            onSuccess: () => {
+              dispatch(getAllAddresses());
+              onClose();
+            },
+            onFailure: (error: any) => {
+              enqueueSnackbar(error, { variant: "error" });
+            },
+          })
+        );
+      }
     };
     return (
       <Grid item container xs={12}>

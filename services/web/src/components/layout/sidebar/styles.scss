@@ -1,4 +1,7 @@
 .MuiDrawer-paperAnchorLeft {
+  @media screen and (min-width: 1401px) {
+    width: 30%;
+  }
   @media screen and (max-width: 1400px) {
     width: 20%;
   }

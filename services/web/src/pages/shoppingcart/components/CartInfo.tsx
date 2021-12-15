@@ -195,8 +195,8 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               <span>Shipping to</span>
               <br />
               <span>
-                {defaultAddress.firstName} {defaultAddress.lastName} (
-                {defaultAddress.phone})
+                {defaultAddress.firstName} {defaultAddress.lastName}
+                {defaultAddress.phone && `(${defaultAddress.phone})`}
               </span>
               <span>{formatAddress(defaultAddress)}</span>
               <div className="row" onClick={handleChangeAddress}>

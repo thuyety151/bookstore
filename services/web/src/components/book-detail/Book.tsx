@@ -100,7 +100,7 @@ export default function DetailBook() {
 
   useEffect(() => {
     setAttribute(attributeDb);
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -109,9 +109,9 @@ export default function DetailBook() {
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const attributeId = event.target.value;
-    var attribute = data?.attributes.find((x) => x.id === attributeId);
-    if (attribute) {
-      setAttribute(attribute);
+    var attributeOpt = data?.attributes.find((x) => x.id === attributeId);
+    if (attributeOpt) {
+      setAttribute({ ...attributeOpt });
     }
   };
 
@@ -130,10 +130,9 @@ export default function DetailBook() {
   function handleAddToCart() {
     var item: AddOrUpdateItem = {
       productId: bookId,
-      attributeId: attributeId,
+      attributeId: attribute?.id,
       quantity: counter,
     };
-
     const itemQuantityToUpdate = myCart.find(
       (x) =>
         x.productId === item.productId && x.attributeId === item.attributeId
@@ -182,7 +181,7 @@ export default function DetailBook() {
                   </Grid>
                   <Grid item>
                     <Typography gutterBottom variant="body2">
-                      (3,714) By (author) {data.authorName}
+                      (3) By (author) {data.authorName}
                     </Typography>
                   </Grid>
                 </Grid>
