@@ -26,6 +26,7 @@ namespace Application.Coupons.Admin
             public async Task<Result<PagedList<CouponDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var couponDtos = _context.Coupons.Where(x => x.IsDeleted == false)
+                    .OrderByDescending(x => x.CreateDate)
                     .Select(x => new CouponDto()
                     {
                         Id = x.Id,

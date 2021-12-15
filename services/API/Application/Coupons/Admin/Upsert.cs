@@ -52,7 +52,8 @@ namespace Application.Coupons.Admin
                         CouponAmount = request.CouponParams.CouponAmount,
                         DiscountType = request.CouponParams.DiscountType,
                         IsDeleted = false,
-                        MinSpend = request.CouponParams.MinSpend
+                        MinSpend = request.CouponParams.MinSpend,
+                        CreateDate = DateTime.Now
                     };
 
                     _context.Coupons.Add(coupon);

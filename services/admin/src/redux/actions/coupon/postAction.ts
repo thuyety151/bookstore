@@ -34,11 +34,11 @@ export const upsertCoupon =
     }
   };
 
-export const deleteAttribute =
+export const deleteCoupon =
   (props: { id: string } & FnActionProps) => async (dispatch: any) => {
     try {
       dispatch({ type: ACTION_NAMES.DELETE_COUPON.DELETE_COUPON});
-      const response = await api.delete("/attributes", {
+      const response = await api.delete("/coupons", {
         data: {
           id: props.id,
         },

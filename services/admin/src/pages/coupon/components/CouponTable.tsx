@@ -23,6 +23,7 @@ import { deleteAttribute } from "redux/actions/attribute/postAction";
 import { getCouponPagination } from "redux/actions/coupon/getAction";
 import { Coupon } from "redux/reducers/couponReducer";
 import { format } from "date-fns";
+import { deleteCoupon } from "redux/actions/coupon/postAction";
 
 const headCells: HeadCell[] = [
   {
@@ -146,10 +147,10 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
   };
   const handleDelete = () => {
     dispatch(
-      deleteAttribute({
+      deleteCoupon({
         id: modelToDelete || "",
         onSuccess: () => {
-          enqueueSnackbar("Delete attribute successfully", {
+          enqueueSnackbar("Delete coupon successfully", {
             variant: "success",
           });
           setModelToDelete(null);
@@ -235,8 +236,8 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
         <DialogConfirm
           modelId={modelToDelete}
           loading={couponState.requesting}
-          title="Delete attribute"
-          message="Are you sure you want to delete this attribute?"
+          title="Delete coupon"
+          message="Are you sure you want to delete this coupon?"
           handleClose={() => setModelToDelete(null)}
           onConfirm={handleDelete}
         />
