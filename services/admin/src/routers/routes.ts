@@ -13,6 +13,7 @@ import {
   ROUTE_PRODUCTS,
   ROUTE_PRODUCT_ADD,
   ROUTE_PRODUCT_DETAIL,
+  ROUTE_REPORT,
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
@@ -25,6 +26,7 @@ import AttributePage from "pages/attribute/AttributePage";
 import Validation from "pages/Validation";
 import CategoryPage from "pages/category/CategoryPage";
 import CouponsPage from "pages/coupon/CouponPage";
+import ReportPage from "pages/report/ReportPage";
 
 export const routePage: Route[] = [
   {
@@ -81,6 +83,12 @@ export const routes: Route[] = [
     path: ROUTE_COUPONS,
     name: "Coupon",
     component: CouponsPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_REPORT,
+    name: "Report",
+    component: ReportPage,
     exact: true,
   },
   {
