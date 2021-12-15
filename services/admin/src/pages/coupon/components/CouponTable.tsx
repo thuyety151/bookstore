@@ -18,8 +18,6 @@ import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
-import { Attribute } from "redux/reducers/attributeReducer";
-import { getAttributePagination } from "redux/actions/attribute/getAction";
 import { useSnackbar } from "notistack";
 import { deleteAttribute } from "redux/actions/attribute/postAction";
 import { getCouponPagination } from "redux/actions/coupon/getAction";
@@ -192,8 +190,8 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                     <TableCell>{row.code}</TableCell>
                     <TableCell>{row.description}</TableCell>
                     <TableCell>{row.couponAmount}</TableCell>
-                    <TableCell>{row.discountType}</TableCell>
-                    <TableCell>{format(new Date(row.expireDate), 'dd/MM/yyyy')}</TableCell>
+                    <TableCell>{row.discountType === 0 ? "Fixed cart" : "Percentage"}</TableCell>
+                    <TableCell>{ row.expireDate === null ? "" : format(new Date(row.expireDate), 'dd/MM/yyyy')}</TableCell>
                     <TableCell>
                       <Button
                         className="btn-view"

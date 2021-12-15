@@ -6,8 +6,8 @@ export type Coupon = {
     code: string;
     description: string;
     couponAmount: number;
-    discountType: string;
-    expireDate: Date;
+    discountType: number;
+    expireDate: Date | null;
 };
 
 export type CouponState = {

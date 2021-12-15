@@ -1,7 +1,6 @@
 import api from "boot/axios";
 import { omit } from "lodash";
 import { FnActionProps } from "model/actionProps";
-import { Attribute } from "redux/reducers/attributeReducer";
 import { Coupon } from "redux/reducers/couponReducer";
 import { ACTION_NAMES } from "./actionType";
 

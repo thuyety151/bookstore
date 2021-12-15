@@ -8,7 +8,6 @@ namespace Application.Coupons.Admin
         {
             RuleFor(x => x.Code).NotEmpty();
             RuleFor(x => x.CouponAmount).NotNull();
-            RuleFor(x => x.DiscountType).NotEmpty();
         }
     }
 }

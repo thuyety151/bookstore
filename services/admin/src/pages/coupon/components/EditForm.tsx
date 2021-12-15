@@ -10,7 +10,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { Grid } from "@material-ui/core";
-import { Category } from "redux/reducers/categoryReducer";
 import { Coupon } from "redux/reducers/couponReducer";
 import AddForm from "./AddForm";
 

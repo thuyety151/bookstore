@@ -10,21 +10,20 @@ import {
   Typography,
 } from "@material-ui/core";
 import VInput from "components/form/VInput";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ValidationName } from "helper/useValidator";
 import ContainedButton from "components/button/ContainedButton";
-import { get } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
-import { Category } from "redux/reducers/categoryReducer";
-import ProductImage from "pages/product/detail/components/ProductImage";
-import { getListParent } from "redux/actions/category/getAction";
-import { upsertCategory } from "redux/actions/category/postAction";
-import { Media } from "model/media";
 import { RootStore } from "redux/store";
 import { Coupon } from "redux/reducers/couponReducer";
-import { format } from "date-fns";
 import { upsertCoupon } from "redux/actions/coupon/postAction";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { get } from "lodash";
 
 export enum DisCountType {
   FixedCart,
@@ -41,17 +40,30 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     code: props.model?.code || "",
     description: props.model?.description || "",
     couponAmount: props.model?.couponAmount || 0,
-    discountType: props.model?.discountType || "",
-    expireDate: props.model?.expireDate || new Date(Date.now.toString()),
+    discountType: props.model?.discountType || DisCountType.FixedCart,
+    expireDate: props.model?.expireDate || new Date(),
   });
   const [formValue, setFormValue] = useState<Coupon>(getInitForm());
   const dispatch = useDispatch();
   const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
 
+  const handleDateChange = (date: Date | null) => {
+    setFormValue({
+      ...formValue,
+      expireDate: date,
+    });
+  };
+
   const handleChange = (key: string) => (event: any) => {
     setIsSubmit(false);
-
+    if (key === "couponAmount") {
+      setFormValue({
+        ...formValue,
+        couponAmount: Number(event.target.value) ,
+      });
+      return;
+    }
     setFormValue({
       ...formValue,
       [key]: event.target.value,
@@ -63,11 +75,13 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     /**
      *  handle data again
      */
-    const x = ["name"].map((key: string) => {
+    console.log("form value:" + JSON.stringify(formValue));
+    const x = ["code"].map((key: string) => {
       return !!get(formValue, key); // false is invalid
     });
 
     if (x.includes(false)) {
+      console.log("xx");
       return;
     }
 
@@ -130,25 +144,44 @@ const AddForm: React.FC<AddFormProps> = (props) => {
           <TextField
             variant="outlined"
             value={formValue.couponAmount}
-            multiline
             onChange={handleChange("couponAmount")}
             margin="dense"
+            type="number"
+            required
           />
           <br />
           <Typography>Discount Type</Typography>
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            value={
-              formValue.discountType === "Percentage"
-                ? DisCountType.Percentage
-                : DisCountType.FixedCart
-            }
+            value={formValue.discountType}
             onChange={handleChange("discountType")}
           >
             <MenuItem value={DisCountType.FixedCart}>Fixed Cart</MenuItem>
-            <MenuItem value={DisCountType.Percentage}>Percentent</MenuItem>
+            <MenuItem value={DisCountType.Percentage}>Percentage</MenuItem>
           </Select>
+          <br />
+          <Typography>Exprie Date</Typography>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container justifyContent="space-around">
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                value={
+                  formValue.expireDate === null
+                    ? new Date()
+                    : new Date(formValue.expireDate)
+                }
+                onChange={(date) => handleDateChange(date)}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
           <br />
           <ContainedButton
             text={props.model ? "Save" : "Add coupon"}
@@ -178,8 +211,8 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 0),
     },
     paper: {
-        padding: "20px 20px"
-    }
+      padding: "20px 20px",
+    },
   })
 );
 

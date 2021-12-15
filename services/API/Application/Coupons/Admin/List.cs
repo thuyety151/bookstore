@@ -32,7 +32,7 @@ namespace Application.Coupons.Admin
                         Description = x.Description,
                         Code = x.Code,
                         CouponAmount = x.CouponAmount,
-                        DiscountType = ((DiscountType) x.DiscountType).ToString(),
+                        DiscountType = x.DiscountType,
                         ExpireDate = x.ExpireDate
                     });
 
