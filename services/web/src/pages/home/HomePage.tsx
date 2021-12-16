@@ -13,6 +13,8 @@ import {
   getMostView,
   getOnSale,
 } from "../../redux/actions/books/getAction";
+import "./styles.scss";
+
 const HomePage: React.FunctionComponent<{}> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -21,30 +23,37 @@ const HomePage: React.FunctionComponent<{}> = (props) => {
   dispatch(getDealOfWeek());
 
   return (
-    <div className="App">
+    <div className="home-page">
       <Grid container>
         <Grid item xs={12} className={classes.item}>
           <MainShow />
         </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <Categories />
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <ListBestSellingComponent />
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <FeatureBooks />
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <NewReleaseBooks />
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <ListDealOfWeekComponent />
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <ListFavoriteAuthorComponent />
-        </Grid>
       </Grid>
+      <div className="home-page-contents">
+        <Grid container>
+          <Grid item xs={12} className={classes.item}>
+            <Categories />
+          </Grid>
+          {/* <Grid item xs={12} className={classes.item}>
+          <MiniCategory />
+        </Grid> */}
+          <Grid item xs={12} className={classes.item}>
+            <ListBestSellingComponent />
+          </Grid>
+          <Grid item xs={12} className={classes.item}>
+            <FeatureBooks />
+          </Grid>
+          <Grid item xs={12} className={classes.item}>
+            <NewReleaseBooks />
+          </Grid>
+          <Grid item xs={12} className={classes.item}>
+            <ListDealOfWeekComponent />
+          </Grid>
+          <Grid item xs={12} className={classes.item}>
+            <ListFavoriteAuthorComponent />
+          </Grid>
+        </Grid>
+      </div>
     </div>
   );
 };

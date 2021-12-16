@@ -16,7 +16,6 @@ const responsive = {
   1024: { items: 2 },
 };
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -45,14 +44,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 const SlideEffect: React.FC = () => {
   const classes = useStyles();
-  const history= useHistory();
-  const handleNavBook=(id?:string)=>{
+  const history = useHistory();
+  const handleNavBook = (id?: string) => {
     history.push(
       generatePath(ROUTE_BOOKS_FOR_SALE, {
-        predicate:Predicate.Popular,
+        predicate: Predicate.Popular,
       })
     );
-  }
+  };
 
   const dealOfWeek = useSelector((state: RootStore) => state.dealOfWeek.data);
 
@@ -71,22 +70,26 @@ const SlideEffect: React.FC = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item xs={9} container className={classes.title}>
+        <Grid container justifyContent="center" className={classes.title}>
           <Grid item>
             <Grid item>
               <Typography variant="h4" gutterBottom>
-               Deals of the Week
+                Deals of the Week
               </Typography>
             </Grid>
           </Grid>
-          <Grid item className={classes.viewAll} onClick={()=>handleNavBook()}>
+          <Grid
+            item
+            className={classes.viewAll}
+            onClick={() => handleNavBook()}
+          >
             <Typography variant="subtitle1" gutterBottom>
               View All
             </Typography>
             <SvgIcon component={Icon} className="icon" />
           </Grid>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12}>
           <Paper className={classes.paper} elevation={0}>
             <AliceCarousel
               mouseTracking
