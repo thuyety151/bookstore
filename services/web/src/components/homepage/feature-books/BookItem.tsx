@@ -14,21 +14,45 @@ import { generatePath, useHistory } from "react-router-dom";
 import defaultBook from "../../../assets/images/default.jpeg";
 import clsx from "clsx";
 import "./styles.scss";
+import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
+import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
 
-const BookItem: React.FC<{ item: Book }> = (item) => {
+const BookItem: React.FC<{ item: Book }> = (props) => {
+  const { item } = props;
   const classes = useStyles();
   const history = useHistory();
-  const handleNavBook = (book: Book) => {
-    if (book.id) {
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleNavBook = () => {
+    if (item.id) {
       history.push(
         generatePath(ROUTE_BOOK_DETAIL, {
-          bookId: book.id,
-          attributeId: book.attributeId,
+          bookId: item.id,
+          attributeId: item.attributeId,
         })
       );
     } else {
       history.push(ROUTE_BOOK);
     }
+  };
+  const handleAddtoCart = () => {
+    dispatch(
+      addOrUpdateItem({
+        item: {
+          productId: item.id,
+          quantity: 1,
+          attributeId: item.attributeId,
+        },
+        onSuccess: () => {
+          enqueueSnackbar("Add to cart successfully!", { variant: "success" });
+        },
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
   };
   return (
     <div className={clsx(classes.root, "featured-item")}>
@@ -40,14 +64,10 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
           alignItems="center"
           spacing={3}
         >
-          <Grid item>
-            {/* <ButtonBase
-              className={classes.image}
-              onClick={() => handleNavBook(item.item)}
-            > */}
+          <Grid item onClick={handleNavBook}>
             <img
               className={classes.image}
-              src={item.item.pictureUrl ?? defaultBook}
+              src={item.pictureUrl ?? defaultBook}
               alt="img"
             />
             {/* </ButtonBase> */}
@@ -59,31 +79,31 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
                 variant="overline"
                 className={classes.atribute}
               >
-                {item.item.attribute}
+                {item.attribute}
               </Typography>
               <Typography
                 gutterBottom
                 variant="subtitle1"
                 className={classes.name}
-                onClick={() => handleNavBook(item.item)}
+                onClick={handleNavBook}
               >
-                {item.item.name}
+                {item.name}
               </Typography>
               <Typography
                 variant="body2"
                 gutterBottom
                 className={classes.author}
               >
-                {item.item.author}
+                {item.author}
               </Typography>
             </Grid>
-            {!item.item.salePrice || item.item.salePrice === item.item.price ? (
+            {!item.salePrice || item.salePrice === item.price ? (
               <Grid item>
                 <Typography
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  ${item.item.price}
+                  ${item.price}
                 </Typography>
               </Grid>
             ) : (
@@ -92,10 +112,10 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
                   variant="subtitle1"
                   className={classes.currentPrice}
                 >
-                  ${item.item.salePrice}
+                  ${item.salePrice}
                 </Typography>
                 <Typography variant="subtitle1" className={classes.salePrice}>
-                  ${item.item.price}
+                  ${item.price}
                 </Typography>
               </Grid>
             )}
@@ -103,7 +123,8 @@ const BookItem: React.FC<{ item: Book }> = (item) => {
               <Typography
                 gutterBottom
                 variant="subtitle1"
-                className={classes.name}
+                className={classes.addToCart}
+                onClick={handleAddtoCart}
               >
                 ADD TO CART
               </Typography>
@@ -132,6 +153,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "auto",
       height: "100%",
       textAlign: "left",
+      cursor: "pointer",
       "&:hover": {
         borderColor: "#000",
       },
@@ -155,6 +177,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     currentPrice: {
       fontWeight: 700,
+    },
+    addToCart: {
+      fontWeight: 700,
+      "&:hover": {
+        color: "red",
+      },
     },
     rootPrice: {
       alignItems: "center",
