@@ -9,11 +9,36 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import { sum } from "lodash";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getReports } from "redux/actions/report/getActions";
+import { RootStore } from "redux/store";
+import Chart from "./components/Chart";
 
+const reportOptions = [
+  {
+    name: "Last 7 days",
+    value: "last-7-days",
+  },
+  {
+    name: "Last month",
+    value: "last-month",
+  },
+  {
+    name: "This Month",
+    value: "this-month",
+  },
+  {
+    name: "This year",
+    value: "year",
+  },
+];
 const ReportPage: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const { data } = useSelector((state: RootStore) => state.reports);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -21,80 +46,77 @@ const ReportPage: React.FC = () => {
   ) => {
     setSelectedIndex(index);
   };
+  useEffect(() => {
+    dispatch(getReports(reportOptions[selectedIndex].value));
+  }, [dispatch, selectedIndex]);
+
   return (
     <div>
-      <Grid xs={12}>
+      <Grid item xs={12}>
         <Paper className={classes.paperNav}>
           <List
             component="nav"
             aria-label="secondary mailbox folder"
             className={classes.flexContainer}
           >
-            <ListItem
-              button
-              selected={selectedIndex === 0}
-              onClick={(event) => handleListItemClick(event, 0)}
-            >
-              <ListItemText primary="Year" className={classes.text}/>
-            </ListItem>
-            <ListItem
-              button
-              selected={selectedIndex === 1}
-              onClick={(event) => handleListItemClick(event, 1)}
-            >
-              <ListItemText primary="Last Month" className={classes.text} />
-            </ListItem>
-            <ListItem
-              button
-              selected={selectedIndex === 2}
-              onClick={(event) => handleListItemClick(event, 2)}
-            >
-              <ListItemText primary="This Month" className={classes.text}/>
-            </ListItem>
-            <ListItem
-              button
-              selected={selectedIndex === 3}
-              onClick={(event) => handleListItemClick(event, 3)}
-            >
-              <ListItemText primary="Last 7 days" className={classes.text} />
-            </ListItem>
+            {reportOptions.map((item, index) => (
+              <ListItem
+                button
+                selected={selectedIndex === index}
+                onClick={(event) => handleListItemClick(event, index)}
+              >
+                <ListItemText primary={item.name} className={classes.text} />
+              </ListItem>
+            ))}
           </List>
         </Paper>
       </Grid>
       <Grid container>
         <Grid item xs={3} className={classes.left}>
-        <Paper className={classes.paperItem}>
-            <Typography variant="h5">$320</Typography>
+          <Paper className={classes.paperItem}>
+            <Typography variant="h5">
+              ${sum(data.flatMap((x) => x.netSale))}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
               net sales in this period
             </Typography>
           </Paper>
           <Paper className={classes.paperItem}>
-            <Typography variant="h5">1</Typography>
+            <Typography variant="h5">
+              {sum(data.flatMap((x) => x.orderPlaced))}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
               orders placed
             </Typography>
           </Paper>
           <Paper className={classes.paperItem}>
-            <Typography variant="h5">5</Typography>
+            <Typography variant="h5">
+              {sum(data.flatMap((x) => x.itemsPurchased))}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
               items purchased
             </Typography>
           </Paper>
           <Paper className={classes.paperItem}>
-            <Typography variant="h5">$0</Typography>
+            <Typography variant="h5">
+              ${sum(data.flatMap((x) => x.refunded))}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
               refunded order
             </Typography>
           </Paper>
           <Paper className={classes.paperItem}>
-            <Typography variant="h5">$0</Typography>
+            <Typography variant="h5">
+              ${sum(data.flatMap((x) => x.shippingFee))}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
               charged for shipping
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={9}></Grid>
+        <Grid item xs={9}>
+          <Chart />
+        </Grid>
       </Grid>
     </div>
   );
@@ -109,7 +131,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paperItem: {
       background: "#fff",
       height: 90,
-      width: 250,
+      width: "100%",
       padding: "20px 10px",
     },
     flexContainer: {
@@ -118,11 +140,11 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
     },
     left: {
-        padding:10
+      padding: 10,
     },
     text: {
-        color: "#1167b1",
-    }
+      color: "#1167b1",
+    },
   })
 );
 

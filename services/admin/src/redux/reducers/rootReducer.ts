@@ -7,6 +7,7 @@ import languageReducer from "./languageReducer";
 import mediaReducer from "./mediaReducer";
 import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
+import reportReducer from "./reportReducer";
 import settingsReducer from "./settingsReducer";
 // import authenticateReducer from "./authenticationReducer";
 
@@ -19,6 +20,8 @@ const rootReducer = combineReducers({
   media: mediaReducer,
   categories: categoryReducer,
   languages: languageReducer,
+  coupons: couponReducer,
+  reports: reportReducer,
   settings: settingsReducer,
   coupons: couponReducer,
 });
