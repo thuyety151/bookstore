@@ -113,3 +113,8 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     pathName: ROUTE_EXAMPLE,
   },
 ];
+
+export const PUBLIC_URL = {
+  PRODUCT: "http://localhost:3000/book-detail/",
+  CATEGORY: "http://localhost:3000/books-for-sale-category/",
+};

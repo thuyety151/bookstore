@@ -33,12 +33,11 @@ const AddressDashboard: React.FC = () => {
     <div className={classes.root}>
       <Grid container>
         <Grid className={classes.header}>
-          <Typography>Addresses</Typography>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <PrimaryButton
               text="Add Address"
               props={{
-                style: { padding: "8px" },
+                style: { padding: "8px", width: "fit-content" },
                 startIcon: <AddIcon />,
                 onClick: () => setOpenAddAddress(true),
               }}
@@ -82,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {},
     header: {
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
       width: "100%",
     },
     dialog: {

@@ -22,7 +22,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultAddress } from "../../../redux/actions/address/getAction";
 import { RootStore } from "../../../redux/store";
-import { formatAddress } from "../../../helper/format";
+import { formatAddress, formatCustomerInfo } from "../../../helper/format";
 import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
 import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
@@ -195,10 +195,11 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               <span>Shipping to</span>
               <br />
               <span>
-                {defaultAddress.firstName} {defaultAddress.lastName}
-                {defaultAddress.phone && `(${defaultAddress.phone})`}
+                {defaultAddress ? formatCustomerInfo(defaultAddress) : "--"}
               </span>
-              <span>{formatAddress(defaultAddress)}</span>
+              <span>
+                {defaultAddress ? formatAddress(defaultAddress) : "--"}
+              </span>
               <div className="row" onClick={handleChangeAddress}>
                 <span className={classes.changeAddress}>Change Address</span>
               </div>
