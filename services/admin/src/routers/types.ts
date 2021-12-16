@@ -99,3 +99,7 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     pathName: ROUTE_USERS,
   },
 ];
+
+export const PUBLIC_URL = {
+  PRODUCT: "http://localhost:3000/book-detail/",
+};
