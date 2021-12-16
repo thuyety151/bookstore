@@ -28,20 +28,18 @@ const MainLayout: React.FC = () => {
         setOpenSidebar={setOpenSidebar}
       />
       <MainShoppingCart openCart={openCart} setOpenCart={setOpenCart} />
-      {/* <ScrollToTop> */}
-        <Switch>
-          {routeMainLayout.map((route, index) => {
-            return (
-              <PrivateRoute
-                key={index}
-                exact={route.exact}
-                path={route.path}
-                component={route.component}
-              />
-            );
-          })}
-        </Switch>
-      {/* </ScrollToTop> */}
+      <Switch>
+        {routeMainLayout.map((route, index) => {
+          return (
+            <PrivateRoute
+              key={index}
+              exact={route.exact}
+              path={route.path}
+              component={route.component}
+            />
+          );
+        })}
+      </Switch>
       <FooterComponent />
     </div>
   );
