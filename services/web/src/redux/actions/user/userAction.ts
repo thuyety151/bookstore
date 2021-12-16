@@ -1,7 +1,6 @@
 import { userConstants } from "../../constants/user/userTypes";
 import { userService } from "../../../service/auth.service";
 import { alertActions } from "../alertAction";
-import api from "../../../boot/axios";
 
 export const userActions = {
   login,
