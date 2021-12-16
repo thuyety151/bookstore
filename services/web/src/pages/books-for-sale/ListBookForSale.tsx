@@ -101,7 +101,7 @@ const ListBookForSale: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={classes.rightSection}>
       <Grid container>
         <Grid container direction="row">
           <Grid
@@ -116,7 +116,6 @@ const ListBookForSale: React.FC = () => {
             <Grid item>
               <FormControl className={classes.formControl}>
                 <Select
-                  style={{ width: "500px" }}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={sortType}
@@ -131,18 +130,6 @@ const ListBookForSale: React.FC = () => {
                   })}
                 </Select>
               </FormControl>
-              {/* <FormControl className={classes.formControl}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={pageSize.value}
-                  onChange={(e) => handleChange(e)}
-                >
-                  {itemPerPage.map((x, index) => {
-                    return <MenuItem value={x.value}>{x.description}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl> */}
             </Grid>
           </Grid>
           <Grid
@@ -152,7 +139,7 @@ const ListBookForSale: React.FC = () => {
           >
             {booksState.data.map((book, index) => {
               return (
-                <Grid item xs={3} key={index}>
+                <Grid item className="featured-book-item" key={index}>
                   <BestSellerComponent item={book} />
                 </Grid>
               );
@@ -170,6 +157,7 @@ const ListBookForSale: React.FC = () => {
         </Grid>
       </Grid>
     </div>
+    
   );
 };
 
@@ -194,6 +182,11 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "#fff",
       },
     },
+    rightSection: {
+      margin: "0px 20px"
+    }
   })
 );
 export default ListBookForSale;
+
+
