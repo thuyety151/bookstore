@@ -88,14 +88,14 @@ export default function NewRelease() {
 
   return (
     <div className={classes.root}>
-      <Grid item xs={9}>
+      <Grid item xs={12}>
         <Grid container>
           <Grid item xs={3}>
-            <Typography variant="h4" gutterBottom align="center">
+            <Typography variant="h4" gutterBottom>
               New Release
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={12}>
             <Paper square className={classes.paper}>
               <Tabs value={tab} onChange={handleChange} centered>
                 {state.data.map((c: NewReleaseType, index: number) => {
@@ -108,11 +108,11 @@ export default function NewRelease() {
         {state.data.map((value: NewReleaseType, index: number) => {
           return (
             <TabPanel value={tab} index={index} key={`tabpanel-${index}`}>
-              <Grid container justifyContent="center">
+              <Grid container>
                 <Grid item xs={3} className={classes.image}>
                   <img className={classes.img} alt="complex" src={img} />
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                   <Grid container className={classes.grid}>
                     {value.books.map((item, ind) => (
                       <Grid item xs={3} key={`${value.categoryId}-${ind}`}>

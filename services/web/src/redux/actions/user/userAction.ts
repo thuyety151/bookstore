@@ -6,10 +6,8 @@ export const userActions = {
   login,
   logout,
   register,
-  updateAccount
+  updateAccount,
 };
-
-
 
 function login(email: any, password: any) {
   return (dispatch: any) => {
@@ -93,6 +91,3 @@ function logout() {
   userService.logout();
   return { type: userConstants.LOGOUT };
 }
-
-
-

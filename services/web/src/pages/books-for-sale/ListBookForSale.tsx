@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import BestSellerComponent from "../../components/homepage/bestseller/BestSellerBanner";
-import {
-  getBooksForSale,
-  getBooksForSaleCate,
-} from "../../redux/actions/books/getAction";
+import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { RootStore } from "../../redux/store";
 
 export const sortValue = [
@@ -63,7 +60,7 @@ const ListBookForSale: React.FC = () => {
   const booksState = useSelector((state: RootStore) => state.books);
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const [pageIndex, setPageIndex] = useState(1);
-  const { predicate, categoryId } = useParams() as any;
+  const { predicate } = useParams() as any;
   const [sortType, setSortType] = useState(
     sortValue.find((x) => x.predicate === predicate) || sortValue[0]
   );
@@ -82,23 +79,15 @@ const ListBookForSale: React.FC = () => {
   };
 
   useEffect(() => {
-    if (categoryId) {
-      dispatch(
-        getBooksForSaleCate(categoryId, {
-          ...pagination,
-          pageIndex: pageIndex,
-        })
-      );
-    } else if (predicate) {
-      dispatch(
-        getBooksForSale(sortType.predicate, undefined, {
-          ...pagination,
-          pageIndex: pageIndex,
-        })
-      );
-    }
+    dispatch(
+      getBooksForSale(sortType.predicate, undefined, {
+        ...pagination,
+        pageIndex: pageIndex,
+      })
+    );
+
     // eslint-disable-next-line
-  }, [dispatch, pageIndex, sortType, categoryId]);
+  }, [dispatch, pageIndex, sortType]);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,

@@ -40,6 +40,7 @@
     "react-scripts": "4.0.3",
     "react-slideshow-image": "^3.5.0",
     "react-swipeable-views": "^0.14.0",
+    "recharts": "^2.1.6",
     "redux-thunk": "^2.3.0",
     "typescript": "^4.3.5",
     "uuid": "^8.3.2",

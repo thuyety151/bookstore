@@ -104,13 +104,13 @@ label {
   margin: 4px !important;
 }
 .btn-delete {
-  background-color: #e2edfe !important;
-  color: #639dfa !important;
+  background-color:  #faded7 !important;
+  color:  #e13610 !important;
   margin: 4px !important;
 }
 .btn-edit {
-  background-color: #faded7 !important;
-  color: #e13610 !important;
+  background-color:#e2edfe !important;
+  color:#639dfa !important;
   margin: 4px !important;
 }
 .MuiButton-root {

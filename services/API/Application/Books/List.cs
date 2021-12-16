@@ -44,7 +44,6 @@ namespace Application.Books
                     .Include(x => x.Media)
                     .Where(x => x.IsPublic == true && x.IsDeleted == false)
                     .AsQueryable();
-                var test = query.ToList();
                 if (!string.IsNullOrWhiteSpace(request.Params.CategoryId))
                 {
                     query = query.Where(
@@ -178,24 +177,23 @@ namespace Application.Books
                     }
                 }
 
+                var bookAttribute = _context.BookAttributes.FirstOrDefault(x => x.AttributeId == new Guid(attributeId));
+
 
                 var booksDto = query.Select(x => new BooksDto()
                 {
                     Id = x.Id,
                     AttributeId = new Guid(attributeId),
-                    AttributeName = x.Attributes
-                        .FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Attribute.Name,
+                    AttributeName = bookAttribute.Attribute.Name,
                     AuthorId = x.Author.Id,
                     AuthorName = x.Author.Name,
                     Name = x.Name,
                     LanguageId = x.Language.Id,
                     LanguageName = x.Language.Name,
-                    Price = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId)
-                        .Price,
-                    SalePrice = x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId)
-                        .Price,
-                    PictureUrl = x.Media.FirstOrDefault(m => m.IsMain == true).Url,
-                    StockStatus = (x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == request.Params.AttributeId).StockStatus).ToString(),
+                    Price = bookAttribute.Price,
+                    SalePrice = bookAttribute.SalePrice,
+                    PictureUrl = x.Media.FirstOrDefault(m => m.IsMain).Url,
+                    StockStatus = bookAttribute.StockStatus.ToString(),
                     Categories = String.Join(",", x.Categories.Select(c => c.Category.Name)) ,
                     PublishDate = x.PublicationDate
 

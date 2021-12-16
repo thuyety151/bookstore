@@ -57,6 +57,7 @@ export default function LoginComponent() {
 
 
   const handleFacebookLogin = () => {
+    enqueueSnackbar("Login successfully!", { variant: "success" });
     var facebookAccessToken = null;
 
     window.FB.getLoginStatus(response => {
@@ -64,6 +65,8 @@ export default function LoginComponent() {
          facebookAccessToken = response.authResponse.accessToken;
       }
     })
+
+    enqueueSnackbar(facebookAccessToken, { variant: "success" });
 
     if(facebookAccessToken){
         loginFacebook({

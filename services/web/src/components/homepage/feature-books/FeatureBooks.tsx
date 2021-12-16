@@ -45,6 +45,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .MuiBox-root-80": {
       padding: 0,
     },
+    "& .MuiBox-root": {
+      padding: 0,
+    },
+    "& .MuiTabs-scroller": {
+      marginBottom: theme.spacing(3),
+    },
   },
   grid: {
     margin: "auto",
@@ -81,7 +87,7 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <Grid item className="featured-book-container">
+      <Grid item xs={12} className="featured-book-container">
         <Typography variant="h4" gutterBottom align="center">
           Featured Books
         </Typography>

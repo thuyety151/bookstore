@@ -6,6 +6,7 @@ import {
   ROUTE_CATEGORIES,
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
+  ROUTE_EXAMPLE,
   ROUTE_ORDERS,
   ROUTE_ORDER_CREATE,
   ROUTE_ORDER_DETAIL,
@@ -13,6 +14,7 @@ import {
   ROUTE_PRODUCTS,
   ROUTE_PRODUCT_ADD,
   ROUTE_PRODUCT_DETAIL,
+  ROUTE_REPORT,
   ROUTE_SETTINGS,
   ROUTE_USERS,
 } from "./types";
@@ -24,7 +26,11 @@ import OrderEditPage from "../pages/order/detail/OrderEdit";
 import AttributePage from "pages/attribute/AttributePage";
 import Validation from "pages/Validation";
 import CategoryPage from "pages/category/CategoryPage";
+import SettingsPage from "pages/settings/SettingsPage";
+import CouponsPage from "pages/coupon/CouponPage";
+import ReportPage from "pages/report/ReportPage";
 
+import Dashboard from "pages/dashboard/Dashboard";
 export const routePage: Route[] = [
   {
     path: "/",
@@ -43,7 +49,7 @@ export const routes: Route[] = [
   {
     path: ROUTE_DASHBOARD,
     name: "Example",
-    component: Example,
+    component: Dashboard,
     exact: true,
   },
   {
@@ -73,13 +79,19 @@ export const routes: Route[] = [
   {
     path: ROUTE_SETTINGS,
     name: "Error",
-    component: Error404,
+    component: SettingsPage,
     exact: true,
   },
   {
     path: ROUTE_COUPONS,
-    name: "Error",
-    component: Error404,
+    name: "Coupon",
+    component: CouponsPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_REPORT,
+    name: "Report",
+    component: ReportPage,
     exact: true,
   },
   {
@@ -116,6 +128,12 @@ export const routes: Route[] = [
     path: ROUTE_PRODUCT_ADD,
     name: "Add product",
     component: ProductDetailPage,
+    exact: true,
+  },
+  {
+    path: ROUTE_EXAMPLE,
+    name: "Example",
+    component: Example,
     exact: true,
   },
 ];
