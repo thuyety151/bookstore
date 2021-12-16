@@ -116,7 +116,6 @@ const ListBookForSale: React.FC = () => {
             <Grid item>
               <FormControl className={classes.formControl}>
                 <Select
-                  style={{ width: "500px" }}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={sortType}
@@ -131,18 +130,6 @@ const ListBookForSale: React.FC = () => {
                   })}
                 </Select>
               </FormControl>
-              {/* <FormControl className={classes.formControl}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={pageSize.value}
-                  onChange={(e) => handleChange(e)}
-                >
-                  {itemPerPage.map((x, index) => {
-                    return <MenuItem value={x.value}>{x.description}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl> */}
             </Grid>
           </Grid>
           <Grid

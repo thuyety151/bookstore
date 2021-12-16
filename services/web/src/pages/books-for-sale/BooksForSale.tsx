@@ -501,7 +501,6 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
         <Grid item xs={12} md={8}>
           {/*-------------------------------List Books For Sale--------------------------------*/}
           <ListBookForSale />
-         
         </Grid>
       </Grid>
 
@@ -518,7 +517,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
         </Fab>
       </div>
 
-       {/*-------------------------------MobileFilter--------------------------------*/}
+      {/*-------------------------------MobileFilter--------------------------------*/}
       <Dialog
         fullScreen
         open={openFilter}
@@ -536,25 +535,322 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Sound
+              Filter
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               save
             </Button>
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
-        </List>
+          <Grid container>
+            <Grid container direction="column">
+              <Collapse in={isOpen.category} collapsedSize={82}>
+                <Paper variant="outlined" className={classes.paper}>
+                  <div>
+                    <h3>Category</h3>
+                    <span
+                      className="curso r-pointer icon"
+                      onClick={() =>
+                        setOpen({ ...isOpen, category: !isOpen.category })
+                      }
+                    >
+                      {isOpen.category ? <RemoveIcon /> : <AddIcon />}
+                    </span>
+                  </div>
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    className={classes.collapse}
+                  >
+                    <span>
+                      <FormControl component="fieldset">
+                        <FormGroup>
+                          {categories?.map((category: Category) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={
+                                    category.id === bookFilterParams.categoryId
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={handleCategoryChange}
+                                  name={category.id}
+                                />
+                              }
+                              label={category.name}
+                            />
+                          ))}
+                        </FormGroup>
+                      </FormControl>
+                    </span>
+                  </Grid>
+                </Paper>
+              </Collapse>
+
+              <Collapse in={isOpen.author} collapsedSize={82}>
+                <Paper variant="outlined" className={classes.paper}>
+                  <div>
+                    <h3>Author</h3>
+                    <span
+                      className="curso r-pointer icon"
+                      onClick={() =>
+                        setOpen({ ...isOpen, author: !isOpen.author })
+                      }
+                    >
+                      {isOpen.author ? <RemoveIcon /> : <AddIcon />}
+                    </span>
+                  </div>
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    className={classes.collapse}
+                  >
+                    <span>
+                      <FormControl component="fieldset">
+                        <FormGroup>
+                          {authours?.map((author: Author) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={
+                                    author.id === bookFilterParams.authorId
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={handleAuthorChange}
+                                  name={author.id}
+                                />
+                              }
+                              label={author.name}
+                            />
+                          ))}
+                        </FormGroup>
+                      </FormControl>
+                    </span>
+                  </Grid>
+                </Paper>
+              </Collapse>
+
+              <Collapse in={isOpen.language} collapsedSize={82}>
+                <Paper variant="outlined" className={classes.paper}>
+                  <div>
+                    <h3>Language</h3>
+                    <span
+                      className="curso r-pointer icon"
+                      onClick={() =>
+                        setOpen({ ...isOpen, language: !isOpen.language })
+                      }
+                    >
+                      {isOpen.language ? <RemoveIcon /> : <AddIcon />}
+                    </span>
+                  </div>
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    className={classes.collapse}
+                  >
+                    <span>
+                      <FormControl component="fieldset">
+                        <FormGroup>
+                          {languages?.map((language: Language) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={
+                                    language.id === bookFilterParams.languageIds
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={handleLanguageChange}
+                                  name={language.id}
+                                />
+                              }
+                              label={language.name}
+                            />
+                          ))}
+                        </FormGroup>
+                      </FormControl>
+                    </span>
+                  </Grid>
+                </Paper>
+              </Collapse>
+
+              <Collapse in={isOpen.format} collapsedSize={82}>
+                <Paper variant="outlined" className={classes.paper}>
+                  <div>
+                    <h3>Format</h3>
+                    <span
+                      className="curso r-pointer icon"
+                      onClick={() =>
+                        setOpen({ ...isOpen, format: !isOpen.format })
+                      }
+                    >
+                      {isOpen.format ? <RemoveIcon /> : <AddIcon />}
+                    </span>
+                  </div>
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    className={classes.collapse}
+                  >
+                    <span>
+                      <FormControl component="fieldset">
+                        <FormGroup>
+                          {attributes?.map((attribute: Attribute) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={
+                                    attribute.id ===
+                                    bookFilterParams.attributeId
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={handleAttributeChange}
+                                  name={attribute.id}
+                                />
+                              }
+                              label={attribute.name}
+                            />
+                          ))}
+                        </FormGroup>
+                      </FormControl>
+                    </span>
+                  </Grid>
+                </Paper>
+              </Collapse>
+
+              <Collapse in={isOpen.price} collapsedSize={82}>
+                <Paper variant="outlined" className={classes.paper}>
+                  <div>
+                    <h3>Filter by price</h3>
+                    <span
+                      className="curso r-pointer icon"
+                      onClick={() =>
+                        setOpen({ ...isOpen, price: !isOpen.price })
+                      }
+                    >
+                      {isOpen.price ? <RemoveIcon /> : <AddIcon />}
+                    </span>
+                  </div>
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    className={classes.collapse}
+                  >
+                    <Slider
+                      value={[
+                        bookFilterParams.minPrice,
+                        bookFilterParams.maxPrice,
+                      ]}
+                      onChange={handleChangePrice}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="range-slider"
+                      className={classes.slider}
+                      max={1000}
+                    />
+                    <p className={classes.price}>
+                      Price: ${bookFilterParams.minPrice} - $
+                      {bookFilterParams.maxPrice}
+                    </p>
+                  </Grid>
+                </Paper>
+              </Collapse>
+
+              <Collapse in={isOpen.review} collapsedSize={82}>
+                <Paper variant="outlined" className={classes.paper}>
+                  <div>
+                    <h3>By Reivew</h3>
+                    <span
+                      className="curso r-pointer icon"
+                      onClick={() =>
+                        setOpen({ ...isOpen, review: !isOpen.review })
+                      }
+                    >
+                      {isOpen.review ? <RemoveIcon /> : <AddIcon />}
+                    </span>
+                  </div>
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    className={classes.collapse}
+                  >
+                    <FormControl component="fieldset">
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                bookFilterParams.rates === 5 ? true : false
+                              }
+                              onChange={handleRateChange}
+                              name="5"
+                            />
+                          }
+                          label={<Rating name="read-only" value={5} readOnly />}
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                bookFilterParams.rates === 4 ? true : false
+                              }
+                              onChange={handleRateChange}
+                              name="4"
+                            />
+                          }
+                          label={<Rating name="read-only" value={4} readOnly />}
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                bookFilterParams.rates === 3 ? true : false
+                              }
+                              onChange={handleRateChange}
+                              name="3"
+                            />
+                          }
+                          label={<Rating name="read-only" value={3} readOnly />}
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                bookFilterParams.rates === 2 ? true : false
+                              }
+                              onChange={handleRateChange}
+                              name="2"
+                            />
+                          }
+                          label={<Rating name="read-only" value={2} readOnly />}
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                bookFilterParams.rates === 1 ? true : false
+                              }
+                              onChange={handleRateChange}
+                              name="1"
+                            />
+                          }
+                          label={<Rating name="read-only" value={1} readOnly />}
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </Grid>
+                </Paper>
+              </Collapse>
+            </Grid>
+          </Grid>
       </Dialog>
     </div>
   );
@@ -563,7 +859,7 @@ export default BooksForSalePage;
 
 const useStyles = makeStyles((theme: Theme) => ({
   grid: {
-    margin: "50px 30px 0px 120px",
+    margin: "50px 30px 0px 110px",
   },
   paper: {
     // maxWidth: "50%",
@@ -602,9 +898,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "none",
     [theme.breakpoints.down("sm")]: {
       display: "block",
-      position: 'sticky',
-      bottom: 150,
-      textAlign: 'center'
+      position: "sticky",
+      bottom: 80,
+      textAlign: "center",
     },
   },
   desktop: {
