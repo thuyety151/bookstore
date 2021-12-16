@@ -41,7 +41,8 @@ namespace Application.Categories
                                 Name = x.Name,
                                 Slug = x.Slug,
                                 ParentId = x.ParentId,
-                                SubTotal = x.SubCategories.Count()
+                                SubTotal = x.SubCategories.Count(),
+                                Media= x.Media
                             });
                 return Result<PagedList<CategoryDto>>.Success(await PagedList<CategoryDto>.CreatePage(rootCategories,
                         request.Params.PageIndex,
