@@ -28,7 +28,8 @@ namespace API.Extensions
                 {
                     policy.WithOrigins("http://localhost:3000",
                         "http://localhost:3001",
-                        "https://bookworm-client.herokuapp.com")
+                        "https://bookworm-client.herokuapp.com",
+                        "https://bookworm-admin.herokuapp.com")
                         .AllowAnyMethod().AllowAnyHeader();
                 });
             });
