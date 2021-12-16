@@ -7,7 +7,7 @@ import HeaderComponent from "../components/layout/navbar/HeaderComponent";
 import NavBarComponent from "../components/layout/navbar/NavBar";
 import SideBarComponent from "../components/layout/sidebar/MainSideBar";
 import PrivateRoute from "../components/route/PrivateRoute";
-import FooterComponent from "../components/layout/footer/MainFooter";
+// import FooterComponent from "../components/layout/footer/MainFooter";
 import { AppBar } from "@material-ui/core";
 
 const MainLayout: React.FC = () => {
@@ -42,7 +42,7 @@ const MainLayout: React.FC = () => {
           })}
         </Switch>
       {/* </ScrollToTop> */}
-      <FooterComponent />
+      {/* <FooterComponent /> */}
     </div>
   );
 };

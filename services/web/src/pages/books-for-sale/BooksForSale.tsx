@@ -33,7 +33,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import Author from "../../model/author";
 import { Language } from "../../model/language";
 import CloseIcon from "@material-ui/icons/Close";
-import FilterListRoundedIcon from '@material-ui/icons/FilterListRounded';
+import FilterListRoundedIcon from "@material-ui/icons/FilterListRounded";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { getLanguages } from "../../redux/actions/language/getAction";
 import { getCategories } from "../../redux/actions/category/getAction";
@@ -42,6 +42,13 @@ import { getAttributes } from "../../redux/actions/attribute/getAction";
 import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { Category } from "../../model/category";
 import Attribute from "../../model/attribute";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
@@ -60,11 +67,11 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   const [isOpen, setOpen] = useState({
     category: true,
     author: true,
-    language: true,
-    format: true,
-    price: true,
-    review: true,
-    feature: true,
+    language: false,
+    format: false,
+    price: false,
+    review: false,
+    feature: false,
   });
   const [bookFilterParams, setBookFilterParams] = useState({
     categoryId: "",
@@ -175,18 +182,11 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     setOpenFilter(false);
   };
 
-  const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement },
-    ref: React.Ref<unknown>
-  ) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-
   return (
-    <div className="App">
+    <div>
       <Grid container direction="row">
         {/*-------------------------------Desktop Filter--------------------------------*/}
-        <Grid item xs={4} className={classes.desktop}>
+        <Grid md={4} className={classes.desktop}>
           <Grid container>
             {/* <Grid item xs={4}> */}
             <Grid container direction="column" className={classes.grid}>
@@ -498,64 +498,64 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12} md={8}>
           {/*-------------------------------List Books For Sale--------------------------------*/}
           <ListBookForSale />
-
-          {/*-------------------------------MobileFilter--------------------------------*/}
-          <div className={classes.mobile}>
-            <Fab
-              variant="extended"
-              size="medium"
-              color="primary"
-              aria-label="add"
-              className={classes.btnFilter}
-              onClick={handleClickOpen}
-            >
-              <FilterListRoundedIcon className={classes.extendedIcon} />
-              Filter
-            </Fab>
-            <Dialog
-              fullScreen
-              open={openFilter}
-              onClose={handleClose}
-              TransitionComponent={Transition}
-            >
-              <AppBar className={classes.appBar}>
-                <Toolbar>
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={handleClose}
-                    aria-label="close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <Typography variant="h6" className={classes.title}>
-                    Sound
-                  </Typography>
-                  <Button autoFocus color="inherit" onClick={handleClose}>
-                    save
-                  </Button>
-                </Toolbar>
-              </AppBar>
-              <List>
-                <ListItem button>
-                  <ListItemText primary="Phone ringtone" secondary="Titania" />
-                </ListItem>
-                <Divider />
-                <ListItem button>
-                  <ListItemText
-                    primary="Default notification ringtone"
-                    secondary="Tethys"
-                  />
-                </ListItem>
-              </List>
-            </Dialog>
-          </div>
+         
         </Grid>
-        <Grid item xs={1}></Grid>
       </Grid>
+
+      <div className={classes.mobile}>
+        <Fab
+          variant="extended"
+          size="medium"
+          color="primary"
+          aria-label="add"
+          onClick={handleClickOpen}
+        >
+          <FilterListRoundedIcon className={classes.extendedIcon} />
+          Filter
+        </Fab>
+      </div>
+
+       {/*-------------------------------MobileFilter--------------------------------*/}
+      <Dialog
+        fullScreen
+        open={openFilter}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Sound
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItem button>
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <ListItemText
+              primary="Default notification ringtone"
+              secondary="Tethys"
+            />
+          </ListItem>
+        </List>
+      </Dialog>
     </div>
   );
 };
@@ -600,20 +600,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   mobile: {
     display: "none",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       display: "block",
+      position: 'sticky',
+      bottom: 150,
+      textAlign: 'center'
     },
   },
   desktop: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
-  btnFilter: {
-    display: "inline-block",
-    margin: theme.spacing(1),
-  },
   extendedIcon: {
     marginRight: theme.spacing(1),
+  },
+  wrapper: {
+    position: "absolute",
   },
 }));

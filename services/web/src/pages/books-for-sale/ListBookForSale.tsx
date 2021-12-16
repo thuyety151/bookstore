@@ -101,7 +101,7 @@ const ListBookForSale: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={classes.rightSection}>
       <Grid container>
         <Grid container direction="row">
           <Grid
@@ -195,6 +195,11 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "#fff",
       },
     },
+    rightSection: {
+      margin: "0px 20px"
+    }
   })
 );
 export default ListBookForSale;
+
+
