@@ -23,7 +23,6 @@ const rootReducer = combineReducers({
   coupons: couponReducer,
   reports: reportReducer,
   settings: settingsReducer,
-  coupons: couponReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
