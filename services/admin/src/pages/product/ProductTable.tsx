@@ -179,7 +179,11 @@ export default function ProductTable() {
   const navToAdd = () => {
     historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
   };
-
+  const viewDetail = () => {
+    window.open(
+      "http://localhost:3000/book-detail/471c829f-492b-49a2-deb9-08d9b6b9d511"
+    );
+  };
   return (
     <div className={classes.root}>
       <Button className={classes.btnAddNew} onClick={navToAdd}>
@@ -238,6 +242,7 @@ export default function ProductTable() {
                           color: "#a2a2a8",
                         }}
                         startIcon={<VisibilityIcon />}
+                        onClick={viewDetail}
                       />
                       <Button
                         style={{

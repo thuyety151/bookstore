@@ -9,7 +9,6 @@ import { useState } from "react";
 import BillDetailComponent from "../../components/checkout/BillDetail";
 import BillInfoComponent from "../../components/checkout/BillInfo";
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -26,7 +25,6 @@ function CheckoutPage() {
   const classes = useStyles();
 
   const [note, setNote] = useState<string>("");
-  
 
   return (
     <div className={classes.root}>
@@ -38,8 +36,7 @@ function CheckoutPage() {
           <BillDetailComponent {...{ note, setNote }} />
         </Grid>
         <Grid item xs={3}>
-          <BillInfoComponent {...{note}} />
-         
+          <BillInfoComponent {...{ note }} />
         </Grid>
       </Grid>
     </div>
