@@ -18,11 +18,11 @@ import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
-import { Attribute } from "redux/reducers/attributeReducer";
 import { Category } from "redux/reducers/categoryReducer";
 import { getCategoryPagination } from "redux/actions/category/getAction";
 import { deleteCategory } from "redux/actions/category/postAction";
 import { useSnackbar } from "notistack";
+import { PUBLIC_URL } from "routers/types";
 
 const headCells: HeadCell[] = [
   {
@@ -143,11 +143,11 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
     setModelToDelete(id || "");
   };
 
-  const handleOpenDetail = (item: Attribute) => {
-    // setModelToViewDetail(item);
+  const handleOpenDetail = (id: string) => {
+    window.open(PUBLIC_URL.CATEGORY + id);
   };
 
-  const handleEdit = (model: Attribute) => {
+  const handleEdit = (model: Category) => {
     props.setModelEdit(model);
     // history.push(
     //   generatePath(ROUTE_ORDER_EDIT, {
@@ -227,7 +227,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
                       <Button
                         className="btn-view"
                         startIcon={<Visibility />}
-                        onClick={() => handleOpenDetail(row)}
+                        onClick={() => handleOpenDetail(row.id)}
                       />
                       <Button
                         className="btn-edit"

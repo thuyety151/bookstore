@@ -63,7 +63,7 @@ const MainLayout: React.FC = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            BookWorm Management
           </Typography>
         </Toolbar>
       </AppBar>

@@ -24,3 +24,16 @@ export const formatAddress = ({
 export const formatVNDtoUSD = (data: number) => {
   return parseFloat((data / 23000).toFixed(2));
 };
+
+export const formatCustomerInfo = ({
+  firstName,
+  lastName,
+  phone,
+}: {
+  // declare type for props
+  firstName?: any;
+  lastName?: any;
+  phone?: any;
+}) => {
+  return firstName ? `${firstName} ${lastName} (${phone})` : "--";
+};

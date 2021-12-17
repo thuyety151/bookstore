@@ -20,7 +20,7 @@ export interface SidebarCategoryResponse {
   name: string;
   slug: string;
   subTotal: number;
-  media?: string;
+  media?: any;
   parentId?: string;
   subCategories: SidebarCategoryResponse[];
 }

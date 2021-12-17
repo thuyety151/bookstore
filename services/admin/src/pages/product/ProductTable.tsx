@@ -24,7 +24,11 @@ import { RootStore } from "redux/store";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import { ROUTE_PRODUCT_ADD, ROUTE_PRODUCT_DETAIL } from "routers/types";
+import {
+  PUBLIC_URL,
+  ROUTE_PRODUCT_ADD,
+  ROUTE_PRODUCT_DETAIL,
+} from "routers/types";
 import { createBrowserHistory } from "history";
 import DialogConfirm from "components/dialog/DialogConfirm";
 import { useSnackbar } from "notistack";
@@ -179,6 +183,9 @@ export default function ProductTable() {
   const navToAdd = () => {
     historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
   };
+  const navToDetail = (id: string) => {
+    window.open(PUBLIC_URL.PRODUCT + id);
+  };
 
   return (
     <div className={classes.root}>
@@ -238,6 +245,7 @@ export default function ProductTable() {
                           color: "#a2a2a8",
                         }}
                         startIcon={<VisibilityIcon />}
+                        onClick={() => navToDetail(row.id)}
                       />
                       <Button
                         style={{
