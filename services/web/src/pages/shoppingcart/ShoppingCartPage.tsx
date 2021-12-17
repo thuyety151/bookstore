@@ -57,7 +57,7 @@ const ShoppingCartPage: React.FC = () => {
           <Grid item xs={7}>
             <CartTable />
           </Grid>
-          <Grid item className={classes.checkout}>
+          <Grid item xs={4} className={classes.checkout}>
             <CartInfo
               chooseAddress={chooseAddress}
               setChooseAddress={setChooseAddress}

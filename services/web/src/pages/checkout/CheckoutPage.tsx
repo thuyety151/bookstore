@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       backgroundColor: "#fff6f6!important",
       minHeight: "100vh",
+      width: "100%",
     },
     text: {
       fontWeight: "bold",
@@ -31,11 +32,11 @@ function CheckoutPage() {
       <Typography variant="h4" align="center" className={classes.text}>
         Checkout
       </Typography>
-      <Grid container justifyContent="center">
-        <Grid item xs={6}>
+      <Grid container justifyContent="space-evenly">
+        <Grid item sm={6}>
           <BillDetailComponent {...{ note, setNote }} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item sm={4}>
           <BillInfoComponent {...{ note }} />
         </Grid>
       </Grid>

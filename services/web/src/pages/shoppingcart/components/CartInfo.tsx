@@ -133,25 +133,34 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         alignItems="center"
         justifyContent="space-between"
       >
-        <Collapse in={openSection.total} collapsedSize={82}>
+        <Collapse
+          in={openSection.total}
+          collapsedSize={82}
+          style={{ width: "100%" }}
+        >
           <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Cart Totals</h3>
-              <span
-                className="cursor-pointer icon"
-                onClick={() =>
-                  setopenSection({ ...openSection, total: !openSection.total })
-                }
-              >
-                {openSection.total ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid item container direction="column">
-              <div className="row">
-                <span>Subtotal</span>
-                <span>${subTotal()}</span>
+            <div className={classes.items}>
+              <div>
+                <h3>Cart Totals</h3>
+                <span
+                  className="cursor-pointer icon"
+                  onClick={() =>
+                    setopenSection({
+                      ...openSection,
+                      total: !openSection.total,
+                    })
+                  }
+                >
+                  {openSection.total ? <RemoveIcon /> : <AddIcon />}
+                </span>
               </div>
-            </Grid>
+              <Grid container>
+                <div className="row">
+                  <span>Subtotal</span>
+                  <span>${subTotal()}</span>
+                </div>
+              </Grid>
+            </div>
           </Paper>
         </Collapse>
         {/* shippine */}
@@ -249,11 +258,15 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           </Paper>
         </Collapse>
         {/* total */}
-        <Paper variant="outlined" className={classes.paper}>
-          <div className="row total">
+        <Paper variant="outlined" style={{ width: "100%" }}>
+          <Grid
+            container
+            justifyContent="space-between"
+            className={classes.total}
+          >
             <h3>Total</h3>
             <h3>${subTotal() + (orderState.fee || 0)}</h3>
-          </div>
+          </Grid>
         </Paper>
       </Grid>
       <Dialog
@@ -284,15 +297,19 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    width: "100%",
     border: "1px solid black",
     margin: theme.spacing(0, 0, 4),
+    display: "contents",
   },
   paper: {
-    width: "15vw",
+    // width: "15vw",
+    width: "100%",
+    padding: theme.spacing(4),
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 0,
-    padding: theme.spacing(4, 4),
+    // padding: theme.spacing(4, 4),
     "& div": {
       justifyContent: "space-between",
       display: "flex",
@@ -366,6 +383,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& button": {
       padding: theme.spacing(1, 4),
     },
+  },
+  items: {
+    // padding: theme.spacing(2),
+    display: "inherit",
+  },
+  total: {
+    padding: theme.spacing(2, 4),
   },
 }));
 export default CartInfo;
