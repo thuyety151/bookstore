@@ -1,6 +1,5 @@
 import {
   Button,
-  capitalize,
   Checkbox,
   Collapse,
   createStyles,
@@ -47,6 +46,7 @@ import { addBook } from "redux/actions/product/postAction";
 import { useSnackbar } from "notistack";
 import VInput from "components/form/VInput";
 import { ValidationName } from "helper/useValidator";
+import { get } from "lodash";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -113,10 +113,11 @@ export default function ProductDetail() {
   const [bookAttributeSelected, setBookAttributeSelected] = useState<
     BookAttribute[]
   >([]);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const [openAttr, setOpenAttr] = useState(new Array(0).fill(false));
 
-  const [categoryState, setCategoryState] = useState(new Array(0).fill(false));
+  // const [categoryState, setCategoryState] = useState(new Array(0).fill(false));
 
   const [attributeMenuState, setAttributeMenuState] =
     useState(attributesSelectMenu);
@@ -294,16 +295,24 @@ export default function ProductDetail() {
   }
 
   const handleSubmit = () => {
+    setIsSubmit(true);
+    /**
+     *  handle data again
+     */
+
+    if (!bookParams.name) {
+      return;
+    }
     if (!bookParams.attributes) {
       enqueueSnackbar("Please choose attributes", { variant: "error" });
       return;
     }
-    const categoryIdsStateCheckList = categories.filter((category, index) => {
-      return categoryState[index] === true;
-    });
-    const categoryIdsCheckList: string[] = categoryIdsStateCheckList.map(
-      (x) => x.id
-    );
+    // const categoryIdsStateCheckList = categories.filter((category, index) => {
+    //   return categoryState[index] === true;
+    // });
+    // const categoryIdsCheckList: string[] = categoryIdsStateCheckList.map(
+    //   (x) => x.id
+    // );
     setBooksParams({
       ...bookParams,
       // categoryIds: [...categoryIdsCheckList],
@@ -340,7 +349,7 @@ export default function ProductDetail() {
           id: bookId,
           onSuccess: (bookDetail: any) => {
             setBooksParams(bookDetail);
-            setCategoryState(bookDetail.categoryIds);
+            // setCategoryState(bookDetail.categoryIds);
             // setCategoryState(
             //   categories.map((category, index) => {
             //     return bookDetail.categoryIds?.includes(category.id);
@@ -348,7 +357,7 @@ export default function ProductDetail() {
             // );
             setMediaState(bookDetail.media);
             setBookAttributeSelected(bookDetail.attributes);
-            setOpenAttr(new Array(bookAttributeSelected.length).fill(true));
+            setOpenAttr(new Array(bookDetail.attributes.length + 1).fill(true));
             setAttributeMenuState(
               attributeMenuState.filter((attr) => {
                 return !bookAttributeSelected
@@ -396,6 +405,9 @@ export default function ProductDetail() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookId]);
+  useEffect(() => {
+    setIsSubmit(false);
+  }, [bookParams]);
 
   return (
     <div className={classes.root}>
@@ -423,6 +435,13 @@ export default function ProductDetail() {
                 className={classes.text}
                 onChange={handleChange}
                 rules={[ValidationName.Required]}
+                inputRef={(input) => {
+                  if (input != null && isSubmit) {
+                    console.log("hic");
+                    input.focus();
+                    input.blur();
+                  }
+                }}
               />
             </Grid>
           </Paper>
