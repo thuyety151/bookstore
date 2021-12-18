@@ -1,20 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MoreLinq;
+using MoreLinq.Extensions;
 using Persistence;
 
 namespace Application.Books
 {
-    public class List : IEnumerable
+    public class List
     {
         public class Query : IRequest<Result<PagedList<BooksDto>>>
         {
@@ -24,58 +22,62 @@ namespace Application.Books
         public class Handler : IRequestHandler<Query, Result<PagedList<BooksDto>>>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
             public async Task<Result<PagedList<BooksDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = _context.Books
-                    .Include(x => x.Categories)
+                var query = _context.BookAttributes
+                    .Include(x => x.Book)
+                    .ThenInclude(x => x.Categories)
                     .ThenInclude(x => x.Category)
-                    .Include(x => x.Author)
-                    .Include(x => x.Language)
-                    .Include(x => x.Attributes)
-                    .ThenInclude(x => x.Attribute)
-                    .Include(x => x.Media)
-                    .Where(x => x.IsPublic == true && x.IsDeleted == false)
+                    .Include(x => x.Book)
+                    .ThenInclude(x => x.Author)
+                    .Include(x => x.Book)
+                    .ThenInclude(x => x.Language)
+                    .Include(x => x.Book)
+                    .ThenInclude(x => x.Media)
+                    .Include(x => x.Attribute)
+                    .Where(x => x.Book.IsPublic && x.Book.IsDeleted == false && x.StockStatus == StockStatus.InStock)
                     .AsQueryable();
                 if (!string.IsNullOrWhiteSpace(request.Params.CategoryId))
                 {
                     query = query.Where(
-                        x => x.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId
+                        x => x.Book.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId
                         || c.Category.ParentId.ToString() == request.Params.CategoryId));
                 }
 
                 if (!string.IsNullOrWhiteSpace(request.Params.AuthorId))
                 {
-                    query = query.Where(x => x.Author.Id.ToString() == request.Params.AuthorId);
+                    query = query.Where(x => x.Book.Author.Id.ToString() == request.Params.AuthorId);
                 }
 
                 if (!string.IsNullOrWhiteSpace(request.Params.LanguageIds))
                 {
-                    query = query.Where(x => x.Language.Id.ToString() == request.Params.LanguageIds);
+                    query = query.Where(x => x.Book.Language.Id.ToString() == request.Params.LanguageIds);
                 }
 
-                string attributeId = request.Params.AttributeId;
-                if (string.IsNullOrWhiteSpace(attributeId))
+                if (!string.IsNullOrWhiteSpace(request.Params.AttributeId))
                 {
-                    attributeId =
-                        _context.Attributes.FirstOrDefault(x => x.Name == "Paperback")?.Id.ToString();
-                }
-                query = query.Where(x =>
-                    x.Attributes.Any(a => a.AttributeId.ToString() == attributeId && a.StockStatus == StockStatus.InStock));
+                    query = query.Where(x =>
+                        x.Book.Attributes.Any(a => a.AttributeId.ToString() == request.Params.AttributeId && a.StockStatus == StockStatus.InStock));
 
+                }
+                else
+                {
+                    var defaultAttributeId = _context.ConfigHomePages.FirstOrDefault()?.DefaultAttributeId;
+                    query = query.Where(x => x.AttributeId == defaultAttributeId);
+                }
+               
                 if (request.Params.MinPrice >= 0 && request.Params.MaxPrice > 0)
                 {
                     query = query.Where(x =>
-                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price >
+                        x.Price >
                         request.Params.MinPrice &&
-                        x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).Price <
+                        x.Price <
                         request.Params.MaxPrice);
                 }
 
@@ -102,7 +104,7 @@ namespace Application.Books
 
                     foreach (var bookId in listBookId)
                     {
-                        query = query.Where(x => x.Id == bookId);
+                        query = query.Where(x => x.BookId == bookId);
                     }
                 }
 
@@ -113,100 +115,78 @@ namespace Application.Books
                     switch (request.Params.Predicate)
                     {
                         case "home-most-view":
-                            request.Params.PageSize = configQuantity
-                                                          .FirstOrDefault(x =>
-                                                              x.Key == ConfigQuantityName.MostView.ToString())
-                                                          ?.Quantity ??
+                            var configQuantityHome =
+                                configQuantity.FirstOrDefault(x => x.Key == ConfigQuantityName.MostView.ToString());
+                            request.Params.PageSize =  configQuantityHome?.Quantity ??
                                                       request.Params.PageSize;
 
-                            query = query.OrderByDescending(x => x.ViewCount);
+                            query = query.OrderByDescending(x => x.Book.ViewCount).Where(x => x.AttributeId == configQuantityHome.DefaultAttributeId);
                             break;
-                        case "home-new":
-                            request.Params.PageSize = configQuantity
-                                                          .FirstOrDefault(x =>
-                                                              x.Key == ConfigQuantityName.NewRelease.ToString())
-                                                          ?.Quantity ??
-                                                      request.Params.PageSize;
-                            query = query.OrderByDescending(x => x.CreateDate);
-                            break;
+                  
                         case "popular":
-                            query = query.OrderByDescending(x => x.ViewCount);
+                            query = query.OrderByDescending(x => x.Book.ViewCount);
                             break;
                         case "newest":
-                            query = query.OrderByDescending(x => x.CreateDate);
+                            query = query.OrderByDescending(x => x.Book.CreateDate);
                             break;
                         case "low-price":
-                            query = query.OrderBy(x =>
-                                x.Attributes.FirstOrDefault(x => x.AttributeId.ToString() == attributeId)
-                                    .Price);
+                            query = query.OrderBy(x => x.Price);
                             break;
                         case "high-price":
-                            query = query.OrderByDescending(x =>
-                                x.Attributes.FirstOrDefault(x => x.AttributeId.ToString() == attributeId)
-                                    .Price);
-                            break;
-                        case "best-selling":
-                            request.Params.PageSize = configQuantity
-                                                          .FirstOrDefault(x =>
-                                                              x.Key == ConfigQuantityName.BestSelling.ToString())
-                                                          ?.Quantity ??
-                                                      request.Params.PageSize;
+                            query = query.OrderByDescending(x => x.Price);
                             break;
                         case "on-sale":
-                            request.Params.PageSize = configQuantity
-                                                          .FirstOrDefault(x =>
-                                                              x.Key == ConfigQuantityName.OnSale.ToString())
-                                                          ?.Quantity ??
-                                                      request.Params.PageSize;
+                            var configQuantityOnSale =
+                                configQuantity.FirstOrDefault(x => x.Key == ConfigQuantityName.OnSale.ToString());
+                            request.Params.PageSize =  configQuantityOnSale?.Quantity ??
+                                                       request.Params.PageSize;
 
-                            query = query.Where(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).SalePriceEndDate >= DateTime.Now)
-                                .OrderByDescending(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).SalePriceEndDate);
+                            query = query.Where(x => x.SalePriceEndDate >= DateTime.Now)
+                                .OrderByDescending(x => x.SalePriceEndDate);
                             break;
                         case "deal-of-week":
-                            request.Params.PageSize = configQuantity
-                                                          .FirstOrDefault(x =>
-                                                              x.Key == ConfigQuantityName.DealsOfWeek.ToString())
-                                                          ?.Quantity ??
-                                                      request.Params.PageSize;
+                            var configQuantityDealOfWeek =
+                                configQuantity.FirstOrDefault(x => x.Key == ConfigQuantityName.DealsOfWeek.ToString());
+                            request.Params.PageSize =  configQuantityDealOfWeek?.Quantity ??
+                                                       request.Params.PageSize;
 
-                            query = query.Where(x =>  x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).SalePriceEndDate >= DateTime.Now)
-                                .OrderByDescending(x => x.Attributes.FirstOrDefault(a => a.AttributeId.ToString() == attributeId).TotalStock);
+                            query = query.Where(x => x.SalePriceEndDate >= DateTime.Now)
+                                .OrderByDescending(x => x.TotalStock);
                             break;
                         default:
                             break;
                     }
                 }
-
-                var bookAttribute = _context.BookAttributes.FirstOrDefault(x => x.AttributeId == new Guid(attributeId));
-
+                
 
                 var booksDto = query.Select(x => new BooksDto()
                 {
-                    Id = x.Id,
-                    AttributeId = new Guid(attributeId),
-                    AttributeName = bookAttribute.Attribute.Name,
-                    AuthorId = x.Author.Id,
-                    AuthorName = x.Author.Name,
-                    Name = x.Name,
-                    LanguageId = x.Language.Id,
-                    LanguageName = x.Language.Name,
-                    Price = bookAttribute.Price,
-                    SalePrice = bookAttribute.SalePrice,
-                    PictureUrl = x.Media.FirstOrDefault(m => m.IsMain).Url,
-                    StockStatus = bookAttribute.StockStatus.ToString(),
-                    Categories = String.Join(",", x.Categories.Select(c => c.Category.Name)) ,
-                    PublishDate = x.PublicationDate
+                    Id = x.BookId,
+                    AttributeId = x.AttributeId,
+                    AttributeName = x.Attribute.Name,
+                    AuthorId = x.Book.Author.Id,
+                    AuthorName = x.Book.Author.Name,
+                    Name = x.Book.Name,
+                    LanguageId = x.Book.Language.Id,
+                    LanguageName = x.Book.Language.Name,
+                    Price = x.Price,
+                    SalePrice = x.SalePrice,
+                    PictureUrl = x.Book.Media.FirstOrDefault(m => m.IsMain).Url,
+                    StockStatus = x.StockStatus.ToString(),
+                    Categories = String.Join(",", x.Book.Categories.Select(c => c.Category.Name)),
+                    PublishDate = x.Book.PublicationDate
 
-                  
                 }).AsQueryable();
-                
+
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));
             }
+            
+            
         }
-        public IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        
+     
+       
     }
 }
+
