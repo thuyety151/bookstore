@@ -39,8 +39,6 @@ const authenticationReducer = (
         ...state,
         requesting: false,
       };
-    // case ACTION_NAMES.LOGOUT:
-    //   return {};
     default:
       return state;
   }
