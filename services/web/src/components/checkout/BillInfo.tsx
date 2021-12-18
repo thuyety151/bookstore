@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Avatar,
   Collapse,
   FormControl,
   FormControlLabel,
@@ -32,6 +33,8 @@ import { useSnackbar } from "notistack";
 import { ROUTE_PLACE_ORDER } from "../../routers/types";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
+import LocalAtmRoundedIcon from '@material-ui/icons/LocalAtmRounded';
+import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 
 type Props = {
   note: string;
@@ -315,21 +318,16 @@ export default function BillInfo(props: Props) {
                   label="Cash on delivery"
                 />
                 <Typography className={classes.text}>
-                  Pay with cash upon delivery.
+                 <LocalAtmRoundedIcon/> Pay with cash upon delivery.
                 </Typography>
                 <FormControlLabel
                   value="MoMo"
                   control={<Radio />}
                   label="MoMo"
                 />
-                <Typography className={classes.text}>Comming soon</Typography>
-                <FormControlLabel
-                  value="Check payments"
-                  control={<Radio />}
-                  label="Check payments"
-                  disabled
-                />
-                <Typography className={classes.text}>Comming soon</Typography>
+                <Typography className={classes.text}>
+              <Avatar alt="MoMo" src={momo} className={classes.small}/> {''}Scan QR MoMo.
+                </Typography>
               </RadioGroup>
             </FormControl>
           </Paper>
@@ -418,5 +416,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       color: "red",
     },
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
 }));
