@@ -1,4 +1,5 @@
 import {
+  Button,
   createStyles,
   Grid,
   List,
@@ -15,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getReports } from "redux/actions/report/getActions";
 import { RootStore } from "redux/store";
 import Chart from "./components/Chart";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import {CSVLink} from "react-csv";
 
 const reportOptions = [
   {
@@ -50,6 +53,21 @@ const ReportPage: React.FC = () => {
     dispatch(getReports(reportOptions[selectedIndex].value));
   }, [dispatch, selectedIndex]);
 
+  const headers = [
+    { label: "Date", key: "name" },
+    { label: "Number of items sold", key: "itemsPurchased" },
+    { label: "Number of orders", key: "orderPlaced" },
+    { label: "Net sales amount", key: "netSale" },
+    { label: "Shipping amount", key: "shippingFee" },
+    { label: "Refund amount", key: "refunded" },
+  ];
+
+  const csvReport = {
+    fileName: "Report" + reportOptions[selectedIndex].value + ".csv",
+    headers: headers,
+    data: data,
+  };
+
   return (
     <div>
       <Grid item xs={12}>
@@ -71,6 +89,14 @@ const ReportPage: React.FC = () => {
           </List>
         </Paper>
       </Grid>
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.btnExport}
+      >
+        <GetAppIcon />
+        <CSVLink {...csvReport}> Export CSV</CSVLink>
+      </Button>
       <Grid container>
         <Grid item xs={3} className={classes.left}>
           <Paper className={classes.paperItem}>
@@ -144,6 +170,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     text: {
       color: "#1167b1",
+    },
+    btnExport: {
+      margin: "5px 20px",
     },
   })
 );
