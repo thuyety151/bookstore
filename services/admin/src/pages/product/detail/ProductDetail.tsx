@@ -1,5 +1,6 @@
 import {
   Button,
+  capitalize,
   Checkbox,
   Collapse,
   createStyles,
@@ -44,6 +45,8 @@ import { BookAttribute } from "model/attribute";
 import { convertToHTML } from "draft-convert";
 import { addBook } from "redux/actions/product/postAction";
 import { useSnackbar } from "notistack";
+import VInput from "components/form/VInput";
+import { ValidationName } from "helper/useValidator";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -236,16 +239,26 @@ export default function ProductDetail() {
     setAttributeSelected(event.target.value as string);
   };
 
-  function updateCategoryState(categoryId: string, check: boolean) {
-    setCategoryState(
-      categories.map((category, index) => {
-        return category.id === categoryId ? check : categoryState[index];
-      })
-    );
-  }
+  // function updateCategoryState(categoryId: string, check: boolean) {
+  //   setCategoryState(
+  //     categories.map((category, index) => {
+  //       return category.id === categoryId ? check : categoryState[index];
+  //     })
+  //   );
+  // }
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateCategoryState(event.target.name, event.target.checked);
+    // updateCategoryState(event.target.name, event.target.checked);
+    setBooksParams({
+      ...bookParams,
+      categoryIds: bookParams.categoryIds?.includes(
+        event.target.name.toUpperCase()
+      )
+        ? (bookParams.categoryIds.filter(
+            (x) => x !== event.target.name
+          ) as string[])
+        : bookParams.categoryIds?.concat(event.target.name as string),
+    });
   };
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -281,6 +294,10 @@ export default function ProductDetail() {
   }
 
   const handleSubmit = () => {
+    if (!bookParams.attributes) {
+      enqueueSnackbar("Please choose attributes", { variant: "error" });
+      return;
+    }
     const categoryIdsStateCheckList = categories.filter((category, index) => {
       return categoryState[index] === true;
     });
@@ -289,14 +306,12 @@ export default function ProductDetail() {
     );
     setBooksParams({
       ...bookParams,
-      categoryIds: [...categoryIdsCheckList],
+      // categoryIds: [...categoryIdsCheckList],
       description: convertToHTML(description.getCurrentContent()),
       shortDescription: convertToHTML(shortDescription.getCurrentContent()),
       attributes: [...bookAttributeSelected],
       media: [...mediaState],
     });
-
-    console.log("params in detail: " + JSON.stringify(bookParams));
     setAdd(true);
   };
 
@@ -318,19 +333,19 @@ export default function ProductDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdd]);
   useEffect(() => {
+    dispatch(getCategories());
     if (bookId) {
       dispatch(
         getProductDetail({
           id: bookId,
           onSuccess: (bookDetail: any) => {
             setBooksParams(bookDetail);
-            setCategoryState(
-              categories.map((category, index) => {
-                return bookParams.categoryIds?.includes(category.id)
-                  ? true
-                  : false;
-              })
-            );
+            setCategoryState(bookDetail.categoryIds);
+            // setCategoryState(
+            //   categories.map((category, index) => {
+            //     return bookDetail.categoryIds?.includes(category.id);
+            //   })
+            // );
             setMediaState(bookDetail.media);
             setBookAttributeSelected(bookDetail.attributes);
             setOpenAttr(new Array(bookAttributeSelected.length).fill(true));
@@ -376,7 +391,7 @@ export default function ProductDetail() {
         onFailure: () => {},
       })
     );
-    dispatch(getCategories());
+
     dispatch(getLanguages());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -388,7 +403,7 @@ export default function ProductDetail() {
         <Grid item container xs={9} direction="column" spacing={2}>
           <Paper className={classes.paper}>
             <Grid item>
-              <TextField
+              {/* <TextField
                 id="name"
                 name="name"
                 label="Book name"
@@ -397,10 +412,20 @@ export default function ProductDetail() {
                 value={bookParams.name}
                 className={classes.text}
                 onChange={handleChange}
-              ></TextField>
+              ></TextField> */}
+              <VInput
+                id="name"
+                name="name"
+                label="Book name"
+                variant="outlined"
+                fullWidth
+                value={bookParams.name}
+                className={classes.text}
+                onChange={handleChange}
+                rules={[ValidationName.Required]}
+              />
             </Grid>
           </Paper>
-
           <Grid item className={classes.richText}>
             <Paper className={classes.paper}>
               <Editor
@@ -431,9 +456,10 @@ export default function ProductDetail() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {console.log("attr menu: " + attributeMenuState)}
-                  {attributeMenuState?.map((attr) => (
-                    <MenuItem value={attr.id}>{attr.name}</MenuItem>
+                  {attributeMenuState?.map((attr, index) => (
+                    <MenuItem key={`menu-attr-${index}`} value={attr.id}>
+                      {attr.name}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -448,7 +474,11 @@ export default function ProductDetail() {
               {bookAttributeSelected?.map(
                 (attr: BookAttribute, index: number) => {
                   return (
-                    <Collapse in={openAttr[index]} collapsedSize={50}>
+                    <Collapse
+                      in={openAttr[index]}
+                      collapsedSize={50}
+                      key={`collapse-${index}`}
+                    >
                       <Paper
                         variant="outlined"
                         className={classes.collapsePaperAttr}
@@ -762,12 +792,17 @@ export default function ProductDetail() {
                               format="dd/MM/yyyy"
                               margin="normal"
                               id="date-picker-inline"
+                              // value={
+                              //   getYear(
+                              //     new Date(bookParams.publicationDate)
+                              //   ) === 1
+                              //     ? null
+                              //     : new Date(bookParams.publicationDate)
+                              // }
                               value={
-                                getYear(
-                                  new Date(bookParams.publicationDate)
-                                ) === 1
-                                  ? null
-                                  : new Date(bookParams.publicationDate)
+                                bookParams.publicationDate
+                                  ? new Date(bookParams.publicationDate)
+                                  : new Date()
                               }
                               onChange={handlePublicationDateChange}
                               KeyboardButtonProps={{
@@ -834,14 +869,17 @@ export default function ProductDetail() {
                 >
                   <span className={classes.checkBox}>
                     <FormControl component="fieldset">
-                      <FormGroup>
-                        {categories?.map((category, i) => (
+                      <FormGroup key={`list-checkbox-${bookParams?.id}`}>
+                        {categories?.map((category, index) => (
                           <FormControlLabel
                             control={
                               <Checkbox
-                                checked={categoryState[i] ?? false}
+                                key={category.id}
+                                checked={bookParams?.categoryIds?.includes(
+                                  category.id.toLocaleUpperCase()
+                                )}
                                 onChange={handleCategoryChange}
-                                name={category.id}
+                                name={category.id.toUpperCase()}
                               />
                             }
                             label={category.name}
@@ -918,7 +956,7 @@ export default function ProductDetail() {
                       className={classes.btnBlue}
                       onClick={handleSubmit}
                     >
-                      Update
+                      {bookParams.id ? "Update" : "Create"}
                     </Button>
                   </span>
                 </Grid>
