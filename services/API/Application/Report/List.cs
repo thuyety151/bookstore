@@ -30,7 +30,7 @@ namespace Application.Report
             {
                 var reports = new List<ReportDto>();
                 var items = _context.Items.AsQueryable();
-
+                
                 switch (request.Range)
                 {
                     case "year":
@@ -42,7 +42,7 @@ namespace Application.Report
                             ReportDto reportDto = new ReportDto();
                             var month = i;
                             var ordersInMonth = orders.Where(x => x.OrderDate.Month == month);
-                            reportDto.Name = month.ToString();
+                            reportDto.Name = month + "/" + currentYear;
                             reportDto.NetSale = ordersInMonth.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInMonth.Count();
                             reportDto.ItemsPurchased = ordersInMonth
@@ -75,7 +75,7 @@ namespace Application.Report
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString();
+                            reportDto.Name = day.ToString() + '/' + currentMonth +'/' + DateTime.Now.Year;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
@@ -108,7 +108,7 @@ namespace Application.Report
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString();
+                            reportDto.Name = day.ToString() + '/' + lastMonth + '/' + DateTime.Now.Year;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
@@ -140,7 +140,7 @@ namespace Application.Report
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString();
+                            reportDto.Name = day.ToString() + '/' + DateTime.Today.Month + '/' + DateTime.Today.Year;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
