@@ -56,8 +56,8 @@ const MainShoppingCart: React.FC<{
       setOpenCart(false);
     };
   const handleOpenCartPage = () => {
-    history.push("/cart");
     setOpenCart(false);
+    history.push("/cart");
   };
   const handleCloseCart = () => {
     setOpenCart(false);
