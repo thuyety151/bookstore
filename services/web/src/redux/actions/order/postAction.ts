@@ -83,7 +83,10 @@ export const createOrder =
           );
           if (resultUpdateOrderCode.data.isSuccess) {
             console.log("success");
-            props.onSuccess(createDelivery.data.data.order_code, response.data.value);
+            props.onSuccess(
+              createDelivery.data.data.order_code,
+              response.data.value
+            );
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
@@ -92,7 +95,7 @@ export const createOrder =
             /**
              * Delete order when create GHN fail
              */
-            await api.delete("/orders", {
+            await api.delete("/orders/delete-order-fail", {
               params: {
                 id: response.data.value,
               },
@@ -109,7 +112,7 @@ export const createOrder =
         /**
          * Delete order when create GHN fail
          */
-        await api.delete("/orders", {
+        await api.delete("/orders/delete-order-fail", {
           params: {
             id: response.data.value,
           },
