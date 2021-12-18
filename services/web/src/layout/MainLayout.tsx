@@ -28,7 +28,6 @@ const MainLayout: React.FC = () => {
         setOpenSidebar={setOpenSidebar}
       />
       <MainShoppingCart openCart={openCart} setOpenCart={setOpenCart} />
-      {/* <ScrollToTop> */}
       <Switch>
         {routeMainLayout.map((route, index) => {
           return (
@@ -41,7 +40,6 @@ const MainLayout: React.FC = () => {
           );
         })}
       </Switch>
-      {/* </ScrollToTop> */}
       <FooterComponent />
     </div>
   );

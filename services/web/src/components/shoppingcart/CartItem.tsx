@@ -14,6 +14,7 @@ import { ROUTE_BOOK_DETAIL } from "../../routers/types";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { deleteItem } from "../../redux/actions/cart/deleteAction";
+import StockStatus from "../../shared/enum/stockStatus";
 
 const CartItem: React.FC<{ item: Item; closeCart: any }> = (
   item,
@@ -54,6 +55,11 @@ const CartItem: React.FC<{ item: Item; closeCart: any }> = (
           direction="row"
           justifyContent="center"
           alignItems="center"
+          style={
+            item.item.stockStatus === StockStatus.OutOfStock
+              ? { opacity: "0.5" }
+              : {}
+          }
         >
           <Grid item xs={3} onClick={handleNavBook} style={{ padding: 0 }}>
             <img

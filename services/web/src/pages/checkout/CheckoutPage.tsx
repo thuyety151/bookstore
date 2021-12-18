@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function CheckoutPage() {
   const classes = useStyles();
-
   const [note, setNote] = useState<string>("");
 
   return (
