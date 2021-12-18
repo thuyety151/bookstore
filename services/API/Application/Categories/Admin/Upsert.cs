@@ -46,7 +46,8 @@ namespace Application.Categories.Admin
                         Id = new Guid(),
                         Name = request.CategoryParams.Name,
                         Slug = request.CategoryParams.Slug,
-                        Description = request.CategoryParams.Description
+                        Description = request.CategoryParams.Description,
+                        CreateDate = DateTime.Now
                     };
                     
                     //Set photo
@@ -95,6 +96,7 @@ namespace Application.Categories.Admin
 
                     category.Name = request.CategoryParams.Name;
                     category.Slug = request.CategoryParams.Slug;
+                    category.CreateDate = DateTime.Now;
                     
                     if (!string.IsNullOrWhiteSpace(request.CategoryParams.Description))
                     {
