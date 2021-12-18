@@ -90,10 +90,14 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
         };
       }
     case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT:
-      console.log("asd", payload.data);
       return {
         ...state,
         itemToCheckOut: payload.data,
+      };
+    case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ALL_ITEM_TO_CHECK_OUT:
+      return {
+        ...state,
+        itemToCheckOut: state.data,
       };
     default:
       return state;

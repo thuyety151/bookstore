@@ -11,7 +11,7 @@ import {
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-
+import { total } from "../../../redux/reducers/orderReducer";
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
@@ -129,7 +129,7 @@ const PlaceOrderPage: React.FC = () => {
               className={classes.total}
             >
               <Grid item>Total</Grid>
-              <Grid item>${cartState.subTotal}</Grid>
+              <Grid item>${total()}</Grid>
             </Grid>
             <Divider />
             <Grid item container>

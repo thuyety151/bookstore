@@ -15,6 +15,7 @@ import { sum } from "lodash";
 import { ROUTE_CHECK_OUT } from "../../routers/types";
 import "./styles.scss";
 import { useSnackbar } from "notistack";
+import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
 
 type Anchor = "left" | "right";
 
@@ -25,7 +26,9 @@ const MainShoppingCart: React.FC<{
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { requesting, data } = useSelector((state: RootStore) => state.cart);
+  const { requesting, data, itemToCheckOut } = useSelector(
+    (state: RootStore) => state.cart
+  );
   const user = localStorage.getItem("user");
   const { enqueueSnackbar } = useSnackbar();
 
@@ -69,6 +72,12 @@ const MainShoppingCart: React.FC<{
       return;
     }
     setOpenCart(false);
+    if (!itemToCheckOut.length) {
+      dispatch({
+        type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ALL_ITEM_TO_CHECK_OUT,
+      });
+    }
+
     history.push(ROUTE_CHECK_OUT);
   };
 
