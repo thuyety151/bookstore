@@ -17,7 +17,7 @@ namespace Application.Settings
 {
     public class Upsert
     {
-        public class  Command :  IRequest<Result<Unit>>
+        public class Command : IRequest<Result<Unit>>
         {
             public List<ConfigHomePageDto> Configs { get; set; }
         }
@@ -33,13 +33,14 @@ namespace Application.Settings
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var configs = await _context.ConfigHomePages.ToListAsync();
-                foreach (var item in request.Configs.Select((value,index)=>new {value,index}))
+                foreach (var item in request.Configs.Select((value, index) => new { value, index }))
                 {
                     configs[item.index].Quantity = item.value.Quantity;
-                    configs[item.index].MetaData =  item.value.MetaData==null?null:JsonConvert.SerializeObject(item.value.MetaData);
-                    configs[item.index].DefaultAttributeId =item.value.DefaultAttributeId ?? Guid.Empty;
+                    configs[item.index].MetaData = item.value.MetaData == null ? null : JsonConvert.SerializeObject(item.value.MetaData);
+                    configs[item.index].DefaultAttributeId = item.value.DefaultAttributeId ?? Guid.Empty;
                 }
-                return await _context.SaveChangesAsync(cancellationToken) > 0 ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure("Fail...");
+                await _context.SaveChangesAsync(cancellationToken);
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }
