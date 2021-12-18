@@ -21,11 +21,10 @@ export const getProductPagination = (props: getPaginationType) => async (
     type: ACTION_NAMES.GET_PRODUCT_PAGINATION.GET_PRODUCT_PAGINATION,
   });
 
-  var response = await api.get("/books/books-for-sale", {
+  var response = await api.get("/books/admin", {
     params: {
       pageSize: props.pagination.pageSize,
       pageIndex: props.pagination.pageIndex,
-      predicate: "newest",
     },
   });
 
