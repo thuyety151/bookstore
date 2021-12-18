@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Books;
 using Microsoft.EntityFrameworkCore;
-using MoreLinq;
-using MoreLinq.Extensions;
 
 namespace Application.Core
 {

@@ -6,8 +6,6 @@ using Application.Core;
 using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MoreLinq;
-using MoreLinq.Extensions;
 using Persistence;
 
 namespace Application.Books

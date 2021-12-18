@@ -8,8 +8,6 @@ using AutoMapper.QueryableExtensions;
 using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MoreLinq;
-using MoreLinq.Extensions;
 using Persistence;
 
 namespace Application.Books
@@ -34,6 +32,7 @@ namespace Application.Books
 
             public async Task<Result<PagedList<BooksDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var defaultAttributeId = _context.ConfigHomePages.FirstOrDefault()?.DefaultAttributeId;
                 var booksDto = _context.BookAttributes
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Categories)
@@ -45,7 +44,7 @@ namespace Application.Books
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Attribute)
-                    .Where(x => x.Book.IsDeleted == false)
+                    .Where(x => x.Book.IsDeleted == false && x.AttributeId == defaultAttributeId)
                     .OrderByDescending(x => x.Book.CreateDate)
                     .ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
                 
