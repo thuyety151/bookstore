@@ -73,7 +73,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
               variant="overline"
               className={classes.atribute}
             >
-              {item.attribute}
+              {item.attributeName}
             </Typography>
             <Typography
               gutterBottom
