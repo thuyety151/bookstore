@@ -69,7 +69,8 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     review: false,
     feature: false,
   });
-  const [bookFilterParams, setBookFilterParams] = useState({
+
+  const initBookFilterParams = {
     categoryId: "",
     authorId: "",
     languageIds: "",
@@ -77,7 +78,10 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     minPrice: 0,
     maxPrice: 1000,
     rates: 0,
-  });
+  };
+  const [bookFilterParams, setBookFilterParams] = useState(
+    initBookFilterParams
+  );
 
   //Function
   function handleLanguageChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -167,6 +171,10 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     });
   };
 
+  const handleClearAllFilter = () => {
+    setBookFilterParams(initBookFilterParams);
+  };
+
   /*-------------------------------Mobile Filter--------------------------------*/
   const [openFilter, setOpenFilter] = React.useState(false);
 
@@ -184,7 +192,15 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
         {/*-------------------------------Desktop Filter--------------------------------*/}
         <Grid md={4} className={classes.desktop}>
           <Grid container>
-            {/* <Grid item xs={4}> */}
+            <Button
+              variant="contained"
+              color="secondary"
+              size="medium"
+              style={{ marginLeft: "110px" }}
+              onClick={handleClearAllFilter}
+            >
+              Clear all filter
+            </Button>
             <Grid container direction="column" className={classes.grid}>
               <Collapse in={isOpen.category} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
@@ -395,7 +411,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       valueLabelDisplay="auto"
                       aria-labelledby="range-slider"
                       className={classes.slider}
-                      max={1000}
+                      max={500}
                     />
                     <p className={classes.price}>
                       Price: ${bookFilterParams.minPrice} - $
@@ -504,7 +520,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
         <Fab
           variant="extended"
           size="medium"
-          color="primary"
+          color="secondary"
           aria-label="add"
           onClick={handleClickOpen}
         >
@@ -538,6 +554,15 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
             </Button>
           </Toolbar>
         </AppBar>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="medium"
+          style = {{width: 200}}
+          onClick={handleClearAllFilter}
+        >
+          Clear all filter
+        </Button>
         <Grid container>
           <Grid container direction="column">
             <Collapse in={isOpen.category} collapsedSize={82}>
@@ -746,7 +771,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                     valueLabelDisplay="auto"
                     aria-labelledby="range-slider"
                     className={classes.slider}
-                    max={1000}
+                    max={500}
                   />
                   <p className={classes.price}>
                     Price: ${bookFilterParams.minPrice} - $
@@ -852,7 +877,7 @@ export default BooksForSalePage;
 
 const useStyles = makeStyles((theme: Theme) => ({
   grid: {
-    margin: "50px 30px 0px 110px",
+    margin: "20px 30px 0px 110px",
   },
   paper: {
     // maxWidth: "50%",
