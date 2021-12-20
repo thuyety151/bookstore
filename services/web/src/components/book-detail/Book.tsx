@@ -220,9 +220,11 @@ export default function DetailBook() {
                 </Grid>
 
                 <Grid item>
-                  <Typography gutterBottom variant="body2">
-                    {data.shortDescription}
-                  </Typography>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: data?.shortDescription || "<p></p>",
+                    }}
+                  />
                 </Grid>
                 <Grid item container direction="row" spacing={3}>
                   <Grid item>
