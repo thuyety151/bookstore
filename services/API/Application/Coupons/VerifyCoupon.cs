@@ -35,7 +35,7 @@ namespace Application.Coupons
                     x.Code.ToLower() == request.VerifyCouponParams.Code.Trim().ToLower() && x.IsDeleted == false);
                 if (coupon == null)
                 {
-                    return Result<CouponDto>.Failure("Coupon is not exist");
+                    return Result<CouponDto>.Failure("Coupon is not existed");
                 }
 
                 if (DateTime.Now > coupon.ExpireDate)
@@ -43,16 +43,15 @@ namespace Application.Coupons
                     return Result<CouponDto>.Failure("Coupon is expired");
                 }
 
-                foreach (var item in request.VerifyCouponParams.Items)
-                {
-                    var checkProductId = coupon.Books.SingleOrDefault((x) => x.BookId == item.ProductId);
-                    if (checkProductId != null && item.Price * item.Quantity >= coupon.MinSpend)
-                    {
-                        return Result<CouponDto>.Success(_mapper.Map<CouponDto>(coupon));
-                    }
-                }
-
-                return Result<CouponDto>.Failure("Coupon is invalid");
+                // foreach (var item in request.VerifyCouponParams.Items)
+                // {
+                //     var checkProductId = coupon.Books.SingleOrDefault((x) => x.BookId == item.ProductId);
+                //     if (checkProductId != null && item.Price * item.Quantity >= coupon.MinSpend)
+                //     {
+                //         return Result<CouponDto>.Success(_mapper.Map<CouponDto>(coupon));
+                //     }
+                // }
+                return Result<CouponDto>.Success(_mapper.Map<CouponDto>(coupon));
             }
         }
     }

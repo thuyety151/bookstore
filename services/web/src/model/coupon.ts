@@ -5,7 +5,7 @@ export type Coupon = {
   discountType: DiscountType;
 };
 export enum DiscountType {
-  FixedCart,
-  Percentage,
-  FixedProduct,
+  FixedCart = "FixedCart",
+  Percentage = "Percentage",
+  FixedProduct = "FixedProduct",
 }

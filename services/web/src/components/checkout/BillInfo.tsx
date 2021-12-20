@@ -285,7 +285,7 @@ export default function BillInfo(props: Props) {
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>${total(itemToCheckout)}</h3>
+            <h3>${total()}</h3>
           </div>
         </Paper>
 

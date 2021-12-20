@@ -21,6 +21,9 @@ export const createOrder =
       itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
       addressId: state.address.currentAddress.id,
       note: props.note,
+      coupon: {
+        code: state.order.coupon?.code,
+      },
     };
     const response = await api.post("/orders/create", data);
 
@@ -43,16 +46,10 @@ export const createOrder =
         required_note: "KHONGCHOXEMHANG",
         deliver_station_id: null,
         weight: 200,
-        order_value:
-          state.cart.itemToCheckOut.length === 0
-            ? Math.round(total(state.cart.data) * 23000)
-            : Math.round(total(state.cart.itemToCheckOut) * 23000),
+        order_value: Math.round(total() * 23000),
         service_type_id: state.order.currentService.service_type_id,
         service_id: state.order.currentService.service_id,
-        insurance_value:
-          state.cart.itemToCheckOut.length === 0
-            ? Math.round(total(state.cart.data) * 23000)
-            : Math.round(total(state.cart.itemToCheckOut) * 23000),
+        insurance_value: Math.round(total() * 23000),
         cod_amount: 200000,
         pick_station_id: 1444,
         items: state.cart.itemToCheckOut.map((item) => {
@@ -83,7 +80,10 @@ export const createOrder =
           );
           if (resultUpdateOrderCode.data.isSuccess) {
             console.log("success");
-            props.onSuccess(createDelivery.data.data.order_code, response.data.value);
+            props.onSuccess(
+              createDelivery.data.data.order_code,
+              response.data.value
+            );
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
