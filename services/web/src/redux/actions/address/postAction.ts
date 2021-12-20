@@ -8,6 +8,7 @@ export const createAddress =
     try {
       dispatch({ type: NAME_ACTIONS.CREATE_ADDRESS.CREATE_ADDRESS });
       const model = {
+        id: data?.value.id,
         firstName: data?.value.firstName,
         lastName: data?.value.lastName,
         phone: data?.value.phoneNumber,

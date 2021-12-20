@@ -1,12 +1,16 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Constant;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Persistence;
@@ -25,8 +29,9 @@ namespace Application.Orders.Admin
             private readonly DataContext _context;
             private readonly IMapper _mapper;
             private readonly HttpClient _httpClient;
+            private readonly IHttpContextAccessor _httpContext;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper, IHttpContextAccessor httpContext)
             {
                 _context = context;
                 _mapper = mapper;
@@ -34,6 +39,7 @@ namespace Application.Orders.Admin
                 {
                     BaseAddress = new Uri("https://dev-online-gateway.ghn.vn"),
                 };
+                _httpContext = httpContext;
             }
 
             public async Task<Result<PagedList<OrderDto>>> Handle(Query request, CancellationToken cancellationToken)
@@ -42,6 +48,12 @@ namespace Application.Orders.Admin
                     .Include(x => x.AddressToShip)
                     .Include(x => x.Items)
                     .Where(x => x.IsDeleted == false);
+                var user = _context.Users.SingleOrDefault(x =>
+                    x.Email == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (user?.Role == Role.Customer)
+                {
+                    orders = orders.Where(x => x.UserId == Guid.Parse(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                }
 
                 // Get status from GHN API
                 _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");

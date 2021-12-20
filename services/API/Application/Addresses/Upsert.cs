@@ -43,7 +43,8 @@ namespace Application.Addresses
                 var user = _context.Users.Include(x => x.Address)
                     .FirstOrDefault(
                         x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var address = user.Address.SingleOrDefault(x => x.Id == request.AddressParams.Id);
+
+                var address = user.Address.SingleOrDefault(x => x.Id == request.AddressParams.Id) ;
                 //Add
 
                 if (address == null)

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Application.Attributes;
 using Application.Authors;
@@ -41,8 +42,23 @@ namespace Application.Core
             CreateMap<Domain.Attribute, AttributeDto>();
             CreateMap<Domain.Coupon, CouponDto>()
                 .ForMember(x => x.DiscountType, o => o.MapFrom(x => (DiscountType)x.DiscountType));
-            CreateMap<Book, BooksDto>();
             CreateMap<Order, OrderDto>();
+            CreateMap<Item, ItemDto>()
+                .ForMember(x=>x.SubTotal,o=>o.MapFrom(x=>x.Quantity*x.Price));
+            CreateMap<Order, OrderTableDto>();
+            CreateMap<BookAttribute, BooksDto>()
+                .ForMember(x => x.AttributeName, o => o.MapFrom(x => x.Attribute.Name))
+                .ForMember(x => x.AuthorId, o => o.MapFrom(x => x.Book.Author.Id))
+                .ForMember(x => x.AuthorName, o => o.MapFrom(x => x.Book.Author.Name))
+                .ForMember(x => x.Name, o => o.MapFrom(x => x.Book.Name))
+                .ForMember(x => x.LanguageId, o => o.MapFrom(x => x.Book.Language.Id))
+                .ForMember(x => x.LanguageName, o => o.MapFrom(x => x.Book.Language.Name))
+                .ForMember(x => x.PictureUrl, o => o.MapFrom(x => x.Book.Media.FirstOrDefault(m => m.IsMain).Url))
+                .ForMember(x => x.StockStatus, o => o.MapFrom(x => x.StockStatus.ToString()))
+                .ForMember(x => x.Categories,
+                    o => o.MapFrom(x => String.Join(",", x.Book.Categories.Select(c => c.Category.Name))))
+                .ForMember(x => x.PublishDate, o => o.MapFrom(x => x.Book.PublicationDate))
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Book.Id));
         }
     }
 }

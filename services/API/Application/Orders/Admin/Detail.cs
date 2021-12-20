@@ -1,11 +1,14 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.Xml;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Coupons;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -40,9 +43,7 @@ namespace Application.Orders.Admin
             {
                 var order = _context.Orders
                     .Include(x => x.AddressToShip)
-                    .Include(x => x.Items)
-                    .Where(x => x.IsDeleted == false && x.Id == request.Id)
-                    .Select(x => _mapper.Map<OrderDto>(x)).SingleOrDefault();
+                    .Include(x => x.Items).SingleOrDefault(x => x.IsDeleted == false && x.Id == request.Id);
 
                 //Get status from GHN API
                 if (order != null)
@@ -64,9 +65,7 @@ namespace Application.Orders.Admin
 
                     await _context.SaveChangesAsync();
 
-                    // var orderDto = order.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
-
-                    return Result<OrderDto>.Success(order);
+                    return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
                 }
                 return Result<OrderDto>.Failure("Not found");
             }

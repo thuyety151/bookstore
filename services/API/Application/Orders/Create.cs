@@ -109,7 +109,7 @@ namespace Application.Orders
                     {
                         order.SubTotal = order.SubTotal - coupon.CouponAmount;
                     }
-                    
+                    order.Coupon = coupon;
                 }
 
                 var cart = _context.Carts.Include(x => x.Items)

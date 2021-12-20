@@ -33,8 +33,9 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(command));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ListOrder(PagingParams pagingParams)
+        [HttpGet]
+        [Route("admin")]
+        public async Task<IActionResult> ListOrder([FromQuery] PagingParams pagingParams)
         {
             return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams }));
         }

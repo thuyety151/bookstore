@@ -21,6 +21,7 @@ namespace Domain
         public Address AddressToShip { get; set; }
         public bool IsDeleted { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
+        public Coupon Coupon { get; set; }
 
         public double GetTotal()
         {
