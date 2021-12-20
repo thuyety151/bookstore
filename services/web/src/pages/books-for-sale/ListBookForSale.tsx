@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import BestSellerComponent from "../../components/homepage/bestseller/BestSellerBanner";
 import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { RootStore } from "../../redux/store";
+import emptySearchResultImage from "../../assets/images/empty_result.webp";
 
 export const sortValue = [
   {
@@ -132,19 +133,23 @@ const ListBookForSale: React.FC = () => {
               </FormControl>
             </Grid>
           </Grid>
-          <Grid
-            container
-            justifyContent="flex-start"
-            // className={classes.grid}
-          >
-            {booksState.data.map((book, index) => {
-              return (
-                <Grid item className="featured-book-item" key={index}>
-                  <BestSellerComponent item={book} />
-                </Grid>
-              );
-            })}
-          </Grid>
+          {booksState.data.length > 0 ? (
+            <Grid
+              container
+              justifyContent="flex-start"
+              // className={classes.grid}
+            >
+              {booksState.data.map((book, index) => {
+                return (
+                  <Grid item className="featured-book-item" key={index}>
+                    <BestSellerComponent item={book} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          ) : (
+            <img src={emptySearchResultImage} alt="empty-result" className={classes.emptyImg}></img>
+          )}
         </Grid>
         <Grid container justifyContent="center" className={classes.pagination}>
           <Pagination
@@ -157,7 +162,6 @@ const ListBookForSale: React.FC = () => {
         </Grid>
       </Grid>
     </div>
-    
   );
 };
 
@@ -183,10 +187,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     rightSection: {
-      margin: "0px 20px"
+      margin: "0px 20px",
+    },
+    emptyImg: {
+      height: 500,
+      [theme.breakpoints.down("sm")]: {
+        height: 300,
+      },
     }
   })
 );
 export default ListBookForSale;
-
-
