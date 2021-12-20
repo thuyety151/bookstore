@@ -26,7 +26,7 @@ namespace Application.Attributes
             }
             public async Task<Result<PagedList<Attribute>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var attributes = _context.Attributes.Where(x => x.IsDeleted == false).AsQueryable();
+                var attributes = _context.Attributes.Where(x => x.IsDeleted == false).OrderByDescending(x => x.CreateDate).AsQueryable();
 
                 return Result<PagedList<Attribute>>.Success(await PagedList<Attribute>.CreatePage(attributes, request.Params.PageIndex, request.Params.PageSize));
             }

@@ -55,7 +55,8 @@ namespace Application.Attributes
                         Id = request.AttributeParams.Id,
                         Name = request.AttributeParams.Name,
                         Slug = request.AttributeParams.Slug,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CreateDate = DateTime.Now
                     };
 
                     await _context.Attributes.AddAsync(attribute);
@@ -80,6 +81,7 @@ namespace Application.Attributes
                     }
                     attribute.Name = request.AttributeParams.Name;
                     attribute.Slug = request.AttributeParams.Slug;
+                    attribute.CreateDate = DateTime.Now;
                     
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(attribute.Id);

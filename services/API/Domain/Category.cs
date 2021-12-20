@@ -12,6 +12,7 @@ namespace Domain
         public string Description { get; set; }
         public Media Media { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime CreateDate { get; set; }
 
         [ForeignKey("ParentCategory")]
         public Guid? ParentId { get; set; }
