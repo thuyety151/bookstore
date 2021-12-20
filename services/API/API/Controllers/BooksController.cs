@@ -23,6 +23,14 @@ namespace API.Controllers
         {
             return HandlePagedResult(await Mediator.Send(new List.Query() { Params = bookParams }));
         }
+        
+        [HttpGet]
+        [Route("admin")]
+        public async Task<IActionResult> GetListAdmin([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() { Params = pagingParams }));
+        }
+
 
         [HttpGet]
         [Route("new-releases")]

@@ -14,6 +14,8 @@ import MasterCardLogo from "../../../assets/images/MasterCard_Logo.png";
 import React from "react";
 import { lstCurrency, lstLanguage } from "../../../mocks/sidebar";
 import { Language } from "../../../model/sidebar";
+import "./styles.scss";
+
 const FooterBottomComponent: React.FC = () => {
   const classes = useStyles();
   const [state, setState] = React.useState<{
@@ -35,7 +37,7 @@ const FooterBottomComponent: React.FC = () => {
     setState({ ...state, currency: event.target.value as string });
   };
   return (
-    <div>
+    <div className="footer__bottom">
       <Grid
         container
         direction="row"
@@ -47,7 +49,7 @@ const FooterBottomComponent: React.FC = () => {
             <span>©2021 Book Worm. All rights reserved</span>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={8} sm={6}>
           <Paper className={classes.paper} elevation={0}>
             <Grid
               container
@@ -60,53 +62,54 @@ const FooterBottomComponent: React.FC = () => {
                 <img style={{ height: 30 }} src={PaypalLogo} alt="paypal" />
                 <img style={{ height: 30 }} src={MasterCardLogo} alt="mc" />
               </div>
-
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-age-native-simple">
-                  Language
-                </InputLabel>
-                <Select
-                  native
-                  value={state.language}
-                  onChange={handleChangeLanguage}
-                  label="Language"
-                  inputProps={{
-                    name: "age",
-                    id: "outlined-age-native-simple",
-                  }}
-                >
-                  {lstLanguage.map((item: Language, index: number) => {
-                    return (
-                      <option key={index} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-age-native-simple">
-                  Currency
-                </InputLabel>
-                <Select
-                  native
-                  value={state.currency}
-                  onChange={handleChangeCurrency}
-                  label="Currency"
-                  inputProps={{
-                    name: "age",
-                    id: "outlined-age-native-simple",
-                  }}
-                >
-                  {lstCurrency.map((item: Language, index: number) => {
-                    return (
-                      <option key={index} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+              <div className="footer__bottom select">
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Language
+                  </InputLabel>
+                  <Select
+                    native
+                    value={state.language}
+                    onChange={handleChangeLanguage}
+                    label="Language"
+                    inputProps={{
+                      name: "age",
+                      id: "outlined-age-native-simple",
+                    }}
+                  >
+                    {lstLanguage.map((item: Language, index: number) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Currency
+                  </InputLabel>
+                  <Select
+                    native
+                    value={state.currency}
+                    onChange={handleChangeCurrency}
+                    label="Currency"
+                    inputProps={{
+                      name: "age",
+                      id: "outlined-age-native-simple",
+                    }}
+                  >
+                    {lstCurrency.map((item: Language, index: number) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </div>
             </Grid>
           </Paper>
         </Grid>

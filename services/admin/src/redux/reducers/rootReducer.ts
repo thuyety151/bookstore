@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import addressReducer from "./addressReducer";
 import attributeReducer from "./attributeReducer";
+import authenticationReducer from "./authenticationReducer";
 import categoryReducer from "./categoryReducer";
 import couponReducer from "./couponReducer";
 import languageReducer from "./languageReducer";
@@ -9,10 +10,8 @@ import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
 import reportReducer from "./reportReducer";
 import settingsReducer from "./settingsReducer";
-// import authenticateReducer from "./authenticationReducer";
 
 const rootReducer = combineReducers({
-  // authenticate: authenticateReducer,
   orders: ordersReducer,
   addresses: addressReducer,
   attributes: attributeReducer,
@@ -23,10 +22,9 @@ const rootReducer = combineReducers({
   coupons: couponReducer,
   reports: reportReducer,
   settings: settingsReducer,
+  authentication: authenticationReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
 
 export default root;
-
-// export default (state: any, action: any) => rootReducer(state, action);

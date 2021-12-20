@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using Application.Interface;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Medias
@@ -31,6 +32,13 @@ namespace Application.Medias
 
                 if (photo == null) return null;
 
+                var category = _context.Categories.SingleOrDefault(x => x.Media == photo);
+                if (category != null)
+                {
+                    category.Media = null;
+                    _context.SaveChanges();
+                }
+                
                 _context.Media.Remove(photo);
 
                 var success = await _context.SaveChangesAsync() > 0;
