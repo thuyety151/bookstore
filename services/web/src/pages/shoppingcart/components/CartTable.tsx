@@ -137,6 +137,7 @@ const CartTable: React.FC = () => {
                       checked={idItemsToCheckout().includes(row.id)}
                       inputProps={{ "aria-label": "secondary checkbox" }}
                       onChange={() => handleSetToCheckout(row)}
+                      disabled={row.stockStatus === StockStatus.OutOfStock}
                     />
                   </TableCell>
                   <TableCell key={row.productName} component="th" scope="row">
@@ -170,11 +171,15 @@ const CartTable: React.FC = () => {
                       <OutlinedInput
                         value={row?.quantity}
                         inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        disabled={row.stockStatus === StockStatus.OutOfStock}
                         endAdornment={
                           <InputAdornment position="end">
                             <IconButton
                               className={classes.button}
                               onClick={() => handleChangeItem("increase", row)}
+                              disabled={
+                                row.stockStatus === StockStatus.OutOfStock
+                              }
                             >
                               <AddIcon />
                             </IconButton>
@@ -185,6 +190,9 @@ const CartTable: React.FC = () => {
                             <IconButton
                               className={classes.button}
                               onClick={() => handleChangeItem("decrease", row)}
+                              disabled={
+                                row.stockStatus === StockStatus.OutOfStock
+                              }
                             >
                               <RemoveIcon />
                             </IconButton>

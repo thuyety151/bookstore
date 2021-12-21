@@ -29,6 +29,7 @@ namespace Application.Categories.Admin
                     .Include(x => x.Media)
                     .Include(x => x.Books)
                     .Where(x => x.IsDeleted == false)
+                    .OrderByDescending(x => x.CreateDate)
                     .Select(x => new CategoryDto()
                     {
                         Id = x.Id,

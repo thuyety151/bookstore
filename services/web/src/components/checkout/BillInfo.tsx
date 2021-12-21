@@ -32,6 +32,7 @@ import { useSnackbar } from "notistack";
 import { ROUTE_PLACE_ORDER } from "../../routers/types";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
+import StockStatus from "../../shared/enum/stockStatus";
 
 type Props = {
   note: string;
@@ -123,10 +124,12 @@ export default function BillInfo(props: Props) {
   //Effect
   useEffect(() => {
     if (!itemToCheckout.length) {
-      setItemToCheckout(cart.data);
+      setItemToCheckout(
+        cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock)
+      );
       dispatch({
         type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT,
-        data: cart.data,
+        data: cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock),
       });
     }
     setCouponCode(couponState.data.code || "");
