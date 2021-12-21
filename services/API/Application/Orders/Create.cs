@@ -69,21 +69,6 @@ namespace Application.Orders
                     }
                 }
 
-                // var address = new Address()
-                // {
-                //     Id = new Guid(),
-                //     FirstName = request.OrderParams.Address.FirstName,
-                //     LastName = request.OrderParams.Address.LastName,
-                //     Phone = request.OrderParams.Address.Phone,
-                //     ApartmentNumber = request.OrderParams.Address.ApartmentNumber,
-                //     StreetAddress = request.OrderParams.Address.StreetAddress,
-                //     DistrictId = request.OrderParams.Address.DistrictId,
-                //     ProvinceId = request.OrderParams.Address.ProvinceId,
-                //     WardName = request.OrderParams.Address.WardName,
-                //     WardCode = request.OrderParams.Address.WardCode,
-                //     DistrictName = request.OrderParams.Address.DistrictName,
-                //     ProvinceName = request.OrderParams.Address.ProvinceName,
-                // };
                 var order = new Order()
                 {
                     Id = new Guid(),
