@@ -59,7 +59,7 @@ export type FacebookLoginType = {
 export const loginFacebook = (props: FacebookLoginType) => async (
   dispatch: any
 ) => {
-  var response = await api.post("/facebook-login", props.accessToken);
+  var response = await api.post(`/account/facebook-login?accessToken=${props.accessToken}`,{});
 
   console.log(JSON.stringify(response));
 
