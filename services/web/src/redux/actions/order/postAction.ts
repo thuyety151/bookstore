@@ -1,3 +1,4 @@
+import { omit } from "lodash";
 import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
@@ -24,12 +25,13 @@ export const createOrder =
       coupon: {
         code: state.order.coupon?.code,
       },
+      address: omit(address, "id"),
     };
     const response = await api.post("/orders/create", data);
 
     if (response.data.isSuccess) {
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
-
+      console.log(total());
       //call api GHN
       const order = {
         payment_type_id: 2,
@@ -50,6 +52,7 @@ export const createOrder =
         service_type_id: state.order.currentService.service_type_id,
         service_id: state.order.currentService.service_id,
         insurance_value: Math.round(total() * 23000),
+        // cod_amount: Math.round(total() * 23000),
         cod_amount: 200000,
         pick_station_id: 1444,
         items: state.cart.itemToCheckOut.map((item) => {
@@ -57,7 +60,7 @@ export const createOrder =
             name: item.productName,
             // code: "hi",
             quantity: item.quantity,
-            price: item.price,
+            price: Math.round(item.price * 23000),
             category: {
               level1: "book",
             },
