@@ -1,10 +1,13 @@
+import { RepeatOneSharp } from "@material-ui/icons";
+import { first } from "lodash";
 import api from "../boot/axios";
 
 export const userService = {
   login,
   logout,
   register,
-  updateAccount,
+  updateAccountInfor,
+  updateAccountPassword,
 };
 
 function login(email: any, password: any) {
@@ -30,25 +33,34 @@ function logout() {
   localStorage.removeItem("user");
 }
 
-function updateAccount(
-  firstName: any,
-  lastName: any,
-  currentPassword: any,
-  newPassword: any
-) {
+function updateAccountInfor(firstName: any, lastName: any) {
   return api
     .post("/account/update-account", {
-      firstName,
-      lastName,
-      currentPassword,
-      newPassword,
+      firstName: firstName,
+      lastName: lastName,
     })
     .then((response) => {
+      console.log("dd: " + JSON.stringify(response.data));
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
       return response.data;
     });
+}
+async function updateAccountPassword(currentPassword: any, newPassword: any) {
+  var response = await api.post("/account/update-account-password", {
+    currentPassword: currentPassword,
+    newPassword: newPassword,
+  });
+  console.log(response);
+  if (response.status === 400) {
+    console.log("400:" + response.data);
+    return response.data;
+  }
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+    return "ok";
+  }
 }
 
 export type FacebookLoginType = {
@@ -59,15 +71,17 @@ export type FacebookLoginType = {
 export const loginFacebook = (props: FacebookLoginType) => async (
   dispatch: any
 ) => {
-  var response = await api.post(`/account/facebook-login?accessToken=${props.accessToken}`,{});
+  var response = await api.post(
+    `/account/facebook-login?accessToken=${props.accessToken}`,
+    {}
+  );
 
   console.log(JSON.stringify(response));
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
     props.onSuccess();
-  }
-  else {
-      props.onFailure("Unauthorize")
+  } else {
+    props.onFailure("Unauthorize");
   }
 };

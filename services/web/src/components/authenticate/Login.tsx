@@ -16,7 +16,6 @@ import { GitHub, Facebook } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { loginFacebook } from "../../service/auth.service";
 import { useSnackbar } from "notistack";
 import api from "../../boot/axios";
 
@@ -56,7 +55,24 @@ export default function LoginComponent() {
     history.push("/register");
   };
 
-  const handleFacebookLogin = () => {
+  const handleFacebookLogin = async () => {
+    // var responseApi = await api.post(
+    //   `/account/facebook-login?accessToken=EAAEcGzsRdJkBAHhdEQFvj2X26uemYLLx1LH8ZBTVTDAekQBoMdTPGxy0Xxw3VM1EQJ2I7Dv23FmkxUf4WAlDZALKUWmfgZAgPkIeUqfUHgNxUCMMQjjhUK1E4ng4TkaBo1mQpGIFoVWHYBGnrPyq014uKuikMLDjxAIL2e4cGZCRBW6VmNKB61cG0HW2tWYaprvk6JVsCXserVRFAXZBhlnR93BnZAUdQZD`,
+    //   {}
+    // );
+
+    // console.log(JSON.stringify(responseApi));
+
+    // if (responseApi.data) {
+    //   localStorage.setItem("user", JSON.stringify(responseApi.data));
+    //   enqueueSnackbar("Login successfully", {
+    //     variant: "success",
+    //   });
+    // } else {
+    //   enqueueSnackbar("Unauthorize", {
+    //     variant: "error",
+    //   });
+    // }
     window.FB.login(
       async (response) => {
         if (response.authResponse) {
@@ -68,13 +84,14 @@ export default function LoginComponent() {
             {}
           );
 
-          console.log(JSON.stringify(response));
+          console.log(JSON.stringify(responseApi));
 
           if (responseApi.data) {
             localStorage.setItem("user", JSON.stringify(responseApi.data));
             enqueueSnackbar("Login successfully", {
               variant: "success",
             });
+            history.push("/");
           } else {
             enqueueSnackbar("Unauthorize", {
               variant: "error",
