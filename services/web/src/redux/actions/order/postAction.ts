@@ -31,7 +31,6 @@ export const createOrder =
 
     if (response.data.isSuccess) {
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
-      console.log(total());
       //call api GHN
       const order = {
         payment_type_id: 2,
@@ -82,7 +81,6 @@ export const createOrder =
             }
           );
           if (resultUpdateOrderCode.data.isSuccess) {
-            console.log("success");
             props.onSuccess(
               createDelivery.data.data.order_code,
               response.data.value
@@ -130,5 +128,27 @@ export const createOrder =
         type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_FAIL,
         message: response.data.error,
       });
+    }
+  };
+
+export type CancelOrderProps = {
+  orderCode: string;
+  onSuccess: () => void;
+  onFailure: (error: any) => void;
+};
+export const cancelOrder =
+  (props: CancelOrderProps) => async (dispatch: any) => {
+    try {
+      const response = await apiGHN.post("/v2/switch-status/cancel", {
+        order_codes: [props.orderCode],
+        shop_id: shopAddress.shop_id,
+      });
+      if (response.data.code === 200) {
+        props.onSuccess();
+      } else {
+        props.onFailure(response.data?.message);
+      }
+    } catch (error: any) {
+      props.onFailure(error);
     }
   };

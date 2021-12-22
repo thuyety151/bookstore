@@ -1,4 +1,5 @@
 import apiGHN from "../../../boot/apiGHN";
+import api from "../../../boot/axios";
 import { formatVNDtoUSD } from "../../../helper/format";
 import { shopAddress } from "../../../mocks/shopInfo";
 import { Address } from "../../../model/address";
@@ -45,6 +46,35 @@ export const getFee = (props: getFeeProps) => async (dispatch: any) => {
     dispatch({
       type: NAME_ACTIONS.GET_FEE.GET_FEE_FAIL,
       message: response.data.message,
+    });
+  }
+};
+
+export const getAllOrder = (status: string) => async (dispatch: any) => {
+  try {
+    dispatch({
+      type: NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION,
+    });
+
+    const response = await api.get("/orders/get-all", {
+      params: {
+        status,
+      },
+    });
+
+    if (response.data.isSuccess) {
+      dispatch({
+        type: NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_SUCCESS,
+        data: response.data.value,
+      });
+    } else {
+      dispatch({
+        type: NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL,
+      });
+    }
+  } catch {
+    dispatch({
+      type: NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL,
     });
   }
 };
