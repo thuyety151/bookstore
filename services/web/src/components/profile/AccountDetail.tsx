@@ -11,9 +11,7 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Account } from "../../model/account";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
-import { userService } from "../../service/auth.service";
 import api from "../../boot/axios";
 
 const useStyles = makeStyles((theme: Theme) =>
