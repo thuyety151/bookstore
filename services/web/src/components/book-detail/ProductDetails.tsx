@@ -53,15 +53,6 @@ export default function Types() {
           <Grid container spacing={3} >
           <Grid item container justifyContent="space-between">
             <Grid item >
-              <Typography className={classes.textDetail}>Format:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>attribute</Typography>
-            </Grid>
-          </Grid>
-
-          <Grid item container justifyContent="space-between">
-            <Grid item >
               <Typography className={classes.textDetail}>Dimensions:</Typography>
             </Grid>
             <Grid item>
@@ -74,7 +65,7 @@ export default function Types() {
               <Typography className={classes.textDetail}>Publication date:</Typography>
             </Grid>
             <Grid item>
-              <Typography>{data.publicationDate}</Typography>
+              <Typography>{data.publicationDate.split("T")[0]}</Typography>
             </Grid>
           </Grid>
 

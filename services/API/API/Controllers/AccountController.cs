@@ -25,6 +25,7 @@ namespace API.Controllers
         private readonly TokenService _tokenService;
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
+
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             TokenService tokenService, IConfiguration configuration)
         {
@@ -56,8 +57,6 @@ namespace API.Controllers
             }
 
             return CreateUserObject(user);
-
-
         }
 
         [HttpPost("register")]
@@ -85,12 +84,11 @@ namespace API.Controllers
             }
 
             return CreateUserObject(user);
-
         }
 
         [Authorize]
-        [HttpPost("update-account")]
-        public async Task<ActionResult<UserDto>> UpdateAccount(UpdateAccountDto updateAccountDto)
+        [HttpPost("update-account-information")]
+        public async Task<ActionResult<UserDto>> UpdateAccountInfor(UpdateAccountInforDto updateAccountDto)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x =>
                 x.Email == User.FindFirstValue(ClaimTypes.Email));
@@ -99,33 +97,37 @@ namespace API.Controllers
             {
                 return BadRequest("User does not exist");
             }
-            if ( !string.IsNullOrWhiteSpace(updateAccountDto.FirstName) || !string.IsNullOrWhiteSpace(updateAccountDto.LastName))
+
+            user.FirstName = updateAccountDto.FirstName;
+            user.LastName = updateAccountDto.LastName;
+
+            await _userManager.UpdateAsync(user);
+
+            return CreateUserObject(user);
+        }
+
+        [Authorize]
+        [HttpPost("update-account-password")]
+        public async Task<ActionResult<UserDto>> UpdateAccountPassword(UpdateAccountPasswordDto updateAccountDto)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x =>
+                x.Email == User.FindFirstValue(ClaimTypes.Email));
+
+            if (user == null)
             {
-                if (!string.IsNullOrWhiteSpace(updateAccountDto.FirstName))
-                {
-                    user.FirstName = updateAccountDto.FirstName;
-                }
-
-                if (!string.IsNullOrWhiteSpace(updateAccountDto.LastName))
-                {
-                    user.LastName = updateAccountDto.LastName;
-                }
-
-                await _userManager.UpdateAsync(user);
+                return BadRequest("User does not exist");
             }
 
-            if (updateAccountDto.CurrentPassword != null && updateAccountDto.NewPassword != null)
+            var result = await _userManager.ChangePasswordAsync(user, updateAccountDto.CurrentPassword,
+                updateAccountDto.NewPassword);
+            if (!result.Succeeded)
             {
-                var result = await _userManager.ChangePasswordAsync(user, updateAccountDto.CurrentPassword,
-                    updateAccountDto.NewPassword);
-                if (!result.Succeeded)
-                {
-                    return BadRequest("Error when updating account: Password incorrect");
-                }
+                return BadRequest("Error when updating account: Password incorrect");
             }
 
             return CreateUserObject(user);
         }
+
 
         [HttpPost("facebook-login")]
         public async Task<ActionResult<UserDto>> FacebookLogin(string accessToken)
@@ -137,7 +139,8 @@ namespace API.Controllers
 
             if (!verifyToken.IsSuccessStatusCode) return Unauthorized();
 
-            var fbUrl = $"me?access_token={accessToken}&fields=name,email,picture.width(100).height(100)";
+            var fbUrl =
+                $"me?access_token={accessToken}&fields=id,first_name,last_name,name,email,picture.width(100).height(100)";
 
             var response = await _httpClient.GetAsync(fbUrl);
 
@@ -156,6 +159,9 @@ namespace API.Controllers
             {
                 Email = (string) fbInfo.email,
                 UserName = (string) fbInfo.id,
+                Role = Role.Customer,
+                FirstName = (string) fbInfo.first_name,
+                LastName = (string) fbInfo.last_name
             };
 
             var result = await _userManager.CreateAsync(user);
@@ -163,7 +169,8 @@ namespace API.Controllers
             if (!result.Succeeded) return BadRequest("Problem creating user account");
 
             return CreateUserObject(user);
-        }        
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -171,7 +178,7 @@ namespace API.Controllers
             var user = await _userManager.Users.FirstOrDefaultAsync(x =>
                 x.Email == User.FindFirstValue(ClaimTypes.Email));
             return CreateUserObject(user);
-        } 
+        }
 
         private UserDto CreateUserObject(AppUser user)
         {

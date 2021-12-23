@@ -156,8 +156,8 @@ namespace Persistence
                     await userManager.CreateAsync(user, "KhungLongXanh@123");
                 }
             }
-            
-              if (!context.Media.Any())
+
+            if (!context.Media.Any())
             {
                 var mediaList = new List<Media>()
                 {
@@ -173,7 +173,7 @@ namespace Persistence
                     {
                         Id = "Harry-Potter",
                         Name = "Harry Potter Part 4: Harry Potter And The Goblet Of Fire",
-                        Url ="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638280759/b94e8848ea41470c767f0266604975c4_ogeezy.jpg",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638280759/b94e8848ea41470c767f0266604975c4_ogeezy.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -181,7 +181,7 @@ namespace Persistence
                     {
                         Id = "The Alchemist",
                         Name = "The Alchemist",
-                        Url ="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638283152/18144590._UY2404_SS2404__qfego2.jpg",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638283152/18144590._UY2404_SS2404__qfego2.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -189,7 +189,7 @@ namespace Persistence
                     {
                         Id = "The Subtle Art of Not Giving a F*Ck",
                         Name = "The Subtle Art of Not Giving a F*Ck",
-                        Url ="https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638281086/324c1a39b6408ed0828dc2797ca7a7ba_ufu97l.jpg",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638281086/324c1a39b6408ed0828dc2797ca7a7ba_ufu97l.jpg",
                         IsMain = true,
                         IsVideo = false
                     },
@@ -332,6 +332,41 @@ namespace Persistence
                         IsMain = true,
                         IsVideo = false
                     },
+                    new Media()
+                    {
+                        Id = "oepi4mkbliqduvoqoipi",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1639902996/oepi4mkbliqduvoqoipi.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "rjmpwbgiwjs6saxkfemj",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1639903058/rjmpwbgiwjs6saxkfemj.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "uyribzc8lso7rcj6r5nh",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1639903093/uyribzc8lso7rcj6r5nh.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "rjdkiptrevsucu8yatpz",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1639903159/rjdkiptrevsucu8yatpz.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "xt0hoc9ovnywdqcfwvtm",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1639903291/xt0hoc9ovnywdqcfwvtm.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
                 };
                 medias.AddRange(mediaList);
                 await context.Media.AddRangeAsync(mediaList);
@@ -362,6 +397,13 @@ namespace Persistence
                         Slug = "hardcover",
                         IsDeleted = false
                     },
+                    new Attribute()
+                    {
+                        Id = new Guid(),
+                        Name = "Audible Audiobook",
+                        Slug = "audible-audiobook",
+                        IsDeleted = false
+                    },
                 };
                 attributes.AddRange(attributesList);
                 await context.Attributes.AddRangeAsync(attributes);
@@ -377,7 +419,7 @@ namespace Persistence
                         Name = "Jay Shetty",
                         IsDeleted = false,
                         Media = medias.FirstOrDefault(x => x.Id == "ppouorllrmfrhsohussm")
-                        
+
                     },
                     new Author()
                     {
@@ -473,7 +515,7 @@ namespace Persistence
                                 IsDeleted = false,
                             }
                         },
-                        Media = medias.Where(x=>x.Id=="qstxf4703gudtpaxvqyb").SingleOrDefault()
+                        Media = medias.Where(x => x.Id == "qstxf4703gudtpaxvqyb").SingleOrDefault()
                     },
                     new Category()
                     {
@@ -505,7 +547,7 @@ namespace Persistence
                                 IsDeleted = false,
                             },
                         },
-                        Media = medias.Where(x=>x.Id=="aleglevp9dj4mgzonrkv").SingleOrDefault()
+                        Media = medias.Where(x => x.Id == "aleglevp9dj4mgzonrkv").SingleOrDefault()
                     },
                     new Category()
                     {
@@ -537,7 +579,39 @@ namespace Persistence
                                 IsDeleted = false,
                             }
                         },
-                        Media = medias.Where((x=>x.Id=="mlwiruyyxllf1zk1kn9l")).SingleOrDefault()
+                        Media = medias.Where((x => x.Id == "mlwiruyyxllf1zk1kn9l")).SingleOrDefault()
+                    },
+                    new Category()
+                    {
+                        Id = new Guid(),
+                        Name = "Comics & Graphic Novels",
+                        Slug = "comics-and-graphic-novels",
+                        IsDeleted = false,
+                        SubCategories = new List<Category>()
+                        {
+                            new Category()
+                            {
+                                Id = new Guid(),
+                                Name = "Manga",
+                                Slug = "manga",
+                                IsDeleted = false,
+                            },
+                            new Category()
+                            {
+                                Id = new Guid(),
+                                Name = "Superheroes",
+                                Slug = "superheroes",
+                                IsDeleted = false,
+                            },
+                            new Category()
+                            {
+                                Id = new Guid(),
+                                Name = "Fantasy Graphic Novels",
+                                Slug = "fantasy-graphic-novels",
+                                IsDeleted = false,
+                            }
+                        },
+                        Media = medias.Where((x => x.Id == "xt0hoc9ovnywdqcfwvtm")).SingleOrDefault()
                     }
                 };
                 categories.AddRange(categorieList);
@@ -594,7 +668,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category = categories[0].SubCategories.ElementAt(1)
+                                Category = categories[2]
                             }
                         },
                         Media = medias.Where(x => x.Id == "Harry-Potter").ToList(),
@@ -790,7 +864,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category = categories[0].SubCategories.ElementAt(1)
+                                Category = categories[2]
                             }
                         },
                         Media = medias.Where(x => x.Id == "Harry Potter Part 6: Harry Potter And The Half-Blood Prince")
@@ -875,7 +949,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category =  categories[1].SubCategories.ElementAt(0)
+                                Category = categories[1].SubCategories.ElementAt(0)
                             }
                         },
                         Media = medias.Where(x => x.Id == "the-greate-catsby").ToList(),
@@ -903,7 +977,7 @@ namespace Persistence
                         {
                             new BookCategory()
                             {
-                                Category =  categories[2].SubCategories.ElementAt(0)
+                                Category = categories[2].SubCategories.ElementAt(0)
                             }
                         },
                         Media = medias.Where(x => x.Id == "Search-inside-yourself").ToList(),
@@ -940,6 +1014,89 @@ namespace Persistence
                         PublicationDate = new DateTime(2020, 3, 12),
                         Publisher = "Avery Publishing Group",
                         PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "Loki: Agent of Asgard - The Complete Collection",
+                        ShortDescription = "As Asgardia’s one-man secret service, Loki is ready to lie, cheat and steal his way through the most treacherous missions the All-Mother can throw at " +
+                                           "him – starting with a heart-stopping heist at Avengers Tower! Loki takes on Lorelei in Monte Carlo’s casinos, heads to the ancient past on a quest for a " +
+                                           "magical sword and puts together a crew to crack the deepest dungeons of Asgardia itself! Plus: Axis pits him against the brutish Thor, god of evil! But " +
+                                           "who is King Loki? What vile scheme has he been brewing all this time? And what does this shadowy king’s very existence mean for our Loki?",
+                        Description =
+                            "The instant New York Times bestseller. \nTiny Changes, Remarkable Results. \nNo matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results./nIf you're having trouble changing your habits, the problem isn't you. The problem is your system. Bad habits repeat themselves again and again not because you don't want to change, but because you have the wrong system for change. You do not rise to the level of your goals. You fall to the level of your systems. Here, you'll get a proven system that can take you to new heights.\nClear is known for his ability to distill complex topics into simple behaviors that can be easily applied to daily life and work. Here, he draws on the most proven ideas from biology, psychology, and neuroscience to create an easy-to-understand guide for making good habits inevitable and bad habits impossible. Along the way, readers will be inspired and entertained with true stories from Olympic gold medalists, award-winning artists, business leaders, life-saving physicians, and star comedians who have used the science of small habits to master their craft and vault to the top of their field.",
+                        Author = authors[4],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[3].SubCategories.ElementAt(0)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "rjmpwbgiwjs6saxkfemj").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "6.6 x 1.15 x 10.15 inches",
+                        PublicationDate = new DateTime(2020, 3, 12),
+                        Publisher = "Marvel",
+                        PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "Thinking, Fast and Slow",
+                        ShortDescription = "In his mega bestseller, Thinking, Fast and Slow, Daniel Kahneman, world-famous psychologist and winner of the Nobel Prize in Economics, takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think.",
+                        Description = "System 1 is fast, intuitive, and emotional; System 2 is slower, more deliberative, and more logical. The impact of overconfidence on corporate strategies, the difficulties of predicting what will make us happy in the future, the profound effect of cognitive biases on everything from playing the stock market to planning our next vacation?each of these can be understood only by knowing how the two systems shape our judgments and decisions. " +
+                                      "Engaging the reader in a lively conversation about how we think, Kahneman reveals where we can and cannot trust our intuitions and how we can tap into the benefits of slow thinking. He offers practical and enlightening insights into how choices are made in both our business and our personal lives?and how we can use different techniques to guard against the mental glitches that often get us into trouble. Topping bestseller lists for almost ten years, Thinking, Fast and Slow is a contemporary classic, an essential book that has changed the lives of millions of readers.",
+                        Author = authors[4],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(0)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "rjdkiptrevsucu8yatpz").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "5.51 x 1.46 x 8.23 inches",
+                        PublicationDate = new DateTime(2013, 4, 1),
+                        Publisher = "Farrar, Straus and Giroux",
+                        PublicationCountry = "London, United Kingdom",
+                    },
+                    new Book()
+                    {
+                        Id = new Guid(),
+                        Name = "The High 5 Habit: Take Control of Your Life with One Simple Habit",
+                        ShortDescription = "In her global phenomenon The 5 Second Rule, Mel Robbins taught millions of people around the world the five second secret to motivation. Now she's back with another simple, proven tool you can use to take control of your life: The High 5 Habit.",
+                        Description = "The High 5 Habit is a simple yet profound tool that changes your attitude, your mindset, and your behavior. So be prepared to laugh and learn as you take steps to immediately boost your confidence, happiness, and results.",
+                            Author = authors[4],
+                        CreateDate = DateTime.Now,
+                        IsDeleted = false,
+                        IsPublic = true,
+                        Language = languages[0],
+                        UpdateDate = DateTime.Now,
+                        Categories = new List<BookCategory>()
+                        {
+                            new BookCategory()
+                            {
+                                Category = categories[0].SubCategories.ElementAt(0)
+                            }
+                        },
+                        Media = medias.Where(x => x.Id == "uyribzc8lso7rcj6r5nh").ToList(),
+                        ViewCount = 150,
+                        Dimensions = "6.25 x 0.9 x 9.26 inches",
+                        PublicationDate = new DateTime(2021, 9, 28),
+                        Publisher = "Hay House Inc",
+                        PublicationCountry = "London, United Kingdom",
                     }
                 };
                 books.AddRange(bookList);
@@ -954,55 +1111,80 @@ namespace Persistence
                     {
                         BookId = books[0].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 100,
+                        Price = 14.95,
                         TotalStock = 50,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePrice = 7.49,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
                     new BookAttribute()
                     {
                         BookId = books[0].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 79,
+                        Price = 4.99,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[0].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 6.99,
+                    //     TotalStock = 6,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[0].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 120,
-                        TotalStock = 6,
-                        StockStatus = StockStatus.InStock
+                        AttributeId = attributes[3].Id,
+                        Price = 24.99,
+                        SalePrice = 20,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
                     new BookAttribute()
                     {
                         BookId = books[1].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 200,
+                        Price = 12.99,
+                        SalePrice = 6.92,
                         TotalStock = 2,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
                     new BookAttribute()
                     {
                         BookId = books[1].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 9.99,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[1].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 44.99,
+                    //     TotalStock = 10,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[1].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 255,
-                        TotalStock = 10,
+                        AttributeId = attributes[3].Id,
+                        Price = 44.99,
+                        TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
                     new BookAttribute()
                     {
                         BookId = books[2].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 200,
+                        Price = 23.95,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock
                     },
@@ -1010,111 +1192,160 @@ namespace Persistence
                     {
                         BookId = books[2].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 16.99,
+                        SalePrice = 11.99,
                         TotalStock = 20,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[2].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 255,
+                    //     TotalStock = 10,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[2].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 255,
-                        TotalStock = 10,
+                        AttributeId = attributes[3].Id,
+                        Price = 23.95,
+                        TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[3].Id,
+                    //     AttributeId = attributes[0].Id,
+                    //     Price = 200,
+                    //     TotalStock = 2,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[3].Id,
-                        AttributeId = attributes[0].Id,
-                        Price = 200,
-                        TotalStock = 2,
+                        AttributeId = attributes[1].Id,
+                        Price = 12.99,
+                        TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[3].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 23.95,
+                    //     TotalStock = 10,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[3].Id,
-                        AttributeId = attributes[1].Id,
-                        Price = 90,
-                        TotalStock = 20,
-                        StockStatus = StockStatus.InStock
-                    },
-                    new BookAttribute()
-                    {
-                        BookId = books[3].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 255,
+                        AttributeId = attributes[3].Id,
+                        Price = 23.95,
                         TotalStock = 10,
                         StockStatus = StockStatus.InStock
                     },
-                    new BookAttribute()
-                    {
-                        BookId = books[4].Id,
-                        AttributeId = attributes[0].Id,
-                        Price = 200,
-                        TotalStock = 2,
-                        StockStatus = StockStatus.InStock
-                    },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[4].Id,
+                    //     AttributeId = attributes[0].Id,
+                    //     Price = 22.99,
+                    //     TotalStock = 2,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[4].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 10.99,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[4].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 10.99,
+                    //     TotalStock = 10,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[4].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 255,
-                        TotalStock = 10,
+                        AttributeId = attributes[3].Id,
+                        Price = 27.99,
+                        TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
-                    new BookAttribute()
-                    {
-                        BookId = books[5].Id,
-                        AttributeId = attributes[0].Id,
-                        Price = 200,
-                        TotalStock = 2,
-                        StockStatus = StockStatus.InStock
-                    },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[5].Id,
+                    //     AttributeId = attributes[0].Id,
+                    //     Price = 27.99,
+                    //     TotalStock = 2,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[5].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 37.50,
+                        SalePrice = 14.99,
                         TotalStock = 20,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[5].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 34.22,
+                    //     TotalStock = 10,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[5].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 255,
+                        AttributeId = attributes[3].Id,
+                        Price = 34.22,
                         TotalStock = 10,
                         StockStatus = StockStatus.InStock
                     },
-                    new BookAttribute()
-                    {
-                        BookId = books[6].Id,
-                        AttributeId = attributes[0].Id,
-                        Price = 200,
-                        TotalStock = 2,
-                        StockStatus = StockStatus.InStock
-                    },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[6].Id,
+                    //     AttributeId = attributes[0].Id,
+                    //     Price = 32.99,
+                    //     TotalStock = 2,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[6].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 24.99,
+                        SalePrice = 14.99,
                         TotalStock = 20,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
+                    // new BookAttribute()
+                    // {
+                    //     BookId = books[6].Id,
+                    //     AttributeId = attributes[2].Id,
+                    //     Price = 34.22,
+                    //     TotalStock = 10,
+                    //     StockStatus = StockStatus.InStock
+                    // },
                     new BookAttribute()
                     {
                         BookId = books[6].Id,
-                        AttributeId = attributes[2].Id,
-                        Price = 255,
+                        AttributeId = attributes[3].Id,
+                        Price = 34.22,
                         TotalStock = 10,
                         StockStatus = StockStatus.InStock
                     },
@@ -1122,7 +1353,7 @@ namespace Persistence
                     {
                         BookId = books[7].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 200,
+                        Price = 18,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock
                     },
@@ -1130,7 +1361,7 @@ namespace Persistence
                     {
                         BookId = books[7].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 16,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
@@ -1138,7 +1369,7 @@ namespace Persistence
                     {
                         BookId = books[7].Id,
                         AttributeId = attributes[2].Id,
-                        Price = 255,
+                        Price = 33.60,
                         TotalStock = 10,
                         StockStatus = StockStatus.InStock
                     },
@@ -1146,15 +1377,18 @@ namespace Persistence
                     {
                         BookId = books[8].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 200,
+                        Price = 12.99,
+                        SalePrice = 10,
                         TotalStock = 2,
-                        StockStatus = StockStatus.InStock
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now,
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
                     },
                     new BookAttribute()
                     {
                         BookId = books[8].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 9.99,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock
                     },
@@ -1171,169 +1405,244 @@ namespace Persistence
                     },
                     new BookAttribute()
                     {
+                        BookId = books[8].Id,
+                        AttributeId = attributes[3].Id,
+                        Price = 44.99,
+                        TotalStock = 10,
+                        StockStatus = StockStatus.InStock,
+                    },
+                    new BookAttribute()
+                    {
                         BookId = books[9].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 200,
+                        Price = 20,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 150
+                        SalePrice = 15
                     },
                     new BookAttribute()
                     {
                         BookId = books[9].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 9,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 49
+                        SalePrice = 4.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[9].Id,
                         AttributeId = attributes[2].Id,
-                        Price = 255,
+                        Price = 25.5,
                         TotalStock = 10,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 215
+                        SalePrice = 21.5
                     },
                     new BookAttribute()
                     {
                         BookId = books[10].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 350,
+                        Price = 35.5,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 300
+                        SalePrice = 30
                     },
                     new BookAttribute()
                     {
                         BookId = books[10].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 90,
+                        Price = 9,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 50
+                        SalePrice = 5
                     },
                     new BookAttribute()
                     {
                         BookId = books[10].Id,
                         AttributeId = attributes[2].Id,
-                        Price = 150,
+                        Price = 15.5,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
+                        SalePrice = 9.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[11].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 234,
+                        Price = 23.4,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 199
+                        SalePrice = 19.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[11].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 119,
+                        Price = 11.9,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
+                        SalePrice = 9.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[11].Id,
                         AttributeId = attributes[2].Id,
-                        Price = 150,
+                        Price = 15.0,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
+                        SalePrice = 9.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[12].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 234,
+                        Price = 23.4,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 199
+                        SalePrice = 19.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[12].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 119,
+                        Price = 11.9,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
+                        SalePrice = 9.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[12].Id,
                         AttributeId = attributes[2].Id,
-                        Price = 150,
+                        Price = 15.0,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now,
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
+                        SalePrice = 9.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[13].Id,
                         AttributeId = attributes[0].Id,
-                        Price = 234,
+                        Price = 23.4,
                         TotalStock = 2,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 199
+                        SalePrice = 19.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[13].Id,
                         AttributeId = attributes[1].Id,
-                        Price = 119,
+                        Price = 11.9,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
+                        SalePrice = 9.9
                     },
                     new BookAttribute()
                     {
                         BookId = books[13].Id,
                         AttributeId = attributes[2].Id,
-                        Price = 150,
+                        Price = 15.0,
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                         SalePriceStartDate = DateTime.Now.AddDays(2),
                         SalePriceEndDate = DateTime.Now.AddDays(100),
-                        SalePrice = 99
-                    }
+                        SalePrice = 9.9
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[14].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 35.99,
+                        TotalStock = 50,
+                        StockStatus = StockStatus.InStock,
+                        SalePriceStartDate = DateTime.Now.AddDays(2),
+                        SalePriceEndDate = DateTime.Now.AddDays(100),
+                        SalePrice = 26.35
+                    },
+                    new BookAttribute()
+                    {
+                        BookId = books[14].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 14.9,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
+                     new BookAttribute()
+                    {
+                        BookId = books[15].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 11.29,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
+                     new BookAttribute()
+                    {
+                        BookId = books[15].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 9.99,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
+                     new BookAttribute()
+                    {
+                        BookId = books[15].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 21.9,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
+                      new BookAttribute()
+                    {
+                        BookId = books[16].Id,
+                        AttributeId = attributes[0].Id,
+                        Price = 16.69,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
+                     new BookAttribute()
+                    {
+                        BookId = books[16].Id,
+                        AttributeId = attributes[1].Id,
+                        Price = 12.99,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
+                     new BookAttribute()
+                    {
+                        BookId = books[16].Id,
+                        AttributeId = attributes[2].Id,
+                        Price = 15.79,
+                        TotalStock = 20,
+                        StockStatus = StockStatus.InStock,
+                    },
                 };
 
                 await context.BookAttributes.AddRangeAsync(bookAttribute);

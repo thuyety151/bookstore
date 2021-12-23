@@ -73,10 +73,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100px",
     height: "100px",
     borderRadius: "50%",
-    backgroundColor: "#f55a5a",
+    backgroundColor: "#f52f2f",
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: "#f52f2f",
+      backgroundColor: "#f11b1b",
     },
     position: "absolute",
     top: "50%",

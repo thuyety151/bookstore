@@ -16,13 +16,13 @@ import { GitHub, Facebook } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { loginFacebook } from "../../service/auth.service";
 import { useSnackbar } from "notistack";
+import api from "../../boot/axios";
 
 export default function LoginComponent() {
   const classes = useStyles();
   const history = useHistory();
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
 
@@ -55,48 +55,57 @@ export default function LoginComponent() {
     history.push("/register");
   };
 
+  const handleFacebookLogin = async () => {
+    // var responseApi = await api.post(
+    //   `/account/facebook-login?accessToken=EAAEcGzsRdJkBAHhdEQFvj2X26uemYLLx1LH8ZBTVTDAekQBoMdTPGxy0Xxw3VM1EQJ2I7Dv23FmkxUf4WAlDZALKUWmfgZAgPkIeUqfUHgNxUCMMQjjhUK1E4ng4TkaBo1mQpGIFoVWHYBGnrPyq014uKuikMLDjxAIL2e4cGZCRBW6VmNKB61cG0HW2tWYaprvk6JVsCXserVRFAXZBhlnR93BnZAUdQZD`,
+    //   {}
+    // );
 
-  const handleFacebookLogin = () => {
-    enqueueSnackbar("Login successfully!", { variant: "success" });
-    var facebookAccessToken = null;
+    // console.log(JSON.stringify(responseApi));
 
-    window.FB.getLoginStatus(response => {
-      if(response.status === 'connected'){
-         facebookAccessToken = response.authResponse.accessToken;
-      }
-    })
+    // if (responseApi.data) {
+    //   localStorage.setItem("user", JSON.stringify(responseApi.data));
+    //   enqueueSnackbar("Login successfully", {
+    //     variant: "success",
+    //   });
+    // } else {
+    //   enqueueSnackbar("Unauthorize", {
+    //     variant: "error",
+    //   });
+    // }
+    window.FB.login(
+      async (response) => {
+        if (response.authResponse) {
+          console.log("Welcome!  Fetching your information.... ");
+          console.log(response.authResponse.accessToken);
 
-    enqueueSnackbar(facebookAccessToken, { variant: "success" });
+          var responseApi = await api.post(
+            `/account/facebook-login?accessToken=${response.authResponse.accessToken}`,
+            {}
+          );
 
-    if(facebookAccessToken){
-        loginFacebook({
-          accessToken: facebookAccessToken,
-          onSuccess: () => {
-            enqueueSnackbar("Login successfully!", { variant: "success" });
+          console.log(JSON.stringify(responseApi));
+
+          if (responseApi.data) {
+            localStorage.setItem("user", JSON.stringify(responseApi.data));
+            enqueueSnackbar("Login successfully", {
+              variant: "success",
+            });
             history.push("/");
-          },
-          onFailure: (error) => {
-            enqueueSnackbar(error, {variant: "error"})
+          } else {
+            enqueueSnackbar("Unauthorize", {
+              variant: "error",
+            });
           }
-         
-        })
-    }
-    else {
-      window.FB.login(response => {
-        loginFacebook({
-          accessToken: response.authResponse.accessToken,
-          onSuccess: () => {
-            enqueueSnackbar("Login successfully!", { variant: "success" });
-            history.push("/");
-          },
-          onFailure: (error) => {
-            enqueueSnackbar(error, {variant: "error"})
-          }
-        })
-      }, {scope: 'public_profile, email'});
-    }
-   
-  }
+        } else {
+          enqueueSnackbar("User cancelled login or did not fully authorize.", {
+            variant: "error",
+          });
+        }
+      },
+      { scope: "public_profile, email" }
+    );
+  };
 
   return (
     <div className={classes.root}>
@@ -188,7 +197,7 @@ export default function LoginComponent() {
                 variant="outlined"
                 className={classes.facebook}
                 startIcon={<Facebook />}
-                onClick = {handleFacebookLogin}
+                onClick={handleFacebookLogin}
               >
                 Continue with Facebook
               </Button>
