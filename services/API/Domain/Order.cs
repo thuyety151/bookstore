@@ -16,7 +16,7 @@ namespace Domain
         public string OrderCode { get; set; }
         public string OrderNote { get; set; }
         public Guid UserId { get; set; }
-        
+        public Coupon Coupon { get; set; }
         public ICollection<Item> Items { get; set; }
         public Address AddressToShip { get; set; }
         public bool IsDeleted { get; set; }

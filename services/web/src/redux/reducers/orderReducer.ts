@@ -6,6 +6,8 @@ import { NAME_ACTIONS } from "../constants/order/actionTypes";
 import { NAME_ACTIONS as NAME_ACTIONS_COUPON } from "../constants/coupon/actionTypes";
 import store from "../store";
 import { ServiceType } from "./deliveryReducer";
+import { Order } from "../../model/order";
+import { Pagination, paginationValue } from "../../helper/paginationValue";
 
 export type OrderState = {
   requesting: boolean;
@@ -16,6 +18,8 @@ export type OrderState = {
   note: string | null;
   currentService: ServiceType;
   coupon: Coupon;
+  listOrder: Order[];
+  pagination: Pagination;
 };
 const initState: OrderState = {
   requesting: false,
@@ -26,6 +30,10 @@ const initState: OrderState = {
   note: null,
   currentService: {} as any,
   coupon: {} as Coupon,
+  listOrder: [],
+  pagination: {
+    ...paginationValue,
+  },
 };
 
 export const total = () => {
@@ -109,6 +117,24 @@ const orderReducer = (
         ...state,
         coupon: payload.data,
       };
+    case NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION:
+      return {
+        ...state,
+        requesting: true,
+        listOrder: [],
+      };
+    case NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_SUCCESS:
+      return {
+        ...state,
+        listOrder: payload.data,
+        requesting: false,
+      };
+    case NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL: {
+      return {
+        ...state,
+        requesting: false,
+      };
+    }
     default:
       return state;
   }

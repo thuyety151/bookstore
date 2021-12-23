@@ -33,10 +33,10 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(command));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ListOrder(PagingParams pagingParams)
+        [HttpGet("get-all")]
+        public async Task<IActionResult> ListOrder([FromQuery] PagingParams pagingParams,string status)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams }));
+            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams ,Status = status}));
         }
 
         [HttpDelete]
