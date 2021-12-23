@@ -8,24 +8,25 @@ export enum OrderStatusEnum {
   Delivered = "Delivered",
 }
 
-export const orderStatusOptions = [
-  {
-    id: "delivered",
-    value: "Delivered",
-  },
-  {
-    id: "ready-to-pick",
-    value: "Ready to pick",
-  },
-  {
-    id: "cancel",
-    value: "Cancel",
-  },
-  {
-    id: "undefined",
-    value: "--",
-  },
-];
+export const orderStatusOptions = ["Ready to pick", "Cancel"];
+// export const orderStatusOptions = [
+//   // {
+//   //   id: "delivered",
+//   //   value: "Delivered",
+//   // },
+//   {
+//     id: "ready-to-pick",
+//     value: "Ready to pick",
+//   },
+//   {
+//     id: "cancel",
+//     value: "Cancel",
+//   },
+//   // {
+//   //   id: "undefined",
+//   //   value: "--",
+//   // },
+// ];
 
 const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
   const classes = useStyles();
@@ -38,9 +39,7 @@ const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
         )}
       >
         <ContainedButton
-          text={
-            orderStatusOptions.find((x) => x.value === status)?.value || "--"
-          }
+          text={orderStatusOptions.find((x) => x === status) || "--"}
           props={{
             disabled: status === OrderStatusEnum.ReadyToPick,
           }}

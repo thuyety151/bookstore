@@ -109,7 +109,7 @@ const OrderTable: React.FC = () => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [page, rowsPerPage]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -290,7 +290,7 @@ const OrderTable: React.FC = () => {
                   variant="outlined"
                   onClick={() => handleSetConfirmCancel(true)}
                 >
-                  Cancel Delivery
+                  Cancel Order
                 </Button>
               )}
             </Grid>
