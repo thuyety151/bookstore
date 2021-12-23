@@ -85,6 +85,12 @@ export default function DetailBook() {
   const { bookId, attributeId } = useParams() as any;
 
   const { data } = useSelector((state: RootStore) => state.book);
+  const reviews = useSelector((state: RootStore) => state.review.data);
+
+  const totalReview = reviews.length;
+  const rates = reviews.map((review) => review.rate);
+  const sumRate = rates.reduce((a , b ) => (a !== null && b!== null) ? a + b : 0, 0);
+  const avgRate = sumRate ? sumRate / rates.length : 0;
 
   const attributeDb = attributeId
     ? (data?.attributes?.find(
@@ -95,8 +101,6 @@ export default function DetailBook() {
   const myCart: Item[] = useSelector((state: RootStore) => state.cart.data);
   const [attribute, setAttribute] = useState<Attribute>({ ...attributeDb });
   const { enqueueSnackbar } = useSnackbar();
-
-  const rateValue = 5;
 
   useEffect(() => {
     setAttribute(attributeDb);
@@ -173,11 +177,11 @@ export default function DetailBook() {
                 </Grid>
                 <Grid item container direction="row">
                   <Grid item>
-                    <Rating name="read-only" value={rateValue} readOnly />
+                    <Rating name="read-only" value={avgRate} readOnly />
                   </Grid>
                   <Grid item>
                     <Typography gutterBottom variant="body2">
-                      (3) By (author) {data.authorName}
+                      ({totalReview}) By (author) {data.authorName}
                     </Typography>
                   </Grid>
                 </Grid>
