@@ -1,30 +1,43 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Box, Divider, Tab, Tabs } from "@material-ui/core";
+import {
+  AppBar,
+  Box,
+  createStyles,
+  Divider,
+  Tab,
+  Tabs,
+  Theme,
+} from "@material-ui/core";
 import { RootStore } from "../../redux/store";
 import { useSelector } from "react-redux";
 
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-    maxWidth: 500,
-  },
-  rootAppBar: {
-    flexGrow: 1,
-  },
-  tab: {
-    padding: "50px 250px 20px 250px",
-  },
-  text: {
-    color: "#000000",
-    "&:hover": {
-      cursor: "pointer",
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: "100%",
+      maxWidth: 500,
     },
-  },
-  textDes: {
-    textAlign: "left",
-  },
-});
+    rootAppBar: {
+      flexGrow: 1,
+    },
+    tab: {
+      padding: "50px 250px 20px 250px",
+      [theme.breakpoints.down("sm")]: {
+        padding: 10,
+      },
+    },
+    text: {
+      color: "#000000",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+    textDes: {
+      textAlign: "justify",
+    },
+  })
+);
 
 export default function Types() {
   const classes = useStyles();

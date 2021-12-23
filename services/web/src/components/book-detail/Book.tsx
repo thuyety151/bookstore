@@ -34,6 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "auto",
       textAlign: "left",
     },
+    gridContainer : {
+      [theme.breakpoints.down('sm')]:{
+        display: "contents",
+        "& .MuiTypography-h3" :{
+          fontSize: "2em"
+        }
+      }
+    },
     img: {
       margin: "auto",
       display: "block",
@@ -158,7 +166,7 @@ export default function DetailBook() {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         {data && (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} className={classes.gridContainer}>
             <Grid item xs={5}>
               <ButtonBase>
                 <img

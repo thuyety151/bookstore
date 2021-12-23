@@ -1,11 +1,12 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Box, Divider, Grid, Tab, Tabs } from '@material-ui/core';
+import { AppBar, Box, createStyles, Divider, Grid, Tab, Tabs, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootStore } from '../../redux/store';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => 
+createStyles({
   root: {
     width: '100%',
     maxWidth: 500,
@@ -14,7 +15,10 @@ const useStyles = makeStyles({
     flexGrow: 1,
   },
   tab: {
-    padding: "50px 250px 20px 250px"
+    padding: "50px 250px 20px 250px",
+    [theme.breakpoints.down("sm")]: {
+      padding: 10,
+    },
   },
   text: {
     color: "#000000"
@@ -22,8 +26,10 @@ const useStyles = makeStyles({
   textDetail: {
     fontWeight: 600,
   }
-});
 
+})
+);
+  
 export default function Types() {
   const classes = useStyles();
   const [value, setValue] = React.useState(1);

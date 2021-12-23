@@ -29,7 +29,6 @@ export const addReview = (props: CreateReviewType) => async (dispatch: any) => {
     dispatch({ type: reviewConstants.ADD_REQUEST });
 
     const response = await api.post("/reviews", props.review);
-    console.log(response);
 
     const temp: Review = {
       id: props.review.id,
