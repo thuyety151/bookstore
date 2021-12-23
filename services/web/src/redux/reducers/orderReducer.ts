@@ -20,6 +20,7 @@ export type OrderState = {
   coupon: Coupon;
   listOrder: Order[];
   pagination: Pagination;
+  placeOrder: Order;
 };
 const initState: OrderState = {
   requesting: false,
@@ -34,6 +35,7 @@ const initState: OrderState = {
   pagination: {
     ...paginationValue,
   },
+  placeOrder: {} as Order,
 };
 
 export const total = () => {
@@ -135,6 +137,11 @@ const orderReducer = (
         requesting: false,
       };
     }
+    case NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER:
+      return {
+        ...state,
+        placeOrder: payload.data,
+      };
     default:
       return state;
   }

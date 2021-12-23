@@ -33,6 +33,7 @@ import { ROUTE_PLACE_ORDER } from "../../routers/types";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
 import StockStatus from "../../shared/enum/stockStatus";
+import { PaymentMethod } from "../../shared/enum/paymentMethod";
 
 type Props = {
   note: string;
@@ -85,10 +86,11 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
+          paymentMethod: PaymentMethod.CashOnDelivery,
           onSuccess: (code: string, orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
-                orderCode: code,
+                orderId,
               })
             );
             dispatch(getPageCart());
@@ -102,6 +104,7 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
+          paymentMethod: PaymentMethod.Momo,
           onSuccess: async (code: string, orderId: string) => {
             var response = await api.post("/momo", { orderId: orderId });
 

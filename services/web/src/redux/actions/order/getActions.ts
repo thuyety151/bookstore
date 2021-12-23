@@ -78,3 +78,13 @@ export const getAllOrder = (status: string) => async (dispatch: any) => {
     });
   }
 };
+
+export const getPlaceOrder = (id: string) => async (dispatch: any) => {
+  const response = await api.get(`/orders?id=${id}`);
+  if (response.data.isSuccess) {
+    dispatch({
+      type: NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER,
+      data: response.data.value,
+    });
+  }
+};
