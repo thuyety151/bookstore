@@ -112,7 +112,7 @@ export default function NewRelease() {
                 <Grid item xs={3} className={classes.image}>
                   <img className={classes.img} alt="complex" src={img} />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={9}>
                   <Grid container className={classes.grid}>
                     {value.books.map((item, ind) => (
                       <Grid item xs={3} key={`${value.categoryId}-${ind}`}>

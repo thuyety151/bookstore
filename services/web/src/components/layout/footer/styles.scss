@@ -1,0 +1,37 @@
+.footer {
+  &__shop-info {
+    display: flex;
+    @media screen and (max-width: 568px) {
+      flex-direction: row;
+      display: contents;
+      max-width: 60%;
+      padding-right: 30px;
+    }
+  }
+  &__contents {
+    display: inline;
+  }
+  &__more-info {
+    @media screen and (max-width: 1025px) {
+      &.category-3 {
+        display: none;
+      }
+    }
+    @media screen and (max-width: 780px) {
+      &.category-2 {
+        display: none;
+      }
+    }
+    @media screen and (max-width: 568px) {
+      display: none;
+    }
+  }
+  &__bottom {
+    &.select {
+      display: inline;
+      @media screen and (max-width: 780px) {
+        display: none;
+      }
+    }
+  }
+}

@@ -25,6 +25,8 @@ import { Switch, useHistory, useLocation } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 import { routes } from "../routers/routes";
 import PrivateRoute from "../components/route/PrivateRoute";
+import { Grid } from "@material-ui/core";
+import MenuAccount from "./components/MenuAccount";
 
 const drawerWidth = 240;
 
@@ -51,20 +53,27 @@ const MainLayout: React.FC = () => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            BookWorm Management
-          </Typography>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: open,
+                })}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap>
+                BookWorm Management
+              </Typography>
+            </Grid>
+            <Grid item>
+              <MenuAccount />
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer

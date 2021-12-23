@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "white",
       background: "#000000",
     },
+    rate: {
+      color: "#ffbf00 !important",
+    },
   })
 );
 
@@ -60,7 +63,7 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
     },
     bar: {
       borderRadius: 5,
-      backgroundColor: "#1a90ff",
+      backgroundColor: "#ffbf00",
     },
   })
 )(LinearProgress);
@@ -83,6 +86,20 @@ export default function CenteredGrid() {
   const reviews: Review[] | null = useSelector(
     (state: RootStore) => state.review.data
   );
+
+  const totalReview = reviews.length;
+  const rates = reviews.map((review) => review.rate);
+  const sumRate = rates.reduce(
+    (a, b) => (a !== null && b !== null ? a + b : 0),
+    0
+  );
+  const avgRate = sumRate ? sumRate / rates.length : 0;
+
+  const totalFiveStar = rates.filter(rate => rate === 5).length;
+  const totalFourStar = rates.filter(rate => rate === 4).length;
+  const totalThreeStar = rates.filter(rate => rate === 3).length;
+  const totalTwoStar = rates.filter(rate => rate === 2).length;
+  const totalOneStar = rates.filter(rate => rate === 1).length;
 
   const handleSubmit = () => {
     const review: CreateReview = {
@@ -137,11 +154,11 @@ export default function CenteredGrid() {
               </Grid>
               <Grid item container direction="row">
                 <Grid item xs={3}>
-                  <Typography variant="h3">4.6</Typography>
+                  <Typography variant="h3">{avgRate}</Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography variant="body1">3,714 reviews</Typography>
-                  <Rating name="read-only" value={rateValue} readOnly />
+                  <Typography variant="body1">{totalReview} reviews</Typography>
+                  <Rating name="read-only" value={avgRate} readOnly />
                 </Grid>
               </Grid>
               <Grid
@@ -168,10 +185,10 @@ export default function CenteredGrid() {
                   5 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={50} />
+                  <BorderLinearProgress variant="determinate" value={totalFiveStar} />
                 </Grid>
                 <Grid item xs={2}>
-                  205
+                  {totalFiveStar}
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={1}>
@@ -179,10 +196,10 @@ export default function CenteredGrid() {
                   4 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={50} />
+                  <BorderLinearProgress variant="determinate" value={totalFourStar} />
                 </Grid>
                 <Grid item xs={2}>
-                  55
+                  {totalFourStar}
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={1}>
@@ -190,10 +207,10 @@ export default function CenteredGrid() {
                   3 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={50} />
+                  <BorderLinearProgress variant="determinate" value={totalThreeStar} />
                 </Grid>
                 <Grid item xs={2}>
-                  23
+                  {totalThreeStar}
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={1}>
@@ -201,10 +218,10 @@ export default function CenteredGrid() {
                   2 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={50} />
+                  <BorderLinearProgress variant="determinate" value={totalTwoStar} />
                 </Grid>
                 <Grid item xs={2}>
-                  0
+                  {totalTwoStar}
                 </Grid>
               </Grid>
               <Grid item container direction="row" spacing={1}>
@@ -212,10 +229,10 @@ export default function CenteredGrid() {
                   1 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={50} />
+                  <BorderLinearProgress variant="determinate" value={totalOneStar} />
                 </Grid>
                 <Grid item xs={2}>
-                  4
+                  {totalOneStar}
                 </Grid>
               </Grid>
             </Grid>
@@ -237,6 +254,7 @@ export default function CenteredGrid() {
               <Grid item>
                 <Rating
                   name="simple-controlled"
+                  className={classes.rate}
                   value={rateValue}
                   onChange={(event, newValue) => {
                     setRateValue(newValue);

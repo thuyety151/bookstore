@@ -33,10 +33,10 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(command));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ListOrder(PagingParams pagingParams)
+        [HttpGet("get-all")]
+        public async Task<IActionResult> ListOrder([FromQuery] PagingParams pagingParams,string status)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams }));
+            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams ,Status = status}));
         }
 
         [HttpDelete]
@@ -48,6 +48,12 @@ namespace API.Controllers
         public async Task<IActionResult> Detail(Guid id)
         {
             return HandleResult(await Mediator.Send(new Detail.Query() { Id = id }));
+        }
+        [HttpDelete]
+        [Route("delete-order-fail")]
+        public async Task<IActionResult> DeleteOrderFail(string id)
+        {
+            return HandleResult(await Mediator.Send(new DeleteOrderFail.Command() { Id = id }));
         }
     }
 }

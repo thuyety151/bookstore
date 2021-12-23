@@ -32,6 +32,7 @@ import { getServices } from "../../../redux/actions/delivery/getAction";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
 import { ServiceType } from "../../../redux/reducers/deliveryReducer";
+import { total } from "../../../redux/reducers/orderReducer";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -55,7 +56,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   // const [subTotal, setSubTotal] = useState<ServiceType>(0);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
-  const orderState = useSelector((state: RootStore) => state.order);
 
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
@@ -264,8 +264,10 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           justifyContent="space-between"
           className={classes.total}
         >
-          <h3>Total</h3>
-          <h3>${subTotal() + (orderState.fee || 0)}</h3>
+          <div className="row total">
+            <h3>Total</h3>
+            <h3>${total()}</h3>
+          </div>
         </Grid>
       </Paper>
       {/* </Grid> */}

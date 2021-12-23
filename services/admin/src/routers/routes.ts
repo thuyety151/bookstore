@@ -7,6 +7,7 @@ import {
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
   ROUTE_EXAMPLE,
+  ROUTE_LOGIN,
   ROUTE_ORDERS,
   ROUTE_ORDER_CREATE,
   ROUTE_ORDER_DETAIL,
@@ -29,20 +30,28 @@ import CategoryPage from "pages/category/CategoryPage";
 import SettingsPage from "pages/settings/SettingsPage";
 import CouponsPage from "pages/coupon/CouponPage";
 import ReportPage from "pages/report/ReportPage";
-
+import LoginPage from "pages/login/LoginPage";
 import Dashboard from "pages/dashboard/Dashboard";
+
 export const routePage: Route[] = [
+  {
+    path: ROUTE_LOGIN,
+    name: "Login",
+    component: LoginPage,
+    exact: false,
+  },
   {
     path: "/",
     name: "MainLayout",
     component: MainLayout,
-    exact: true,
+    exact: false,
   },
+
   {
     path: "*",
     name: "Error",
     component: Error404,
-    exact: true,
+    exact: false,
   },
 ];
 export const routes: Route[] = [

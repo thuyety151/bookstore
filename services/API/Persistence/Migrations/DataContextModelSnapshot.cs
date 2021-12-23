@@ -530,6 +530,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("AddressToShipId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CouponId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -563,6 +566,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressToShipId");
+
+                    b.HasIndex("CouponId");
 
                     b.ToTable("Orders");
                 });
@@ -878,6 +883,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Address", "AddressToShip")
                         .WithMany()
                         .HasForeignKey("AddressToShipId");
+
+                    b.HasOne("Domain.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId");
                 });
 
             modelBuilder.Entity("Domain.Review", b =>

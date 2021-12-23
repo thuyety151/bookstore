@@ -11,8 +11,8 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Account } from "../../model/account";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../redux/actions/user/userAction";
+import { useSnackbar } from "notistack";
+import api from "../../boot/axios";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 export default function AccountDetail() {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   var user: Account = {
     firstName: "",
     lastName: "",
@@ -47,46 +47,89 @@ export default function AccountDetail() {
     user = JSON.parse(userStorage) as Account;
   }
 
-  const validationSchema = yup.object({
+  const validationSchemaInfo = yup.object({
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("Last name is required"),
   });
 
-  const formik = useFormik({
+  const validationSchemaPassword = yup.object({
+    currentPassword: yup.string().required("Password is required"),
+    newPassword: yup.string().required("New password is required"),
+    confirmPassword: yup.string().required("Confirm password is required")
+  });
+
+
+
+  const formikInfor = useFormik({
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
+    },
+    validationSchema: validationSchemaInfo,
+    onSubmit: async (values) => {
+      try{
+        var result = await api.post("/account/update-account-information", {
+          firstName: values.firstName,
+          lastName: values.lastName,
+        });
+        if (result.data.token) {
+          localStorage.setItem("user", JSON.stringify(result.data));
+          enqueueSnackbar("Update account information successfully", {variant: "success"});
+        } else {
+          enqueueSnackbar(result, {
+            variant: "error",
+          });
+        }
+      }
+      catch {
+        enqueueSnackbar("Error when updating account information", {
+          variant: "error",
+        });
+      }
+    },
+  });
+
+  const formikPassword = useFormik({
+    initialValues: {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
+    validationSchema: validationSchemaPassword,
+    onSubmit: async (values) => {
+      console.log(values)
       if (values.confirmPassword !== values.newPassword) {
-        alert("Confirm password is incorect");
+        enqueueSnackbar("Confirm password is incorect", {
+          variant: "error",
+        });
       } else {
-        localStorage.removeItem("user");
-        dispatch(
-          userActions.updateAccount(
-            values.firstName,
-            values.lastName,
-            values.currentPassword,
-            values.newPassword
-          )
-        );
-        if (localStorage.getItem("user")) {
-          alert("Update account successfully");
+        try{
+          var result = await api.post("/account/update-account-password", {
+            currentPassword: values.currentPassword,
+            newPassword: values.newPassword,
+          });
+          if (result.data.token) {
+            localStorage.setItem("user", JSON.stringify(result.data));
+            enqueueSnackbar("Update account password successfully", {variant: "success"});
+          } else {
+            enqueueSnackbar(result, {
+              variant: "error",
+            });
+          }
         }
-        else {
-            alert("Error when updating");
+        catch {
+          enqueueSnackbar("Error when updating account: Password incorrect", {
+            variant: "error",
+          });
         }
+        
       }
     },
   });
 
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formikInfor.handleSubmit}>
         <Paper className={classes.root}>
           <Grid container spacing={3}>
             <Grid item>
@@ -104,10 +147,15 @@ export default function AccountDetail() {
                     variant="outlined"
                     id="firstName"
                     name="firstName"
-                    value={formik.values.firstName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                    helperText={formik.touched.firstName && formik.errors.firstName}
+                    value={formikInfor.values.firstName}
+                    onChange={formikInfor.handleChange}
+                    error={
+                      formikInfor.touched.firstName &&
+                      Boolean(formikInfor.errors.firstName)
+                    }
+                    helperText={
+                      formikInfor.touched.firstName && formikInfor.errors.firstName
+                    }
                   />
                 </Grid>
               </Grid>
@@ -122,10 +170,14 @@ export default function AccountDetail() {
                     variant="outlined"
                     id="lastName"
                     name="lastName"
-                    value={formik.values.lastName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                    helperText={formik.touched.lastName && formik.errors.lastName}
+                    value={formikInfor.values.lastName}
+                    onChange={formikInfor.handleChange}
+                    error={
+                      formikInfor.touched.lastName && Boolean(formikInfor.errors.lastName)
+                    }
+                    helperText={
+                      formikInfor.touched.lastName && formikInfor.errors.lastName
+                    }
                   />
                 </Grid>
               </Grid>
@@ -145,8 +197,14 @@ export default function AccountDetail() {
               </Grid>
             </Grid>
           </Grid>
+           <Button variant="contained" className={classes.btn} type="submit">
+            Save Changes
+          </Button>
         </Paper>
+        </form>
         <Divider />
+
+        <form onSubmit={formikPassword.handleSubmit}>
         <Paper className={classes.root}>
           <Grid container spacing={3}>
             <Grid item>
@@ -163,9 +221,11 @@ export default function AccountDetail() {
                   variant="outlined"
                   id="currentPassword"
                   name="currentPassword"
-                  value={formik.values.currentPassword}
-                  onChange={formik.handleChange}
+                  value={formikPassword.values.currentPassword}
+                  onChange={formikPassword.handleChange}
                   type="password"
+                  error= {formikPassword.touched.currentPassword && Boolean(formikPassword.errors.currentPassword)}
+                  helperText= {formikPassword.touched.currentPassword && formikPassword.errors.currentPassword}
                 />
               </Grid>
             </Grid>
@@ -178,11 +238,13 @@ export default function AccountDetail() {
                 <TextField
                   fullWidth
                   variant="outlined"
-                  value={formik.values.newPassword}
-                  onChange={formik.handleChange}
+                  value={formikPassword.values.newPassword}
+                  onChange={formikPassword.handleChange}
                   id="newPassword"
                   name="newPassword"
                   type="password"
+                  error={formikPassword.touched.newPassword && Boolean(formikPassword.errors.newPassword)}
+                  helperText={formikPassword.touched.newPassword && formikPassword.errors.newPassword}
                 />
               </Grid>
             </Grid>
@@ -196,10 +258,12 @@ export default function AccountDetail() {
                   fullWidth
                   type="password"
                   variant="outlined"
-                  value={formik.values.confirmPassword}
-                  onChange={formik.handleChange}
+                  value={formikPassword.values.confirmPassword}
+                  onChange={formikPassword.handleChange}
                   id="confirmPassword"
                   name="confirmPassword"
+                  error={formikPassword.touched.confirmPassword && Boolean(formikPassword.errors.confirmPassword)}
+                  helperText={formikPassword.touched.confirmPassword && formikPassword.errors.confirmPassword}
                 />
               </Grid>
             </Grid>
@@ -208,7 +272,10 @@ export default function AccountDetail() {
             Save Changes
           </Button>
         </Paper>
-      </form>
+        </form>
+   
     </div>
   );
 }
+
+
