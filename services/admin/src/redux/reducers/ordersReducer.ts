@@ -40,18 +40,18 @@ const ordersReducer = (
         requesting: false,
         message: payload.message,
       };
-    case ACTION_NAMES.GET_DETAIL.GET_DETAIL:
+    case ACTION_NAMES.GET_DETAIL_ORDER.GET_DETAIL:
       return {
         ...state,
         requesting: true,
       };
-    case ACTION_NAMES.GET_DETAIL.GET_DETAIL_SUCCESS:
+    case ACTION_NAMES.GET_DETAIL_ORDER.GET_DETAIL_SUCCESS:
       return {
         ...state,
         requesting: false,
         currentOrder: payload.data,
       };
-    case ACTION_NAMES.GET_DETAIL.GET_DETAIL_FAIL:
+    case ACTION_NAMES.GET_DETAIL_ORDER.GET_DETAIL_FAIL:
       return {
         ...state,
         requesting: false,
@@ -61,17 +61,39 @@ const ordersReducer = (
           orderDate: JSON.stringify(new Date()),
         },
       };
-    case ACTION_NAMES.DELETE.DELETE:
+    case ACTION_NAMES.DELETE_ORDER.DELETE:
       return {
         ...state,
         requesting: true,
       };
-    case ACTION_NAMES.DELETE.DELETE_SUCCESS:
+    case ACTION_NAMES.DELETE_ORDER.DELETE_SUCCESS:
       return {
         ...state,
         requesting: false,
       };
-    case ACTION_NAMES.DELETE.DELETE_FAIL:
+    case ACTION_NAMES.DELETE_ORDER.DELETE_FAIL:
+      return {
+        ...state,
+        requesting: false,
+      };
+    case ACTION_NAMES.CANCEL_ORDER.CANCEL_ORDER:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.CANCEL_ORDER.CANCEL_ORDER_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        data: [
+          ...state.data.filter((x) => x.id !== payload.order.id),
+          {
+            ...payload.order,
+            status: "Cancel",
+          },
+        ],
+      };
+    case ACTION_NAMES.CANCEL_ORDER.CANCEL_ORDER_FAIL:
       return {
         ...state,
         requesting: false,

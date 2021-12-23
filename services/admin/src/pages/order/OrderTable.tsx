@@ -22,11 +22,14 @@ import EnhancedTableHead, {
 } from "components/table/EnhancedTableHead";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   Divider,
+  Grid,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
@@ -35,6 +38,7 @@ import DialogConfirm from "components/dialog/DialogConfirm";
 import OrderDetailContent from "./OrderDetailContent";
 import { useSnackbar } from "notistack";
 import { deleteOrder } from "redux/actions/order/deleteActions";
+import { cancelOrder } from "redux/actions/order/postActions";
 
 const headCells: HeadCell[] = [
   {
@@ -90,6 +94,7 @@ const OrderTable: React.FC = () => {
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
   const [modelToViewDetail, setModelToViewDetail] = useState<Order | any>(null);
   const { enqueueSnackbar } = useSnackbar();
+  const [confirmCancel, setconfirmCancel] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -122,6 +127,19 @@ const OrderTable: React.FC = () => {
   const handleOpenDelete = (id: string) => {
     setModelToDelete(id);
   };
+  const refreshTable = () => {
+    dispatch(
+      getOrderPagination({
+        pagination: {
+          ...pagination,
+          pageIndex: page + 1,
+          pageSize: rowsPerPage,
+        },
+        onSuccess: () => {},
+        onFailure: () => {},
+      })
+    );
+  };
   const handleDeleteOrder = () => {
     dispatch(
       deleteOrder({
@@ -129,17 +147,8 @@ const OrderTable: React.FC = () => {
         onSuccess: () => {
           enqueueSnackbar("Delete order successfully", { variant: "success" });
           setModelToDelete(null);
-          dispatch(
-            getOrderPagination({
-              pagination: {
-                ...pagination,
-                pageIndex: page + 1,
-                pageSize: rowsPerPage,
-              },
-              onSuccess: () => {},
-              onFailure: () => {},
-            })
-          );
+          setModelToViewDetail(null);
+          refreshTable();
         },
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -155,6 +164,24 @@ const OrderTable: React.FC = () => {
     history.push(
       generatePath(ROUTE_ORDER_EDIT, {
         orderId: id || modelToViewDetail.id,
+      })
+    );
+  };
+  const handleSetConfirmCancel = (val: boolean) => {
+    setconfirmCancel(val);
+  };
+  const handleCancelOrder = () => {
+    dispatch(
+      cancelOrder({
+        order: modelToViewDetail,
+        onSuccess: () => {
+          setModelToViewDetail(null);
+          enqueueSnackbar("Cancel order successfully!", { variant: "success" });
+          setconfirmCancel(false);
+        },
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
       })
     );
   };
@@ -174,7 +201,7 @@ const OrderTable: React.FC = () => {
               // orderBy={orderBy}
               rowCount={orderState.data.length}
               headerCells={headCells}
-              // loading={orderState.requesting}
+              loading={orderState.requesting}
             />
             <TableBody>
               {orderState.data.map((row: Order, index: number) => {
@@ -192,7 +219,9 @@ const OrderTable: React.FC = () => {
                     <TableCell>
                       <OrderStatus status={row.status} />
                     </TableCell>
-                    <TableCell>{`$${row.total}`}</TableCell>
+                    <TableCell>{`$${
+                      Math.floor(row.total * 100) / 100
+                    }`}</TableCell>
                     <TableCell>
                       <Button
                         className="btn-view"
@@ -253,7 +282,19 @@ const OrderTable: React.FC = () => {
         fullWidth
       >
         <DialogTitle id="alert-dialog-title">
-          Order #{modelToViewDetail?.orderCode}
+          <Grid container justifyContent="space-between">
+            <Grid item>Order #{modelToViewDetail?.orderCode}</Grid>
+            <Grid item>
+              {modelToViewDetail?.status === "Ready to pick" && (
+                <Button
+                  variant="outlined"
+                  onClick={() => handleSetConfirmCancel(true)}
+                >
+                  Cancel Delivery
+                </Button>
+              )}
+            </Grid>
+          </Grid>
         </DialogTitle>
         <Divider />
         <DialogContent>
@@ -265,6 +306,27 @@ const OrderTable: React.FC = () => {
           </Button>
           <Button onClick={() => handleEdit()} color="primary" autoFocus>
             Edit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={confirmCancel}
+        onClose={() => handleSetConfirmCancel(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Cancel order ?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure to cancel this order ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleSetConfirmCancel(false)} color="primary">
+            Close
+          </Button>
+          <Button onClick={handleCancelOrder} color="primary" autoFocus>
+            {orderState.requesting ? <CircularProgress /> : "OK"}
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,0 +1,7 @@
+export const shopInfo = {
+  district_id: 3695, // tp thu duc
+  service_id: 53320,
+  service_type_id: null,
+  shop_id: 82749,
+  ward_code: "90737", // linh trung
+};
