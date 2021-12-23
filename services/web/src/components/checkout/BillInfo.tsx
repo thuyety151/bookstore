@@ -210,7 +210,7 @@ export default function BillInfo(props: Props) {
         </Paper>
       </Collapse>
       {/* shippine */}
-      <Collapse in={openSection.shipping} collapsedSize={82}>
+      <Collapse in={openSection.shipping} collapsedSize={86}>
         <Paper variant="outlined" className={classes.paper}>
           <div>
             <h3>Shipping</h3>
@@ -387,6 +387,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& .address": {
       display: "grid",
+      paddingTop: "12px",
     },
     "& .total": {
       "& h3": {
