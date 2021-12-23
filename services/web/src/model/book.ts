@@ -15,4 +15,5 @@ export interface Book {
   languageId: string;
   language: string;
   totalStock: number;
+  attributeName: string;
 }

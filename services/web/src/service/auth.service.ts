@@ -1,10 +1,10 @@
+
 import api from "../boot/axios";
 
 export const userService = {
   login,
   logout,
   register,
-  updateAccount,
 };
 
 function login(email: any, password: any) {
@@ -30,26 +30,6 @@ function logout() {
   localStorage.removeItem("user");
 }
 
-function updateAccount(
-  firstName: any,
-  lastName: any,
-  currentPassword: any,
-  newPassword: any
-) {
-  return api
-    .post("/account/update-account", {
-      firstName,
-      lastName,
-      currentPassword,
-      newPassword,
-    })
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
-      return response.data;
-    });
-}
 
 export type FacebookLoginType = {
   accessToken: string;
@@ -59,15 +39,17 @@ export type FacebookLoginType = {
 export const loginFacebook = (props: FacebookLoginType) => async (
   dispatch: any
 ) => {
-  var response = await api.post("/facebook-login", props.accessToken);
+  var response = await api.post(
+    `/account/facebook-login?accessToken=${props.accessToken}`,
+    {}
+  );
 
   console.log(JSON.stringify(response));
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
     props.onSuccess();
-  }
-  else {
-      props.onFailure("Unauthorize")
+  } else {
+    props.onFailure("Unauthorize");
   }
 };
