@@ -93,7 +93,7 @@ export const createOrder =
             /**
              * Delete order when create GHN fail
              */
-            await api.delete("/orders", {
+            await api.delete("/orders/delete-order-fail", {
               params: {
                 id: response.data.value,
               },
@@ -110,7 +110,7 @@ export const createOrder =
         /**
          * Delete order when create GHN fail
          */
-        await api.delete("/orders", {
+        await api.delete("/orders/delete-order-fail", {
           params: {
             id: response.data.value,
           },
