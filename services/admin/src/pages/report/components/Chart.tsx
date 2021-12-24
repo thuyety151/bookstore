@@ -31,7 +31,7 @@ const Chart: React.FC = () => {
     <div className="charts">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper>
+          <Paper variant="outlined">
             <Typography variant="h5">Net Sales</Typography>
             <AreaChart
               data={data}
@@ -57,7 +57,7 @@ const Chart: React.FC = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper>
+          <Paper variant="outlined">
             <Typography variant="h5">Refunded order</Typography>
             <LineChart
               width={1000}
@@ -82,7 +82,7 @@ const Chart: React.FC = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper>
+          <Paper variant="outlined">
             <Typography variant="h5">Charged for shipping</Typography>
             <LineChart
               width={1000}
@@ -107,7 +107,7 @@ const Chart: React.FC = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper>
+          <Paper variant="outlined">
             <Typography variant="h5">Item Purchased & Order Placed</Typography>
             <BarChart
               width={1000}

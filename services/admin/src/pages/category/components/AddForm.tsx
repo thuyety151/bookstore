@@ -3,6 +3,7 @@ import {
   Grid,
   makeStyles,
   MenuItem,
+  Paper,
   Select,
   TextField,
   Theme,
@@ -107,72 +108,77 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   };
   return (
     <div className={classes.root}>
-      <Grid>
-        {!props.model && (
-          <Typography className="bolder">Add new category</Typography>
-        )}
-        <br />
-        <Typography>Name</Typography>
-        <VInput
-          value={formValue.name}
-          onChange={handleChange("name")}
-          margin="dense"
-          inputRef={(input) => {
-            if (input != null && isSubmit) {
-              input.focus();
-              input.blur();
-            }
-          }}
-          rules={[ValidationName.Required]}
-        />
-        <br />
-        <Typography>Slug</Typography>
-        <TextField
-          variant="outlined"
-          value={formValue.slug}
-          multiline
-          onChange={handleChange("slug")}
-          margin="dense"
-        />
-        <br />
-        <Typography>Parent category</Typography>
-        <Select
-          variant="outlined"
-          value={formValue.parentId}
-          fullWidth
-          onChange={handleChange("parentId")}
-          margin="dense"
-        >
-          {options.map((item: any, index: number) => {
-            return (
-              <MenuItem key={index} value={item.id}>
-                {item.name}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <br />
-        <Typography>Description</Typography>
-        <TextField
-          variant="outlined"
-          value={formValue.description}
-          multiline
-          onChange={handleChange("description")}
-          margin="dense"
-        />
-        <br />
-        <Typography>Image</Typography>
-        <ProductImage media={formValue.media} changeImage={handleImageChange} />
-        <br />
-        <ContainedButton
-          text={props.model ? "Save" : "Add category"}
-          style={{
-            width: "fit-content",
-          }}
-          disabled={resquesting}
-          onClick={() => handleSubmit()}
-        />
-      </Grid>
+      <Paper variant="outlined" style={{ padding: "16px" }}>
+        <Grid>
+          {!props.model && (
+            <Typography className="bolder">Add new category</Typography>
+          )}
+          <br />
+          <Typography>Name</Typography>
+          <VInput
+            value={formValue.name}
+            onChange={handleChange("name")}
+            margin="dense"
+            inputRef={(input) => {
+              if (input != null && isSubmit) {
+                input.focus();
+                input.blur();
+              }
+            }}
+            rules={[ValidationName.Required]}
+          />
+          <br />
+          <Typography>Slug</Typography>
+          <TextField
+            variant="outlined"
+            value={formValue.slug}
+            multiline
+            onChange={handleChange("slug")}
+            margin="dense"
+          />
+          <br />
+          <Typography>Parent category</Typography>
+          <Select
+            variant="outlined"
+            value={formValue.parentId}
+            fullWidth
+            onChange={handleChange("parentId")}
+            margin="dense"
+          >
+            {options.map((item: any, index: number) => {
+              return (
+                <MenuItem key={index} value={item.id}>
+                  {item.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <br />
+          <Typography>Description</Typography>
+          <TextField
+            variant="outlined"
+            value={formValue.description}
+            multiline
+            onChange={handleChange("description")}
+            margin="dense"
+          />
+          <br />
+          <Typography>Image</Typography>
+          <ProductImage
+            media={formValue.media}
+            changeImage={handleImageChange}
+          />
+          <br />
+          <ContainedButton
+            text={props.model ? "Save" : "Add category"}
+            style={{
+              width: "fit-content",
+            }}
+            disabled={resquesting}
+            onClick={() => handleSubmit()}
+          />
+        </Grid>
+      </Paper>
     </div>
   );
 };

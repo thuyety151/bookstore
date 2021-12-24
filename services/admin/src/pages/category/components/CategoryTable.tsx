@@ -63,14 +63,14 @@ const headCells: HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: "Count",
-    width: "10%",
+    width: "5%",
   },
   {
     id: "actions",
     numeric: true,
     disablePadding: false,
     label: "",
-    width: "15%",
+    width: "25%",
   },
 ];
 
@@ -186,7 +186,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   };
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
             className={classes.table}

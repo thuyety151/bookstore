@@ -72,7 +72,7 @@ const ReportPage: React.FC = () => {
   return (
     <div className="report">
       <Grid item xs={12}>
-        <Paper className={classes.paperNav}>
+        <Paper className={classes.paperNav} variant="outlined">
           <List
             component="nav"
             aria-label="secondary mailbox folder"
@@ -102,7 +102,7 @@ const ReportPage: React.FC = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={2} className="quick-view">
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
               ${Math.floor(sum(data.flatMap((x) => x.netSale)) / 100) * 100}
             </Typography>
@@ -110,7 +110,7 @@ const ReportPage: React.FC = () => {
               net sales in this period
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
               {Math.floor(sum(data.flatMap((x) => x.orderPlaced)) / 100) * 100}
             </Typography>
@@ -118,7 +118,7 @@ const ReportPage: React.FC = () => {
               orders placed
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
               {Math.floor(sum(data.flatMap((x) => x.itemsPurchased)) / 100) *
                 100}
@@ -127,7 +127,7 @@ const ReportPage: React.FC = () => {
               items purchased
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
               ${Math.floor(sum(data.flatMap((x) => x.refunded)) / 100) * 100}
             </Typography>
@@ -135,7 +135,7 @@ const ReportPage: React.FC = () => {
               refunded order
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
               ${Math.floor(sum(data.flatMap((x) => x.shippingFee)) / 100) * 100}
             </Typography>

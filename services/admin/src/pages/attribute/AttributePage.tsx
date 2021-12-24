@@ -13,8 +13,8 @@ const AttributePage: React.FC = () => {
   const { success } = useSelector((state: RootStore) => state.attributes);
 
   return (
-    <div>
-      <Grid container justifyContent="space-evenly">
+    <div style={{ margin: "0 16px" }}>
+      <Grid container justifyContent="space-around">
         <Grid item xs={6} className={classes.table}>
           <AttributeTable setModelEdit={setModelEdit} />
         </Grid>
@@ -32,7 +32,7 @@ const AttributePage: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     table: {
-      marginLeft: theme.spacing(5),
+      // marginLeft: theme.spacing(5),
     },
   })
 );

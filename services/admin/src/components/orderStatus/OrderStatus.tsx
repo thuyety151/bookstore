@@ -57,14 +57,14 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "fit-content",
       "& .cancel ": {
         "& .MuiButton-containedPrimary": {
-          backgroundColor: "#e13610 ",
-          color: "#fff",
+          backgroundColor: "#faded7 ",
+          color: "#e13610",
         },
       },
       "& .ready-to-pick": {
         "& .MuiButton-containedPrimary": {
-          backgroundColor: "#4279ee",
-          color: "#fff",
+          backgroundColor: "#e2edfe",
+          color: "#639dfa",
         },
       },
     },

@@ -111,7 +111,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <Grid>
           {!props.model && (
             <Typography className="bolder">Add new coupon</Typography>
