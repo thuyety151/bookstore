@@ -146,7 +146,15 @@ export const cancelOrder =
         shop_id: shopAddress.shop_id,
       });
       if (response.data.code === 200) {
-        props.onSuccess();
+        const result = await api.post("/orders/update-order-status", {
+          order_codes: [props.orderCode]
+        })
+        if(result.data.isSuccess){
+          props.onSuccess();
+        }
+        else {
+          props.onFailure(response.data?.message);
+        }
       } else {
         props.onFailure(response.data?.message);
       }

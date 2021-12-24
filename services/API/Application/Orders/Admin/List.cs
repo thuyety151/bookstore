@@ -57,29 +57,29 @@ namespace Application.Orders.Admin
                 }
 
                 // Get status from GHN API
-                _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
-                foreach (var order in orders)
-                {
-                    var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
+                // _httpClient.DefaultRequestHeaders.Add("Token", "a907bd6b-3508-11ec-b514-aeb9e8b0c5e3");
+                // foreach (var order in orders)
+                // {
+                //     var url = string.Format("/shiip/public-api/v2/shipping-order/detail?order_code={0}", order.OrderCode);
+                //
+                //     var response = await _httpClient.GetAsync(url);
+                //
+                //     // if (!response.IsSuccessStatusCode)
+                //     // {
+                //     //     return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
+                //     // }
+                //     if (response.IsSuccessStatusCode)
+                //     {
+                //         var orderDetailGhn =
+                //             JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                //
+                //         var statusGhn = (string) orderDetailGhn.data.status;
+                //
+                //         order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
+                //     }
+                // }
 
-                    var response = await _httpClient.GetAsync(url);
-
-                    // if (!response.IsSuccessStatusCode)
-                    // {
-                    //     return Result<PagedList<OrderDto>>.Failure("Order does not exist in GiaoHangNhanh");
-                    // }
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var orderDetailGhn =
-                            JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-
-                        var statusGhn = (string) orderDetailGhn.data.status;
-
-                        order.Status = _context.OrderStatus.FirstOrDefault(x => x.Key == statusGhn)?.Name;
-                    }
-                }
-
-                await _context.SaveChangesAsync();
+               // await _context.SaveChangesAsync();
                 if (request.Status != null)
                 {
                     orders = orders.Where(x => x.Status == request.Status);

@@ -49,11 +49,12 @@ export const total = (feeProp?: number) => {
       ? coupon.couponAmount / 100
       : formatVNDtoUSD(coupon.couponAmount) || 0;
   return (
-    Math.floor(
+    Math.round(Math.floor(
       (sum(items.map((x) => x.quantity * x.price)) + (feeToCal || 0)) *
         (1 - couponAmount) *
         100
-    ) / 100 || 0
+    ) / 100 || 0) /100
+    
   );
 };
 
