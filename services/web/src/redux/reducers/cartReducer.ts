@@ -100,7 +100,6 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
         itemToCheckOut: state.data,
       };
     case ORDER_NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE:
-
       return initState;
     default:
       return state;

@@ -87,7 +87,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
               {item.author}
             </Typography>
           </Grid>
-          {item.salePrice === "" ? (
+          {!item.salePrice ? (
             <Grid item>
               <Typography variant="subtitle1" className={classes.currentPrice}>
                 ${item.price}

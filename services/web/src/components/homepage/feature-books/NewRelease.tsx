@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
 import { getNewReleases } from "../../../redux/actions/books/geNewRelease";
 import { NewReleaseType } from "../../../model/newRelease";
-
+import "./styles.scss";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
@@ -115,7 +115,12 @@ export default function NewRelease() {
                 <Grid item xs={9}>
                   <Grid container className={classes.grid}>
                     {value.books.map((item, ind) => (
-                      <Grid item xs={3} key={`${value.categoryId}-${ind}`}>
+                      <Grid
+                        item
+                        xs={3}
+                        key={`${value.categoryId}-${ind}`}
+                        className="new-release-item"
+                      >
                         <BookItem item={item} />
                       </Grid>
                     ))}
