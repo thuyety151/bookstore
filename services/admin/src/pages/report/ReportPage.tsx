@@ -17,9 +17,10 @@ import { getReports } from "redux/actions/report/getActions";
 import { RootStore } from "redux/store";
 import Chart from "./components/Chart";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import {CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
+import "./styles.scss";
 
-const reportOptions = [
+export const reportOptions = [
   {
     name: "Last 7 days",
     value: "last-7-days",
@@ -40,7 +41,7 @@ const reportOptions = [
 const ReportPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const { data } = useSelector((state: RootStore) => state.reports);
 
   const handleListItemClick = (
@@ -69,9 +70,9 @@ const ReportPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="report">
       <Grid item xs={12}>
-        <Paper className={classes.paperNav}>
+        <Paper className={classes.paperNav} variant="outlined">
           <List
             component="nav"
             aria-label="secondary mailbox folder"
@@ -80,6 +81,7 @@ const ReportPage: React.FC = () => {
             {reportOptions.map((item, index) => (
               <ListItem
                 button
+                key={`select-${index}`}
                 selected={selectedIndex === index}
                 onClick={(event) => handleListItemClick(event, index)}
               >
@@ -91,56 +93,59 @@ const ReportPage: React.FC = () => {
       </Grid>
       <Button
         variant="contained"
-        color="secondary"
+        // color="secondary"
         className={classes.btnExport}
       >
         <GetAppIcon />
         <CSVLink {...csvReport}> Export CSV</CSVLink>
       </Button>
-      <Grid container>
-        <Grid item xs={3} className={classes.left}>
-          <Paper className={classes.paperItem}>
+
+      <Grid container spacing={2}>
+        <Grid item xs={2} className="quick-view">
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${sum(data.flatMap((x) => x.netSale))}
+              ${Math.floor(sum(data.flatMap((x) => x.netSale)) / 100) * 100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               net sales in this period
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              {sum(data.flatMap((x) => x.orderPlaced))}
+              {Math.floor(sum(data.flatMap((x) => x.orderPlaced)) / 100) * 100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               orders placed
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              {sum(data.flatMap((x) => x.itemsPurchased))}
+              {Math.floor(sum(data.flatMap((x) => x.itemsPurchased)) / 100) *
+                100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               items purchased
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${sum(data.flatMap((x) => x.refunded))}
+              ${Math.floor(sum(data.flatMap((x) => x.refunded)) / 100) * 100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               refunded order
             </Typography>
           </Paper>
-          <Paper className={classes.paperItem}>
+          <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${sum(data.flatMap((x) => x.shippingFee))}
+              ${Math.floor(sum(data.flatMap((x) => x.shippingFee)) / 100) * 100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               charged for shipping
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={9}>
+        {/* <br /> */}
+        <Grid item xs={10}>
           <Chart />
         </Grid>
       </Grid>
@@ -158,7 +163,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "#fff",
       height: 90,
       width: "100%",
-      padding: "20px 10px",
+      padding: "20px 10px 0",
     },
     flexContainer: {
       display: "flex",
@@ -172,7 +177,9 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#1167b1",
     },
     btnExport: {
-      margin: "5px 20px",
+      margin: "8px 0",
+      backgroundColor: "#487cec",
+      color: "#fff",
     },
   })
 );

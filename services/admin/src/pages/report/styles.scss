@@ -1,0 +1,29 @@
+.quick-view {
+  //   display: flex;
+  padding: 0;
+  .MuiPaper-root {
+    width: 100% !important;
+    margin-right: 20px;
+  }
+}
+.charts {
+  .MuiPaper-root {
+    width: 100%;
+    padding: 20px;
+  }
+}
+.report {
+  padding: 0 5rem;
+  a {
+    color: #fff !important;
+  }
+}
+.recharts-legend-wrapper {
+  position: inherit !important;
+}
+.recharts-wrapper {
+  width: 100% !important;
+  height: auto !important;
+  justify-items: center;
+  display: grid;
+}

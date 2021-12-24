@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { login } from "redux/actions/user/userAction";
 import { RootStore } from "redux/store";
-import { ROUTE_DASHBOARD } from "routers/types";
+import { ROUTE_REPORT } from "routers/types";
 
 const LoginPage: React.FC = () => {
   const classes = useStyles();
@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
       login({
         form,
         onSuccess: () => {
-          history.push(ROUTE_DASHBOARD);
+          history.push(ROUTE_REPORT);
         },
         onFailure: (error: any) => {
           setInvalid(true);

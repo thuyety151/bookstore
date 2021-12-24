@@ -197,7 +197,7 @@ export default function ProductTable() {
       <Button className={classes.btnAddNew} onClick={navToAdd}>
         Add New
       </Button>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
             className={classes.table}
@@ -234,7 +234,17 @@ export default function ProductTable() {
                     </TableCell>
                     <TableCell className="primary bolder">{row.name}</TableCell>
                     <TableCell>
-                      {row.stockStatus === "InStock" ?  <Chip label={ProductStatusEnum.InStock} color="secondary" /> :  <Chip label={ProductStatusEnum.OutOfStock} color="primary" />}
+                      {row.stockStatus === "InStock" ? (
+                        <Chip
+                          label={ProductStatusEnum.InStock}
+                          color="secondary"
+                        />
+                      ) : (
+                        <Chip
+                          label={ProductStatusEnum.OutOfStock}
+                          color="primary"
+                        />
+                      )}
                     </TableCell>
                     <TableCell className={classes.price}>
                       ${row.price}

@@ -19,7 +19,7 @@ export const updateSettings =
           data: props.data,
         });
         props.onSuccess();
-      } else {
+    } else {
         dispatch({ type: ACTION_NAMES.UPDATE_SETTINGS.UPDATE_FAIL });
         props.onFailure();
       }

@@ -19,7 +19,6 @@ import DialogConfirm from "components/dialog/DialogConfirm";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
 import { useSnackbar } from "notistack";
-import { deleteAttribute } from "redux/actions/attribute/postAction";
 import { getCouponPagination } from "redux/actions/coupon/getAction";
 import { Coupon } from "redux/reducers/couponReducer";
 import { format } from "date-fns";
@@ -110,7 +109,7 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
 
   useEffect(() => {
     dispatch(
-        getCouponPagination({
+      getCouponPagination({
         pagination: {
           ...pagination,
           pageIndex: page + 1,
@@ -165,7 +164,7 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
   };
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
             className={classes.table}
@@ -191,8 +190,14 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                     <TableCell>{row.code}</TableCell>
                     <TableCell>{row.description}</TableCell>
                     <TableCell>{row.couponAmount}</TableCell>
-                    <TableCell>{row.discountType === 0 ? "Fixed cart" : "Percentage"}</TableCell>
-                    <TableCell>{ row.expireDate === null ? "" : format(new Date(row.expireDate), 'dd/MM/yyyy')}</TableCell>
+                    <TableCell>
+                      {row.discountType === 0 ? "Fixed cart" : "Percentage"}
+                    </TableCell>
+                    <TableCell>
+                      {row.expireDate === null
+                        ? ""
+                        : format(new Date(row.expireDate), "dd/MM/yyyy")}
+                    </TableCell>
                     <TableCell>
                       <Button
                         className="btn-view"

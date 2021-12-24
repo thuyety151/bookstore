@@ -56,6 +56,7 @@ const Dashboard: React.FC = () => {
           Execute
         </Button>
       </Grid>
+
       <ComposedChart width={1500} height={800} data={data}>
         <XAxis dataKey="name" axisLine={false} tickLine={false} />
         <YAxis yAxisId="left" />

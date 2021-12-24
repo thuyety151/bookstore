@@ -12,10 +12,10 @@ export type DeleteOrderProps = {
 export const deleteOrder =
   (props: DeleteOrderProps) => async (dispatch: any) => {
     const orderState = store.getState().orders;
-    dispatch({ type: ACTION_NAMES.DELETE.DELETE });
+    dispatch({ type: ACTION_NAMES.DELETE_ORDER.DELETE });
     const response = await api.delete(`/orders?Id=${props.id}`);
     if (response.data.isSuccess) {
-      dispatch({ type: ACTION_NAMES.DELETE.DELETE_SUCCESS });
+      dispatch({ type: ACTION_NAMES.DELETE_ORDER.DELETE_SUCCESS });
       getOrderPagination({
         pagination: orderState.pagination,
         onSuccess: () => {},
@@ -23,7 +23,7 @@ export const deleteOrder =
       });
       props.onSuccess();
     } else {
-      dispatch({ type: ACTION_NAMES.DELETE.DELETE_FAIL });
+      dispatch({ type: ACTION_NAMES.DELETE_ORDER.DELETE_FAIL });
       props.onFailure(response.data.error);
     }
   };

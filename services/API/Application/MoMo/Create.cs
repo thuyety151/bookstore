@@ -43,8 +43,8 @@ namespace Application.MoMo
                 string accessKey = _configuration["MoMo:AccessKey"];
                 string secretKey = _configuration["MoMo:SecretKey"];
                 string orderInfo = "Book worm";
-                string redirectUrl = _configuration["MoMo:RedirectUrl"] + order.OrderCode;
-                string ipnUrl = _configuration["MoMo:IpnUrl"];
+                string redirectUrl = _configuration["MoMo:RedirectUrl"] + order.Id;
+                string ipnUrl = "https://momo.vn";
                 string requestType = "captureWallet";
 
                 long amount = (long)(order.SubTotal + order.OrderFee) * 23000;

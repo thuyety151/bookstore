@@ -62,10 +62,15 @@ export type NavigationItem = {
 };
 
 export const NAVIGATION_LIST: NavigationItem[] = [
+  // {
+  //   title: "Dashboard",
+  //   icon: "grid_view",
+  //   pathName: ROUTE_DASHBOARD,
+  // },
   {
-    title: "Dashboard",
-    icon: "grid_view",
-    pathName: ROUTE_DASHBOARD,
+    title: "Report",
+    icon: "assessment",
+    pathName: ROUTE_REPORT,
   },
   {
     title: "Products",
@@ -97,21 +102,17 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     icon: "confirmation_number",
     pathName: ROUTE_COUPONS,
   },
-  {
-    title: "Report",
-    icon: "assessment",
-    pathName: ROUTE_REPORT,
-  },
-  {
-    title: "Users",
-    icon: "people_outline",
-    pathName: ROUTE_USERS,
-  },
-  {
-    title: "Example",
-    icon: "people_outline",
-    pathName: ROUTE_EXAMPLE,
-  },
+
+  // {
+  //   title: "Users",
+  //   icon: "people_outline",
+  //   pathName: ROUTE_USERS,
+  // },
+  // {
+  //   title: "Example",
+  //   icon: "people_outline",
+  //   pathName: ROUTE_EXAMPLE,
+  // },
 ];
 
 export const PUBLIC_URL = {

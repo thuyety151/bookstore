@@ -32,7 +32,8 @@ const OrderEdit: React.FC = () => {
 
   useEffect(() => {
     dispatch(getDetail(orderId));
-  }, [dispatch, orderId]);
+    // eslint-disable-next-line
+  }, [orderId]);
 
   const handleChangeOrderNote = (
     event: React.ChangeEvent<{ value: unknown }>
@@ -118,9 +119,7 @@ const OrderEdit: React.FC = () => {
             />
             <ContainedButton
               text={order.orderNote ? "Update" : "Add"}
-              props={{
-                style: { width: "fit-content" },
-              }}
+              style={{ width: "fit-content" }}
             />
           </Grid>
         </Paper>

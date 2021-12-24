@@ -1,5 +1,9 @@
-import React from "react";
+import { reportOptions } from "pages/report/ReportPage";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
+import { getReports } from "redux/actions/report/getActions";
+import { RootStore } from "redux/store";
 import {
   PRIVATE_ROUTES,
   RouteConfig,
@@ -15,6 +19,15 @@ const PrivateRoute: React.FC<{
 }> = (props) => {
   const routeConfig: RouteConfig = (PRIVATE_ROUTES as any)[props.path];
   const user = JSON.parse(localStorage.getItem("user")!);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state: RootStore) => state.reports);
+
+  useEffect(() => {
+    if (!data.length) {
+      dispatch(getReports(reportOptions[0].value));
+    }
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   const condition = () => {
     if (!routeConfig) {

@@ -291,7 +291,7 @@ const Example: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <VInput />
         <p>Button Order status</p>
         <OrderStatus status={OrderStatusEnum.Delivered} />

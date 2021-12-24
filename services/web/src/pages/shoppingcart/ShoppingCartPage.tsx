@@ -15,6 +15,8 @@ import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { vnf_regex } from "../../helper/validator";
 // import { getServices } from "../../redux/actions/delivery/getAction";
+import "./styles.scss";
+import clsx from "clsx";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
@@ -40,31 +42,36 @@ const ShoppingCartPage: React.FC = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, "page-cart")}>
       <Grid container justifyContent="center" alignContent="center">
-        <Grid item>
+        <Grid item className="page-cart__title">
           <Typography variant="h4" className={classes.title}>
             Your cart: {items.data.length} items
           </Typography>
         </Grid>
         <Grid
-          item
           container
-          justifyContent="center"
-          spacing={4}
+          justifyContent="space-evenly"
           style={{ marginRight: 0 }}
         >
-          <Grid item xs={7}>
+          <Grid item sm={6} className="page-cart__table">
             <CartTable />
           </Grid>
-          <Grid item className={classes.checkout}>
+          <Grid
+            item
+            sm={4}
+            className={clsx(classes.checkout, "page-cart__info")}
+          >
             <CartInfo
               chooseAddress={chooseAddress}
               setChooseAddress={setChooseAddress}
             />
             <PrimaryButton
               text="Proceed to checkout"
-              props={{ onClick: () => handleClick() }}
+              props={{
+                onClick: () => handleClick(),
+                style: { margin: "16px 0 0" },
+              }}
             />
           </Grid>
         </Grid>

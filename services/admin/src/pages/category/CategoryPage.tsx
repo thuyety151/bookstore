@@ -15,10 +15,10 @@ const CategoryPage: React.FC = () => {
   return (
     <div>
       <Grid container justifyContent="space-around">
-        <Grid item xs={6} className={classes.table}>
+        <Grid item xs={7} className={classes.table}>
           <CategoryTable setModelEdit={setModelEdit} />
         </Grid>
-        <Grid item xs={5} key={Number(success)}>
+        <Grid item xs={4} key={Number(success)}>
           <AddForm />
         </Grid>
         <Grid item xs={12}>
