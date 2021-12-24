@@ -12,5 +12,17 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(command));
         }
+        
+        [HttpPost("payment-notification")]
+        public async Task<IActionResult> PaymentNotification(PaymentNotificationParams paymentNotificationParams)
+        {
+            return HandleResult(await Mediator.Send(new PaymentNotification.Command(){PaymentNotificationParams = paymentNotificationParams}));
+        }
+        
+        [HttpPost("refund")]
+        public async Task<IActionResult> Refund(Refund.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
     }
 }

@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@types/react-swipeable-views": "^0.13.1",
     "axios": "^0.21.1",
+    "date-fns": "^2.27.0",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "notistack": "^1.0.10",

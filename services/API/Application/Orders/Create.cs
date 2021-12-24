@@ -42,13 +42,11 @@ namespace Application.Orders
             {
                 _context = context;
                 _httpContext = httpContext;
-               
+
             }
 
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
-               
-
                 //Get list item 
                 var items = _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString()));
 
@@ -61,9 +59,9 @@ namespace Application.Orders
                     {
                         return Result<Guid>.Failure("Book is out of stock");
                     }
-                
+
                     bookAttribute.TotalStock -= item.Quantity;
-                    
+
                     // handle total stock status
                     if (bookAttribute.TotalStock == 0)
                     {
@@ -75,18 +73,18 @@ namespace Application.Orders
                 {
                     Id = new Guid(),
                     OrderDate = DateTime.Now,
-                    Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name ,
+                    Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name,
                     PaymentMethod = (int) PaymentMethod.CashOnDelivery,
                     PaymentStatus = PaymentStatus.Pending,
                     SubTotal = items.Select(x => x.Price * x.Quantity).Sum(),
                     OrderNote = request.OrderParams.OrderNote,
                     UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    AddressToShip = _context.Addresses.FirstOrDefault(x => x.Id == request.OrderParams.AddressId),
+                    AddressToShip = request.OrderParams.Address,
                     Items = new List<Item>()
                 };
-                
+
                 // CHECK COUPON
-                if (request.OrderParams.Coupon != null)
+                if (request.OrderParams.Coupon?.Code != null)
                 {
                     var coupon = await _context.Coupons.Include(x => x.Books)
                         .SingleOrDefaultAsync((x) =>
@@ -101,7 +99,7 @@ namespace Application.Orders
                         return Result<Guid>.Failure("Coupon is expired");
                     }
 
-                    if (coupon.DiscountType == (int)DiscountType.Percentage)
+                    if (coupon.DiscountType == (int) DiscountType.Percentage)
                     {
                         order.SubTotal = order.SubTotal - (coupon.CouponAmount * order.SubTotal) / 100;
                     }
@@ -109,7 +107,7 @@ namespace Application.Orders
                     {
                         order.SubTotal = order.SubTotal - coupon.CouponAmount;
                     }
-                    
+                    order.Coupon = coupon;
                 }
 
                 var cart = _context.Carts.Include(x => x.Items)
@@ -124,7 +122,7 @@ namespace Application.Orders
                             order.Items.Add(item);
                         }
                     }
-                
+
                 await _context.Orders.AddAsync(order);
                 var result = await _context.SaveChangesAsync() > 0;
 
@@ -132,7 +130,7 @@ namespace Application.Orders
                 {
                     return Result<Guid>.Failure("Error when create order");
                 }
-                
+
                 return Result<Guid>.Success(order.Id);
             }
         }

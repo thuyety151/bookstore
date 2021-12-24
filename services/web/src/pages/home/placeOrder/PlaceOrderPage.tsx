@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -12,6 +12,7 @@ import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { total } from "../../../redux/reducers/orderReducer";
+import api from "../../../boot/axios";
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
@@ -26,6 +27,26 @@ const PlaceOrderPage: React.FC = () => {
     districtName,
     provinceName,
   } = addressState.currentAddress;
+
+  const query = new URLSearchParams(window.location.search);
+  const transId = Number(query.get('transId')) ??0;
+  const resultCode = Number(query.get('resultCode')) ?? -1;
+  const orderId = query.get('orderId');
+
+  useEffect(() => {
+    console.log("transid & resultcode:" + transId + ' ' + resultCode + ' ' + orderId);
+    if(transId !== 0  && resultCode !== -1 )
+    {
+      console.log("alo")
+      var response = api.post('/momo/payment-notification', {
+        transId : transId,
+        resultCode: resultCode,
+        orderId: orderId
+      });
+      console.log('response:' + JSON.stringify(response));
+    }
+      
+  }, [])
 
   return (
     <div className={classes.root}>

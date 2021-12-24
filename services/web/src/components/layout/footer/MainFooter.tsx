@@ -26,10 +26,9 @@ const FooterComponent: React.FC = () => {
           <Grid
             item
             xs={3}
-            direction="column"
-            spacing={3}
-            wrap="nowrap"
-            style={{ textAlign: "left" }}
+            // direction="column"
+            // wrap="nowrap"
+            style={{ textAlign: "left", display: "grid" }}
             className="footer__shop-info"
           >
             <img
