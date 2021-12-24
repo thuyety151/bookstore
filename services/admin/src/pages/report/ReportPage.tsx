@@ -20,7 +20,7 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import { CSVLink } from "react-csv";
 import "./styles.scss";
 
-const reportOptions = [
+export const reportOptions = [
   {
     name: "Last 7 days",
     value: "last-7-days",
