@@ -54,7 +54,7 @@ const MainLayout: React.FC = () => {
       >
         <Toolbar>
           <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item>
+            <Grid item className={classes.headerItem}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -197,6 +197,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3, 0),
       minHeight: "100vh",
+    },
+    headerItem: {
+      display: "flex",
+      alignItems: "center",
     },
   })
 );

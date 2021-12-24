@@ -28,7 +28,7 @@ const reportReducer = (
     case ACTION_NAMES.GET_REPORTS.GET_REPORTS:
       return {
         ...state,
-        data: [] as any,
+        // data: [] as any,
         requesting: true,
       };
     case ACTION_NAMES.GET_REPORTS.GET_REPORTS_SUCCESS:

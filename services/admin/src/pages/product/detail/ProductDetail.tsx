@@ -46,7 +46,6 @@ import { addBook } from "redux/actions/product/postAction";
 import { useSnackbar } from "notistack";
 import VInput from "components/form/VInput";
 import { ValidationName } from "helper/useValidator";
-import { get } from "lodash";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -413,7 +412,7 @@ export default function ProductDetail() {
     <div className={classes.root}>
       <Grid container direction="row" spacing={2}>
         <Grid item container xs={9} direction="column" spacing={2}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} variant="outlined">
             <Grid item>
               {/* <TextField
                 id="name"
@@ -446,7 +445,7 @@ export default function ProductDetail() {
             </Grid>
           </Paper>
           <Grid item className={classes.richText}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} variant="outlined">
               <Editor
                 editorState={description}
                 toolbarClassName="toolbarClassName"
@@ -457,10 +456,10 @@ export default function ProductDetail() {
             </Paper>
           </Grid>
           <Grid item>
-            <Paper className={classes.collapsePaper}>
+            <Paper className={classes.collapsePaper} variant="outlined">
               <h3>Product data</h3>
             </Paper>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} variant="outlined">
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
                   Attribute
@@ -665,7 +664,7 @@ export default function ProductDetail() {
             <Paper className={classes.collapsePaper}>
               <h3>Short description</h3>
             </Paper>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} variant="outlined">
               <Editor
                 editorState={shortDescription}
                 toolbarClassName="toolbarClassName"

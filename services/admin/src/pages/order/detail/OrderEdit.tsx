@@ -119,9 +119,7 @@ const OrderEdit: React.FC = () => {
             />
             <ContainedButton
               text={order.orderNote ? "Update" : "Add"}
-              props={{
-                style: { width: "fit-content" },
-              }}
+              style={{ width: "fit-content" }}
             />
           </Grid>
         </Paper>

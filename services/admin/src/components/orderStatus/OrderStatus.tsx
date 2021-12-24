@@ -6,6 +6,7 @@ import clsx from "clsx";
 export enum OrderStatusEnum {
   ReadyToPick = "Ready to pick",
   Delivered = "Delivered",
+  Cancel = "Cancel",
 }
 
 export const orderStatusOptions = ["Ready to pick", "Cancel"];
@@ -35,14 +36,15 @@ const OrderStatus: React.FC<{ status: string }> = ({ status }) => {
     <div className={classes.root}>
       <div
         className={clsx(
-          status === OrderStatusEnum.Delivered ? "delivered" : "ready-to-pick"
+          status === OrderStatusEnum[OrderStatusEnum.Cancel]
+            ? "cancel"
+            : "ready-to-pick"
         )}
       >
         <ContainedButton
           text={orderStatusOptions.find((x) => x === status) || "--"}
-          props={{
-            disabled: status === OrderStatusEnum.ReadyToPick,
-          }}
+          disabled={status === OrderStatusEnum.ReadyToPick}
+          style={{ borderRadius: "16px", padding: "0 10px" }}
         />
       </div>
     </div>
@@ -53,16 +55,16 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "fit-content",
-      "& .delivered ": {
+      "& .cancel ": {
         "& .MuiButton-containedPrimary": {
-          backgroundColor: "#c9d7e1",
-          color: "#4b5f6e",
+          backgroundColor: "#faded7 ",
+          color: "#e13610",
         },
       },
       "& .ready-to-pick": {
         "& .MuiButton-containedPrimary": {
-          backgroundColor: "#e5e5e5",
-          color: "#8b8b8b",
+          backgroundColor: "#e2edfe",
+          color: "#639dfa",
         },
       },
     },

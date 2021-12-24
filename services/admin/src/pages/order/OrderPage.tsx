@@ -32,7 +32,9 @@ const OrderPage: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
+    root: {
+      margin: "0 16px",
+    },
     actionsContainer: {},
     title: {
       padding: theme.spacing(2, 0),

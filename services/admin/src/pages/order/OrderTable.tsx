@@ -187,7 +187,7 @@ const OrderTable: React.FC = () => {
   };
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
             className={classes.table}
