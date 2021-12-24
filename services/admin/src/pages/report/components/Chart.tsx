@@ -1,16 +1,19 @@
-import { Paper } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {
+  Area,
+  AreaChart,
   Bar,
-  CartesianGrid,
-  ComposedChart,
+  BarChart,
   Legend,
   Line,
+  LineChart,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import { RootStore } from "redux/store";
+import "../styles.scss";
 
 export enum ChartColor {
   WorthOfCouponsUsed = "#f2c512", //coup
@@ -25,60 +28,114 @@ export enum ChartColor {
 const Chart: React.FC = () => {
   const { data } = useSelector((state: RootStore) => state.reports);
   return (
-    <div>
-      {console.log("Asd", data)}
-      <Paper variant="outlined">
-        <ComposedChart width={1500} height={800} data={data}>
-          <XAxis dataKey="name" axisLine={false} tickLine={false} />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
-          <Tooltip />
-          <Legend />
-          <CartesianGrid stroke="#f5f5f5" />
-          <Bar
-            yAxisId="left"
-            dataKey="itemsPurchased"
-            barSize={20}
-            fill={ChartColor.ItemsPurchase}
-          />
-          <Bar
-            yAxisId="left"
-            dataKey="orderPlaced"
-            barSize={20}
-            fill={ChartColor.OrderPlaced}
-          />
-          {/* <Line
-            yAxisId="right"
-            type="linear"
-            dataKey="coup"
-            stroke={ChartColor.WorthOfCouponsUsed}
-          /> */}
-          <Line
-            yAxisId="right"
-            type="linear"
-            dataKey="refunded"
-            stroke={ChartColor.Refunded}
-          />
-          <Line
-            yAxisId="right"
-            type="linear"
-            dataKey="shippingFee"
-            stroke={ChartColor.ChargedForShipping}
-          />
-          {/* <Line
-            yAxisId="right"
-            type="linear"
-            dataKey="avg"
-            stroke={ChartColor.AverageNetDailySales}
-          /> */}
-          <Line
-            yAxisId="right"
-            type="linear"
-            dataKey="netSale"
-            stroke={ChartColor.NetSales}
-          />
-        </ComposedChart>
-      </Paper>
+    <div className="charts">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography variant="h5">Net Sales</Typography>
+            <AreaChart
+              data={data}
+              width={1000}
+              height={340}
+              margin={{
+                top: 30,
+                bottom: 5,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Area
+                type="monotone"
+                dataKey="netSale"
+                stroke={ChartColor.NetSales}
+                fill="#bedbed"
+                name="Net Sales"
+              />
+            </AreaChart>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography variant="h5">Refunded order</Typography>
+            <LineChart
+              width={1000}
+              height={340}
+              data={data}
+              margin={{
+                top: 30,
+                bottom: 5,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="refunded"
+                stroke={ChartColor.Refunded}
+                name="Refunded order"
+              />
+            </LineChart>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography variant="h5">Charged for shipping</Typography>
+            <LineChart
+              width={1000}
+              height={340}
+              data={data}
+              margin={{
+                top: 30,
+                bottom: 15,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="shippingFee"
+                stroke={ChartColor.ChargedForShipping}
+                name="Charged For Shipping"
+              />
+            </LineChart>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography variant="h5">Item Purchased & Order Placed</Typography>
+            <BarChart
+              width={1000}
+              height={340}
+              data={data}
+              margin={{
+                top: 30,
+                bottom: 5,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar
+                dataKey="itemsPurchased"
+                fill="#8884d8"
+                name="Items Purchased"
+              />
+              <Bar
+                dataKey="orderPlaced"
+                fill={ChartColor.OrderPlaced}
+                name="Order Placed"
+              />
+            </BarChart>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };
