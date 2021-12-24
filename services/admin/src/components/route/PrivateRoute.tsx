@@ -24,7 +24,7 @@ const PrivateRoute: React.FC<{
 
   useEffect(() => {
     if (!data.length) {
-      dispatch(getReports(reportOptions[0].value));
+      dispatch(getReports(reportOptions[2].value));
     }
     // eslint-disable-next-line
   }, [dispatch]);
