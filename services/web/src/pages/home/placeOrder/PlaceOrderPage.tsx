@@ -33,7 +33,7 @@ const PlaceOrderPage: React.FC = () => {
   const query = new URLSearchParams(window.location.search);
   const transId = Number(query.get('transId')) ??0;
   const resultCode = Number(query.get('resultCode')) ?? -1;
-  const orderId = query.get('orderId');
+  const orderIdMomo = query.get('orderId');
 
   useEffect(() => {
     console.log("transid & resultcode:" + transId + ' ' + resultCode + ' ' + orderId);
@@ -43,7 +43,7 @@ const PlaceOrderPage: React.FC = () => {
       var response = api.post('/momo/payment-notification', {
         transId : transId,
         resultCode: resultCode,
-        orderId: orderId
+        orderId: orderIdMomo
       });
       console.log('response:' + JSON.stringify(response));
     }
