@@ -79,9 +79,8 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     maxPrice: 1000,
     rates: 0,
   };
-  const [bookFilterParams, setBookFilterParams] = useState(
-    initBookFilterParams
-  );
+  const [bookFilterParams, setBookFilterParams] =
+    useState(initBookFilterParams);
 
   //Function
   function handleLanguageChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -558,7 +557,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
           variant="contained"
           color="secondary"
           size="medium"
-          style = {{width: 200}}
+          style={{ width: 200 }}
           onClick={handleClearAllFilter}
         >
           Clear all filter

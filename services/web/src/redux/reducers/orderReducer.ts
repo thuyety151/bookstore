@@ -4,6 +4,7 @@ import { Coupon, DiscountType } from "../../model/coupon";
 import Item from "../../model/item";
 import { NAME_ACTIONS } from "../constants/order/actionTypes";
 import { NAME_ACTIONS as NAME_ACTIONS_COUPON } from "../constants/coupon/actionTypes";
+import { NAME_ACTIONS as CART_NAME_ACTIONS } from "../constants/cart/actionTypes";
 import store from "../store";
 import { ServiceType } from "./deliveryReducer";
 import { Order } from "../../model/order";
@@ -38,9 +39,10 @@ const initState: OrderState = {
   placeOrder: {} as Order,
 };
 
-export const total = () => {
+export const total = (feeProp?: number) => {
   const { fee, coupon } = store.getState().order;
   const items = store.getState().cart.itemToCheckOut;
+  const feeToCal = feeProp || fee;
 
   const couponAmount =
     coupon.discountType === DiscountType.Percentage
@@ -48,7 +50,7 @@ export const total = () => {
       : formatVNDtoUSD(coupon.couponAmount) || 0;
   return (
     Math.floor(
-      (sum(items.map((x) => x.quantity * x.price)) + (fee || 0)) *
+      (sum(items.map((x) => x.quantity * x.price)) + (feeToCal || 0)) *
         (1 - couponAmount) *
         100
     ) / 100 || 0
@@ -142,6 +144,9 @@ const orderReducer = (
         ...state,
         placeOrder: payload.data,
       };
+    case CART_NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS:
+    case NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE:
+      return initState;
     default:
       return state;
   }

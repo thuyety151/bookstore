@@ -84,13 +84,6 @@ export const getBooksForSale =
   (predicate: string, filterParams?: filterParams, params?: paginationParams) =>
   async (dispatch: any) => {
     dispatch({ type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE });
-    console.log("params:");
-    console.log({
-      predicate,
-      ...filterParams,
-      pageSize: params?.pageSize,
-      pageIndex: params?.pageIndex,
-    });
     const response = await api.get("/books/books-for-sale", {
       params: {
         predicate,
