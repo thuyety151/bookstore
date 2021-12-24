@@ -57,6 +57,8 @@ namespace Application.MoMo
                 string accessKey = _configuration["MoMo:AccessKey"];
                 string secretKey = _configuration["MoMo:SecretKey"];
                 string description = "";
+                string publicKey =
+                    "<RSAKeyValue><Modulus>iZeKssbft00JVb2hl/z996I9ZvNYower7TsIB9P/nrANrsVoy+Pi0f+WootQGN4QqWRiLNTZa0B5TELnWTT91WkhF4K4KrEU7TEVwMPsdD3WsnBssYsPbpZ/RJlYGNMvWX/+GQxZbuf9qrmqA9itzGZwGdyjDpWD5JCzTXf+2AKHc166JuQlj9XsVI21IXgfRBSvvOIdIJVcBckqRt1ZAt2ACBzovhBA14AI6QM6qmdcRK3vGHIwT1os7iCzr3I/chive19HQcN8PxEzNYbA+CTd8G6US4XaK5Iq4i+tuKZANFocpw0cHKTiTbFZKpIHRinw1SXeP0Ec/JGTQLkpI17wb+sawMMH6wrp3t6QndmuHgoQP9vmeXFIA27UeM2s8QYFErdmOXV+9BfyTontb53y+7WCX4sEGkJ0A/q0sTxSaX9IDJ5j9cIXH5JsBzWZuuHGX9uf7pwMto1cNJXUgLHhclPv4UXtSW9SpR/SmhXrXlc2d4cWZBsjTiVFttAI2X75h1L4gXe+batQJSaD+5nzTlfvrjjBObTGDS8jhsgoSLhruWxQ36+vKkvOgmYEIc5pJ4Sk9MC3JvAprCOZH4mUWC7b1yVAj8jRr10Vl7goZbFUSFy5w58hHkKyP504BpRbC1XwwegMLg9rUG8Zw2B/aPeybQzgdKE3m8qZhTk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
                 
                 //Before sign HMAC SHA256 signature
                 string rawHash = "accessKey=" + accessKey +
@@ -67,12 +69,11 @@ namespace Application.MoMo
                                  "&requestId=" + requestId +
                                  "&transId=" + transId
                     ;
-
                 MoMoSecurity crypto = new MoMoSecurity();
                 
                 //Sign signature SHA256
                 string signature = crypto.signSHA256(rawHash, secretKey);
-
+               
                 //build body json request
                 JObject message = new JObject
                 {

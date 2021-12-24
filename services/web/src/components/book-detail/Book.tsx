@@ -24,66 +24,7 @@ import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import defaultBook from "../../assets/images/default.jpeg";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      margin: "auto",
-      textAlign: "left",
-    },
-    gridContainer : {
-      [theme.breakpoints.down('sm')]:{
-        display: "contents",
-        "& .MuiTypography-h3" :{
-          fontSize: "2em"
-        }
-      }
-    },
-    img: {
-      margin: "auto",
-      display: "block",
-      maxWidth: "70%",
-      maxHeight: "100%",
-    },
-    attribute: {
-      color: "red",
-      "&:hover": {
-        color: "red",
-        cursor: "pointer",
-        fontWeight: 700,
-      },
-    },
-    favorite: {
-      "&:hover": {
-        color: "red",
-        cursor: "pointer",
-      },
-    },
-    button: {
-      textTransform: "none",
-      margin: "5px 20px 5px 70px",
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 400,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-    buttonAddToCart: {
-      textTransform: "none",
-      minWidth: 300,
-      color: "white",
-      background: "#000000",
-    },
-    text: {
-      fontWeight: 600,
-    },
-  })
-);
+
 
 export default function DetailBook() {
   const classes = useStyles();
@@ -167,7 +108,7 @@ export default function DetailBook() {
       <Paper className={classes.paper}>
         {data && (
           <Grid container spacing={2} className={classes.gridContainer}>
-            <Grid item xs={5}>
+            <Grid item xs={12} sm ={5}>
               <ButtonBase>
                 <img
                   className={classes.img}
@@ -176,10 +117,10 @@ export default function DetailBook() {
                 />
               </ButtonBase>
             </Grid>
-            <Grid item xs={7} container spacing={2}>
+            <Grid item sm={7} container spacing={2}>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item>
-                  <Typography gutterBottom variant="h3">
+                  <Typography gutterBottom variant="h3" className ={classes.bookName}>
                     {data.name}
                   </Typography>
                 </Grid>
@@ -232,7 +173,7 @@ export default function DetailBook() {
                 </Grid>
 
                 <Grid item>
-                  <div
+                  <div className={classes.descriptionText}
                     dangerouslySetInnerHTML={{
                       __html: data?.shortDescription || "<p></p>",
                     }}
@@ -304,3 +245,78 @@ export default function DetailBook() {
     </div>
   );
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      margin: "auto",
+      textAlign: "left",
+    },
+    gridContainer : {
+      [theme.breakpoints.down('sm')]:{
+        display: "contents",
+        "& .MuiTypography-h3" :{
+          fontSize: "2em"
+        }
+      }
+    },
+    img: {
+      margin: "auto",
+      display: "block",
+      maxWidth: "70%",
+      maxHeight: "100%",
+    },
+    attribute: {
+      color: "red",
+      "&:hover": {
+        color: "red",
+        cursor: "pointer",
+        fontWeight: 700,
+      },
+    },
+    favorite: {
+      "&:hover": {
+        color: "red",
+        cursor: "pointer",
+      },
+    },
+    button: {
+      textTransform: "none",
+      margin: "5px 20px 5px 70px",
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 400,
+      [theme.breakpoints.down('sm')]: {
+        minWidth: 200,
+      }
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+    buttonAddToCart: {
+      textTransform: "none",
+      minWidth: 300,
+      color: "white",
+      background: "#000000",
+    },
+    text: {
+      fontWeight: 600,
+    },
+    bookName: {
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '1.5em !important'
+      }
+    },
+    descriptionText: {
+      [theme.breakpoints.down('sm')]: {
+        width: 350,
+        textAlign: 'justify'
+      }
+    }
+  })
+);
