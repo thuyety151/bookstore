@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Avatar,
   Collapse,
   FormControl,
   FormControlLabel,
@@ -21,7 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatAddress } from "../../helper/format";
 import { verifyCoupon } from "../../redux/actions/coupon/getAction";
 import { subTotal } from "../../redux/reducers/cartReducer";
-import { total } from "../../redux/reducers/orderReducer";
 import { getFee } from "../../redux/actions/order/getActions";
 import { getServices } from "../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
@@ -32,7 +32,10 @@ import { useSnackbar } from "notistack";
 import { ROUTE_PLACE_ORDER } from "../../routers/types";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
+import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
+import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../shared/enum/stockStatus";
+import { PaymentMethod } from "../../shared/enum/paymentMethod";
 
 type Props = {
   note: string;
@@ -54,7 +57,7 @@ export default function BillInfo(props: Props) {
   const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
   const [couponCode, setCouponCode] = useState("");
   const couponState = useSelector((state: RootStore) => state.coupon);
-  const shippingFee = useSelector((state: RootStore) => state.order.fee);
+  const { fee } = useSelector((state: RootStore) => state.order);
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
@@ -85,10 +88,11 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
+          paymentMethod: PaymentMethod.CashOnDelivery,
           onSuccess: (code: string, orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
-                orderCode: code,
+                orderId,
               })
             );
             dispatch(getPageCart());
@@ -102,6 +106,7 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
+          paymentMethod: PaymentMethod.Momo,
           onSuccess: async (code: string, orderId: string) => {
             var response = await api.post("/momo", { orderId: orderId });
 
@@ -123,6 +128,11 @@ export default function BillInfo(props: Props) {
 
   //Effect
   useEffect(() => {
+    setCouponCode(couponState.data.code || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [couponState.data]);
+
+  useEffect(() => {
     if (!itemToCheckout.length) {
       setItemToCheckout(
         cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock)
@@ -132,34 +142,34 @@ export default function BillInfo(props: Props) {
         data: cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock),
       });
     }
-    setCouponCode(couponState.data.code || "");
     /**
      * get fee based on default address
      */
     dispatch(
       getServices({
         onSuccess: () => {
-          dispatch(
-            getFee({
-              onSuccess: () => {},
-              onFailure: () => {},
-            })
-          );
+          if (!fee) {
+            dispatch(
+              getFee({
+                onSuccess: () => {},
+                onFailure: () => {},
+              })
+            );
+          }
         },
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [couponState.data]);
+  }, [itemToCheckout]);
 
+  useEffect(() => {
+    if (!itemToCheckout.length) {
+      dispatch(getPageCart());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div style={{ margin: "16px" }}>
-      {/* <Grid
-        container
-        direction="column"
-        alignItems="flex-start"
-        justifyContent="space-between"
-        className={classes.grid}
-      > */}
       <Collapse in={openSection.order} collapsedSize={82}>
         <Paper variant="outlined" className={classes.paper}>
           <div>
@@ -207,8 +217,32 @@ export default function BillInfo(props: Props) {
             </div>
             <Grid item className="row">
               <span>Shipping</span>
-              <span>${shippingFee}</span>
+              <span>${fee}</span>
             </Grid>
+          </Grid>
+        </Paper>
+      </Collapse>
+      {/* shippine */}
+      <Collapse in={openSection.shipping} collapsedSize={82}>
+        <Paper variant="outlined" className={classes.paper}>
+          <div>
+            <h3>Shipping</h3>
+            <span
+              className="cursor-pointer"
+              onClick={() =>
+                setopenSection({
+                  ...openSection,
+                  shipping: !openSection.shipping,
+                })
+              }
+            >
+              {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
+            </span>
+          </div>
+          <Grid item className="row">
+            <span>{addressInfor()}</span>
+            <span>{formatAddress(currentAddress)}</span>
+            <span>${fee}</span>
           </Grid>
         </Paper>
       </Collapse>
@@ -286,28 +320,27 @@ export default function BillInfo(props: Props) {
       <Paper variant="outlined" className={classes.paper}>
         <div className="row total">
           <h3>Total</h3>
-          <h3>${total()}</h3>
+          <h3>${subTotal(itemToCheckout) + (fee || 0)}</h3>
         </div>
       </Paper>
-
-      <Paper variant="outlined" className={classes.paper}>
-        <Collapse in={openSection.payment} collapsedSize={28}>
-          <Grid container>
-            <div className={classes.header}>
-              <h3>Payment</h3>
-              <span
-                className="cursor-pointer icon"
-                onClick={() =>
-                  setopenSection({
-                    ...openSection,
-                    payment: !openSection.payment,
-                  })
-                }
-              >
-                {openSection.payment ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <div className={classes.paymentMethod}>
+      <Collapse in={openSection.payment} collapsedSize={82}>
+        <Paper variant="outlined" className={classes.paper}>
+          <Collapse in={openSection.payment} collapsedSize={28}>
+            <Grid container>
+              <div className={classes.header}>
+                <h3>Payment</h3>
+                <span
+                  className="cursor-pointer icon"
+                  onClick={() =>
+                    setopenSection({
+                      ...openSection,
+                      payment: !openSection.payment,
+                    })
+                  }
+                >
+                  {openSection.payment ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
               <FormControl component="fieldset">
                 <RadioGroup
                   aria-label="gender"
@@ -321,29 +354,23 @@ export default function BillInfo(props: Props) {
                     label="Cash on delivery"
                   />
                   <Typography className={classes.text}>
-                    Pay with cash upon delivery.
+                    <LocalAtmRoundedIcon /> Pay with cash upon delivery.
                   </Typography>
                   <FormControlLabel
                     value="MoMo"
                     control={<Radio />}
                     label="MoMo"
                   />
-                  <Typography className={classes.text}>Coming soon</Typography>
-                  <FormControlLabel
-                    value="Check payments"
-                    control={<Radio />}
-                    label="Check payments"
-                    disabled
-                  />
-                  <Typography className={classes.text}>Coming soon</Typography>
+                  <Typography className={classes.text}>
+                    <Avatar alt="MoMo" src={momo} className={classes.small} />{" "}
+                    {""}Scan QR MoMo.
+                  </Typography>
                 </RadioGroup>
               </FormControl>
-            </div>
-          </Grid>
-        </Collapse>
-      </Paper>
-
-      {/* </Grid> */}
+            </Grid>
+          </Collapse>
+        </Paper>
+      </Collapse>
       <Grid item>
         <PrimaryButton
           text="Place order"
@@ -446,5 +473,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
     display: "flex",
     alignItems: "center",
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
 }));

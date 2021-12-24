@@ -88,7 +88,9 @@ const OrderDetailContent: React.FC<Props> = (props) => {
                     >
                       <TableCell align="center" padding="checkbox">
                         <Grid container direction="row">
-                          <Typography>{item.productName}</Typography>
+                          <Typography align="left">
+                            {item.productName}
+                          </Typography>
                         </Grid>
                       </TableCell>
                       <TableCell align="center" padding="checkbox">

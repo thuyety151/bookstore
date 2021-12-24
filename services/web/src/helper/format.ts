@@ -37,3 +37,24 @@ export const formatCustomerInfo = ({
 }) => {
   return firstName ? `${firstName} ${lastName} (${phone})` : "--";
 };
+
+export const formatAddressEnter = ({
+  apartmentNumber,
+  streetAddress,
+  wardName,
+  districtName,
+  provinceName,
+}: {
+  // declare type for props
+  apartmentNumber?: any;
+  streetAddress?: any;
+  wardName?: any;
+  districtName?: any;
+  provinceName?: any;
+}) => {
+  return (
+    [apartmentNumber, streetAddress, wardName, districtName, provinceName]
+      .filter((item) => !isNil(item) && !isEmpty(item))
+      .join("\n") || "--"
+  );
+};

@@ -13,4 +13,5 @@ export type Order = {
   items: Item[];
   addressToShip: Address;
   total: number;
+  orderFee: number;
 };

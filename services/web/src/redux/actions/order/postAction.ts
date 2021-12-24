@@ -9,6 +9,7 @@ import store from "../../store";
 
 export type CreateOrderProps = {
   note: string;
+  paymentMethod: any;
   onSuccess: (code: any, orderId: any) => void;
   onFailure: (error: any) => void;
 };
@@ -17,15 +18,16 @@ export const createOrder =
     const state = store.getState();
     dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER });
     const address = store.getState().address.currentAddress;
-
     const data = {
       itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
       addressId: state.address.currentAddress.id,
-      note: props.note,
+      orderNote: props.note,
       coupon: {
         code: state.order.coupon?.code,
       },
       address: omit(address, "id"),
+      orderFee: state.order.fee,
+      paymentMethod: props.paymentMethod || "1",
     };
     const response = await api.post("/orders/create", data);
 
@@ -83,7 +85,7 @@ export const createOrder =
           if (resultUpdateOrderCode.data.isSuccess) {
             props.onSuccess(
               createDelivery.data.data.order_code,
-              response.data.value
+              resultUpdateOrderCode.data.value
             );
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
@@ -93,7 +95,7 @@ export const createOrder =
             /**
              * Delete order when create GHN fail
              */
-            await api.delete("/orders/delete-order-fail", {
+            await api.delete("/orders", {
               params: {
                 id: response.data.value,
               },
@@ -110,16 +112,16 @@ export const createOrder =
         /**
          * Delete order when create GHN fail
          */
-        await api.delete("/orders/delete-order-fail", {
+        await api.delete("/orders", {
           params: {
             id: response.data.value,
           },
         });
-        props.onFailure(error.response.data.message);
+        props.onFailure(error.response?.data?.message);
         dispatch({
           type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
             .CREATE_DELIVERY_FOR_ORDER_FAIL,
-          message: error.message,
+          message: error?.message,
         });
       }
     } else {

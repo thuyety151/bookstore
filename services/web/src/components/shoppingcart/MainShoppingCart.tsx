@@ -16,6 +16,7 @@ import { ROUTE_CHECK_OUT } from "../../routers/types";
 import "./styles.scss";
 import { useSnackbar } from "notistack";
 import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
+import { NAME_ACTIONS as ORDER_NAME_ACTIONS } from "../../redux/constants/order/actionTypes";
 
 type Anchor = "left" | "right";
 
@@ -60,6 +61,7 @@ const MainShoppingCart: React.FC<{
     };
   const handleOpenCartPage = () => {
     setOpenCart(false);
+    dispatch({ type: ORDER_NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE });
     history.push("/cart");
   };
   const handleCloseCart = () => {
@@ -72,6 +74,7 @@ const MainShoppingCart: React.FC<{
       return;
     }
     setOpenCart(false);
+    dispatch({ type: ORDER_NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE });
     if (!itemToCheckOut.length) {
       dispatch({
         type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ALL_ITEM_TO_CHECK_OUT,

@@ -9,15 +9,46 @@ import {
   MenuItem,
   FormControl,
 } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../../redux/store";
 import { format } from "date-fns";
 import { orderStatusOptions } from "../../../../components/orderStatus/OrderStatus";
+import { cancelOrder } from "redux/actions/order/postActions";
+import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
 
 const General: React.FC = () => {
   const classes = useStyles();
   const order = useSelector((state: RootStore) => state.orders.currentOrder);
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const [status, setstatus] = useState(order.status || "");
 
+  useEffect(() => {
+    if (order.status) {
+      setstatus(order.status);
+    }
+  }, [order.status]);
+
+  const handleChange = (val: any) => {
+    if (val.target.value !== "Cancel") {
+      return;
+    }
+    dispatch(
+      cancelOrder({
+        order: order,
+        onSuccess: () => {
+          setstatus("Cancel");
+          enqueueSnackbar("Cancel order successfully!", {
+            variant: "success",
+          });
+        },
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
+  };
   return (
     <Grid>
       <Typography className="bolder">General</Typography>
@@ -64,16 +95,17 @@ const General: React.FC = () => {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={order.status || "--"}
-          // onChange={handleChange}
-          disabled
+          value={status}
+          key={status || "status"}
+          onChange={(e) => handleChange(e)}
+          disabled={status === "Cancel"}
           style={{ width: "15rem" }}
           autoWidth
         >
           {orderStatusOptions.map((status, index) => {
             return (
-              <MenuItem key={`option-${index}`} value={status.value}>
-                {status.value}
+              <MenuItem key={`option-${index}`} value={status}>
+                {status}
               </MenuItem>
             );
           })}

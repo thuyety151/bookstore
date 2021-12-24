@@ -8,6 +8,7 @@ export type Order = {
   paymentMethod: string;
   subTotal: number;
   orderNote: string;
+  orderFee: number;
   orderCode: string;
   userId: string;
   deliveryMethodId: string;

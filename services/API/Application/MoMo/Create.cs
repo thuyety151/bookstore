@@ -43,7 +43,7 @@ namespace Application.MoMo
                 string accessKey = _configuration["MoMo:AccessKey"];
                 string secretKey = _configuration["MoMo:SecretKey"];
                 string orderInfo = "Test order";
-                string redirectUrl = _configuration["MoMo:RedirectUrl"] + order.OrderCode;
+                string redirectUrl = _configuration["MoMo:RedirectUrl"] + order.Id;
                 string ipnUrl = "https://momo.vn";
                 string requestType = "captureWallet";
 
