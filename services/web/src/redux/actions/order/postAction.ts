@@ -54,7 +54,7 @@ export const createOrder =
         service_id: state.order.currentService.service_id,
         insurance_value: Math.round(total() * 23000),
         // cod_amount: Math.round(total() * 23000),
-        cod_amount: 200000,
+        cod_amount: Math.round(total() * 23000),
         pick_station_id: 1444,
         items: state.cart.itemToCheckOut.map((item) => {
           return {

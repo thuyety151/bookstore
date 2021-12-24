@@ -19,7 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Item from "../../model/item";
 import { RootStore } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { formatAddress } from "../../helper/format";
+import { formatAddress, formatVNDtoUSD } from "../../helper/format";
 import { verifyCoupon } from "../../redux/actions/coupon/getAction";
 import { subTotal } from "../../redux/reducers/cartReducer";
 import { getFee } from "../../redux/actions/order/getActions";
@@ -36,6 +36,8 @@ import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
 import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../shared/enum/stockStatus";
 import { PaymentMethod } from "../../shared/enum/paymentMethod";
+import { sum } from "lodash";
+import { DiscountType } from "../../model/coupon";
 
 type Props = {
   note: string;
@@ -57,7 +59,7 @@ export default function BillInfo(props: Props) {
   const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
   const [couponCode, setCouponCode] = useState("");
   const couponState = useSelector((state: RootStore) => state.coupon);
-  const { fee } = useSelector((state: RootStore) => state.order);
+  const { fee, coupon } = useSelector((state: RootStore) => state.order);
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
@@ -168,6 +170,20 @@ export default function BillInfo(props: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const total = () => {
+    const couponAmount =
+      coupon.discountType === DiscountType.Percentage
+        ? coupon.couponAmount / 100
+        : formatVNDtoUSD(coupon.couponAmount) || 0;
+    return (
+      Math.floor(
+        (sum(itemToCheckout.map((x) => x.quantity * x.price)) + (fee || 0)) *
+          (1 - couponAmount) *
+          100
+      ) / 100 || 0
+    );
+  };
   return (
     <div style={{ margin: "16px" }}>
       <Collapse in={openSection.order} collapsedSize={82}>
@@ -320,7 +336,7 @@ export default function BillInfo(props: Props) {
       <Paper variant="outlined" className={classes.paper}>
         <div className="row total">
           <h3>Total</h3>
-          <h3>${subTotal(itemToCheckout) + (fee || 0)}</h3>
+          <h3>${total()}</h3>
         </div>
       </Paper>
       <Collapse in={openSection.payment} collapsedSize={82}>

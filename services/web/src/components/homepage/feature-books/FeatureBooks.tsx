@@ -7,6 +7,8 @@ import BookItem from "./BookItem";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
+import "./styles.scss";
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;

@@ -41,7 +41,7 @@ export const reportOptions = [
 const ReportPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(2);
   const { data } = useSelector((state: RootStore) => state.reports);
 
   const handleListItemClick = (
@@ -107,24 +107,23 @@ const ReportPage: React.FC = () => {
               ${Math.floor(sum(data.flatMap((x) => x.netSale)) / 100) * 100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              net sales in this period
+              Net sales in this period
             </Typography>
           </Paper>
           <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              {Math.floor(sum(data.flatMap((x) => x.orderPlaced)) / 100) * 100}
+              {sum(data.flatMap((x) => x.orderPlaced))}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              orders placed
+              Orders placed
             </Typography>
           </Paper>
           <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              {Math.floor(sum(data.flatMap((x) => x.itemsPurchased)) / 100) *
-                100}
+              {sum(data.flatMap((x) => x.itemsPurchased))}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              items purchased
+              Items purchased
             </Typography>
           </Paper>
           <Paper className={classes.paperItem} variant="outlined">
@@ -132,15 +131,15 @@ const ReportPage: React.FC = () => {
               ${Math.floor(sum(data.flatMap((x) => x.refunded)) / 100) * 100}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              refunded order
+              Refunded order
             </Typography>
           </Paper>
           <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${Math.floor(sum(data.flatMap((x) => x.shippingFee)) / 100) * 100}
+              ${sum(data.flatMap((x) => x.shippingFee))}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              charged for shipping
+              Charged for shipping
             </Typography>
           </Paper>
         </Grid>

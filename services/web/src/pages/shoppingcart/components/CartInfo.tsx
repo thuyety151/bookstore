@@ -22,7 +22,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultAddress } from "../../../redux/actions/address/getAction";
 import { RootStore } from "../../../redux/store";
-import { formatAddress, formatCustomerInfo } from "../../../helper/format";
+import {
+  formatAddress,
+  formatCustomerInfo,
+  formatVNDtoUSD,
+} from "../../../helper/format";
 import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
 import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
@@ -32,6 +36,7 @@ import { getServices } from "../../../redux/actions/delivery/getAction";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
 import { ServiceType } from "../../../redux/reducers/deliveryReducer";
+import { DiscountType } from "../../../model/coupon";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -55,7 +60,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   // const [subTotal, setSubTotal] = useState<ServiceType>(0);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
-  const { fee } = useSelector((state: RootStore) => state.order);
+  const { fee, coupon } = useSelector((state: RootStore) => state.order);
 
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
@@ -108,6 +113,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         );
       })
     );
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -122,6 +128,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         })
       );
     }
+    // eslint-disable-next-line
   }, [serviceType, defaultAddress]);
   // useEffect(() => {
   //   setSubTotal(
@@ -139,6 +146,19 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     );
   };
 
+  const total = () => {
+    const couponAmount =
+      coupon.discountType === DiscountType.Percentage
+        ? coupon.couponAmount / 100
+        : formatVNDtoUSD(coupon.couponAmount) || 0;
+    return (
+      Math.floor(
+        (sum(itemsToCheckout.map((x) => x.quantity * x.price)) + (fee || 0)) *
+          (1 - couponAmount) *
+          100
+      ) / 100 || 0
+    );
+  };
   return (
     <div className={classes.root}>
       {/* <Grid
@@ -174,7 +194,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
             </div>
             <div className="row" style={{ padding: "0px" }}>
               <span>Shipping fee</span>
-              <span>${subTotal()}</span>
+              <span>${fee}</span>
             </div>
           </Grid>
         </Paper>
@@ -280,7 +300,8 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         >
           <div className="row total">
             <h3>Total</h3>
-            <h3>${(fee || 0) + subTotal()}</h3>
+            {/* <h3>${(fee || 0) + subTotal() + couponState?.data?.}</h3> */}
+            <h3>{total()}</h3>
           </div>
         </Grid>
       </Paper>
