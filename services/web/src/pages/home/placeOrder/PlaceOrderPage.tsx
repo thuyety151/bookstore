@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -9,23 +9,24 @@ import {
   Divider,
 } from "@material-ui/core";
 import { RootStore } from "../../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { total } from "../../../redux/reducers/orderReducer";
+import { getPlaceOrder } from "../../../redux/actions/order/getActions";
+import { formatAddressEnter } from "../../../helper/format";
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
-  const cartState = useSelector((state: RootStore) => state.cart);
-  const addressState = useSelector((state: RootStore) => state.address);
-  const { orderCode } = useParams() as any;
-  const orderState = useSelector((state: RootStore) => state.order);
-  const {
-    appartmentNumber,
-    streetAddress,
-    wardName,
-    districtName,
-    provinceName,
-  } = addressState.currentAddress;
+  // const cartState = useSelector((state: RootStore) => state.cart);
+  // const addressState = useSelector((state: RootStore) => state.address);
+  // const { orderCode } = useParams() as any;
+  const { placeOrder } = useSelector((state: RootStore) => state.order);
+
+  const dispatch = useDispatch();
+  const { orderId } = useParams() as any;
+
+  useEffect(() => {
+    dispatch(getPlaceOrder(orderId));
+  }, [dispatch, orderId]);
 
   return (
     <div className={classes.root}>
@@ -50,7 +51,7 @@ const PlaceOrderPage: React.FC = () => {
               <Grid item>
                 <Typography>Order number:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  {orderCode}
+                  {placeOrder.orderCode}
                 </Typography>
               </Grid>
               <Grid item>
@@ -62,13 +63,13 @@ const PlaceOrderPage: React.FC = () => {
               <Grid item>
                 <Typography>Total:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  {cartState.subTotal + (orderState.fee || 0)}
+                  {placeOrder.subTotal + placeOrder.orderFee}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography>Payment method:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  Cash on delivery
+                  {placeOrder.paymentMethod}
                 </Typography>
               </Grid>
             </Grid>
@@ -81,7 +82,7 @@ const PlaceOrderPage: React.FC = () => {
               >
                 Order Details
               </Typography>
-              {cartState.itemToCheckOut.map((item, index) => (
+              {placeOrder.items?.map((item, index) => (
                 <Grid item container justifyContent="space-between" key={index}>
                   <Grid item>
                     <Typography>{item.productName}</Typography>
@@ -101,7 +102,7 @@ const PlaceOrderPage: React.FC = () => {
                   Subtotal:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  ${cartState.subTotal}
+                  ${placeOrder.subTotal}
                 </Typography>
               </Grid>
               <Grid item container justifyContent="space-between">
@@ -109,7 +110,7 @@ const PlaceOrderPage: React.FC = () => {
                   Shipping:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  ${orderState.fee}
+                  ${placeOrder.orderFee}
                 </Typography>
               </Grid>
               <Grid item container justifyContent="space-between">
@@ -117,7 +118,7 @@ const PlaceOrderPage: React.FC = () => {
                   Payment Method:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  Cash on delivery
+                  {placeOrder.paymentMethod}
                 </Typography>
               </Grid>
             </Grid>
@@ -129,41 +130,29 @@ const PlaceOrderPage: React.FC = () => {
               className={classes.total}
             >
               <Grid item>Total</Grid>
-              <Grid item>${total()}</Grid>
+              <Grid item>${placeOrder.total}</Grid>
             </Grid>
             <Divider />
             <Grid item container>
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Billing Address</Typography>
-                {[
-                  appartmentNumber,
-                  streetAddress,
-                  wardName,
-                  districtName,
-                  provinceName,
-                ].map((data, index: number) => {
-                  return (
-                    <Typography variant="body2" key={index}>
-                      {data}
-                    </Typography>
-                  );
-                })}
+                <Typography
+                  variant="body2"
+                  style={{ whiteSpace: "break-spaces" }}
+                >
+                  {placeOrder.addressToShip &&
+                    formatAddressEnter(placeOrder.addressToShip)}
+                </Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Shipping Address</Typography>
-                {[
-                  appartmentNumber,
-                  streetAddress,
-                  wardName,
-                  districtName,
-                  provinceName,
-                ].map((data, index) => {
-                  return (
-                    <Typography variant="body2" key={index}>
-                      {data}
-                    </Typography>
-                  );
-                })}
+                <Typography
+                  variant="body2"
+                  style={{ whiteSpace: "break-spaces" }}
+                >
+                  {placeOrder.addressToShip &&
+                    formatAddressEnter(placeOrder.addressToShip)}
+                </Typography>
               </Grid>
             </Grid>
           </Paper>

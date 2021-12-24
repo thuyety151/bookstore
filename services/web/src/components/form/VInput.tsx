@@ -7,7 +7,6 @@ const VInput: React.FC<TextFieldProps> = (props) => {
     props.value as any;
   const validator = useValidator(value);
   const helperText = props.helperText as string;
-  console.log(value, value.ruleNames);
   const rules =
     value.ruleNames?.map((x: string) => {
       const m = get(validator, x);

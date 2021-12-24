@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatAddress } from "../../helper/format";
 import { verifyCoupon } from "../../redux/actions/coupon/getAction";
 import { subTotal } from "../../redux/reducers/cartReducer";
-import { total } from "../../redux/reducers/orderReducer";
 import { getFee } from "../../redux/actions/order/getActions";
 import { getServices } from "../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
@@ -36,6 +35,7 @@ import api from "../../boot/axios";
 import LocalAtmRoundedIcon from '@material-ui/icons/LocalAtmRounded';
 import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../shared/enum/stockStatus";
+import { PaymentMethod } from "../../shared/enum/paymentMethod";
 
 type Props = {
   note: string;
@@ -57,7 +57,7 @@ export default function BillInfo(props: Props) {
   const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
   const [couponCode, setCouponCode] = useState("");
   const couponState = useSelector((state: RootStore) => state.coupon);
-  const shippingFee = useSelector((state: RootStore) => state.order.fee);
+  const { fee } = useSelector((state: RootStore) => state.order);
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
@@ -88,10 +88,11 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
+          paymentMethod: PaymentMethod.CashOnDelivery,
           onSuccess: (code: string, orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
-                orderCode: code,
+                orderId,
               })
             );
             dispatch(getPageCart());
@@ -105,6 +106,7 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
+          paymentMethod: PaymentMethod.Momo,
           onSuccess: async (code: string, orderId: string) => {
             var response = await api.post("/momo", { orderId: orderId });
 
@@ -126,6 +128,11 @@ export default function BillInfo(props: Props) {
 
   //Effect
   useEffect(() => {
+    setCouponCode(couponState.data.code || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [couponState.data]);
+
+  useEffect(() => {
     if (!itemToCheckout.length) {
       setItemToCheckout(
         cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock)
@@ -135,25 +142,32 @@ export default function BillInfo(props: Props) {
         data: cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock),
       });
     }
-    setCouponCode(couponState.data.code || "");
     /**
      * get fee based on default address
      */
     dispatch(
       getServices({
         onSuccess: () => {
-          dispatch(
-            getFee({
-              onSuccess: () => {},
-              onFailure: () => {},
-            })
-          );
+          if (!fee) {
+            dispatch(
+              getFee({
+                onSuccess: () => {},
+                onFailure: () => {},
+              })
+            );
+          }
         },
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [couponState.data]);
+  }, [itemToCheckout]);
 
+  useEffect(() => {
+    if (!itemToCheckout.length) {
+      dispatch(getPageCart());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <Grid
@@ -210,6 +224,7 @@ export default function BillInfo(props: Props) {
               </div>
               <Grid item className="row">
                 <span>Shipping</span>
+                <span>${fee}</span>
               </Grid>
             </Grid>
           </Paper>
@@ -234,7 +249,7 @@ export default function BillInfo(props: Props) {
             <Grid item className="row">
               <span>{addressInfor()}</span>
               <span>{formatAddress(currentAddress)}</span>
-              <span>${shippingFee}</span>
+              <span>${fee}</span>
             </Grid>
             <div className="row">
               <span className={classes.changeAddress}>Change Address</span>
@@ -288,7 +303,7 @@ export default function BillInfo(props: Props) {
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>${total()}</h3>
+            <h3>${subTotal(itemToCheckout) + (fee || 0)}</h3>
           </div>
         </Paper>
 

@@ -1,7 +1,7 @@
 import { sum } from "lodash";
 import Item from "../../model/item";
 import { NAME_ACTIONS } from "../constants/cart/actionTypes";
-
+import { NAME_ACTIONS as ORDER_NAME_ACTIONS } from "../constants/order/actionTypes";
 export type CartState = {
   requesting: Boolean;
   success: boolean;
@@ -27,7 +27,7 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
   switch (payload.type) {
     case NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS:
       return {
-        ...state,
+        ...initState,
         requesting: true,
       };
     case NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS_SUCCESS:
@@ -99,6 +99,9 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
         ...state,
         itemToCheckOut: state.data,
       };
+    case ORDER_NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE:
+
+      return initState;
     default:
       return state;
   }

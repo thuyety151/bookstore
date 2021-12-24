@@ -32,7 +32,6 @@ import { getServices } from "../../../redux/actions/delivery/getAction";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
 import { ServiceType } from "../../../redux/reducers/deliveryReducer";
-import { total } from "../../../redux/reducers/orderReducer";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -56,6 +55,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   // const [subTotal, setSubTotal] = useState<ServiceType>(0);
   const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
+  const { fee } = useSelector((state: RootStore) => state.order);
 
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
@@ -70,15 +70,15 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         (x) => x.service_id === parseInt(event.target.value as string)
       ) || deliveryState.services[0]
     );
-    dispatch(
-      getFee({
-        serviceType: serviceType,
-        onSuccess: (fee) => {},
-        onFailure: (error: any) => {
-          enqueueSnackbar(error, { variant: "error" });
-        },
-      })
-    );
+    // dispatch(
+    //   getFee({
+    //     serviceType: serviceType,
+    //     onSuccess: (fee) => {},
+    //     onFailure: (error: any) => {
+    //       enqueueSnackbar(error, { variant: "error" });
+    //     },
+    //   })
+    // );
   };
 
   // const handleGetFee = () => {
@@ -108,7 +108,21 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         );
       })
     );
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    if (serviceType?.service_id && defaultAddress?.districtId) {
+      dispatch(
+        getFee({
+          serviceType: serviceType,
+          onSuccess: (fee) => {},
+          onFailure: (error: any) => {
+            enqueueSnackbar(error, { variant: "error" });
+          },
+        })
+      );
+    }
+  }, [serviceType, defaultAddress]);
   // useEffect(() => {
   //   setSubTotal(
   //     itemsToCheckout.map((x) => {
@@ -252,7 +266,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>${total()}</h3>
+            <h3>${(fee || 0) + subTotal()}</h3>
           </div>
         </Paper>
       </Grid>

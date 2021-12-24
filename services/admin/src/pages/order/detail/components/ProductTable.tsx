@@ -109,11 +109,13 @@ const ProductTable: React.FC = () => {
                     </Grid>
                     <Grid item className={classes.itemInline}>
                       <Typography>Shipping:</Typography>
-                      <Typography>--</Typography>
+                      <Typography>
+                        {orderState.currentOrder.orderFee}
+                      </Typography>
                     </Grid>
                     <Grid item className={classes.itemInline}>
                       <Typography>Order Total:</Typography>
-                      <Typography>--</Typography>
+                      <Typography>{orderState.currentOrder.total}</Typography>
                     </Grid>
                     <Divider className="m-x-8" />
                     <Grid item className={classes.itemInline}>
