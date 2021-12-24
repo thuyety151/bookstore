@@ -22,6 +22,10 @@ api.interceptors.response.use(
     const history = createBrowserHistory({ forceRefresh: true });
 
     if (error.response?.status === 401 /*&& accessToken*/) {
+      const user = localStorage.getItem("user");
+      if (user) {
+        localStorage.removeItem("user");
+      }
       history.push(ROUTE_LOGIN);
       return axios(error.config);
     } else {

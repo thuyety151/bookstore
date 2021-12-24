@@ -45,13 +45,13 @@ namespace Application.Books
                 var results = new List<BooksCategoriesDto>();
                 foreach (var categoryId in JsonConvert.DeserializeObject<Guid[]>(categoriesConfig.MetaData))
                 {
-                    var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId && c.IsDeleted == false);
+                    var category = await _context.Categories.FirstOrDefaultAsync(c => (c.Id == categoryId || c.ParentCategory.Id==categoryId) && c.IsDeleted == false);
                     if (category == null)
                     {
                         continue;
                     }
                     var books = query.Where(
-                            x => x.Categories.Any(c => c.CategoryId == categoryId))
+                            x => x.Categories.Any(c => c.CategoryId == categoryId || c.Category.ParentId == categoryId))
                         // .OrderByDescending(x=>x.Attributes.Select(x=>x.TotalStock))
                         .OrderByDescending(b => b.CreateDate)
                         .Take(categoriesConfig.Quantity)

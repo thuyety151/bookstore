@@ -35,6 +35,7 @@ import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
 import LocalAtmRoundedIcon from '@material-ui/icons/LocalAtmRounded';
 import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
+import StockStatus from "../../shared/enum/stockStatus";
 
 type Props = {
   note: string;
@@ -126,10 +127,12 @@ export default function BillInfo(props: Props) {
   //Effect
   useEffect(() => {
     if (!itemToCheckout.length) {
-      setItemToCheckout(cart.data);
+      setItemToCheckout(
+        cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock)
+      );
       dispatch({
         type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT,
-        data: cart.data,
+        data: cart.data.filter((x) => x.stockStatus !== StockStatus.OutOfStock),
       });
     }
     setCouponCode(couponState.data.code || "");
@@ -285,7 +288,7 @@ export default function BillInfo(props: Props) {
         <Paper variant="outlined" className={classes.paper}>
           <div className="row total">
             <h3>Total</h3>
-            <h3>${total(itemToCheckout)}</h3>
+            <h3>${total()}</h3>
           </div>
         </Paper>
 

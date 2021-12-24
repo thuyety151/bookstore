@@ -89,7 +89,7 @@ const AddressItem: React.FC<Address> = (address) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div key={address.id} className={classes.root}>
       <Divider />
       <Grid container className={classes.container}>
         <Grid item xs={10}>

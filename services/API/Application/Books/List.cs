@@ -61,8 +61,7 @@ namespace Application.Books
                 if (!string.IsNullOrWhiteSpace(request.Params.AttributeId))
                 {
                     query = query.Where(x =>
-                        x.Book.Attributes.Any(a => a.AttributeId.ToString() == request.Params.AttributeId && a.StockStatus == StockStatus.InStock));
-
+                        x.AttributeId.ToString() == request.Params.AttributeId && x.StockStatus == StockStatus.InStock);
                 }
                 else
                 {

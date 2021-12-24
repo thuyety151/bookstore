@@ -49,7 +49,7 @@ namespace Application.MoMo
 
                 long amount = (long)(order.SubTotal + order.OrderFee) * 23000;
                 string orderId = request.OrderId.ToString();
-                string requestId = (new Guid()).ToString();
+                string requestId = Guid.NewGuid().ToString();
                 string extraData = "";
                 
                 //Before sign HMAC SHA256 signature

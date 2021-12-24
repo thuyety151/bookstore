@@ -15,6 +15,7 @@ import AccountDetail from "./AccountDetail";
 import { userService } from "../../service/auth.service";
 import { createBrowserHistory } from "history";
 import AddressDashboard from "./address/AddressDashBoard";
+import OrderDashboard from "./order/OrderDashboard";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -35,7 +36,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
@@ -72,10 +73,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100px",
     height: "100px",
     borderRadius: "50%",
-    backgroundColor: "#f55a5a",
+    backgroundColor: "#f52f2f",
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: "#f52f2f",
+      backgroundColor: "#f11b1b",
     },
     position: "absolute",
     top: "50%",
@@ -106,7 +107,6 @@ export default function MyAccount() {
   };
 
   function handleLogout() {
-    console.log("logout");
     userService.logout();
     history.push("/login");
   }
@@ -180,6 +180,7 @@ export default function MyAccount() {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Typography variant="h5">Orders</Typography>
+            <OrderDashboard />
           </TabPanel>
           <TabPanel value={value} index={2}>
             <Typography variant="h5">Addresses</Typography>

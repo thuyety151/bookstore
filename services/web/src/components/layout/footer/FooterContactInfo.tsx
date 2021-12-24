@@ -8,13 +8,17 @@ import {
   Theme,
 } from "@material-ui/core";
 import { FooterType } from "../../../model/footer";
+import clsx from "clsx";
 
-const FooterContactComponent: React.FC<{ data: FooterType }> = (data) => {
+const FooterContactComponent: React.FC<{
+  data: FooterType;
+  className: string;
+}> = (data) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, data.className)}>
       <Grid container>
-        <Grid item xs={10} container direction="column" wrap="nowrap">
+        <Grid container direction="column" wrap="nowrap">
           <ListItem className={classes.title}>{data.data.title}</ListItem>
           <List component="nav" aria-label="secondary mailbox folders">
             {data.data.children.map((item: any, index: number) => {

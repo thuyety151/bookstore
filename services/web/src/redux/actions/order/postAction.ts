@@ -1,3 +1,4 @@
+import { omit } from "lodash";
 import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
@@ -21,12 +22,15 @@ export const createOrder =
       itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
       addressId: state.address.currentAddress.id,
       note: props.note,
+      coupon: {
+        code: state.order.coupon?.code,
+      },
+      address: omit(address, "id"),
     };
     const response = await api.post("/orders/create", data);
 
     if (response.data.isSuccess) {
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
-
       //call api GHN
       const order = {
         payment_type_id: 2,
@@ -43,16 +47,11 @@ export const createOrder =
         required_note: "KHONGCHOXEMHANG",
         deliver_station_id: null,
         weight: 200,
-        order_value:
-          state.cart.itemToCheckOut.length === 0
-            ? Math.round(total(state.cart.data) * 23000)
-            : Math.round(total(state.cart.itemToCheckOut) * 23000),
+        order_value: Math.round(total() * 23000),
         service_type_id: state.order.currentService.service_type_id,
         service_id: state.order.currentService.service_id,
-        insurance_value:
-          state.cart.itemToCheckOut.length === 0
-            ? Math.round(total(state.cart.data) * 23000)
-            : Math.round(total(state.cart.itemToCheckOut) * 23000),
+        insurance_value: Math.round(total() * 23000),
+        // cod_amount: Math.round(total() * 23000),
         cod_amount: 200000,
         pick_station_id: 1444,
         items: state.cart.itemToCheckOut.map((item) => {
@@ -60,7 +59,7 @@ export const createOrder =
             name: item.productName,
             // code: "hi",
             quantity: item.quantity,
-            price: item.price,
+            price: Math.round(item.price * 23000),
             category: {
               level1: "book",
             },
@@ -82,8 +81,10 @@ export const createOrder =
             }
           );
           if (resultUpdateOrderCode.data.isSuccess) {
-            console.log("success");
-            props.onSuccess(createDelivery.data.data.order_code, response.data.value);
+            props.onSuccess(
+              createDelivery.data.data.order_code,
+              response.data.value
+            );
             dispatch({
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
@@ -92,7 +93,7 @@ export const createOrder =
             /**
              * Delete order when create GHN fail
              */
-            await api.delete("/orders", {
+            await api.delete("/orders/delete-order-fail", {
               params: {
                 id: response.data.value,
               },
@@ -109,7 +110,7 @@ export const createOrder =
         /**
          * Delete order when create GHN fail
          */
-        await api.delete("/orders", {
+        await api.delete("/orders/delete-order-fail", {
           params: {
             id: response.data.value,
           },
@@ -127,5 +128,27 @@ export const createOrder =
         type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_FAIL,
         message: response.data.error,
       });
+    }
+  };
+
+export type CancelOrderProps = {
+  orderCode: string;
+  onSuccess: () => void;
+  onFailure: (error: any) => void;
+};
+export const cancelOrder =
+  (props: CancelOrderProps) => async (dispatch: any) => {
+    try {
+      const response = await apiGHN.post("/v2/switch-status/cancel", {
+        order_codes: [props.orderCode],
+        shop_id: shopAddress.shop_id,
+      });
+      if (response.data.code === 200) {
+        props.onSuccess();
+      } else {
+        props.onFailure(response.data?.message);
+      }
+    } catch (error: any) {
+      props.onFailure(error);
     }
   };

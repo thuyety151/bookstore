@@ -1,31 +1,29 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Box, Divider, Tab, Tabs } from '@material-ui/core';
-import { RootStore } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Box, Divider, Tab, Tabs } from "@material-ui/core";
+import { RootStore } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
+    width: "100%",
     maxWidth: 500,
   },
   rootAppBar: {
     flexGrow: 1,
   },
   tab: {
-    padding: "50px 250px 20px 250px"
+    padding: "50px 250px 20px 250px",
   },
   text: {
     color: "#000000",
-    '&:hover': {
-      cursor: "pointer"
-    }
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
   textDes: {
-    textAlign: "left" 
-  }
-
+    textAlign: "left",
+  },
 });
 
 export default function Types() {
@@ -41,28 +39,30 @@ export default function Types() {
   return (
     <div className={classes.rootAppBar}>
       <AppBar id="/description" position="static" color="default">
-        <Tabs centered value={value}
+        <Tabs
+          centered
+          value={value}
           indicatorColor="primary"
           textColor="primary"
           onChange={handleChange}
-          aria-label="disabled tabs example">
+          aria-label="disabled tabs example"
+        >
           <Tab label="Description" href="/description" />
-          <Tab label="Product Details" href="/detail" disabled className={classes.text} />
+          <Tab
+            label="Product Details"
+            href="/detail"
+            disabled
+            className={classes.text}
+          />
           <Tab label="Reviews" href="/review" disabled />
         </Tabs>
         <Divider />
       </AppBar>
       <Box p={3} className={classes.tab}>
-        { data && 
-          <Typography variant="body1" gutterBottom>
-            {data.description}
-        </Typography>
-        }
+        <div
+          dangerouslySetInnerHTML={{ __html: data?.description || "<p></p>" }}
+        />
       </Box>
-
-
-
-
     </div>
   );
 }

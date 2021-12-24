@@ -1,8 +1,13 @@
 import { sum } from "lodash";
+import { formatVNDtoUSD } from "../../helper/format";
+import { Coupon, DiscountType } from "../../model/coupon";
 import Item from "../../model/item";
 import { NAME_ACTIONS } from "../constants/order/actionTypes";
+import { NAME_ACTIONS as NAME_ACTIONS_COUPON } from "../constants/coupon/actionTypes";
 import store from "../store";
 import { ServiceType } from "./deliveryReducer";
+import { Order } from "../../model/order";
+import { Pagination, paginationValue } from "../../helper/paginationValue";
 
 export type OrderState = {
   requesting: boolean;
@@ -12,6 +17,9 @@ export type OrderState = {
   fee: number | null; // use null to check can check out or not
   note: string | null;
   currentService: ServiceType;
+  coupon: Coupon;
+  listOrder: Order[];
+  pagination: Pagination;
 };
 const initState: OrderState = {
   requesting: false,
@@ -21,12 +29,28 @@ const initState: OrderState = {
   fee: 0,
   note: null,
   currentService: {} as any,
+  coupon: {} as Coupon,
+  listOrder: [],
+  pagination: {
+    ...paginationValue,
+  },
 };
 
-export const total = (items: Item[]) => {
-  const fee = store.getState().order.fee || 0;
+export const total = () => {
+  const { fee, coupon } = store.getState().order;
+  const items = store.getState().cart.itemToCheckOut;
 
-  return sum(items.map((x) => x.quantity * x.price)) + fee;
+  const couponAmount =
+    coupon.discountType === DiscountType.Percentage
+      ? coupon.couponAmount / 100
+      : formatVNDtoUSD(coupon.couponAmount) || 0;
+  return (
+    Math.floor(
+      (sum(items.map((x) => x.quantity * x.price)) + (fee || 0)) *
+        (1 - couponAmount) *
+        100
+    ) / 100 || 0
+  );
 };
 
 const orderReducer = (
@@ -88,6 +112,29 @@ const orderReducer = (
         message: payload.message,
         fee: null,
       };
+    case NAME_ACTIONS_COUPON.VERIFY_COUPON.VERIFY_COUPON_SUCCESS:
+      return {
+        ...state,
+        coupon: payload.data,
+      };
+    case NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION:
+      return {
+        ...state,
+        requesting: true,
+        listOrder: [],
+      };
+    case NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_SUCCESS:
+      return {
+        ...state,
+        listOrder: payload.data,
+        requesting: false,
+      };
+    case NAME_ACTIONS.GET_ORDER_PAGINATION.GET_ORDER_PAGINATION_FAIL: {
+      return {
+        ...state,
+        requesting: false,
+      };
+    }
     default:
       return state;
   }
