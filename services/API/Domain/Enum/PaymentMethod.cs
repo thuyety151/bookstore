@@ -4,8 +4,6 @@ namespace Domain.Enum
     {
         DirectBankTransfer,
         CashOnDelivery,
-        Paypal,
-        Momo,
-        ZaloPay
+        MoMo,
     }
 }

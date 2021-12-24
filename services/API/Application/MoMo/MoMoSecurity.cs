@@ -108,6 +108,41 @@ namespace Infrastructure.MoMo
             return result;
 
         }
+        
+        public string buildRefundHash2(string accessKey, long amount,string description, string orderId, string partnerCode, string requestId,
+            long transId, string publicKey)
+        {
+            string json = "{\"accessKey\":\"" +
+                          accessKey + "\",\"amount\":\"" +
+                          amount + "\",\"description\":\"" +
+                          description + "\",\"orderId\":" +
+                          orderId + ",\"partnerCode\":\"" +
+                          partnerCode + "\",\"requestId\":" +
+                          requestId + "\",\"transId\":" +
+                          transId +
+                          "\"}";
+            byte[] data = Encoding.UTF8.GetBytes(json);
+            string result = null;
+            using (var rsa = new RSACryptoServiceProvider(2048))
+            {
+                try
+                {
+                    // client encrypting data with public key issued by server
+                    rsa.FromXmlString(publicKey);
+                    var encryptedData = rsa.Encrypt(data, false);
+                    var base64Encrypted = Convert.ToBase64String(encryptedData);
+                    result = base64Encrypted;
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+
+            }
+
+            return result;
+
+        }
         public string signSHA256(string message, string key)
         {
             byte[] keyByte = Encoding.UTF8.GetBytes(key);

@@ -21,6 +21,8 @@ namespace Domain
         public Address AddressToShip { get; set; }
         public bool IsDeleted { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
+        public long TransId { get; set; }
+        public int ResultCode { get; set; }
 
         public double GetTotal()
         {

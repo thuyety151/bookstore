@@ -42,7 +42,7 @@ namespace Application.MoMo
                 string partnerCode = _configuration["MoMo:PartnerCode"];
                 string accessKey = _configuration["MoMo:AccessKey"];
                 string secretKey = _configuration["MoMo:SecretKey"];
-                string orderInfo = "Test order";
+                string orderInfo = "Book worm";
                 string redirectUrl = _configuration["MoMo:RedirectUrl"] + order.Id;
                 string ipnUrl = "https://momo.vn";
                 string requestType = "captureWallet";
@@ -95,11 +95,6 @@ namespace Application.MoMo
 
                 string payUrl = responseFromMomo.GetValue("payUrl").ToString();
 
-                if (!string.IsNullOrEmpty(payUrl))
-                {
-                    order.PaymentStatus = PaymentStatus.Completed;
-                    await _context.SaveChangesAsync();
-                }
 
                 return Result<string>.Success(payUrl);
             }

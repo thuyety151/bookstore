@@ -11,6 +11,8 @@ import {
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { total } from "../../../redux/reducers/orderReducer";
+import api from "../../../boot/axios";
 import { getPlaceOrder } from "../../../redux/actions/order/getActions";
 import { formatAddressEnter } from "../../../helper/format";
 
@@ -27,6 +29,26 @@ const PlaceOrderPage: React.FC = () => {
   useEffect(() => {
     dispatch(getPlaceOrder(orderId));
   }, [dispatch, orderId]);
+
+  const query = new URLSearchParams(window.location.search);
+  const transId = Number(query.get('transId')) ??0;
+  const resultCode = Number(query.get('resultCode')) ?? -1;
+  const orderId = query.get('orderId');
+
+  useEffect(() => {
+    console.log("transid & resultcode:" + transId + ' ' + resultCode + ' ' + orderId);
+    if(transId !== 0  && resultCode !== -1 )
+    {
+      console.log("alo")
+      var response = api.post('/momo/payment-notification', {
+        transId : transId,
+        resultCode: resultCode,
+        orderId: orderId
+      });
+      console.log('response:' + JSON.stringify(response));
+    }
+      
+  }, [])
 
   return (
     <div className={classes.root}>

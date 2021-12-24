@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tab: {
       padding: "50px 250px 20px 250px",
+      [theme.breakpoints.down("sm")]: {
+        padding: 10,
+      },
     },
     text: {
       color: "#000000",
