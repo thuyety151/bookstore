@@ -1,0 +1,15 @@
+.page-cart {
+  @media screen and (max-width: 600px) {
+    &__title .MuiTypography-root {
+      font-size: 24px;
+    }
+    &__table {
+      overflow: auto;
+      padding: 16px;
+    }
+    &__info {
+      overflow: auto;
+      padding: 16px;
+    }
+  }
+}

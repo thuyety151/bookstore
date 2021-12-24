@@ -32,7 +32,7 @@ import { useSnackbar } from "notistack";
 import { ROUTE_PLACE_ORDER } from "../../routers/types";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
-import LocalAtmRoundedIcon from '@material-ui/icons/LocalAtmRounded';
+import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
 import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../shared/enum/stockStatus";
 import { PaymentMethod } from "../../shared/enum/paymentMethod";
@@ -169,194 +169,214 @@ export default function BillInfo(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
-      <Grid
-        container
-        direction="column"
-        alignItems="flex-start"
-        justifyContent="space-between"
-        className={classes.grid}
-      >
-        <Collapse in={openSection.order} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Your order</h3>
-              <span
-                className="cursor-pointer icon"
-                onClick={() =>
-                  setopenSection({ ...openSection, order: !openSection.order })
-                }
-              >
-                {openSection.order ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid item container direction="column">
-              {itemToCheckout.map((item: Item, index: number) => {
-                return (
-                  <div className="row" key={index}>
-                    <span>
-                      {item.productName} x{item.quantity}
-                    </span>
-                    <span>${item.price * item.quantity}</span>
-                  </div>
-                );
-              })}
-            </Grid>
-          </Paper>
-        </Collapse>
-        <Collapse in={openSection.total} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Cart Totals</h3>
-              <span
-                className="cursor-pointer icon"
-                onClick={() =>
-                  setopenSection({ ...openSection, total: !openSection.total })
-                }
-              >
-                {openSection.total ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Grid item container direction="column">
-              <div className="row">
-                <span>Subtotal</span>
-                <span>${subTotal(itemToCheckout)}</span>
-              </div>
-              <Grid item className="row">
-                <span>Shipping</span>
-                <span>${fee}</span>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Collapse>
-        {/* shippine */}
-        <Collapse in={openSection.shipping} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Shipping</h3>
-              <span
-                className="cursor-pointer"
-                onClick={() =>
-                  setopenSection({
-                    ...openSection,
-                    shipping: !openSection.shipping,
-                  })
-                }
-              >
-                {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
-              </span>
+    <div style={{ margin: "16px" }}>
+      <Collapse in={openSection.order} collapsedSize={82}>
+        <Paper variant="outlined" className={classes.paper}>
+          <div>
+            <h3>Your order</h3>
+            <span
+              className="cursor-pointer icon"
+              onClick={() =>
+                setopenSection({ ...openSection, order: !openSection.order })
+              }
+            >
+              {openSection.order ? <RemoveIcon /> : <AddIcon />}
+            </span>
+          </div>
+          <Grid item container direction="column">
+            {itemToCheckout.map((item: Item, index: number) => {
+              return (
+                <div className="row" key={index}>
+                  <span>
+                    {item.productName} x{item.quantity}
+                  </span>
+                  <span>${item.price * item.quantity}</span>
+                </div>
+              );
+            })}
+          </Grid>
+        </Paper>
+      </Collapse>
+      <Collapse in={openSection.total} collapsedSize={82}>
+        <Paper variant="outlined" className={classes.paper}>
+          <div>
+            <h3>Cart Totals</h3>
+            <span
+              className="cursor-pointer icon"
+              onClick={() =>
+                setopenSection({ ...openSection, total: !openSection.total })
+              }
+            >
+              {openSection.total ? <RemoveIcon /> : <AddIcon />}
+            </span>
+          </div>
+          <Grid item container direction="column">
+            <div className="row">
+              <span>Subtotal</span>
+              <span>${subTotal(itemToCheckout)}</span>
             </div>
             <Grid item className="row">
-              <span>{addressInfor()}</span>
-              <span>{formatAddress(currentAddress)}</span>
+              <span>Shipping</span>
               <span>${fee}</span>
             </Grid>
-            <div className="row">
-              <span className={classes.changeAddress}>Change Address</span>
-            </div>
-          </Paper>
-        </Collapse>
-        {/* coupon */}
-        <Collapse in={openSection.coupon} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Coupon</h3>
-              <span
-                className="cursor-pointer"
-                onClick={() =>
-                  setopenSection({
-                    ...openSection,
-                    coupon: !openSection.coupon,
-                  })
-                }
-              >
-                {openSection.coupon ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <Paper
-              variant="outlined"
-              className={classes.inputForm}
-              style={{ justifyContent: "space-around" }}
-            >
-              <InputBase
-                placeholder="Coupon here"
-                inputProps={{ "aria-label": "naked" }}
-                value={couponCode}
-                onChange={(event) => setCouponCode(event.target.value)}
-              />
-              <span
-                className="cap cursor-pointer"
-                style={{ width: "100%", textAlign: "right" }}
-                onClick={handleApplyCoupon}
-              >
-                Apply coupon
-              </span>
-            </Paper>
-            {couponState.message && (
-              <FormHelperText className="text-error">
-                {couponState.message}
-              </FormHelperText>
-            )}
-          </Paper>
-        </Collapse>
-        {/* total */}
+          </Grid>
+        </Paper>
+      </Collapse>
+      {/* shippine */}
+      <Collapse in={openSection.shipping} collapsedSize={82}>
         <Paper variant="outlined" className={classes.paper}>
-          <div className="row total">
-            <h3>Total</h3>
-            <h3>${subTotal(itemToCheckout) + (fee || 0)}</h3>
+          <div>
+            <h3>Shipping</h3>
+            <span
+              className="cursor-pointer"
+              onClick={() =>
+                setopenSection({
+                  ...openSection,
+                  shipping: !openSection.shipping,
+                })
+              }
+            >
+              {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
+            </span>
+          </div>
+          <Grid item className="row">
+            <span>{addressInfor()}</span>
+            <span>{formatAddress(currentAddress)}</span>
+            <span>${fee}</span>
+          </Grid>
+        </Paper>
+      </Collapse>
+      {/* shippine */}
+      <Collapse in={openSection.shipping} collapsedSize={86}>
+        <Paper variant="outlined" className={classes.paper}>
+          <div>
+            <h3>Shipping</h3>
+            <span
+              className="cursor-pointer"
+              onClick={() =>
+                setopenSection({
+                  ...openSection,
+                  shipping: !openSection.shipping,
+                })
+              }
+            >
+              {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
+            </span>
+          </div>
+          <Grid item className="address">
+            <span>{addressInfor()}</span>
+            <span>{formatAddress(currentAddress)}</span>
+          </Grid>
+
+          <div className="row">
+            <span className={classes.changeAddress}>Change Address</span>
           </div>
         </Paper>
-
-        <Collapse in={openSection.payment} collapsedSize={82}>
-          <Paper variant="outlined" className={classes.paper}>
-            <div>
-              <h3>Payment</h3>
-              <span
-                className="cursor-pointer icon"
-                onClick={() =>
-                  setopenSection({
-                    ...openSection,
-                    payment: !openSection.payment,
-                  })
-                }
-              >
-                {openSection.payment ? <RemoveIcon /> : <AddIcon />}
-              </span>
-            </div>
-            <FormControl component="fieldset">
-              <RadioGroup
-                aria-label="gender"
-                name="gender1"
-                value={value}
-                onChange={handleChange}
-              >
-                <FormControlLabel
-                  value="Cash on delivery"
-                  control={<Radio />}
-                  label="Cash on delivery"
-                />
-                <Typography className={classes.text}>
-                 <LocalAtmRoundedIcon/> Pay with cash upon delivery.
-                </Typography>
-                <FormControlLabel
-                  value="MoMo"
-                  control={<Radio />}
-                  label="MoMo"
-                />
-                <Typography className={classes.text}>
-              <Avatar alt="MoMo" src={momo} className={classes.small}/> {''}Scan QR MoMo.
-                </Typography>
-              </RadioGroup>
-            </FormControl>
+      </Collapse>
+      {/* coupon */}
+      <Collapse in={openSection.coupon} collapsedSize={82}>
+        <Paper variant="outlined" className={classes.paper}>
+          <div>
+            <h3>Coupon</h3>
+            <span
+              className="cursor-pointer"
+              onClick={() =>
+                setopenSection({
+                  ...openSection,
+                  coupon: !openSection.coupon,
+                })
+              }
+            >
+              {openSection.coupon ? <RemoveIcon /> : <AddIcon />}
+            </span>
+          </div>
+          <Paper
+            variant="outlined"
+            className={classes.inputForm}
+            style={{ justifyContent: "space-around" }}
+          >
+            <InputBase
+              placeholder="Coupon here"
+              inputProps={{ "aria-label": "naked" }}
+              value={couponCode}
+              onChange={(event) => setCouponCode(event.target.value)}
+            />
+            <span
+              className="cap cursor-pointer"
+              style={{ width: "100%", textAlign: "right" }}
+              onClick={handleApplyCoupon}
+            >
+              Apply coupon
+            </span>
           </Paper>
-        </Collapse>
-      </Grid>
+          {couponState.message && (
+            <FormHelperText className="text-error">
+              {couponState.message}
+            </FormHelperText>
+          )}
+        </Paper>
+      </Collapse>
+      {/* total */}
+      <Paper variant="outlined" className={classes.paper}>
+        <div className="row total">
+          <h3>Total</h3>
+          <h3>${subTotal(itemToCheckout) + (fee || 0)}</h3>
+        </div>
+      </Paper>
+      <Collapse in={openSection.payment} collapsedSize={82}>
+        <Paper variant="outlined" className={classes.paper}>
+          <Collapse in={openSection.payment} collapsedSize={28}>
+            <Grid container>
+              <div className={classes.header}>
+                <h3>Payment</h3>
+                <span
+                  className="cursor-pointer icon"
+                  onClick={() =>
+                    setopenSection({
+                      ...openSection,
+                      payment: !openSection.payment,
+                    })
+                  }
+                >
+                  {openSection.payment ? <RemoveIcon /> : <AddIcon />}
+                </span>
+              </div>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender1"
+                  value={value}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="Cash on delivery"
+                    control={<Radio />}
+                    label="Cash on delivery"
+                  />
+                  <Typography className={classes.text}>
+                    <LocalAtmRoundedIcon /> Pay with cash upon delivery.
+                  </Typography>
+                  <FormControlLabel
+                    value="MoMo"
+                    control={<Radio />}
+                    label="MoMo"
+                  />
+                  <Typography className={classes.text}>
+                    <Avatar alt="MoMo" src={momo} className={classes.small} />{" "}
+                    {""}Scan QR MoMo.
+                  </Typography>
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+          </Collapse>
+        </Paper>
+      </Collapse>
       <Grid item>
         <PrimaryButton
           text="Place order"
           props={{
             onClick: () => handleClickPayment(),
-            style: { width: "350px" },
+            style: { margin: "16px 0 0" },
           }}
           loading={loading}
         />
@@ -373,7 +393,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "50px 30px 0px 30px",
   },
   paper: {
-    width: "290px",
+    // width: "290px",
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 0,
@@ -388,14 +408,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& h3": {
       margin: 0,
+      paddingBottom: "16px",
     },
     "& .row": {
       justifyContent: "space-between",
       display: "flex",
       padding: theme.spacing(2, 0),
     },
+    "& .address": {
+      display: "grid",
+      paddingTop: "12px",
+    },
     "& .total": {
-      padding: 0,
+      "& h3": {
+        padding: "0px !important",
+      },
+    },
+    "& .MuiCollapse-wrapper": {
+      width: "100%",
     },
   },
   collapse: {
@@ -434,6 +464,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       color: "red",
     },
+  },
+  paymentMethod: {
+    padding: theme.spacing(4, 0, 0),
+  },
+  header: {
+    width: "100%",
+    justifyContent: "space-between",
+    display: "flex",
+    alignItems: "center",
   },
   small: {
     width: theme.spacing(3),
