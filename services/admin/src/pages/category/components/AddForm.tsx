@@ -166,13 +166,11 @@ const AddForm: React.FC<AddFormProps> = (props) => {
         <br />
         <ContainedButton
           text={props.model ? "Save" : "Add category"}
-          props={{
-            style: {
-              width: "fit-content",
-            },
-            disabled: resquesting,
-            onClick: () => handleSubmit(),
+          style={{
+            width: "fit-content",
           }}
+          disabled={resquesting}
+          onClick={() => handleSubmit()}
         />
       </Grid>
     </div>

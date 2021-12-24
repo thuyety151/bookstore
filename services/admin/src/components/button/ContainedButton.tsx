@@ -11,7 +11,7 @@ export type CustomButtonProps = {
   text: string;
 };
 
-const ContainedButton: React.FC<CustomButtonProps> = (props) => {
+const ContainedButton: React.FC<{ text: string } & ButtonProps> = (props) => {
   const classes = useStyles();
 
   return (
@@ -21,7 +21,7 @@ const ContainedButton: React.FC<CustomButtonProps> = (props) => {
       color="primary"
       fullWidth
       className={classes.btn}
-      {...props.props}
+      {...props}
       disableElevation
     >
       {props.text}

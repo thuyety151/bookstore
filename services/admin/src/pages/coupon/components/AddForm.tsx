@@ -60,7 +60,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     if (key === "couponAmount") {
       setFormValue({
         ...formValue,
-        couponAmount: Number(event.target.value) ,
+        couponAmount: Number(event.target.value),
       });
       return;
     }
@@ -185,13 +185,11 @@ const AddForm: React.FC<AddFormProps> = (props) => {
           <br />
           <ContainedButton
             text={props.model ? "Save" : "Add coupon"}
-            props={{
-              style: {
-                width: "fit-content",
-              },
-              disabled: resquesting,
-              onClick: () => handleSubmit(),
+            style={{
+              width: "fit-content",
             }}
+            disabled={resquesting}
+            onClick={() => handleSubmit()}
           />
         </Grid>
       </Paper>

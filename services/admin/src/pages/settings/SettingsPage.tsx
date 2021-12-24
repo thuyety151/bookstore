@@ -243,10 +243,8 @@ const SettingsPage: React.FC = () => {
         <Grid container justifyContent="center">
           <ContainedButton
             text="Save"
-            props={{
-              onClick: () => handleSubmit(),
-              style: { width: "100px" },
-            }}
+            onClick={() => handleSubmit()}
+            style={{ width: "100px" }}
           />
         </Grid>
       </Paper>

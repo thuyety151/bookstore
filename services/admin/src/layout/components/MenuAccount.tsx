@@ -45,8 +45,11 @@ const MenuAccount: React.FC = () => {
             vertical: "top",
             horizontal: "center",
           }}
+          style={{ top: "48px" }}
         >
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <MenuItem onClick={handleLogout} dense>
+            Logout
+          </MenuItem>
         </Menu>
       </div>
     </>
