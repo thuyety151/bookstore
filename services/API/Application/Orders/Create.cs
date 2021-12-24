@@ -102,11 +102,11 @@ namespace Application.Orders
 
                     if (coupon.DiscountType == (int) DiscountType.Percentage)
                     {
-                        order.SubTotal = order.SubTotal - (coupon.CouponAmount * order.SubTotal) / 100;
+                        order.SubTotal = Math.Round(order.SubTotal - (coupon.CouponAmount * order.SubTotal) / 100 , 2) ;
                     }
                     else if (coupon.DiscountType == (int) DiscountType.FixedCart)
                     {
-                        order.SubTotal = order.SubTotal - coupon.CouponAmount;
+                        order.SubTotal = Math.Round(order.SubTotal - coupon.CouponAmount , 2) ;
                     }
                     order.Coupon = coupon;
                 }
