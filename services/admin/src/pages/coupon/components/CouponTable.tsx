@@ -198,7 +198,7 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                         ? ""
                         : format(new Date(row.expireDate), "dd/MM/yyyy")}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ display: "flex" }}>
                       <Button
                         className="btn-view"
                         startIcon={<Visibility />}

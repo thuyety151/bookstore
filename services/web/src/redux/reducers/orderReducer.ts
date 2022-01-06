@@ -48,13 +48,12 @@ export const total = (feeProp?: number) => {
     coupon.discountType === DiscountType.Percentage
       ? coupon.couponAmount / 100
       : formatVNDtoUSD(coupon.couponAmount) || 0;
-  return (
-    Math.round(Math.floor(
+  return Math.round(
+    Math.floor(
       (sum(items.map((x) => x.quantity * x.price)) + (feeToCal || 0)) *
         (1 - couponAmount) *
         100
-    ) / 100 || 0) /100
-    
+    ) / 100 || 0
   );
 };
 
