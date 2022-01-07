@@ -5,6 +5,7 @@ import { Address } from "../../../model/address";
 import { NAME_ACTIONS } from "../../constants/delivery/actionTypes";
 import { NAME_ACTIONS as ADDRESS_ACTIONS } from "../../constants/address/actionTypes";
 import store from "../../store";
+import { last, reverse } from "lodash";
 
 export type GetServiceProps = {
   onSuccess: (firstService: any) => void;
@@ -38,10 +39,12 @@ export const getServices =
     if (serviceResponse.data.data) {
       dispatch({
         type: NAME_ACTIONS.GET_SERVICE.GET_SERVICE_SUCCESS,
-        data: serviceResponse.data.data.filter((x: any) => x.short_name),
+        data: reverse(
+          serviceResponse.data.data.filter((x: any) => x.short_name)
+        ),
       });
       props.onSuccess(
-        serviceResponse.data.data.filter((x: any) => x.short_name)[0]
+        last(serviceResponse.data.data.filter((x: any) => x.short_name))
       );
     } else {
       dispatch({

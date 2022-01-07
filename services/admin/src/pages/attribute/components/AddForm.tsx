@@ -93,7 +93,6 @@ const AddForm: React.FC<AddFormProps> = (props) => {
             margin="dense"
             inputRef={(input) => {
               if (input != null && isSubmit) {
-                console.log("hic");
                 input.focus();
                 input.blur();
               }

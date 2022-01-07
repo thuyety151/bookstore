@@ -28,7 +28,7 @@ namespace API.Controllers
         
         [HttpPost]
         [Route("update-order-status")]
-        public async Task<IActionResult> UpdateOrderStatus(UpdateOrderStatus.Command command)
+        public async Task<IActionResult> UpdateOrderStatus( UpdateOrderStatus.Command command )
         {
             return HandleResult(await Mediator.Send(command));
         }

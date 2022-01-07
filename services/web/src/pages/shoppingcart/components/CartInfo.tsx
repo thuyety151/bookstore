@@ -115,6 +115,15 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     );
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    dispatch(
+      getServices({
+        onSuccess: (firstService) => {
+          setServiceType(firstService);
+        },
+      })
+    );
+  }, [defaultAddress]);
 
   useEffect(() => {
     if (serviceType?.service_id && defaultAddress?.districtId) {
@@ -129,7 +138,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
       );
     }
     // eslint-disable-next-line
-  }, [serviceType, defaultAddress]);
+  }, [serviceType, defaultAddress, itemsToCheckout?.length]);
   // useEffect(() => {
   //   setSubTotal(
   //     itemsToCheckout.map((x) => {
@@ -298,11 +307,8 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           justifyContent="space-between"
           className={classes.total}
         >
-          <div className="row total">
-            <h3>Total</h3>
-            {/* <h3>${(fee || 0) + subTotal() + couponState?.data?.}</h3> */}
-            <h3>{total()}</h3>
-          </div>
+          <h3>Total</h3>
+          <h3>{total()}</h3>
         </Grid>
       </Paper>
       {/* </Grid> */}

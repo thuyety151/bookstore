@@ -137,6 +137,7 @@ export const createOrder =
 
 export type CancelOrderProps = {
   orderCode: string;
+  orderId: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -149,10 +150,14 @@ export const cancelOrder =
       });
       if (response.data.code === 200) {
         const result = await api.post("/orders/update-order-status", {
-          order_codes: [props.orderCode],
+          orderCode: props.orderCode,
         });
         if (result.data.isSuccess) {
           props.onSuccess();
+          dispatch({
+            type: NAME_ACTIONS.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY,
+            orderCode: props.orderCode,
+          });
         } else {
           props.onFailure(response.data?.message);
         }

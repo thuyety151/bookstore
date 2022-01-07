@@ -47,6 +47,7 @@ namespace Application.Orders.Admin
                 var orders = _context.Orders
                     .Include(x => x.AddressToShip)
                     .Include(x => x.Items)
+                    .OrderByDescending(x => x.OrderDate)
                     .Where(x => x.IsDeleted == false).AsQueryable();
 
                 var user = _context.Users.SingleOrDefault(x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
