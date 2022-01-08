@@ -31,7 +31,10 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const [isSubmit, setIsSubmit] = useState(false);
   const getInitForm = (): Category => ({
     id: props.model?.id || "",
-    name: props.model?.name || "",
+    name:
+      props.model?.name[0] === "-"
+        ? props.model?.name.replace("-", "")
+        : props.model?.name || "",
     slug: props.model?.slug || "",
     parentId: props.model?.parentId || "",
     mediaUrl: props.model?.mediaUrl || "",
@@ -44,6 +47,9 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const dispatch = useDispatch();
   const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
+  const loading = useSelector(
+    (state: RootStore) => state.categories.requesting
+  );
 
   useEffect(() => {
     dispatch(
@@ -81,7 +87,10 @@ const AddForm: React.FC<AddFormProps> = (props) => {
      */
     dispatch(
       upsertCategory({
-        data: formValue,
+        data: {
+          ...formValue,
+          parentId: formValue.parentId ? formValue.parentId : null,
+        },
         onSuccess: () => {
           setIsSubmit(false);
           enqueueSnackbar(
@@ -104,6 +113,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     setFormValue({
       ...formValue,
       mediaId: media[0].id,
+      media: media,
     });
   };
   return (
@@ -174,8 +184,9 @@ const AddForm: React.FC<AddFormProps> = (props) => {
             style={{
               width: "fit-content",
             }}
-            disabled={resquesting}
+            disabled={resquesting || loading}
             onClick={() => handleSubmit()}
+            loading={loading}
           />
         </Grid>
       </Paper>

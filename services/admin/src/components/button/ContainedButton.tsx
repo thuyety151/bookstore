@@ -4,14 +4,18 @@ import {
   makeStyles,
   ButtonProps,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 
 export type CustomButtonProps = {
   props?: ButtonProps;
   text: string;
+  loading?: boolean;
 };
 
-const ContainedButton: React.FC<{ text: string } & ButtonProps> = (props) => {
+const ContainedButton: React.FC<
+  { text: string; loading?: boolean } & ButtonProps
+> = (props) => {
   const classes = useStyles();
 
   return (
@@ -24,7 +28,7 @@ const ContainedButton: React.FC<{ text: string } & ButtonProps> = (props) => {
       {...props}
       disableElevation
     >
-      {props.text}
+      {props.loading ? <CircularProgress size="20px" /> : props.text}
     </Button>
   );
 };

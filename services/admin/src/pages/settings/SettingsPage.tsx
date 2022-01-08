@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   createStyles,
   FormControl,
   Grid,
@@ -99,6 +100,14 @@ const SettingsPage: React.FC = () => {
         <Typography variant="h5" className={classes.name}>
           Settings for Homepage
         </Typography>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          style={{ padding: "16px 0px" }}
+        >
+          {!settiingsState.data.length && <CircularProgress />}
+        </Grid>
         <Grid container direction="row" justifyContent="space-evenly">
           <Grid item xs={5} className={classes.container}>
             {settiingsState.data?.slice(0, 5).map((item, index) => {

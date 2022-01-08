@@ -62,5 +62,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new DeleteOrderFail.Command() { Id = id }));
         }
+        [HttpPost]
+        [Route("update-order-note")]
+        public async Task<IActionResult> UpdateOrderNote( UpdateOrderNote.Command command )
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
     }
 }

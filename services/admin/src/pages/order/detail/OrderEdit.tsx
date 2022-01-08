@@ -20,15 +20,19 @@ import Shipping from "./components/Shipping";
 import EditIcon from "@material-ui/icons/Edit";
 import ProductTable from "./components/ProductTable";
 import ContainedButton from "components/button/ContainedButton";
+import { updateOrderNote } from "redux/actions/order/postActions";
+import { useSnackbar } from "notistack";
 
 const OrderEdit: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const order = useSelector((state: RootStore) => state.orders.currentOrder);
+  const { requesting } = useSelector((state: RootStore) => state.orders);
   const [updateBilling, setUpdateBilling] = useState(false);
   const [updateShipping, setUpdateShipping] = useState(false);
   const { orderId } = useParams() as any;
   const [orderNoteState, setOrderNoteState] = useState(order.orderNote || "");
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(getDetail(orderId));
@@ -40,7 +44,20 @@ const OrderEdit: React.FC = () => {
   ) => {
     setOrderNoteState(event.target.value as string);
   };
-
+  const handleOrderNote = () => {
+    dispatch(
+      updateOrderNote({
+        orderId,
+        orderNote: orderNoteState,
+        onSuccess: () => {
+          enqueueSnackbar("Update successfully", { variant: "success" });
+        },
+        onFailure: (error) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
+  };
   return (
     <div className={classes.root}>
       <Grid container direction="column">
@@ -120,6 +137,8 @@ const OrderEdit: React.FC = () => {
             <ContainedButton
               text={order.orderNote ? "Update" : "Add"}
               style={{ width: "fit-content" }}
+              onClick={handleOrderNote}
+              loading={requesting}
             />
           </Grid>
         </Paper>

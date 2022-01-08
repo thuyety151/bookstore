@@ -32,6 +32,9 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const dispatch = useDispatch();
   const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
+  const loading = useSelector(
+    (state: RootStore) => state.attributes.requesting
+  );
 
   const handleChange =
     (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +122,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
             style={{ width: "fit-content" }}
             disabled={resquesting}
             onClick={() => handleSubmit()}
+            loading={loading}
           />
         </Grid>
       </Paper>

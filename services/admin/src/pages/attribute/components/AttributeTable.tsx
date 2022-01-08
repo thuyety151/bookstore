@@ -12,7 +12,6 @@ import EnhancedTableHead, {
   HeadCell,
 } from "components/table/EnhancedTableHead";
 import { Button, Dialog } from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
@@ -117,10 +116,6 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
     setModelToDelete(id || "");
   };
 
-  const handleOpenDetail = (item: Attribute) => {
-    // setModelToViewDetail(item);
-  };
-
   const handleEdit = (model: Attribute) => {
     props.setModelEdit(model);
   };
@@ -158,7 +153,7 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
               // orderBy={orderBy}
               rowCount={attrState.data.length}
               headerCells={headCells}
-              // loading={orderState.requesting}
+              loading={attrState.requesting}
             />
             <TableBody>
               {attrState.data?.map((row: Attribute, index: number) => {
@@ -170,11 +165,11 @@ const AttributeTable: React.FC<AttributeTableProps> = (props) => {
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.slug}</TableCell>
                     <TableCell>
-                      <Button
+                      {/* <Button
                         className="btn-view"
                         startIcon={<Visibility />}
                         onClick={() => handleOpenDetail(row)}
-                      />
+                      /> */}
                       <Button
                         className="btn-edit"
                         startIcon={<Edit />}

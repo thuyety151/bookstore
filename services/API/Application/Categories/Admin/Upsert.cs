@@ -64,7 +64,7 @@ namespace Application.Categories.Admin
                         }
                     }
                     //Add to parent cateogry
-                    if (request.CategoryParams.ParentId != Guid.Empty)
+                    if (request.CategoryParams.ParentId !=null)
                     {
                         var parentCategory =
                             _context.Categories.FirstOrDefault(x => x.Id == request.CategoryParams.ParentId);
@@ -111,7 +111,6 @@ namespace Application.Categories.Admin
                             media.IsMain = true;
                             media.Name = category.Name;
                             media.IsVideo = false;
-
                             category.Media = media;
                         }
                     }
@@ -121,16 +120,17 @@ namespace Application.Categories.Admin
                     {
                         var parentCategory =
                             _context.Categories.FirstOrDefault(x => x.Id == request.CategoryParams.ParentId);
-                        if (parentCategory == null)
+                        // if (parentCategory == null)
+                        // {
+                        //     return Result<Guid>.Failure("Error when add category: Parent id does not exist");
+                        // }
+                        if (parentCategory != null)
                         {
-                            return Result<Guid>.Failure("Error when add category: Parent id does not exist");
+                            category.ParentId = parentCategory.Id;
                         }
-
-                        category.ParentId = parentCategory.Id;
                     }
                    
-                    await _context.SaveChangesAsync(); 
-                    
+                    await _context.SaveChangesAsync();
                     return Result<Guid>.Success(category.Id);
                 }
             }

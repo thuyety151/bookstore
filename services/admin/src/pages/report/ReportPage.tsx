@@ -2,6 +2,7 @@ import {
   Button,
   createStyles,
   Grid,
+  LinearProgress,
   List,
   ListItem,
   ListItemText,
@@ -42,7 +43,7 @@ const ReportPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = React.useState(2);
-  const { data } = useSelector((state: RootStore) => state.reports);
+  const { data, requesting } = useSelector((state: RootStore) => state.reports);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -89,6 +90,7 @@ const ReportPage: React.FC = () => {
               </ListItem>
             ))}
           </List>
+          {requesting && <LinearProgress />}
         </Paper>
       </Grid>
       <Button

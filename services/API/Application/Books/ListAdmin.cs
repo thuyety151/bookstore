@@ -47,17 +47,10 @@ namespace Application.Books
                     .Where(x => x.Book.IsDeleted == false && x.AttributeId == defaultAttributeId)
                     .OrderByDescending(x => x.Book.CreateDate)
                     .ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
-                
-
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));
             }
-            
-            
         }
-        
-     
-       
     }
 }
 

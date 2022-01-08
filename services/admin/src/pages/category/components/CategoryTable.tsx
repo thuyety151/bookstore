@@ -200,7 +200,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
               // orderBy={orderBy}
               rowCount={cateState.data.length}
               headerCells={headCells}
-              // loading={orderState.requesting}
+              loading={cateState.requesting}
             />
             <TableBody>
               {cateState.data?.map((row: Category, index: number) => {
