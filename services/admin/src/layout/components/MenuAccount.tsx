@@ -1,6 +1,7 @@
 import { Avatar, Button, Menu, MenuItem } from "@material-ui/core";
 import { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { ROUTE_LOGIN } from "routers/types";
 import { userService } from "service/auth.service";
 
 const MenuAccount: React.FC = () => {
@@ -9,15 +10,13 @@ const MenuAccount: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const location = useLocation();
-
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleLogout = () => {
     setAnchorEl(null);
     userService.logout();
-    history.push(location.pathname);
+    history.push({ pathname: ROUTE_LOGIN });
   };
   return (
     <>
