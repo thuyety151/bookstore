@@ -6,6 +6,8 @@ import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Slider from "./Slider";
 import { Book } from "../../../model";
+import { generatePath, useHistory } from "react-router-dom";
+import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,12 +43,26 @@ interface Props {
 }
 export default function DealItem({ item }: Props) {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleNavBook = () => {
+    if (item?.id) {
+      history.push(
+        generatePath(ROUTE_BOOK_DETAIL, {
+          bookId: item?.id,
+          attributeId: item?.attributeId,
+        })
+      );
+    } else {
+      history.push(`/book`);
+    }
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Grid container spacing={1}>
           <Grid item container xs={5} alignItems="stretch">
-            <ButtonBase>
+            <ButtonBase onClick={handleNavBook}>
               <img
                 className={classes.img}
                 alt="complex"

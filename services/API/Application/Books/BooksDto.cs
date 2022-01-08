@@ -19,6 +19,7 @@ namespace Application.Books
         public string StockStatus { get; set; }
         public string Categories { get; set; }
         public DateTime PublishDate { get; set; }
+        public int TotalStock { get; set; }
         
     }
 }

@@ -171,7 +171,8 @@ namespace Application.Books
                     PictureUrl = x.Book.Media.FirstOrDefault(m => m.IsMain).Url,
                     StockStatus = x.StockStatus.ToString(),
                     Categories = String.Join(",", x.Book.Categories.Select(c => c.Category.Name)),
-                    PublishDate = x.Book.PublicationDate
+                    PublishDate = x.Book.PublicationDate,
+                    TotalStock = x.TotalStock
 
                 }).AsQueryable();
 
