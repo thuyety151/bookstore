@@ -52,10 +52,10 @@ function Categories() {
         <Grid container>
           {/* <Grid container justifyContent="space-between"> */}
           {rootCategoryState.requesting
-            ? new Array(5).map((value, index) => (
+            ? new Array(4).map((value, index) => (
                 <Skeleton variant="rect" width={210} height={118} />
               ))
-            : rootCategoryState.data.root.slice(0, 5).map((value, index) => (
+            : rootCategoryState.data.root.slice(0, 4).map((value, index) => (
                 <Paper
                   key={`key-category-${index}`}
                   className={clsx(classes.paper, "category__contents")}
