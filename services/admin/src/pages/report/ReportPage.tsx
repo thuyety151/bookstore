@@ -2,6 +2,7 @@ import {
   Button,
   createStyles,
   Grid,
+  LinearProgress,
   List,
   ListItem,
   ListItemText,
@@ -42,7 +43,7 @@ const ReportPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = React.useState(2);
-  const { data } = useSelector((state: RootStore) => state.reports);
+  const { data, requesting } = useSelector((state: RootStore) => state.reports);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -89,6 +90,7 @@ const ReportPage: React.FC = () => {
               </ListItem>
             ))}
           </List>
+          {requesting && <LinearProgress />}
         </Paper>
       </Grid>
       <Button
@@ -104,7 +106,7 @@ const ReportPage: React.FC = () => {
         <Grid item xs={2} className="quick-view">
           <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${Math.floor(sum(data.flatMap((x) => x.netSale)) / 100) * 100}
+              ${sum(data.flatMap((x) => x.netSale)).toFixed(2)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               Net sales in this period
@@ -128,7 +130,7 @@ const ReportPage: React.FC = () => {
           </Paper>
           <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${Math.floor(sum(data.flatMap((x) => x.refunded)) / 100) * 100}
+              ${sum(data.flatMap((x) => x.refunded)).toFixed(2)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               Refunded order
@@ -136,7 +138,7 @@ const ReportPage: React.FC = () => {
           </Paper>
           <Paper className={classes.paperItem} variant="outlined">
             <Typography variant="h5">
-              ${sum(data.flatMap((x) => x.shippingFee))}
+              ${sum(data.flatMap((x) => x.shippingFee)).toFixed(2)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               Charged for shipping

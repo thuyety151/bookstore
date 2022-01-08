@@ -13,7 +13,7 @@ export const upsertCategory =
         "/categories",
         props.data.id
           ? omit(props.data, "media")
-          : omit(props.data, ["media", "id"])
+          : omit(props.data, ["media", "id", "mediaUrl"])
       );
       if (response.data.isSuccess) {
         dispatch({

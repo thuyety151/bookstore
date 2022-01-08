@@ -3,6 +3,7 @@ import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
 import { shopAddress } from "../../../mocks/shopInfo";
+import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { NAME_ACTIONS } from "../../constants/order/actionTypes";
 import { total } from "../../reducers/orderReducer";
 import store from "../../store";
@@ -53,13 +54,14 @@ export const createOrder =
         service_type_id: state.order.currentService.service_type_id,
         service_id: state.order.currentService.service_id,
         insurance_value: Math.round(total() * 23000),
-        // cod_amount: Math.round(total() * 23000),
-        cod_amount: Math.round(total() * 23000),
+        cod_amount:
+          props.paymentMethod === PaymentMethod.Momo
+            ? 0
+            : Math.round(total() * 23000),
         pick_station_id: 1444,
         items: state.cart.itemToCheckOut.map((item) => {
           return {
             name: item.productName,
-            // code: "hi",
             quantity: item.quantity,
             price: Math.round(item.price * 23000),
             category: {
@@ -135,6 +137,7 @@ export const createOrder =
 
 export type CancelOrderProps = {
   orderCode: string;
+  orderId: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -147,12 +150,15 @@ export const cancelOrder =
       });
       if (response.data.code === 200) {
         const result = await api.post("/orders/update-order-status", {
-          order_codes: [props.orderCode]
-        })
-        if(result.data.isSuccess){
+          orderCode: props.orderCode,
+        });
+        if (result.data.isSuccess) {
           props.onSuccess();
-        }
-        else {
+          dispatch({
+            type: NAME_ACTIONS.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY,
+            orderCode: props.orderCode,
+          });
+        } else {
           props.onFailure(response.data?.message);
         }
       } else {

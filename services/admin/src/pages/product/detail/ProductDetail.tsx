@@ -75,7 +75,7 @@ export default function ProductDetail() {
     totalStock: 0,
     isPublic: false,
     updateDate: new Date(),
-    categoryIds: [],
+    categoryIds: [] as string[],
   };
   //Selector
   const bookDetail = useSelector(
@@ -112,6 +112,7 @@ export default function ProductDetail() {
   const [bookAttributeSelected, setBookAttributeSelected] = useState<
     BookAttribute[]
   >([]);
+
   const [isSubmit, setIsSubmit] = useState(false);
 
   const [openAttr, setOpenAttr] = useState(new Array(0).fill(false));
@@ -257,6 +258,8 @@ export default function ProductDetail() {
         ? (bookParams.categoryIds.filter(
             (x) => x !== event.target.name
           ) as string[])
+        : !bookParams.categoryIds
+        ? [event.target.name]
         : bookParams.categoryIds?.concat(event.target.name as string),
     });
   };
@@ -299,7 +302,12 @@ export default function ProductDetail() {
      *  handle data again
      */
 
-    if (!bookParams.name) {
+    if (
+      !bookParams.name
+      // ||
+      // !bookParams.categoryIds?.length ||
+      // !bookParams.media
+    ) {
       return;
     }
     if (!bookParams.attributes) {
@@ -320,6 +328,7 @@ export default function ProductDetail() {
       attributes: [...bookAttributeSelected],
       media: [...mediaState],
     });
+    console.log("bookParams", bookParams);
     setAdd(true);
   };
 
@@ -436,7 +445,6 @@ export default function ProductDetail() {
                 rules={[ValidationName.Required]}
                 inputRef={(input) => {
                   if (input != null && isSubmit) {
-                    console.log("hic");
                     input.focus();
                     input.blur();
                   }

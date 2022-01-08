@@ -48,13 +48,12 @@ export const total = (feeProp?: number) => {
     coupon.discountType === DiscountType.Percentage
       ? coupon.couponAmount / 100
       : formatVNDtoUSD(coupon.couponAmount) || 0;
-  return (
-    Math.round(Math.floor(
+  return Math.round(
+    Math.floor(
       (sum(items.map((x) => x.quantity * x.price)) + (feeToCal || 0)) *
         (1 - couponAmount) *
         100
-    ) / 100 || 0) /100
-    
+    ) / 100 || 0
   );
 };
 
@@ -71,7 +70,7 @@ const orderReducer = (
     case NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS:
       return {
         ...state,
-        requesting: false,
+        // requesting: false,
       };
     case NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_FAIL:
       return {
@@ -88,7 +87,7 @@ const orderReducer = (
       .CREATE_DELIVERY_FOR_ORDER_SUCCESS:
       return {
         ...state,
-        requesting: false,
+        // requesting: false,
       };
     case NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER.CREATE_DELIVERY_FOR_ORDER_FAIL:
       return {
@@ -148,6 +147,13 @@ const orderReducer = (
     case CART_NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS:
     case NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE:
       return initState;
+    case NAME_ACTIONS.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY:
+      return {
+        ...state,
+        listOrder: state.listOrder.filter(
+          (x) => x.orderCode !== payload.orderCode
+        ),
+      };
     default:
       return state;
   }

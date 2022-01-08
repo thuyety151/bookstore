@@ -98,6 +98,21 @@ const ordersReducer = (
         ...state,
         requesting: false,
       };
+    case ACTION_NAMES.UPDATE_ORDER.UPDATE_ORDER_NOTE:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case ACTION_NAMES.UPDATE_ORDER.UPDATE_ORDER_NOTE_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+      };
+    case ACTION_NAMES.UPDATE_ORDER.UPDATE_ORDER_NOTE_FAIL:
+      return {
+        ...state,
+        requesting: false,
+      };
     default:
       return state;
   }

@@ -47,6 +47,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const dispatch = useDispatch();
   const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
+  const loading = useSelector((state: RootStore) => state.coupons.requesting);
 
   const handleDateChange = (date: Date | null) => {
     setFormValue({
@@ -75,13 +76,11 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     /**
      *  handle data again
      */
-    console.log("form value:" + JSON.stringify(formValue));
     const x = ["code"].map((key: string) => {
       return !!get(formValue, key); // false is invalid
     });
 
     if (x.includes(false)) {
-      console.log("xx");
       return;
     }
 
@@ -190,6 +189,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
             }}
             disabled={resquesting}
             onClick={() => handleSubmit()}
+            loading={loading}
           />
         </Grid>
       </Paper>

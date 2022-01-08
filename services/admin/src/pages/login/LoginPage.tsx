@@ -37,6 +37,7 @@ const LoginPage: React.FC = () => {
 
   const [form, setform] = useState(getInit());
   const handleChange = (key: string) => (e: any) => {
+    setIsSubmit(false);
     setInvalid(false);
     setform({
       ...form,

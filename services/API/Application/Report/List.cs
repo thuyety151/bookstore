@@ -97,7 +97,7 @@ namespace Application.Report
 
                         break;
                     case "last-month":
-                        var lastMonth = DateTime.Now.Month - 1;
+                        var lastMonth = DateTime.Now.Month ==1 ? DateTime.Now.Month: DateTime.Now.Month- 1;
                         var ordersLastMonth =
                             _context.Orders.Where(x => x.OrderDate.Month == lastMonth && x.IsDeleted == false);
                         var totalDayLastMonth = DateTime.DaysInMonth(DateTime.Now.Year, lastMonth);

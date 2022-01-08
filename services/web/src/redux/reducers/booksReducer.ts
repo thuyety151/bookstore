@@ -22,7 +22,7 @@ const initialState: BooksSate = {
   requesting: false,
   pagination: {
     pageIndex: 0,
-    pageSize: paginationValue.pageSize,
+    pageSize: 20,
     totalPage: 0,
     totalCount: 0,
   },

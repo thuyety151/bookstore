@@ -12,7 +12,6 @@ import EnhancedTableHead, {
   HeadCell,
 } from "components/table/EnhancedTableHead";
 import { Button, Dialog } from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
@@ -137,10 +136,6 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
     setModelToDelete(id || "");
   };
 
-  const handleOpenDetail = (item: Coupon) => {
-    // setModelToViewDetail(item);
-  };
-
   const handleEdit = (model: Coupon) => {
     props.setModelEdit(model);
   };
@@ -178,7 +173,7 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
               // orderBy={orderBy}
               rowCount={couponState.data.length}
               headerCells={headCells}
-              // loading={orderState.requesting}
+              loading={couponState.requesting}
             />
             <TableBody>
               {couponState.data?.map((row: Coupon, index: number) => {
@@ -198,12 +193,12 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                         ? ""
                         : format(new Date(row.expireDate), "dd/MM/yyyy")}
                     </TableCell>
-                    <TableCell>
-                      <Button
+                    <TableCell style={{ display: "flex" }}>
+                      {/* <Button
                         className="btn-view"
                         startIcon={<Visibility />}
                         onClick={() => handleOpenDetail(row)}
-                      />
+                      /> */}
                       <Button
                         className="btn-edit"
                         startIcon={<Edit />}

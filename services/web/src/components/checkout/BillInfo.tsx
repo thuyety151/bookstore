@@ -258,37 +258,10 @@ export default function BillInfo(props: Props) {
           <Grid item className="row">
             <span>{addressInfor()}</span>
             <span>{formatAddress(currentAddress)}</span>
-            <span>${fee}</span>
           </Grid>
         </Paper>
       </Collapse>
       {/* shippine */}
-      <Collapse in={openSection.shipping} collapsedSize={86}>
-        <Paper variant="outlined" className={classes.paper}>
-          <div>
-            <h3>Shipping</h3>
-            <span
-              className="cursor-pointer"
-              onClick={() =>
-                setopenSection({
-                  ...openSection,
-                  shipping: !openSection.shipping,
-                })
-              }
-            >
-              {openSection.shipping ? <RemoveIcon /> : <AddIcon />}
-            </span>
-          </div>
-          <Grid item className="address">
-            <span>{addressInfor()}</span>
-            <span>{formatAddress(currentAddress)}</span>
-          </Grid>
-
-          <div className="row">
-            <span className={classes.changeAddress}>Change Address</span>
-          </div>
-        </Paper>
-      </Collapse>
       {/* coupon */}
       <Collapse in={openSection.coupon} collapsedSize={82}>
         <Paper variant="outlined" className={classes.paper}>

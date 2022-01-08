@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +14,9 @@ const CategoryPage: React.FC = () => {
 
   return (
     <div>
+      <Typography variant="h5" className={classes.title}>
+        Categories
+      </Typography>
       <Grid container justifyContent="space-around">
         <Grid item xs={7} className={classes.table}>
           <CategoryTable setModelEdit={setModelEdit} />
@@ -33,6 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     table: {
       // marginLeft: theme.spacing(5),
+    },
+    title: {
+      padding: theme.spacing(2, 0),
+      paddingLeft: theme.spacing(5),
     },
   })
 );

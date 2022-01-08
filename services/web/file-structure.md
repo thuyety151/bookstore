@@ -26,6 +26,18 @@ src/
 
 
 
+____redux
+    |___actions
+        |___address
+            |___actionTypes.ts
+            |___getActions.ts
+            |___ ...
+    |___reducers
+        |___addressReducer.ts
+        |___rootReducer.ts
+        |___...
+    |___store.ts
+____App.tsx
 
 
     _________________________

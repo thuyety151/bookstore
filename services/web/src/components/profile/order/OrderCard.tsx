@@ -27,7 +27,7 @@ const OrderCard: React.FC<{
     dispatch(
       cancelOrder({
         orderCode: order.orderCode,
-
+        orderId: order.id,
         onSuccess: () => {
           setloadingCancel(false);
           enqueueSnackbar("Cancel order successfully", { variant: "success" });
@@ -77,17 +77,19 @@ const OrderCard: React.FC<{
             alignItems="center"
             justifyContent="space-between"
           >
+            {console.log(order)}
             <Grid item>
-              {order.status === "Ready to pick" && (
-                <Button
-                  variant="outlined"
-                  disableRipple
-                  size="large"
-                  onClick={handleCancelOrder}
-                >
-                  {loadingCancel ? <CircularProgress size={22} /> : "Cancel"}
-                </Button>
-              )}
+              {order.status === "Ready to pick" &&
+                order.paymentMethod === "CashOnDelivery" && (
+                  <Button
+                    variant="outlined"
+                    disableRipple
+                    size="large"
+                    onClick={handleCancelOrder}
+                  >
+                    {loadingCancel ? <CircularProgress size={22} /> : "Cancel"}
+                  </Button>
+                )}
             </Grid>
             <Grid item style={{ display: "flex" }}>
               <Typography>Total</Typography>

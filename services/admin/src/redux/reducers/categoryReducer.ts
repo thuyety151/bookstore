@@ -9,7 +9,7 @@ export type Category = {
   description?: any;
   mediaUrl?: any;
   count?: number;
-  parentId?: string;
+  parentId?: string | null;
   mediaId?: string;
   media: Media[];
 };

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "left",
     },
     img: {
-      margin: "auto",
+      // margin: "auto",
       display: "block",
       maxWidth: "100%",
       maxHeight: "100%",
@@ -80,7 +80,7 @@ export default function DealItem({ item }: Props) {
                 direction="row"
                 justifyContent="space-between"
                 spacing={2}
-                style= {{margin: "10px"}}
+                style={{ margin: "10px" }}
               >
                 <Typography gutterBottom variant="subtitle2" align="center">
                   Available: {item.totalStock}

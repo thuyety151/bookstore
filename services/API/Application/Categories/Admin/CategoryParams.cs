@@ -12,6 +12,6 @@ namespace Application.Categories.Admin
         public string Slug { get; set; }
         public string Description { get; set; }
         public string MediaId { get; set; }
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
     }
 }

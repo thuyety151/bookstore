@@ -38,10 +38,6 @@ const Validation: React.FC = () => {
     // inputRef?.current?.blur();
   };
 
-  useEffect(() => {
-    const x = document.getElementById("formm");
-    console.log("x", x, inputRef);
-  }, []);
 
   return (
     <div className={classes.root}>

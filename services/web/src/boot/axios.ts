@@ -21,7 +21,7 @@ api.interceptors.response.use(
   async (error) => {
     const history = createBrowserHistory({ forceRefresh: true });
 
-    if (error.response?.status === 401 /*&& accessToken*/) {
+    if (error.response?.status === 401) {
       const user = localStorage.getItem("user");
       if (user) {
         localStorage.removeItem("user");
