@@ -30,7 +30,7 @@ namespace Application.Report
             {
                 var reports = new List<ReportDto>();
                 var items = _context.Items.AsQueryable();
-                
+
                 switch (request.Range)
                 {
                     case "year":
@@ -75,7 +75,7 @@ namespace Application.Report
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString() + '/' + currentMonth +'/' + DateTime.Now.Year;
+                            reportDto.Name = day.ToString() + '/' + currentMonth + '/' + DateTime.Now.Year;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
@@ -97,10 +97,10 @@ namespace Application.Report
 
                         break;
                     case "last-month":
-                        var lastMonth = DateTime.Now.Month ==1 ? DateTime.Now.Month: DateTime.Now.Month- 1;
+                        var lastMonth = DateTime.Now.Month == 1 ? 12 : DateTime.Now.Month - 1;
                         var ordersLastMonth =
                             _context.Orders.Where(x => x.OrderDate.Month == lastMonth && x.IsDeleted == false);
-                        var totalDayLastMonth = DateTime.DaysInMonth(DateTime.Now.Year, lastMonth);
+                        var totalDayLastMonth = DateTime.Now.Month == 12 ? DateTime.DaysInMonth(DateTime.Now.Year - 1, lastMonth) : DateTime.DaysInMonth(DateTime.Now.Year, lastMonth);
                         for (int i = 1; i <= totalDayLastMonth; i++)
                         {
                             var day = i;
