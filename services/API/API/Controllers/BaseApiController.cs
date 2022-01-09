@@ -1,11 +1,13 @@
 using API.Extensions;
 using Application.Core;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [ApiController]
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
