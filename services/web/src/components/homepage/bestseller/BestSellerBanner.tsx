@@ -66,7 +66,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
         <Grid item onClick={handleNavBook}>
           <img className={classes.image} src={item.pictureUrl} alt="img" />
         </Grid>
-        <Grid item xs container direction="column">
+        <Grid item xs container direction="column" className= {classes.grid}>
           <Grid item>
             <Typography
               gutterBottom
@@ -142,7 +142,7 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         borderColor: "#000",
         zIndex: 1,
-      },
+      }
     },
     name: {
       fontWeight: 700,
@@ -193,6 +193,9 @@ const useStyles = makeStyles((theme: Theme) =>
         cursor: "pointer",
       },
     },
+    grid: {
+      minHeight: 250
+    }
   })
 );
 

@@ -103,7 +103,7 @@ export default function SimpleTabs() {
 
         <TabPanel value={value} index={0}>
           {mostView && (
-            <Grid container justifyContent="flex-start">
+            <Grid container justifyContent="flex-start" style={{gap: "10px"}}>
               {mostView.map((item, index) => (
                 <div className="featured-book-item" key={index}>
                   <BookItem item={item} />
@@ -118,6 +118,7 @@ export default function SimpleTabs() {
             <Grid
               container
               justifyContent="flex-start"
+              style={{gap: "10px"}}
               // className={classes.grid}
             >
               {onSale.map((item, index) => (

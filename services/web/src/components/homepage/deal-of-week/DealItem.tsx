@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       margin: "auto",
       maxWidth: 500,
-      maxHeight: 300,
+      minHeight: 300,
       textAlign: "left",
     },
     img: {

@@ -49,7 +49,7 @@ function Categories() {
             </span>
           </div>
         </Grid>
-        <Grid container>
+        <Grid container style={{gap: '10px'}}>
           {/* <Grid container justifyContent="space-between"> */}
           {rootCategoryState.requesting
             ? new Array(4).map((value, index) => (
@@ -84,7 +84,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     paper: {
-      width: "100%",
       boxShadow: "none",
       display: "grid",
       alignItems: "center",

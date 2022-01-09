@@ -2,25 +2,25 @@
   &__contents {
     // font-size: 13px;
     @media screen and (min-width: 1401px) {
-      width: calc(100% / 4) !important;
+      width: calc(100% / 4 - 10px) !important;
     }
     @media screen and (max-width: 1400px) {
-      width: calc(100% / 4) !important;
+      width: calc(100% / 4 - 10px) !important;
     }
     @media screen and (max-width: 1340px) {
-      width: calc(100% / 4) !important;
+      width: calc(100% / 4 - 10px) !important;
     }
     @media screen and (max-width: 1025px) {
-      width: calc(100% / 3) !important;
+      width: calc(100% / 3 - 10px) !important;
     }
     @media screen and (max-width: 900px) {
-      width: calc(100% / 3) !important;
+      width: calc(100% / 3 - 10px) !important;
     }
     @media screen and (max-width: 568px) {
-      width: calc(100% / 2) !important;
+      width: calc(100% / 2 - 10px) !important;
     }
     @media screen and (max-width: 468px) {
-      width: calc(100% / 2) !important;
+      width: calc(100% / 2 - 10px) !important;
     }
   }
 }

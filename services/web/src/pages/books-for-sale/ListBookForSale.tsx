@@ -137,11 +137,12 @@ const ListBookForSale: React.FC = () => {
             <Grid
               container
               justifyContent="flex-start"
+              style={{gap: "5px"}}
               // className={classes.grid}
             >
               {booksState.data.map((book, index) => {
                 return (
-                  <Grid item className="featured-book-item" key={index}>
+                  <Grid item className="books-for-sale-item" key={index}>
                     <BestSellerComponent item={book} />
                   </Grid>
                 );
