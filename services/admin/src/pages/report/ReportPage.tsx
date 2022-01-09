@@ -42,7 +42,7 @@ export const reportOptions = [
 const ReportPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedIndex, setSelectedIndex] = React.useState(2);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const { data, requesting } = useSelector((state: RootStore) => state.reports);
 
   const handleListItemClick = (
