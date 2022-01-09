@@ -101,6 +101,7 @@ namespace Application.Report
                         var ordersLastMonth =
                             _context.Orders.Where(x => x.OrderDate.Month == lastMonth && x.IsDeleted == false);
                         var totalDayLastMonth = DateTime.Now.Month == 12 ? DateTime.DaysInMonth(DateTime.Now.Year - 1, lastMonth) : DateTime.DaysInMonth(DateTime.Now.Year, lastMonth);
+                        var currentLatsYear = DateTime.Now.Month == 1 ? DateTime.Now.Year - 1 : DateTime.Now.Year; 
                         for (int i = 1; i <= totalDayLastMonth; i++)
                         {
                             var day = i;
@@ -108,7 +109,7 @@ namespace Application.Report
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString() + '/' + lastMonth + '/' + DateTime.Now.Year;
+                            reportDto.Name = day.ToString() + '/' + lastMonth + '/' + currentLatsYear;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
