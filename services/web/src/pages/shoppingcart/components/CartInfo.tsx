@@ -9,6 +9,8 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
+  IconButton,
+  InputAdornment,
   InputBase,
   Paper,
   Radio,
@@ -37,6 +39,8 @@ import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
 import { ServiceType } from "../../../redux/reducers/deliveryReducer";
 import { DiscountType } from "../../../model/coupon";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { NAME_ACTIONS } from "../../../redux/constants/coupon/actionTypes";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -158,15 +162,26 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   const total = () => {
     const couponAmount =
       coupon.discountType === DiscountType.Percentage
-        ? coupon.couponAmount / 100
+        ? (coupon.couponAmount / 100) *
+          sum(itemsToCheckout.map((x) => x.quantity * x.price))
         : formatVNDtoUSD(coupon.couponAmount) || 0;
     return (
-      Math.floor(
-        (sum(itemsToCheckout.map((x) => x.quantity * x.price)) + (fee || 0)) *
-          (1 - couponAmount) *
+      sum(itemsToCheckout.map((x) => x.quantity * x.price)) -
+      couponAmount +
+      (fee || 0)
+    )?.toFixed(2);
+  };
+  const couponAmount = () => {
+    return couponState.data?.discountType === DiscountType.Percentage
+      ? (
+          (sum(itemsToCheckout.map((x) => x.quantity * x.price)) *
+            couponState.data?.couponAmount) /
           100
-      ) / 100 || 0
-    );
+        ).toFixed(2)
+      : couponState.data?.couponAmount;
+  };
+  const handleRemoveCoupon = () => {
+    dispatch({ type: NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
   };
   return (
     <div className={classes.root}>
@@ -275,19 +290,47 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               {openSection.coupon ? <RemoveIcon /> : <AddIcon />}
             </span>
           </div>
+          {couponState.data?.discountType && (
+            <Grid container style={{ display: "contents" }}>
+              <Grid item className="row">
+                <span>Coupon</span>
+                <span>
+                  {couponState.data?.discountType === DiscountType.FixedCart &&
+                    "$"}{" "}
+                  {couponState.data?.couponAmount}{" "}
+                  {couponState.data?.discountType === DiscountType.Percentage &&
+                    "%"}
+                </span>
+              </Grid>
+              <Grid item className="row">
+                <span></span>
+                <span>- ${couponAmount()}</span>
+              </Grid>
+            </Grid>
+          )}
           <Paper
             variant="outlined"
             className={classes.inputForm}
             style={{ justifyContent: "space-around" }}
           >
             <InputBase
+              style={{ width: "100%" }}
               placeholder="Coupon here"
               inputProps={{ "aria-label": "naked" }}
               onChange={(event) => setCouponCode(event.target.value)}
+              endAdornment={
+                couponCode ? (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleRemoveCoupon}>
+                      <CancelIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null
+              }
             />
             <span
               className="cap cursor-pointer"
-              style={{ width: "100%", textAlign: "right" }}
+              style={{ textAlign: "right", minWidth: "8rem" }}
               onClick={handleApplyCoupon}
             >
               Apply coupon

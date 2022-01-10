@@ -6,6 +6,8 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
+  IconButton,
+  InputAdornment,
   InputBase,
   Paper,
   Radio,
@@ -25,6 +27,7 @@ import { subTotal } from "../../redux/reducers/cartReducer";
 import { getFee } from "../../redux/actions/order/getActions";
 import { getServices } from "../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
+import { NAME_ACTIONS as CP_NAME_ACTIONS } from "../../redux/constants/coupon/actionTypes";
 import PrimaryButton from "../button/PrimaryButton";
 import { createOrder } from "../../redux/actions/order/postAction";
 import { generatePath, useHistory } from "react-router-dom";
@@ -37,7 +40,9 @@ import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../shared/enum/stockStatus";
 import { PaymentMethod } from "../../shared/enum/paymentMethod";
 import { sum } from "lodash";
-import { DiscountType } from "../../model/coupon";
+import { Coupon, DiscountType } from "../../model/coupon";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { CouponState } from "../../redux/reducers/couponReducer";
 
 type Props = {
   note: string;
@@ -58,7 +63,9 @@ export default function BillInfo(props: Props) {
   //State
   const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
   const [couponCode, setCouponCode] = useState("");
-  const couponState = useSelector((state: RootStore) => state.coupon);
+  const couponState: CouponState = useSelector(
+    (state: RootStore) => state.coupon
+  );
   const { fee, coupon } = useSelector((state: RootStore) => state.order);
   const [openSection, setopenSection] = useState({
     total: true,
@@ -174,15 +181,26 @@ export default function BillInfo(props: Props) {
   const total = () => {
     const couponAmount =
       coupon.discountType === DiscountType.Percentage
-        ? coupon.couponAmount / 100
+        ? (coupon.couponAmount / 100) *
+          sum(itemToCheckout.map((x) => x.quantity * x.price))
         : formatVNDtoUSD(coupon.couponAmount) || 0;
     return (
-      Math.floor(
-        (sum(itemToCheckout.map((x) => x.quantity * x.price)) + (fee || 0)) *
-          (1 - couponAmount) *
+      sum(itemToCheckout.map((x) => x.quantity * x.price)) -
+      couponAmount +
+      (fee || 0)
+    )?.toFixed(2);
+  };
+  const couponAmount = () => {
+    return couponState.data?.discountType === DiscountType.Percentage
+      ? (
+          (sum(itemToCheckout.map((x) => x.quantity * x.price)) *
+            couponState.data?.couponAmount) /
           100
-      ) / 100 || 0
-    );
+        ).toFixed(2)
+      : couponState.data?.couponAmount;
+  };
+  const handleRemoveCoupon = () => {
+    dispatch({ type: CP_NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
   };
   return (
     <div style={{ margin: "16px" }}>
@@ -279,20 +297,51 @@ export default function BillInfo(props: Props) {
               {openSection.coupon ? <RemoveIcon /> : <AddIcon />}
             </span>
           </div>
+          {couponState.data?.discountType && (
+            <Grid container style={{ display: "contents" }}>
+              <Grid item className="row">
+                <span>Coupon</span>
+                <span>
+                  {couponState.data?.discountType === DiscountType.FixedCart &&
+                    "$"}{" "}
+                  {couponState.data?.couponAmount}{" "}
+                  {couponState.data?.discountType === DiscountType.Percentage &&
+                    "%"}
+                </span>
+              </Grid>
+              <Grid item className="row">
+                <span></span>
+                <span>- ${couponAmount()}</span>
+              </Grid>
+            </Grid>
+          )}
           <Paper
             variant="outlined"
             className={classes.inputForm}
             style={{ justifyContent: "space-around" }}
           >
             <InputBase
+              style={{ width: "100%" }}
               placeholder="Coupon here"
               inputProps={{ "aria-label": "naked" }}
               value={couponCode}
               onChange={(event) => setCouponCode(event.target.value)}
+              endAdornment={
+                couponCode ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleRemoveCoupon}
+                      // onMouseDown={handleMouseDownPassword}
+                    >
+                      <CancelIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null
+              }
             />
             <span
               className="cap cursor-pointer"
-              style={{ width: "100%", textAlign: "right" }}
+              style={{ textAlign: "right", minWidth: "8rem" }}
               onClick={handleApplyCoupon}
             >
               Apply coupon

@@ -43,6 +43,8 @@ const couponReducer = (
         message: payload.message,
         data: {} as Coupon,
       };
+    case NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON:
+      return initState;
     default:
       return state;
   }

@@ -154,6 +154,11 @@ const orderReducer = (
           (x) => x.orderCode !== payload.orderCode
         ),
       };
+    case NAME_ACTIONS_COUPON.REMOVE_COUPON.REMOVE_COUPON:
+      return {
+        ...state,
+        coupon: {} as Coupon,
+      };
     default:
       return state;
   }

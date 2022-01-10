@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import api from "../../../boot/axios";
 import { getPlaceOrder } from "../../../redux/actions/order/getActions";
 import { formatAddressEnter } from "../../../helper/format";
+import { sum } from "lodash";
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
@@ -35,21 +36,23 @@ const PlaceOrderPage: React.FC = () => {
   const orderIdMomo = query.get("orderId");
 
   useEffect(() => {
-    console.log(
-      "transid & resultcode:" + transId + " " + resultCode + " " + orderId
-    );
     if (transId !== 0 && resultCode !== -1) {
-      console.log("alo");
-      var response = api.post("/momo/payment-notification", {
+      api.post("/momo/payment-notification", {
         transId: transId,
         resultCode: resultCode,
         orderId: orderIdMomo,
       });
-      console.log("response:" + JSON.stringify(response));
     }
     // eslint-disable-next-line
   }, []);
-
+  const calCoupon = () => {
+    return sum(placeOrder.items?.flatMap((x) => x.price)) - placeOrder.subTotal;
+  };
+  const subTotal = () => {
+    return placeOrder.coupon
+      ? sum(placeOrder.items?.flatMap((x) => x.price))?.toFixed(2)
+      : placeOrder?.subTotal;
+  };
   return (
     <div className={classes.root}>
       <Typography variant="h4" className={classes.title}>
@@ -85,7 +88,7 @@ const PlaceOrderPage: React.FC = () => {
               <Grid item>
                 <Typography>Total:</Typography>
                 <Typography variant="inherit" className="text-bold">
-                  {placeOrder.subTotal + placeOrder.orderFee}
+                  {(placeOrder.subTotal + placeOrder.orderFee).toFixed(2)}
                 </Typography>
               </Grid>
               <Grid item>
@@ -126,9 +129,20 @@ const PlaceOrderPage: React.FC = () => {
                   Subtotal:
                 </Typography>
                 <Typography variant="inherit" className="text-bold">
-                  ${placeOrder.subTotal}
+                  ${subTotal()}
                 </Typography>
               </Grid>
+              {placeOrder.coupon && (
+                <Grid item container justifyContent="space-between">
+                  <Typography variant="inherit" className="text-bold">
+                    Coupon:
+                  </Typography>
+                  <Typography variant="inherit" className="text-bold">
+                    - ${calCoupon()?.toFixed(2)}
+                  </Typography>
+                </Grid>
+              )}
+
               <Grid item container justifyContent="space-between">
                 <Typography variant="inherit" className="text-bold">
                   Shipping:
@@ -156,7 +170,7 @@ const PlaceOrderPage: React.FC = () => {
               className={classes.total}
             >
               <Grid item>Total</Grid>
-              <Grid item>${placeOrder.total}</Grid>
+              <Grid item>${placeOrder.total?.toFixed(2)}</Grid>
             </Grid>
             <Divider />
             <Grid item container>
