@@ -1,6 +1,7 @@
 import {
   Button,
   createStyles,
+  Divider,
   // Divider,
   Grid,
   Link,
@@ -12,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/actions/user/userAction";
-import { GitHub, Facebook } from "@material-ui/icons";
+import { Facebook } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -181,23 +182,15 @@ export default function LoginComponent() {
               </Grid>
             </form>
 
-            {/* <Divider>Or</Divider>  */}
+            <Divider className={classes.divider}/>
 
-            <Grid item>
-              <Button
-                variant="outlined"
-                className={classes.button}
-                startIcon={<GitHub />}
-              >
-                Continue with Google
-              </Button>
-            </Grid>
             <Grid item>
               <Button
                 variant="outlined"
                 className={classes.facebook}
                 startIcon={<Facebook />}
                 onClick={handleFacebookLogin}
+
               >
                 Continue with Facebook
               </Button>
@@ -259,7 +252,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 300,
       height: "45px",
       fontWeight: 600,
-      margin: "5px 20px 5px 70px",
+      color: '#fff',
+      border: "1px solid #000",
+      margin: "auto"
     },
     signUp: {
       textTransform: "none",
@@ -268,5 +263,8 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: "5px 0px 20px 330px",
       },
     },
+    divider: {
+      margin: "10px"
+    }
   })
 );
