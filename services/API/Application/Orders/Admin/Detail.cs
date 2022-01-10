@@ -41,6 +41,7 @@ namespace Application.Orders.Admin
                 var order = _context.Orders
                     .Include(x => x.AddressToShip)
                     .Include(x => x.Items)
+                    .Include(x=>x.Coupon)
                     .Where(x => x.IsDeleted == false && x.Id == request.Id)
                     .Select(x => _mapper.Map<OrderDto>(x)).SingleOrDefault();
 
