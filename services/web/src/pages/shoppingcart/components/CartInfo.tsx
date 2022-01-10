@@ -106,6 +106,8 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     dispatch(verifyCoupon(couponCode));
   };
   useEffect(() => {
+    // rest state of coupon
+    dispatch({ type: NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
     dispatch(
       getDefaultAddress(() => {
         dispatch(
@@ -127,6 +129,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         },
       })
     );
+    // eslint-disable-next-line
   }, [defaultAddress]);
 
   useEffect(() => {
