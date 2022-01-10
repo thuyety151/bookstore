@@ -35,7 +35,7 @@ import TodayIcon from "@material-ui/icons/Today";
 import ProductImage from "./components/ProductImage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "redux/store";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getProductDetail } from "redux/actions/product/getActions";
 import { format, getYear } from "date-fns";
 import { getCategories } from "redux/actions/category/getAction";
@@ -54,7 +54,7 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   let { bookId } = useParams() as any;
-
+  const history = useHistory();
   const initialBookParams: BookDetail = {
     id: "",
     name: "",
@@ -335,19 +335,22 @@ export default function ProductDetail() {
 
   //Effect
   useEffect(() => {
-    dispatch(
-      addBook({
-        bookParams: bookParams,
-        onSuccess: () => {
-          if (bookId) {
-            enqueueSnackbar("Edit book successfully", { variant: "success" });
-          } else {
-            enqueueSnackbar("Add book successfully", { variant: "success" });
-          }
-        },
-        onFailure: () => {},
-      })
-    );
+    if (isAdd) {
+      dispatch(
+        addBook({
+          bookParams: bookParams,
+          onSuccess: () => {
+            if (bookId) {
+              enqueueSnackbar("Edit book successfully", { variant: "success" });
+            } else {
+              enqueueSnackbar("Add book successfully", { variant: "success" });
+            }
+            history.goBack();
+          },
+          onFailure: () => {},
+        })
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdd]);
   useEffect(() => {

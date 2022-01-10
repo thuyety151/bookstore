@@ -17,13 +17,6 @@ const OrderPage: React.FC = () => {
         <Typography variant="h5" className={classes.title}>
           Orders
         </Typography>
-        {/* <OrderStatus status={OrderStatusEnum.Delivered} />
-        <OrderStatus status={OrderStatusEnum.ReadyToPick} /> */}
-        <Grid item>
-          {/* Table */}
-
-          {/* End Table */}
-        </Grid>
         <OrderTable />
       </Grid>
     </div>

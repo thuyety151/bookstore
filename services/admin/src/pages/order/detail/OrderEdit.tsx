@@ -22,6 +22,7 @@ import ProductTable from "./components/ProductTable";
 import ContainedButton from "components/button/ContainedButton";
 import { updateOrderNote } from "redux/actions/order/postActions";
 import { useSnackbar } from "notistack";
+import { useHistory } from "react-router-dom";
 
 const OrderEdit: React.FC = () => {
   const classes = useStyles();
@@ -33,11 +34,15 @@ const OrderEdit: React.FC = () => {
   const { orderId } = useParams() as any;
   const [orderNoteState, setOrderNoteState] = useState(order.orderNote || "");
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getDetail(orderId));
     // eslint-disable-next-line
   }, [orderId]);
+  useEffect(() => {
+    setOrderNoteState(order.orderNote);
+  }, [order]);
 
   const handleChangeOrderNote = (
     event: React.ChangeEvent<{ value: unknown }>
@@ -51,6 +56,7 @@ const OrderEdit: React.FC = () => {
         orderNote: orderNoteState,
         onSuccess: () => {
           enqueueSnackbar("Update successfully", { variant: "success" });
+          history.goBack();
         },
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });
