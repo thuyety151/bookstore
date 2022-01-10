@@ -84,7 +84,7 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const couponState = useSelector((state: RootStore) => state.coupons);
   const dispatch = useDispatch();
-  const { pagination } = useSelector((state: RootStore) => state.attributes);
+  const { pagination } = useSelector((state: RootStore) => state.coupons);
   const [modelToDelete, setModelToDelete] = useState<string | null>(null);
   const { enqueueSnackbar } = useSnackbar();
 
