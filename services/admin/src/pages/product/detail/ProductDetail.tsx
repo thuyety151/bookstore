@@ -12,6 +12,8 @@ import {
   makeStyles,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   Theme,
@@ -276,7 +278,7 @@ export default function ProductDetail() {
   const handlePublicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBooksParams({
       ...bookParams,
-      isPublic: event.target.checked,
+      isPublic: (event.target.value === "true") as boolean,
     });
   };
 
@@ -328,7 +330,6 @@ export default function ProductDetail() {
       attributes: [...bookAttributeSelected],
       media: [...mediaState],
     });
-    console.log("bookParams", bookParams);
     setAdd(true);
   };
 
@@ -420,7 +421,7 @@ export default function ProductDetail() {
   return (
     <div className={classes.root}>
       <Grid container direction="row" spacing={2}>
-        <Grid item container xs={9} direction="column" spacing={2}>
+        <Grid item container xs={9} direction="column">
           <Paper className={classes.paper} variant="outlined">
             <Grid item>
               {/* <TextField
@@ -940,9 +941,9 @@ export default function ProductDetail() {
                   className={classes.collapse}
                 >
                   <span className={classes.icon}>
-                    <VisibilityIcon /> Status:{" "}
+                    <VisibilityIcon style={{ marginRight: "8px" }} /> Status:{" "}
                   </span>
-                  <span className={classes.checkBox}>
+                  {/* <span className={classes.checkBox}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -966,13 +967,35 @@ export default function ProductDetail() {
                       }
                       label="Draft"
                     />
-                  </span>
+                  </span> */}
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      aria-label="gender"
+                      defaultValue="true"
+                      name="radio-buttons-group"
+                      onChange={handlePublicChange}
+                    >
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="Published"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="Draft"
+                      />
+                    </RadioGroup>
+                  </FormControl>
 
-                  <span className={classes.icon}>
-                    <TodayIcon /> Publish on:{" "}
-                    {bookParams.updateDate &&
-                      format(new Date(bookParams.updateDate), "PPP")}
-                  </span>
+                  {bookParams.id && (
+                    <span className={classes.icon}>
+                      <TodayIcon /> Publish on:{" "}
+                      {bookParams.updateDate &&
+                        format(new Date(bookParams.updateDate), "PPP")}
+                    </span>
+                  )}
+
                   <span className={classes.attribute}>
                     <Link href="#" className={classes.trash}>
                       Move to trash
@@ -997,7 +1020,9 @@ export default function ProductDetail() {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
+    root: {
+      padding: "0 16px",
+    },
     actionsContainer: {},
     title: {
       alignItems: "center",

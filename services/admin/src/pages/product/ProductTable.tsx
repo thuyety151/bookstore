@@ -35,9 +35,9 @@ import DialogConfirm from "components/dialog/DialogConfirm";
 import { useSnackbar } from "notistack";
 import { deleteBook } from "redux/actions/product/deleteAction";
 
-export enum ProductStatusEnum{
+export enum ProductStatusEnum {
   InStock = "In Stock",
-  OutOfStock = "Out of stock"
+  OutOfStock = "Out of stock",
 }
 interface HeadCell {
   disablePadding: boolean;
@@ -237,12 +237,12 @@ export default function ProductTable() {
                       {row.stockStatus === "InStock" ? (
                         <Chip
                           label={ProductStatusEnum.InStock}
-                          color="secondary"
+                          color="primary"
                         />
                       ) : (
                         <Chip
                           label={ProductStatusEnum.OutOfStock}
-                          color="primary"
+                          color="secondary"
                         />
                       )}
                     </TableCell>
