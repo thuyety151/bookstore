@@ -8,6 +8,7 @@ import {
   ListItemText,
   makeStyles,
   Paper,
+  TextField,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -20,6 +21,11 @@ import Chart from "./components/Chart";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { CSVLink } from "react-csv";
 import "./styles.scss";
+import Box from "@mui/material/Box";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DateRangePicker, { DateRange } from "@mui/lab/DateRangePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import ContainedButton from "components/button/ContainedButton";
 
 export const reportOptions = [
   {
@@ -37,6 +43,10 @@ export const reportOptions = [
   {
     name: "This year",
     value: "year",
+  },
+  {
+    name: "This year",
+    value: "custom",
   },
 ];
 const ReportPage: React.FC = () => {
@@ -69,7 +79,10 @@ const ReportPage: React.FC = () => {
     headers: headers,
     data: data,
   };
-
+  const [date, setDate] = React.useState<DateRange<Date>>([null, null]);
+  const handleReportCustom = () => {
+    console.log(date);
+  };
   return (
     <div className="report">
       <Grid item xs={12}>
@@ -86,7 +99,43 @@ const ReportPage: React.FC = () => {
                 selected={selectedIndex === index}
                 onClick={(event) => handleListItemClick(event, index)}
               >
-                <ListItemText primary={item.name} className={classes.text} />
+                {item.value === "custom" ? (
+                  <Grid style={{ display: "flex" }}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateRangePicker
+                        startText="Date From"
+                        endText="Date To"
+                        value={date}
+                        onChange={(newValue: any) => {
+                          setDate(newValue);
+                        }}
+                        renderInput={(startProps: any, endProps: any) => (
+                          <React.Fragment>
+                            <TextField
+                              {...startProps}
+                              variant="outlined"
+                              size="small"
+                            />
+                            <Box sx={{ mx: 1 }}> to </Box>
+                            <TextField
+                              {...endProps}
+                              variant="outlined"
+                              size="small"
+                            />
+                          </React.Fragment>
+                        )}
+                      />
+                    </LocalizationProvider>
+                    <ContainedButton
+                      text="Go"
+                      className={classes.customOpt}
+                      style={{ width: "fit-content" }}
+                      onClick={handleReportCustom}
+                    />
+                  </Grid>
+                ) : (
+                  <ListItemText primary={item.name} className={classes.text} />
+                )}
               </ListItem>
             ))}
           </List>
@@ -158,7 +207,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paperNav: {
       background: "#fff",
-      height: 50,
+      // height: 50,
     },
     paperItem: {
       background: "#fff",
@@ -181,6 +230,11 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "8px 0",
       backgroundColor: "#487cec",
       color: "#fff",
+    },
+    customOpt: {
+      width: "fit-content",
+      height: "fit-content",
+      alignSelf: "flex-end",
     },
   })
 );
