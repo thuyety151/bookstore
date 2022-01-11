@@ -34,8 +34,7 @@ const SlideEffect: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  //const state = useSelector((state: RootStore) => state.bestSelling);
-  const test = [] as Book[];
+  const state = useSelector((state: RootStore) => state.bestSelling);
 
   useEffect(() => {
     dispatch(getBestSelling());
@@ -58,7 +57,7 @@ const SlideEffect: React.FC = () => {
 });
 
 
-  const items = test.map((item, index) => {
+  const items = state.data.map((item, index) => {
     return (
       <div key={index}>
         <BestSellerComponent item={item} />

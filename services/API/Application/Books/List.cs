@@ -39,7 +39,7 @@ namespace Application.Books
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Attribute)
-                    .Where(x => x.Book.IsPublic && x.Book.IsDeleted == false && x.StockStatus == StockStatus.InStock)
+                    .Where(x => x.Book.IsPublic && x.Book.IsDeleted == false && x.StockStatus == StockStatus.InStock && x.TotalStock > 0)
                     .AsQueryable();
                 if (!string.IsNullOrWhiteSpace(request.Params.CategoryId))
                 {
