@@ -8,6 +8,7 @@ export const ROUTE_REGISTER = "/register";
 export const ROUTE_BOOK_DETAIL = "/book-detail/:bookId/:attributeId";
 export const ROUTE_BOOK_DETAIL_ADMIN = "/book-detail/:bookId";
 export const ROUTE_PROFILE = "/profile";
+export const ROUTE_PROFILE_PREDICATE = "/profile-address/:tabName";
 export const ROUTE_AUTHOR = "/author";
 export const ROUTE_BOOK = "/book";
 export const ROUTE_CATEGORY = "/category";
@@ -40,6 +41,9 @@ export const PRIVATE_ROUTES = {
   [ROUTE_AUTHOR]: { permissions: [] },
   [ROUTE_CHECK_OUT]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
   [ROUTE_PROFILE]: {
+    permissions: [sharedTypes.ROLE_CUSTOMER],
+  },
+  [ROUTE_PROFILE_PREDICATE]: {
     permissions: [sharedTypes.ROLE_CUSTOMER],
   },
   [ROUTE_CART]: {

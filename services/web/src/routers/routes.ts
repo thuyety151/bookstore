@@ -27,6 +27,7 @@ import {
   ROUTE_LOGIN,
   ROUTE_PLACE_ORDER,
   ROUTE_PROFILE,
+  ROUTE_PROFILE_PREDICATE,
   ROUTE_REGISTER,
 } from "./types";
 
@@ -99,6 +100,12 @@ export const routeMainLayout: Route[] = [
     name: "My Account",
     component: ProfilePage,
     exact: false,
+  },
+  {
+    path: ROUTE_PROFILE_PREDICATE,
+    name: "My Account",
+    component: ProfilePage,
+    exact: true,
   },
   {
     path: ROUTE_AUTHOR,

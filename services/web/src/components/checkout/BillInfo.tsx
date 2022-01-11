@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
   Avatar,
+  Button,
   Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -32,7 +38,11 @@ import PrimaryButton from "../button/PrimaryButton";
 import { createOrder } from "../../redux/actions/order/postAction";
 import { generatePath, useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { ROUTE_PLACE_ORDER } from "../../routers/types";
+import {
+  ROUTE_HOME,
+  ROUTE_PLACE_ORDER,
+  ROUTE_PROFILE_PREDICATE,
+} from "../../routers/types";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import api from "../../boot/axios";
 import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
@@ -40,7 +50,7 @@ import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../shared/enum/stockStatus";
 import { PaymentMethod } from "../../shared/enum/paymentMethod";
 import { sum } from "lodash";
-import { Coupon, DiscountType } from "../../model/coupon";
+import { DiscountType } from "../../model/coupon";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { CouponState } from "../../redux/reducers/couponReducer";
 
@@ -201,6 +211,17 @@ export default function BillInfo(props: Props) {
   };
   const handleRemoveCoupon = () => {
     dispatch({ type: CP_NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
+  };
+  const handleClose = (key: string) => {
+    if (key === "home-page") {
+      history.push(ROUTE_HOME);
+    } else {
+      history.push(
+        generatePath(ROUTE_PROFILE_PREDICATE, {
+          tabName: "address",
+        })
+      );
+    }
   };
   return (
     <div style={{ margin: "16px" }}>
@@ -419,6 +440,33 @@ export default function BillInfo(props: Props) {
           loading={loading}
         />
       </Grid>
+      <Dialog
+        open={!currentAddress ? true : false}
+        // onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"You don't have any address?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let's add your first address to check out !
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose("home-page")} color="primary">
+            Home page
+          </Button>
+          <Button
+            onClick={() => handleClose("add-address")}
+            color="primary"
+            autoFocus
+          >
+            Add address
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

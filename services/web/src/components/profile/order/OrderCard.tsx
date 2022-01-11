@@ -77,7 +77,6 @@ const OrderCard: React.FC<{
             alignItems="center"
             justifyContent="space-between"
           >
-            {console.log(order)}
             <Grid item>
               {order.status === "Ready to pick" &&
                 order.paymentMethod === "CashOnDelivery" && (
