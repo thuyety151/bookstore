@@ -57,7 +57,8 @@ export default function CustomizedSlider({value} : Props) {
       <PrettoSlider
         valueLabelDisplay="off"
         aria-label="pretto slider"
-        defaultValue={value}      
+        defaultValue={value}  
+        disabled    
       />
     </div>
   );

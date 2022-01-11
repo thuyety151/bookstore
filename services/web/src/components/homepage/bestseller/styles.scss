@@ -1,0 +1,26 @@
+.thumbs {
+	
+	margin: 30px auto;
+	padding: 0 10px;
+	position: relative;
+
+	.btn-prev, .btn-next {
+		position: absolute;
+		top: 200px;
+		font-size: 40px;
+		color: "#000";
+		cursor: pointer;
+	}
+	.btn-prev {
+		left: -50px;
+	}
+	.btn-next {
+		right: -50px;
+	}
+}
+
+.image {
+	max-height: 10rem;
+	width: 100%;
+	height: auto;
+}

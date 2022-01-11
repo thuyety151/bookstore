@@ -1,6 +1,6 @@
 import { Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import BestSellerComponent from "./BestSellerBanner";
@@ -12,17 +12,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBestSelling } from "../../../redux/actions/books/getBestSelling";
 import { Predicate, ROUTE_BOOKS_FOR_SALE } from "../../../routers/types";
 import { Book } from "../../../model";
+import "./styles.scss";
+import defaultBookUrl from "../../../assets/images/default.jpeg"
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
   1024: { items: 4 },
 };
 
+const defaultItems = [
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image"src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />
+]
+
+
+
 const SlideEffect: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const state = useSelector((state: RootStore) => state.bestSelling);
+  //const state = useSelector((state: RootStore) => state.bestSelling);
+  const test = [] as Book[];
 
   useEffect(() => {
     dispatch(getBestSelling());
@@ -36,7 +49,16 @@ const SlideEffect: React.FC = () => {
     );
   };
 
-  const items = state.data.map((item, index) => {
+  const defaultThumbItems = defaultItems.map((item : any, index : any) => {
+    return  (
+        <div className="thumb">
+            {item}
+        </div>
+    );
+});
+
+
+  const items = test.map((item, index) => {
     return (
       <div key={index}>
         <BestSellerComponent item={item} />
@@ -44,8 +66,26 @@ const SlideEffect: React.FC = () => {
     );
   });
 
+  const [thumbIndex, setThumbIndex] = useState(0);
+
+  const slideNext = () => {
+    if (thumbIndex < items.length - 1) {
+      setThumbIndex(thumbIndex + 1);
+    }
+  };
+
+  const slidePrev = () => {
+    if (thumbIndex > 0) {
+      setThumbIndex(thumbIndex - 1);
+    }
+  };
+  
+  const syncThumbs = (e: any) => {
+    setThumbIndex(e.item);
+  };
+
   return (
-    <div className={classes.root}>
+    <div className="thumbs">
       <Grid
         container
         direction="row"
@@ -74,14 +114,23 @@ const SlideEffect: React.FC = () => {
         <Grid item xs={12}>
           <Paper className={classes.paper} elevation={0}>
             <AliceCarousel
-              mouseTracking
+              activeIndex={thumbIndex}
               disableDotsControls
-              items={items}
+              disableButtonsControls
+              items={items.length > 0 ? items : defaultThumbItems}
+              mouseTracking
               responsive={responsive}
+              onSlideChanged={syncThumbs}
             />
           </Paper>
         </Grid>
       </Grid>
+      <div className="btn-prev" onClick={slidePrev}>
+        &lang;
+      </div>
+      <div className="btn-next" onClick={slideNext}>
+        &rang;
+      </div>
     </div>
   );
 };
