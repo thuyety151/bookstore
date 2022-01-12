@@ -10,7 +10,6 @@ import { RootStore } from "../../../redux/store";
 import "./styles.scss";
 import clsx from "clsx";
 import defaultBookUrl from "../../../assets/images/default.jpeg"
-import { ItemStatus } from "../../../model/item";
 
 interface TabPanelProps {
   children?: React.ReactNode;

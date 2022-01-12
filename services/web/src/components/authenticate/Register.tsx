@@ -1,5 +1,4 @@
 import {
-  Backdrop,
   Button,
   CircularProgress,
   createStyles,
@@ -13,8 +12,6 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../redux/actions/user/userAction";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";

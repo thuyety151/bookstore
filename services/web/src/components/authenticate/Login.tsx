@@ -1,5 +1,4 @@
 import {
-  Backdrop,
   Button,
   CircularProgress,
   createStyles,
@@ -15,11 +14,9 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../redux/actions/user/userAction";
 import { Facebook, Visibility, VisibilityOff } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import { Field, Form, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { useSnackbar } from "notistack";
 import api from "../../boot/axios";

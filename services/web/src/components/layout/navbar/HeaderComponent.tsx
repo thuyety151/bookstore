@@ -4,7 +4,6 @@ import { makeStyles, Tooltip } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
-import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
