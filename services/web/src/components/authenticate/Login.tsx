@@ -25,7 +25,6 @@ export default function LoginComponent() {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
-  const dispatch = useDispatch();
 
   const validationSchema = yup.object({
     email: yup
@@ -44,11 +43,22 @@ export default function LoginComponent() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(userActions.login(values.email, values.password));
-      if (localStorage.getItem("user")) {
-        history.push("/");
+    onSubmit: async (values) => {
+      var email = values.email;
+      var password = values.password;
+
+      try {
+        var response = await api.post("/account/login", { email, password });
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          enqueueSnackbar("Login successfully", {variant: "success"})
+          history.push("/");
+        }
       }
+      catch {
+        enqueueSnackbar("Email or password is invalid!", {variant: "error"})
+      }
+
     },
   });
 
@@ -57,23 +67,6 @@ export default function LoginComponent() {
   };
 
   const handleFacebookLogin = async () => {
-    // var responseApi = await api.post(
-    //   `/account/facebook-login?accessToken=EAAEcGzsRdJkBAHhdEQFvj2X26uemYLLx1LH8ZBTVTDAekQBoMdTPGxy0Xxw3VM1EQJ2I7Dv23FmkxUf4WAlDZALKUWmfgZAgPkIeUqfUHgNxUCMMQjjhUK1E4ng4TkaBo1mQpGIFoVWHYBGnrPyq014uKuikMLDjxAIL2e4cGZCRBW6VmNKB61cG0HW2tWYaprvk6JVsCXserVRFAXZBhlnR93BnZAUdQZD`,
-    //   {}
-    // );
-
-    // console.log(JSON.stringify(responseApi));
-
-    // if (responseApi.data) {
-    //   localStorage.setItem("user", JSON.stringify(responseApi.data));
-    //   enqueueSnackbar("Login successfully", {
-    //     variant: "success",
-    //   });
-    // } else {
-    //   enqueueSnackbar("Unauthorize", {
-    //     variant: "error",
-    //   });
-    // }
     window.FB.login(
       async (response) => {
         if (response.authResponse) {
@@ -150,6 +143,7 @@ export default function LoginComponent() {
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                    color="secondary"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -167,13 +161,14 @@ export default function LoginComponent() {
                     helperText={
                       formik.touched.password && formik.errors.password
                     }
+                    color="secondary"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.signUp}
                   >
                     Sign In
@@ -184,7 +179,7 @@ export default function LoginComponent() {
 
             <Divider className={classes.divider}/>
 
-            <Grid item>
+            <Grid item className={classes.gridFb}>
               <Button
                 variant="outlined"
                 className={classes.facebook}
@@ -206,22 +201,25 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      backgroundColor: "#fff6f6"
     },
     paper: {
       padding: theme.spacing(2),
-      margin: "50px 50px 50px 680px",
+     
       maxWidth: 500,
       textAlign: "left",
       "&:hover": {
         borderColor: "#000",
       },
       borderRadius: "20px",
+      margin: "auto"
     },
     text: {
       marginLeft: "15px",
     },
     link: {
       marginLeft: "5px",
+      color: "#f50057"
     },
     form: {
       display: "flex",
@@ -262,9 +260,16 @@ const useStyles = makeStyles((theme: Theme) =>
       "& .MuiButtonBase-root": {
         margin: "5px 0px 20px 330px",
       },
+      float: "right",
+      marginRight: "70px !important",
     },
     divider: {
       margin: "10px"
+    },
+
+   
+    gridFb: {
+      margin: "auto"
     }
   })
 );

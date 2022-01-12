@@ -11,15 +11,16 @@ import {
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/actions/user/userAction";
-import { GitHub, Facebook } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
+import { useSnackbar } from "notistack";
 import * as yup from "yup";
 
 export default function RegisterComponent() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const validationSchema = yup.object({
     firstName: yup.string().required("First name is required"),
@@ -32,6 +33,8 @@ export default function RegisterComponent() {
       .string()
       .min(8, "Password should be of minimum 8 characters length")
       .required("Password is required"),
+    confirmPassword: yup
+      .string().required("Confirm password is required"),
   });
 
   const formik = useFormik({
@@ -40,9 +43,13 @@ export default function RegisterComponent() {
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      if(values.password !== values.confirmPassword){
+        enqueueSnackbar("Confirm password is not match!", {variant: "error"})
+      }
       dispatch(userActions.register(values.firstName, values.lastName, values.email, values.password));
       if (localStorage.getItem("user")) {
         history.push("/");
@@ -95,6 +102,7 @@ export default function RegisterComponent() {
                     onChange={formik.handleChange}
                     error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                     helperText={formik.touched.firstName && formik.errors.firstName}
+                    color="secondary"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -107,6 +115,7 @@ export default function RegisterComponent() {
                     onChange={formik.handleChange}
                     error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                     helperText={formik.touched.lastName && formik.errors.lastName}
+                    color="secondary"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -120,6 +129,7 @@ export default function RegisterComponent() {
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                    color="secondary"
                   />
                 </Grid>
 
@@ -134,13 +144,29 @@ export default function RegisterComponent() {
                     onChange={formik.handleChange}
                     error={formik.touched.password && Boolean(formik.errors.password)}
                     helperText={formik.touched.password && formik.errors.password}
+                    color="secondary"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    label="Confirm Password"
+                    variant="standard"
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange}
+                    error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                    helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                    color="secondary"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.signUp}
                   >
                     Create account
@@ -148,27 +174,6 @@ export default function RegisterComponent() {
                 </Grid>
               </Grid>
             </form>
-
-            {/* <Divider>Or</Divider>  */}
-
-            <Grid item>
-              <Button
-                variant="outlined"
-                className={classes.button}
-                startIcon={<GitHub />}
-              >
-                Continue with Google
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                className={classes.facebook}
-                startIcon={<Facebook />}
-              >
-                Continue with Facebook
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       </Paper>
@@ -180,16 +185,17 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      backgroundColor: "#fff6f6"
     },
     paper: {
       padding: theme.spacing(2),
-      margin: "50px 50px 50px 680px",
       maxWidth: 500,
       textAlign: "left",
       "&:hover": {
         borderColor: "#000",
       },
       borderRadius: "20px",
+      margin: "auto"
     },
     text: {
       marginLeft: "15px",
@@ -197,6 +203,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       marginLeft: "5px",
+      color: "#f50057"
     },
     form: {
       display: "flex",
@@ -213,26 +220,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
 
-    button: {
-      borderRadius: "50px",
-      textTransform: "none",
-      width: 300,
-      height: "45px",
-      fontWeight: 600,
-      margin: "5px 20px 5px 70px",
-    },
-    facebook: {
-      background: "#4267B2",
-      borderRadius: "50px",
-      textTransform: "none",
-      width: 300,
-      height: "45px",
-      fontWeight: 600,
-      margin: "5px 20px 5px 70px",
-    },
     signUp: {
       textTransform: "none",
       borderRadius: "50px",
+      float: "right",
+      marginRight: "70px !important",
     },
   })
 );
