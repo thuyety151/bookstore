@@ -233,6 +233,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
       backgroundColor: "#fff6f6",
+      height: 700
     },
     paper: {
       padding: theme.spacing(2),
@@ -244,6 +245,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       borderRadius: "20px",
       margin: "auto",
+      position: "relative",
+      top: 50
     },
     text: {
       marginLeft: "15px",
