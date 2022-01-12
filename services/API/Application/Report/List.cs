@@ -135,9 +135,8 @@ namespace Application.Report
                         break;
                     case "last-7-days":
                         var last7Day = DateTime.Now.AddDays(-7);
-                        var ordersLast7Days = _context.Orders.Where(x =>
-                            x.OrderDate >= last7Day && x.OrderDate <= last7Day && x.IsDeleted == false);
-                        for (int i = 0; i <= 7; i--)
+                        var ordersLast7Days = _context.Orders.Where(x => x.IsDeleted);
+                        for (int i = 0; i <= 7; i++)
                         {
                             var day = last7Day.AddDays(i);
                             var ordersInDay = ordersLast7Days.Where(x => x.OrderDate == day);
