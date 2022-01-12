@@ -159,9 +159,8 @@ const ListBookForSale: React.FC = () => {
           {isLoading ? (
             <div>
               <Backdrop className={classes.backdrop} open>
-                <CircularProgress color="inherit" />
+                <CircularProgress color="secondary" />
               </Backdrop>
-              {/* <CircularProgress color="secondary" className="circle-process" /> */}
               {booksState.data.length === 0 ? (
                 <Grid
                   container

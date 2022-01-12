@@ -19,16 +19,22 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const history = createBrowserHistory({ forceRefresh: true });
+    const history = createBrowserHistory();
+    console.log("h:" + history.location.pathname);
 
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && history.location.pathname !== '/login') {
+      const history = createBrowserHistory({ forceRefresh: true });
+
       const user = localStorage.getItem("user");
       if (user) {
         localStorage.removeItem("user");
       }
       history.push(ROUTE_LOGIN);
       return axios(error.config);
-    } else {
+    } else if (error.response?.status === 401 && history.location.pathname === '/login'){
+      return;
+    }
+    else {
       return Promise.reject(error);
     }
   }
