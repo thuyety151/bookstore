@@ -6,6 +6,8 @@ import {
   Divider,
   // Divider,
   Grid,
+  IconButton,
+  InputAdornment,
   Link,
   makeStyles,
   Paper,
@@ -15,7 +17,7 @@ import {
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/actions/user/userAction";
-import { Facebook } from "@material-ui/icons";
+import { Facebook, Visibility, VisibilityOff } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { Field, Form, Formik, useFormik } from "formik";
 import * as yup from "yup";
@@ -28,6 +30,10 @@ export default function LoginComponent() {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   const validationSchema = yup.object({
     email: yup
@@ -46,7 +52,7 @@ export default function LoginComponent() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values , {setSubmitting}) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       var email = values.email;
       var password = values.password;
@@ -55,10 +61,10 @@ export default function LoginComponent() {
         setLoading(true);
         var response = await api.post("/account/login", { email, password });
 
-        if(response.status === 401){
+        if (response.status === 401) {
           setLoading(false);
-        console.log("401!");
-        enqueueSnackbar("401", { variant: "error" });
+          console.log("401!");
+          enqueueSnackbar("401", { variant: "error" });
         }
         if (response.data.token) {
           setLoading(false);
@@ -70,17 +76,16 @@ export default function LoginComponent() {
         setLoading(false);
         console.log("Email or password is invalid!");
         enqueueSnackbar("Email or password is invalid!", { variant: "error" });
-      }
-      finally {
+      } finally {
         setSubmitting(false);
       }
     },
   });
 
-  const handleSubmit = (e : React.FormEvent<HTMLFormElement>  ) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     formik.handleSubmit();
-  }
+  };
 
   const handleOnClick = () => {
     history.push("/register");
@@ -150,7 +155,6 @@ export default function LoginComponent() {
               </Typography>
             </Grid>
 
-           
             <form className={classes.form} onSubmit={handleSubmit}>
               <Grid item xs={12} container spacing={1}>
                 <Grid item xs={12}>
@@ -171,7 +175,7 @@ export default function LoginComponent() {
                   <TextField
                     label="Password"
                     variant="filled"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formik.values.password}
@@ -183,6 +187,19 @@ export default function LoginComponent() {
                       formik.touched.password && formik.errors.password
                     }
                     color="secondary"
+                    InputProps={{ // <-- This is where the toggle button is added.
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -233,7 +250,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
       backgroundColor: "#fff6f6",
-      height: 700
+      height: 700,
     },
     paper: {
       padding: theme.spacing(2),
@@ -246,7 +263,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: "20px",
       margin: "auto",
       position: "relative",
-      top: 50
+      top: 50,
     },
     text: {
       marginLeft: "15px",
