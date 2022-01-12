@@ -8,6 +8,7 @@ using Application.Categories;
 using Application.Coupons;
 using Application.Orders;
 using Application.Orders.Admin;
+using Application.Report;
 using Application.Review;
 using AutoMapper;
 using Domain;
@@ -64,6 +65,9 @@ namespace Application.Core
                 .ForMember(x => x.TotalStock, o => o.MapFrom(x => x.TotalStock));
                 
             CreateMap<Item, ItemDto>();
+            
         }
     }
+    
+
 }
