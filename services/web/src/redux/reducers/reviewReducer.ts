@@ -33,13 +33,13 @@ const reviewReducer = (
     case reviewConstants.GET_REQUEST:
       return {
         ...state,
-        pagination: JSON.parse(payload.pagination),
       };
     case reviewConstants.GET_SUCCESS:
       return {
         ...state,
         success: true,
         data: payload.data,
+        pagination: JSON.parse(payload.pagination),
       };
     case reviewConstants.GET_FAILURE:
       return {
@@ -51,7 +51,7 @@ const reviewReducer = (
     case reviewConstants.ADD_SUCCESS:
       return {
         ...state,
-        data: [...state.data, payload.data],
+        data: [payload.data, ...state.data],
         success: true,
       };
     case reviewConstants.ADD_FAILURE:

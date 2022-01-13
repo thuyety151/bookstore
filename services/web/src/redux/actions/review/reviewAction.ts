@@ -2,23 +2,34 @@ import api from "../../../boot/axios";
 import { reviewConstants } from "../../constants/review/actionTypes";
 import { CreateReview, Review } from "../../../model/review";
 
-export const getReviews = (bookId: any) => async (dispatch: any) => {
-  try {
-    dispatch({ type: reviewConstants.GET_REQUEST });
+export const getReviews =
+  (bookId: any, pagination?: any) => async (dispatch: any) => {
+    console.log("get review");
+    try {
+      dispatch({ type: reviewConstants.GET_REQUEST });
 
-    const response = await api.get(`/reviews?bookId=${bookId}`);
+      const response = await api.get(`/reviews?bookId=${bookId}`, {
+        params: pagination || {
+          pageIndex: 1,
+          pageSize: 5,
+          totalPage: 0,
+          totalCount: 0,
+        },
+      });
 
-    dispatch({
-      type: reviewConstants.GET_SUCCESS,
-      data: response.data.value,
-    });
-  } catch (error: any) {
-    dispatch({
-      type: reviewConstants.GET_FAILURE,
-      message: error.messages,
-    });
-  }
-};
+      dispatch({
+        type: reviewConstants.GET_SUCCESS,
+        data: response.data.value,
+        pagination: response.headers.pagination,
+      });
+    } catch (error: any) {
+      console.log(error);
+      dispatch({
+        type: reviewConstants.GET_FAILURE,
+        message: error.messages,
+      });
+    }
+  };
 export type CreateReviewType = {
   review: CreateReview;
   onSuccess: () => void;

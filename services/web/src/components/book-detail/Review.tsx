@@ -18,10 +18,11 @@ import ReviewItem from "./ReviewItem";
 import Rating from "@mui/material/Rating";
 import { RootStore } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { Review, CreateReview } from "../../model/review";
-import { addReview } from "../../redux/actions/review/reviewAction";
+import { CreateReview } from "../../model/review";
+import { addReview, getReviews } from "../../redux/actions/review/reviewAction";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
+import { Pagination } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,30 +80,28 @@ export default function CenteredGrid() {
   const [content, setContent] = useState("");
 
   const [value, setValue] = React.useState(3);
-
+  const [page, setpage] = useState(1);
   const [rateValue, setRateValue] = React.useState<number | null>(5);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
   const { bookId } = useParams() as any;
-  const reviews: Review[] | null = useSelector(
-    (state: RootStore) => state.review.data
-  );
+  const reviews = useSelector((state: RootStore) => state.review);
 
-  const totalReview = reviews.length;
-  const rates = reviews.map((review) => review.rate);
+  const totalReview = reviews.data.length;
+  const rates = reviews.data.map((review) => review.rate);
   const sumRate = rates.reduce(
     (a, b) => (a !== null && b !== null ? a + b : 0),
     0
   );
   const avgRate = sumRate ? sumRate / rates.length : 0;
 
-  const totalFiveStar = rates.filter(rate => rate === 5).length;
-  const totalFourStar = rates.filter(rate => rate === 4).length;
-  const totalThreeStar = rates.filter(rate => rate === 3).length;
-  const totalTwoStar = rates.filter(rate => rate === 2).length;
-  const totalOneStar = rates.filter(rate => rate === 1).length;
+  const totalFiveStar = rates.filter((rate) => rate === 5).length;
+  const totalFourStar = rates.filter((rate) => rate === 4).length;
+  const totalThreeStar = rates.filter((rate) => rate === 3).length;
+  const totalTwoStar = rates.filter((rate) => rate === 2).length;
+  const totalOneStar = rates.filter((rate) => rate === 1).length;
 
   const handleSubmit = () => {
     const review: CreateReview = {
@@ -116,6 +115,8 @@ export default function CenteredGrid() {
       addReview({
         review,
         onSuccess: () => {
+          dispatch(getReviews(bookId));
+          setpage(1);
           enqueueSnackbar("Comment successfully!", { variant: "success" });
         },
         onFailure: (error: any) => {
@@ -128,7 +129,13 @@ export default function CenteredGrid() {
     setContent("");
     setRateValue(5);
   };
-
+  const handleChangePage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setpage(value);
+    dispatch(getReviews(bookId, { ...reviews.pagination, pageIndex: value }));
+  };
   return (
     <div className={classes.root}>
       <AppBar id="review" position="static" color="default">
@@ -171,12 +178,20 @@ export default function CenteredGrid() {
                 justifyContent="space-evenly"
               >
                 <Grid item>
-                  <Button variant="contained" className={classes.button}>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    href="#all-reviews"
+                  >
                     See all reviews
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" className={classes.button}>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    href="#form-add-review"
+                  >
                     Write a review
                   </Button>
                 </Grid>
@@ -188,7 +203,10 @@ export default function CenteredGrid() {
                   5 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={totalFiveStar} />
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={totalFiveStar}
+                  />
                 </Grid>
                 <Grid item xs={2}>
                   {totalFiveStar}
@@ -199,7 +217,10 @@ export default function CenteredGrid() {
                   4 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={totalFourStar} />
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={totalFourStar}
+                  />
                 </Grid>
                 <Grid item xs={2}>
                   {totalFourStar}
@@ -210,7 +231,10 @@ export default function CenteredGrid() {
                   3 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={totalThreeStar} />
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={totalThreeStar}
+                  />
                 </Grid>
                 <Grid item xs={2}>
                   {totalThreeStar}
@@ -221,7 +245,10 @@ export default function CenteredGrid() {
                   2 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={totalTwoStar} />
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={totalTwoStar}
+                  />
                 </Grid>
                 <Grid item xs={2}>
                   {totalTwoStar}
@@ -232,7 +259,10 @@ export default function CenteredGrid() {
                   1 stars
                 </Grid>
                 <Grid item xs={8}>
-                  <BorderLinearProgress variant="determinate" value={totalOneStar} />
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={totalOneStar}
+                  />
                 </Grid>
                 <Grid item xs={2}>
                   {totalOneStar}
@@ -240,15 +270,22 @@ export default function CenteredGrid() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
-            {reviews
-              ? reviews.map((review) => (
+          <Grid item id="all-reviews">
+            {reviews.data
+              ? reviews.data.map((review) => (
                   <ReviewItem key={review.id} review={review} />
                 ))
               : null}
+            {reviews.pagination.totalPage ? (
+              <Pagination
+                count={reviews.pagination.totalPage}
+                page={page}
+                onChange={handleChangePage}
+              />
+            ) : null}
           </Grid>
 
-          <Grid item container>
+          <Grid item container id="form-add-review">
             <Typography variant="h6"> Write a review</Typography>
             <Grid item container spacing={2}>
               <Grid item>
