@@ -1,8 +1,12 @@
 import {
   Button,
+  CircularProgress,
   createStyles,
+  Divider,
   // Divider,
   Grid,
+  IconButton,
+  InputAdornment,
   Link,
   makeStyles,
   Paper,
@@ -10,21 +14,23 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../redux/actions/user/userAction";
-import { GitHub, Facebook } from "@material-ui/icons";
+import { Facebook, Visibility, VisibilityOff } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useSnackbar } from "notistack";
 import api from "../../boot/axios";
+import { useState } from "react";
 
 export default function LoginComponent() {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  const [isLoading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   const validationSchema = yup.object({
     email: yup
@@ -43,36 +49,46 @@ export default function LoginComponent() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(userActions.login(values.email, values.password));
-      if (localStorage.getItem("user")) {
-        history.push("/");
+    onSubmit: async (values, { setSubmitting }) => {
+      setSubmitting(true);
+      var email = values.email;
+      var password = values.password;
+
+      try {
+        setLoading(true);
+        var response = await api.post("/account/login", { email, password });
+
+        if (response.status === 401) {
+          setLoading(false);
+          console.log("401!");
+          enqueueSnackbar("401", { variant: "error" });
+        }
+        if (response.data.token) {
+          setLoading(false);
+          localStorage.setItem("user", JSON.stringify(response.data));
+          enqueueSnackbar("Login successfully", { variant: "success" });
+          history.push("/");
+        }
+      } catch {
+        setLoading(false);
+        console.log("Email or password is invalid!");
+        enqueueSnackbar("Email or password is invalid!", { variant: "error" });
+      } finally {
+        setSubmitting(false);
       }
     },
   });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    formik.handleSubmit();
+  };
 
   const handleOnClick = () => {
     history.push("/register");
   };
 
   const handleFacebookLogin = async () => {
-    // var responseApi = await api.post(
-    //   `/account/facebook-login?accessToken=EAAEcGzsRdJkBAHhdEQFvj2X26uemYLLx1LH8ZBTVTDAekQBoMdTPGxy0Xxw3VM1EQJ2I7Dv23FmkxUf4WAlDZALKUWmfgZAgPkIeUqfUHgNxUCMMQjjhUK1E4ng4TkaBo1mQpGIFoVWHYBGnrPyq014uKuikMLDjxAIL2e4cGZCRBW6VmNKB61cG0HW2tWYaprvk6JVsCXserVRFAXZBhlnR93BnZAUdQZD`,
-    //   {}
-    // );
-
-    // console.log(JSON.stringify(responseApi));
-
-    // if (responseApi.data) {
-    //   localStorage.setItem("user", JSON.stringify(responseApi.data));
-    //   enqueueSnackbar("Login successfully", {
-    //     variant: "success",
-    //   });
-    // } else {
-    //   enqueueSnackbar("Unauthorize", {
-    //     variant: "error",
-    //   });
-    // }
     window.FB.login(
       async (response) => {
         if (response.authResponse) {
@@ -136,7 +152,7 @@ export default function LoginComponent() {
               </Typography>
             </Grid>
 
-            <form className={classes.form} onSubmit={formik.handleSubmit}>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <Grid item xs={12} container spacing={1}>
                 <Grid item xs={12}>
                   <TextField
@@ -149,13 +165,14 @@ export default function LoginComponent() {
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                    color="secondary"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     label="Password"
                     variant="filled"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formik.values.password}
@@ -166,33 +183,49 @@ export default function LoginComponent() {
                     helperText={
                       formik.touched.password && formik.errors.password
                     }
+                    color="secondary"
+                    InputProps={{ // <-- This is where the toggle button is added.
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.signUp}
-                  >
-                    Sign In
-                  </Button>
+                  {isLoading ? (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="secondary"
+                      className={classes.signUp}
+                    >
+                      <CircularProgress color="inherit" />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="secondary"
+                      className={classes.signUp}
+                    >
+                      Sign In
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             </form>
 
-            {/* <Divider>Or</Divider>  */}
+            <Divider className={classes.divider} />
 
-            <Grid item>
-              <Button
-                variant="outlined"
-                className={classes.button}
-                startIcon={<GitHub />}
-              >
-                Continue with Google
-              </Button>
-            </Grid>
-            <Grid item>
+            <Grid item className={classes.gridFb}>
               <Button
                 variant="outlined"
                 className={classes.facebook}
@@ -213,22 +246,28 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      backgroundColor: "#fff6f6",
+      height: 700,
     },
     paper: {
       padding: theme.spacing(2),
-      margin: "50px 50px 50px 680px",
+
       maxWidth: 500,
       textAlign: "left",
       "&:hover": {
         borderColor: "#000",
       },
       borderRadius: "20px",
+      margin: "auto",
+      position: "relative",
+      top: 50,
     },
     text: {
       marginLeft: "15px",
     },
     link: {
       marginLeft: "5px",
+      color: "#f50057",
     },
     form: {
       display: "flex",
@@ -259,7 +298,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 300,
       height: "45px",
       fontWeight: 600,
-      margin: "5px 20px 5px 70px",
+      color: "#fff",
+      border: "1px solid #000",
+      margin: "auto",
     },
     signUp: {
       textTransform: "none",
@@ -267,6 +308,18 @@ const useStyles = makeStyles((theme: Theme) =>
       "& .MuiButtonBase-root": {
         margin: "5px 0px 20px 330px",
       },
+      float: "right",
+      marginRight: "70px !important",
+    },
+    divider: {
+      margin: "10px",
+    },
+    gridFb: {
+      margin: "auto",
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
     },
   })
 );

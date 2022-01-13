@@ -35,7 +35,7 @@ import { getLanguages } from "../../redux/actions/language/getAction";
 import { getCategories } from "../../redux/actions/category/getAction";
 import { getAllAuthor } from "../../redux/actions/author/getActions";
 import { getAttributes } from "../../redux/actions/attribute/getAction";
-import { getBooksForSale } from "../../redux/actions/books/getAction";
+import { filterParams, getBooksForSale } from "../../redux/actions/books/getAction";
 import { Category } from "../../model/category";
 import Attribute from "../../model/attribute";
 
@@ -45,6 +45,7 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 
 const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
@@ -70,13 +71,15 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     feature: false,
   });
 
-  const initBookFilterParams = {
+ 
+
+  const initBookFilterParams : filterParams = {
     categoryId: categoryId || "",
     authorId: "",
     languageIds: "",
     attributeId: "",
     minPrice: 0,
-    maxPrice: 1000,
+    maxPrice: 500,
     rates: 0,
   };
   const [bookFilterParams, setBookFilterParams] =
@@ -140,7 +143,6 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
         ...pagination,
       })
     );
-    console.log("change :");
     // eslint-disable-next-line
   }, [bookFilterParams]);
 

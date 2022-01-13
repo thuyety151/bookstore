@@ -33,7 +33,7 @@ namespace Application.Categories.Admin
                     .Select(x => new CategoryDto()
                     {
                         Id = x.Id,
-                        Name = x.ParentId == null ? x.Name : "-" + x.Name,
+                        Name = x.Name,
                         Description = x.Description,
                         Slug = x.Slug,
                         MediaUrl = x.Media.Url,
