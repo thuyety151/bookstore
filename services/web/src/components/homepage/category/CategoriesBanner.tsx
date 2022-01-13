@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { color } from "../../../model/category";
 import { generatePath, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
 import { Skeleton } from "@material-ui/lab";
 import "./styles.scss";
@@ -13,16 +13,22 @@ import {
   ROUTE_BOOKS_FOR_SALE,
   ROUTE_BOOKS_FOR_SALE_CATE,
 } from "../../../routers/types";
+import { getCategoriesForHomepage } from "../../../redux/actions/category/getAction";
 
 function Categories() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const rootCategoryState = useSelector((state: RootStore) => state.category);
+  console.log(rootCategoryState);
 
   const handleNavigateToCate = (id: string) => {
     history.push(generatePath(ROUTE_BOOKS_FOR_SALE_CATE, { categoryId: id }));
   };
-
+  useEffect(() => {
+    dispatch(getCategoriesForHomepage());
+    // eslint-disable-next-line
+  }, []);
   return (
     <div>
       <Grid
@@ -49,13 +55,13 @@ function Categories() {
             </span>
           </div>
         </Grid>
-        <Grid container style={{gap: '10px'}}>
+        <Grid container style={{ gap: "10px" }}>
           {/* <Grid container justifyContent="space-between"> */}
           {rootCategoryState.requesting
             ? new Array(4).map((value, index) => (
                 <Skeleton variant="rect" width={210} height={118} />
               ))
-            : rootCategoryState.data.root.slice(0, 4).map((value, index) => (
+            : rootCategoryState.data.homepage.map((value, index) => (
                 <Paper
                   key={`key-category-${index}`}
                   className={clsx(classes.paper, "category__contents")}

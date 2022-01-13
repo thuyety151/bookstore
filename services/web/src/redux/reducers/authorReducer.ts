@@ -20,20 +20,20 @@ const authorReducer = (
   payload: any
 ): AuthorState => {
   switch (payload.type) {
-    case NAME_ACTIONS.GET_ALL.GET_ALL:
+    case NAME_ACTIONS.GET_ALL_AUTHOR.GET_ALL:
       return {
         ...state,
         requesting: true,
         data: [],
       };
-    case NAME_ACTIONS.GET_ALL.GET_ALL_SUCCESS:
+    case NAME_ACTIONS.GET_ALL_AUTHOR.GET_ALL_SUCCESS:
       return {
         ...state,
         requesting: false,
         data: payload.data,
         success: true,
       };
-    case NAME_ACTIONS.GET_ALL.GET_ALL_FAIL:
+    case NAME_ACTIONS.GET_ALL_AUTHOR.GET_ALL_FAIL:
       return {
         ...state,
         requesting: false,
