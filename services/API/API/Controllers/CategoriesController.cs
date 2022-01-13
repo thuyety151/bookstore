@@ -11,9 +11,9 @@ namespace API.Controllers
     public class CategoriesController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetCategories([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetCategories()
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams }));
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
         [HttpGet]
         [Route("root")]
