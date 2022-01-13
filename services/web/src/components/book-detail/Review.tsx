@@ -23,6 +23,7 @@ import { addReview, getReviews } from "../../redux/actions/review/reviewAction";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
 import { Pagination } from "@material-ui/lab";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -96,7 +97,7 @@ export default function CenteredGrid() {
     0
   );
   const avgRate = sumRate ? sumRate / rates.length : 0;
-
+  const { enqueueSnackbar } = useSnackbar();
   const totalFiveStar = rates.filter((rate) => rate === 5).length;
   const totalFourStar = rates.filter((rate) => rate === 4).length;
   const totalThreeStar = rates.filter((rate) => rate === 3).length;
@@ -345,7 +346,4 @@ export default function CenteredGrid() {
       </Box>
     </div>
   );
-}
-function enqueueSnackbar(arg0: string, arg1: { variant: string }) {
-  throw new Error("Function not implemented.");
 }
