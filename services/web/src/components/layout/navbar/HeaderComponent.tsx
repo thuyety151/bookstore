@@ -1,10 +1,9 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsCellOutlinedIcon from "@material-ui/icons/SettingsCellOutlined";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
-import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
@@ -75,21 +74,26 @@ const HeaderComponent: React.FC<{
         </div>
         <div className={classes.listItem}>
           <ListItem button>
-            <LocationOnOutlinedIcon />
+            <Tooltip title="Shop location" aria-label="Shop location">
+              <LocationOnOutlinedIcon />
+            </Tooltip>
           </ListItem>
           <ListItem button>
-            <SwapHorizOutlinedIcon />
-          </ListItem>
-          <ListItem button>
-            <FavoriteBorderOutlinedIcon />
+            <Tooltip title="Wishlist" aria-label="Wishlist">
+              <FavoriteBorderOutlinedIcon />
+            </Tooltip>
           </ListItem>
           <ListItem button onClick={handlePersonOutLine}>
-            <PersonOutlineOutlinedIcon />
+            <Tooltip title="My account" aria-label="My account">
+              <PersonOutlineOutlinedIcon />
+            </Tooltip>
           </ListItem>
           <ListItem button onClick={handleOpenCart}>
-            <Badge badgeContent={totalItem} overlap="circular" color="error">
-              <LocalMallOutlinedIcon />
-            </Badge>
+            <Tooltip title="Cart" aria-label="Cart">
+              <Badge badgeContent={totalItem} overlap="circular" color="error">
+                <LocalMallOutlinedIcon />
+              </Badge>
+            </Tooltip>
           </ListItem>
         </div>
       </div>

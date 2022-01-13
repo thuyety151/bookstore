@@ -3,13 +3,13 @@ import { booksContant } from "../constants/books/actionTypes";
 
 export type BooksSate = {
     success: Boolean;
-    data: Book[] | null;
+    data: Book[];
     message: string | null;
 }
 
 const initialState : BooksSate  = {
     success: true,
-    data: null,
+    data: [] as Book[],
     message: null
 }
 

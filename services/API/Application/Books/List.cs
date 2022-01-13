@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +22,12 @@ namespace Application.Books
         public class Handler : IRequestHandler<Query, Result<PagedList<BooksDto>>>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task<Result<PagedList<BooksDto>>> Handle(Query request, CancellationToken cancellationToken)
@@ -39,7 +43,7 @@ namespace Application.Books
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Attribute)
-                    .Where(x => x.Book.IsPublic && x.Book.IsDeleted == false && x.StockStatus == StockStatus.InStock)
+                    .Where(x => x.Book.IsPublic && x.Book.IsDeleted == false && x.StockStatus == StockStatus.InStock && x.TotalStock > 0)
                     .AsQueryable();
                 if (!string.IsNullOrWhiteSpace(request.Params.CategoryId))
                 {
@@ -69,7 +73,7 @@ namespace Application.Books
                     query = query.Where(x => x.AttributeId == defaultAttributeId);
                 }
                
-                if (request.Params.MinPrice >= 0 && request.Params.MaxPrice > 0)
+                if (request.Params.MinPrice >= 0 && request.Params.MaxPrice > 0 && request.Params.MaxPrice < 500) 
                 {
                     query = query.Where(x =>
                         x.Price >
@@ -154,27 +158,9 @@ namespace Application.Books
                             break;
                     }
                 }
-                
 
-                var booksDto = query.Select(x => new BooksDto()
-                {
-                    Id = x.BookId,
-                    AttributeId = x.AttributeId,
-                    AttributeName = x.Attribute.Name,
-                    AuthorId = x.Book.Author.Id,
-                    AuthorName = x.Book.Author.Name,
-                    Name = x.Book.Name,
-                    LanguageId = x.Book.Language.Id,
-                    LanguageName = x.Book.Language.Name,
-                    Price = x.Price,
-                    SalePrice = x.SalePrice,
-                    PictureUrl = x.Book.Media.FirstOrDefault(m => m.IsMain).Url,
-                    StockStatus = x.StockStatus.ToString(),
-                    Categories = String.Join(",", x.Book.Categories.Select(c => c.Category.Name)),
-                    PublishDate = x.Book.PublicationDate,
-                    TotalStock = x.TotalStock
 
-                }).AsQueryable();
+                var booksDto = query.ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
 
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));

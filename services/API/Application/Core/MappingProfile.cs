@@ -8,6 +8,7 @@ using Application.Categories;
 using Application.Coupons;
 using Application.Orders;
 using Application.Orders.Admin;
+using Application.Report;
 using Application.Review;
 using AutoMapper;
 using Domain;
@@ -57,8 +58,16 @@ namespace Application.Core
                 .ForMember(x => x.Categories,
                     o => o.MapFrom(x => String.Join(",", x.Book.Categories.Select(c => c.Category.Name))))
                 .ForMember(x => x.PublishDate, o => o.MapFrom(x => x.Book.PublicationDate))
-                .ForMember(x => x.Id, o => o.MapFrom(x => x.Book.Id));
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Book.Id))
+                .ForMember(x => x.Price, o => o.MapFrom(x => x.Price))
+                .ForMember(x => x.SalePrice, o => o.MapFrom(x => x.SalePrice))
+                .ForMember(x => x.StockStatus, o => o.MapFrom(x => x.StockStatus))
+                .ForMember(x => x.TotalStock, o => o.MapFrom(x => x.TotalStock));
+                
             CreateMap<Item, ItemDto>();
+            
         }
     }
+    
+
 }

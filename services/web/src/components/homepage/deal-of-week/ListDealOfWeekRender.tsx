@@ -1,6 +1,6 @@
 import { Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import DealItem from "./DealItem";
@@ -10,6 +10,7 @@ import { generatePath, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
 import { Predicate, ROUTE_BOOKS_FOR_SALE } from "../../../routers/types";
+import "../bestseller/styles.scss";
 const responsive = {
   0: { items: 1 },
   568: { items: 1 },
@@ -53,17 +54,36 @@ const SlideEffect: React.FC = () => {
     );
   };
 
-  const dealOfWeek = useSelector((state: RootStore) => state.dealOfWeek.data);
+  const dealOfWeek = useSelector((state: RootStore) => state.dealOfWeek);
 
-  const items = dealOfWeek?.map((item, index) => {
+  const items = dealOfWeek.data.map((item, index) => {
     return (
       <div data-value="1" key={index}>
         <DealItem item={item} />
       </div>
     );
   });
+
+  const [thumbIndex, setThumbIndex] = useState(0);
+
+  const slideNext = () => {
+    if (thumbIndex < items.length - 1) {
+      setThumbIndex(thumbIndex + 1);
+    }
+  };
+
+  const slidePrev = () => {
+    if (thumbIndex > 0) {
+      setThumbIndex(thumbIndex - 1);
+    }
+  };
+
+  const syncThumbs = (e: any) => {
+    setThumbIndex(e.item);
+  };
+
   return (
-    <div className={classes.root}>
+    <div className="thumbs">
       <Grid
         container
         direction="row"
@@ -92,14 +112,24 @@ const SlideEffect: React.FC = () => {
         <Grid item xs={12}>
           <Paper className={classes.paper} elevation={0}>
             <AliceCarousel
-              mouseTracking
+              activeIndex={thumbIndex}
               disableDotsControls
+              disableButtonsControls
               items={items}
+              mouseTracking
               responsive={responsive}
+              onSlideChanged={syncThumbs}
             />
           </Paper>
         </Grid>
       </Grid>
+
+      <div className="btn-prev" onClick={slidePrev}>
+        &lang;
+      </div>
+      <div className="btn-next" onClick={slideNext}>
+        &rang;
+      </div>
     </div>
   );
 };

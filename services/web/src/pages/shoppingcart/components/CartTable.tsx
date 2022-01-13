@@ -113,10 +113,10 @@ const CartTable: React.FC = () => {
             <TableRow>
               <TableCell></TableCell>
               <TableCell width="400">Product</TableCell>
-              <TableCell width="100">Price</TableCell>
-              <TableCell width="120">Quantity</TableCell>
-              <TableCell width="100">Total</TableCell>
-              <TableCell width="20"></TableCell>
+              <TableCell width="80">Price</TableCell>
+              <TableCell width="100">Quantity</TableCell>
+              <TableCell width="90">Total</TableCell>
+              <TableCell width="60"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -201,7 +201,7 @@ const CartTable: React.FC = () => {
                       />
                     </Grid>
                   </TableCell>
-                  <TableCell className={classes.textBold}>
+                  <TableCell className={classes.textBold} style={{textAlign: "center"} }>
                     ${row.price * row.quantity}
                   </TableCell>
                   <TableCell>

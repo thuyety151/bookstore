@@ -1,4 +1,11 @@
-import { FormControl, Grid, MenuItem, Select } from "@material-ui/core";
+import {
+  Backdrop,
+  FormControl,
+  Grid,
+  MenuItem,
+  Paper,
+  Select,
+} from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -8,6 +15,9 @@ import BestSellerComponent from "../../components/homepage/bestseller/BestSeller
 import { getBooksForSale } from "../../redux/actions/books/getAction";
 import { RootStore } from "../../redux/store";
 import emptySearchResultImage from "../../assets/images/empty_result.webp";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import "./styles.scss";
+import defaultBookUrl from "../../assets/images/default.jpeg";
 
 export const sortValue = [
   {
@@ -55,10 +65,22 @@ export const itemPerPage = [
   },
 ];
 
+const defaultItems = [
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+];
+
 const ListBookForSale: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const booksState = useSelector((state: RootStore) => state.books);
+  const isLoading = useSelector((state: RootStore) => state.books.requesting);
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const [pageIndex, setPageIndex] = useState(1);
   const { predicate } = useParams() as any;
@@ -133,33 +155,94 @@ const ListBookForSale: React.FC = () => {
               </FormControl>
             </Grid>
           </Grid>
-          {booksState.data.length > 0 ? (
-            <Grid
-              container
-              justifyContent="flex-start"
-              style={{gap: "5px"}}
-              // className={classes.grid}
-            >
-              {booksState.data.map((book, index) => {
-                return (
-                  <Grid item className="books-for-sale-item" key={index}>
-                    <BestSellerComponent item={book} />
-                  </Grid>
-                );
-              })}
-            </Grid>
+
+          {isLoading ? (
+            <div>
+              <Backdrop className={classes.backdrop} open>
+                <CircularProgress color="secondary" />
+              </Backdrop>
+              {booksState.data.length === 0 ? (
+                <Grid
+                  container
+                  justifyContent="flex-start"
+                  style={{ gap: "5px" }}
+                >
+                  {defaultItems.map((book, index) => {
+                    return (
+                      <Grid item className="books-for-sale-item" key={index}>
+                        <Paper
+                          className={classes.paper}
+                          variant="outlined"
+                          square
+                        >
+                          <Grid
+                            container
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={3}
+                          >
+                            <Grid item>{book}</Grid>
+                          </Grid>
+                        </Paper>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              ) : (
+                <Grid
+                  container
+                  justifyContent="flex-start"
+                  style={{ gap: "5px" }}
+                >
+                  {booksState.data.map((book, index) => {
+                    return (
+                      <Grid item className="books-for-sale-item" key={index}>
+                        <BestSellerComponent item={book} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              )}
+            </div>
           ) : (
-            <img src={emptySearchResultImage} alt="empty-result" className={classes.emptyImg}></img>
+            <div>
+              {booksState.data.length > 0 ? (
+                <Grid
+                  container
+                  justifyContent="flex-start"
+                  style={{ gap: "5px" }}
+                >
+                  {booksState.data.map((book, index) => {
+                    return (
+                      <Grid item className="books-for-sale-item" key={index}>
+                        <BestSellerComponent item={book} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              ) : (
+                <img
+                  src={emptySearchResultImage}
+                  alt="empty-result"
+                  className={classes.emptyImg}
+                ></img>
+              )}
+            </div>
           )}
-        </Grid>
-        <Grid container justifyContent="center" className={classes.pagination}>
-          <Pagination
-            className={classes.pages}
-            count={pagination.totalPage}
-            shape="rounded"
-            page={pageIndex}
-            onChange={handleChangePage}
-          />
+          <Grid
+            container
+            justifyContent="center"
+            className={classes.pagination}
+          >
+            <Pagination
+              className={classes.pages}
+              count={pagination.totalPage}
+              shape="rounded"
+              page={pageIndex}
+              onChange={handleChangePage}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </div>
@@ -189,13 +272,28 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     rightSection: {
       margin: "0px 20px",
+      position: "relative",
     },
     emptyImg: {
       height: 500,
       [theme.breakpoints.down("sm")]: {
         height: 300,
       },
-    }
+    },
+    paper: {
+      padding: theme.spacing(1, 2),
+      margin: theme.spacing(1, 1),
+      textAlign: "left",
+      height: "100%",
+      "&:hover": {
+        borderColor: "#000",
+        zIndex: 1,
+      },
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
+    },
   })
 );
 export default ListBookForSale;

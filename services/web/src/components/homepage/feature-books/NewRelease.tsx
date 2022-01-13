@@ -11,11 +11,23 @@ import { RootStore } from "../../../redux/store";
 import { getNewReleases } from "../../../redux/actions/books/geNewRelease";
 import { NewReleaseType } from "../../../model/newRelease";
 import "./styles.scss";
+import defaultBookUrl from "../../../assets/images/default.jpeg";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
   value: any;
 }
+
+const defaultItems = [
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+];
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -105,31 +117,55 @@ export default function NewRelease() {
             </Paper>
           </Grid>
         </Grid>
-        {state.data.map((value: NewReleaseType, index: number) => {
-          return (
-            <TabPanel value={tab} index={index} key={`tabpanel-${index}`}>
-              <Grid container>
-                <Grid item xs={3} className={classes.image}>
-                  <img className={classes.img} alt="complex" src={img} />
-                </Grid>
-                <Grid item xs={9}>
-                  <Grid container className={classes.grid}>
-                    {value.books.map((item, ind) => (
-                      <Grid
-                        item
-                        xs={3}
-                        key={`${value.categoryId}-${ind}`}
-                        className="new-release-item"
-                      >
-                        <BookItem item={item} />
-                      </Grid>
-                    ))}
+        {state.data.length > 0 ? (
+          state.data.map((value: NewReleaseType, index: number) => {
+            return (
+              <TabPanel value={tab} index={index} key={`tabpanel-${index}`}>
+                <Grid container>
+                  <Grid item xs={3} className={classes.image}>
+                    <img className={classes.img} alt="complex" src={img} />
+                  </Grid>
+                  <Grid item xs={9}>
+                    <Grid container className={classes.grid}>
+                      {value.books.map((item, ind) => (
+                        <Grid
+                          item
+                          xs={3}
+                          key={`${value.categoryId}-${ind}`}
+                          className="new-release-item"
+                        >
+                          <BookItem item={item} />
+                        </Grid>
+                      ))}
+                    </Grid>
                   </Grid>
                 </Grid>
+              </TabPanel>
+            );
+          })
+        ) : (
+          <TabPanel value={tab} index={0} key={`tabpanel-${0}`}>
+            <Grid container>
+              <Grid item xs={3} className={classes.image}>
+                <img className={classes.img} alt="complex" src={img} />
               </Grid>
-            </TabPanel>
-          );
-        })}
+              <Grid item xs={9}>
+                <Grid container className={classes.grid}>
+                  { 
+                  defaultItems.map((item, ind) => (
+                    <Grid
+                      item
+                      xs={3}
+                      className="new-release-item"
+                    >
+                     {item}
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+            </Grid>
+          </TabPanel>
+        )}
       </Grid>
     </div>
   );

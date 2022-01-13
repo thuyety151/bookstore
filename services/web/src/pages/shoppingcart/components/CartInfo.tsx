@@ -123,6 +123,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         },
       })
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultAddress]);
 
   useEffect(() => {

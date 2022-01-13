@@ -8,12 +8,25 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
 import "./styles.scss";
+import clsx from "clsx";
+import defaultBookUrl from "../../../assets/images/default.jpeg"
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
   value: any;
 }
+
+const defaultItems = [
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+];
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -102,11 +115,23 @@ export default function SimpleTabs() {
         </Paper>
 
         <TabPanel value={value} index={0}>
-          {mostView && (
-            <Grid container justifyContent="flex-start" style={{gap: "10px"}}>
+          {mostView ? (
+            <Grid container justifyContent="flex-start" style={{ gap: "10px" }}>
               {mostView.map((item, index) => (
                 <div className="featured-book-item" key={index}>
                   <BookItem item={item} />
+                </div>
+              ))}
+            </Grid>
+          ) : (
+            <Grid container justifyContent="flex-start" style={{ gap: "10px" }}>
+              {defaultItems.map((item, index) => (
+                <div className="featured-book-item" key={index}>
+                  <div className={clsx(classes.root, "featured-item")}>
+                    <Paper className={classes.paper} variant="outlined" square>
+                      {item}
+                    </Paper>
+                  </div>
                 </div>
               ))}
             </Grid>
@@ -114,22 +139,34 @@ export default function SimpleTabs() {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          {onSale && (
-            <Grid
-              container
-              justifyContent="flex-start"
-              style={{gap: "10px"}}
-              // className={classes.grid}
-            >
+          {onSale ? (
+            <Grid container justifyContent="flex-start" style={{ gap: "10px" }}>
               {onSale.map((item, index) => (
                 <div className="featured-book-item" key={index}>
                   <BookItem item={item} />
                 </div>
               ))}
             </Grid>
-          )}
+          ) :
+          (
+            <Grid container justifyContent="flex-start" style={{ gap: "10px" }}>
+              {defaultItems.map((item, index) => (
+                <div className="featured-book-item" key={index}>
+                  <div className={clsx(classes.root, "featured-item")}>
+                    <Paper className={classes.paper} variant="outlined" square>
+                      {item}
+                    </Paper>
+                  </div>
+                </div>
+              ))}
+            </Grid>
+          )
+        }
         </TabPanel>
       </Grid>
     </div>
   );
 }
+
+
+

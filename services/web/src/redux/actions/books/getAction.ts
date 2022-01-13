@@ -72,10 +72,10 @@ export type paginationParams = {
   pageIndex: number;
 };
 export type filterParams = {
-  categoryId: string;
-  authorId: string;
-  languageIds: string;
-  attributeId: string;
+  categoryId: string | null;
+  authorId: string | null;
+  languageIds: string | null;
+  attributeId: string | null;
   minPrice: number;
   maxPrice: number;
   rates: number;
