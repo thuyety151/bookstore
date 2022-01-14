@@ -98,17 +98,17 @@ export const getDefaultAddress = (onSuccess: any) => async (dispatch: any) => {
 
 export const getAllAddresses = () => async (dispatch: any) => {
   try {
-    dispatch({ type: NAME_ACTIONS.GET_ALL.GET_ALL });
+    dispatch({ type: NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL });
     const response = await api.get("/addresses");
     if (response.data) {
       dispatch({
-        type: NAME_ACTIONS.GET_ALL.GET_ALL_SUCCESS,
+        type: NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL_SUCCESS,
         data: response.data?.value,
       });
     }
   } catch (error: any) {
     dispatch({
-      type: NAME_ACTIONS.GET_ALL.GET_ALL_FAIL,
+      type: NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL_FAIL,
       message: error.message,
     });
   }

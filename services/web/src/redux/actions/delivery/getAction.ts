@@ -17,9 +17,9 @@ export const getServices =
 
     let currentAddress = store.getState().address.currentAddress as Address;
 
-    if (!currentAddress.districtId) {
+    if (!currentAddress?.districtId) {
       const response = await api.get("/addresses/get-default");
-      if (response.data) {
+      if (response?.data) {
         currentAddress = response.data?.value;
         dispatch({
           type: ADDRESS_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,

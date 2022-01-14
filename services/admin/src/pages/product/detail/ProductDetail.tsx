@@ -12,6 +12,8 @@ import {
   makeStyles,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   Theme,
@@ -33,7 +35,7 @@ import TodayIcon from "@material-ui/icons/Today";
 import ProductImage from "./components/ProductImage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "redux/store";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getProductDetail } from "redux/actions/product/getActions";
 import { format, getYear } from "date-fns";
 import { getCategories } from "redux/actions/category/getAction";
@@ -52,7 +54,7 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   let { bookId } = useParams() as any;
-
+  const history = useHistory();
   const initialBookParams: BookDetail = {
     id: "",
     name: "",
@@ -276,7 +278,7 @@ export default function ProductDetail() {
   const handlePublicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBooksParams({
       ...bookParams,
-      isPublic: event.target.checked,
+      isPublic: (event.target.value === "true") as boolean,
     });
   };
 
@@ -328,25 +330,27 @@ export default function ProductDetail() {
       attributes: [...bookAttributeSelected],
       media: [...mediaState],
     });
-    console.log("bookParams", bookParams);
     setAdd(true);
   };
 
   //Effect
   useEffect(() => {
-    dispatch(
-      addBook({
-        bookParams: bookParams,
-        onSuccess: () => {
-          if (bookId) {
-            enqueueSnackbar("Edit book successfully", { variant: "success" });
-          } else {
-            enqueueSnackbar("Add book successfully", { variant: "success" });
-          }
-        },
-        onFailure: () => {},
-      })
-    );
+    if (isAdd) {
+      dispatch(
+        addBook({
+          bookParams: bookParams,
+          onSuccess: () => {
+            if (bookId) {
+              enqueueSnackbar("Edit book successfully", { variant: "success" });
+            } else {
+              enqueueSnackbar("Add book successfully", { variant: "success" });
+            }
+            history.goBack();
+          },
+          onFailure: () => {},
+        })
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdd]);
   useEffect(() => {
@@ -420,7 +424,7 @@ export default function ProductDetail() {
   return (
     <div className={classes.root}>
       <Grid container direction="row" spacing={2}>
-        <Grid item container xs={9} direction="column" spacing={2}>
+        <Grid item container xs={9} direction="column">
           <Paper className={classes.paper} variant="outlined">
             <Grid item>
               {/* <TextField
@@ -940,9 +944,9 @@ export default function ProductDetail() {
                   className={classes.collapse}
                 >
                   <span className={classes.icon}>
-                    <VisibilityIcon /> Status:{" "}
+                    <VisibilityIcon style={{ marginRight: "8px" }} /> Status:{" "}
                   </span>
-                  <span className={classes.checkBox}>
+                  {/* <span className={classes.checkBox}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -966,13 +970,35 @@ export default function ProductDetail() {
                       }
                       label="Draft"
                     />
-                  </span>
+                  </span> */}
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      aria-label="gender"
+                      defaultValue="true"
+                      name="radio-buttons-group"
+                      onChange={handlePublicChange}
+                    >
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="Published"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="Draft"
+                      />
+                    </RadioGroup>
+                  </FormControl>
 
-                  <span className={classes.icon}>
-                    <TodayIcon /> Publish on:{" "}
-                    {bookParams.updateDate &&
-                      format(new Date(bookParams.updateDate), "PPP")}
-                  </span>
+                  {bookParams.id && (
+                    <span className={classes.icon}>
+                      <TodayIcon /> Publish on:{" "}
+                      {bookParams.updateDate &&
+                        format(new Date(bookParams.updateDate), "PPP")}
+                    </span>
+                  )}
+
                   <span className={classes.attribute}>
                     <Link href="#" className={classes.trash}>
                       Move to trash
@@ -997,7 +1023,9 @@ export default function ProductDetail() {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
+    root: {
+      padding: "0 16px",
+    },
     actionsContainer: {},
     title: {
       alignItems: "center",

@@ -54,7 +54,7 @@ const MiniCategory = () => {
         <Grid item xs={9}>
           <Grid container justifyContent="space-between">
             {rootCategoryState.requesting
-              ? new Array(6).map((value, index) => (
+              ? new Array(4).map((value, index) => (
                   <div className={classes.skeleton}>
                     <Skeleton variant="circle">
                       <Avatar sizes="5rem" />

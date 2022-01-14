@@ -126,20 +126,21 @@ const addressReducer = (state = initState, payload: any) => {
         success: false,
         message: payload.message,
       };
-    case NAME_ACTIONS.GET_ALL.GET_ALL:
+    case NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL:
       return {
         ...state,
         requesting: true,
         success: false,
+        addresses: [] as Address[],
       };
-    case NAME_ACTIONS.GET_ALL.GET_ALL_SUCCESS:
+    case NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL_SUCCESS:
       return {
         ...state,
         requesting: false,
         success: true,
         addresses: payload.data,
       };
-    case NAME_ACTIONS.GET_ALL.GET_ALL_FAIL:
+    case NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL_FAIL:
       return {
         ...state,
         requesting: false,

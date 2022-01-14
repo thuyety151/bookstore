@@ -5,12 +5,24 @@ export type ReviewState = {
   success: Boolean;
   data: Review[];
   message?: string | null;
+  pagination: {
+    pageIndex: number;
+    pageSize: number;
+    totalPage: number;
+    totalCount: number;
+  };
 };
 
 const initState: ReviewState = {
   success: true,
   data: [],
   message: null,
+  pagination: {
+    pageIndex: 0,
+    pageSize: 5,
+    totalPage: 0,
+    totalCount: 0,
+  },
 };
 
 const reviewReducer = (
@@ -27,6 +39,7 @@ const reviewReducer = (
         ...state,
         success: true,
         data: payload.data,
+        pagination: JSON.parse(payload.pagination),
       };
     case reviewConstants.GET_FAILURE:
       return {
@@ -38,11 +51,8 @@ const reviewReducer = (
     case reviewConstants.ADD_SUCCESS:
       return {
         ...state,
-        data: [
-          ...state.data, payload.data
-        ],
+        data: [payload.data, ...state.data],
         success: true,
-        
       };
     case reviewConstants.ADD_FAILURE:
       return {

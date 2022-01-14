@@ -16,6 +16,7 @@ import { orderStatusOptions } from "../../../../components/orderStatus/OrderStat
 import { cancelOrder } from "redux/actions/order/postActions";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const General: React.FC = () => {
   const classes = useStyles();
@@ -23,6 +24,7 @@ const General: React.FC = () => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const [status, setstatus] = useState(order.status || "");
+  const history = useHistory();
 
   useEffect(() => {
     if (order.status) {
@@ -42,6 +44,7 @@ const General: React.FC = () => {
           enqueueSnackbar("Cancel order successfully!", {
             variant: "success",
           });
+          history.goBack();
         },
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });

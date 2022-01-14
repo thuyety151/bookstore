@@ -55,3 +55,20 @@ export const getCategories = () => async (dispatch: any) => {
     });
   }
 };
+
+export const getCategoriesForHomepage = () => async (dispatch: any) => {
+  dispatch({ type: NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY });
+  const response = await api.get("/categories");
+
+  if (response.data?.isSuccess) {
+    dispatch({
+      type: NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY_SUCCESS,
+      data: response.data.value,
+    });
+  } else {
+    dispatch({
+      type: NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY_FAIL,
+      message: response.data.error,
+    });
+  }
+};

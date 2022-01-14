@@ -8,6 +8,7 @@ export type CategoryState = {
   data: {
     root: SidebarCategoryResponse[];
     sub: SidebarCategoryResponse | null;
+    homepage: SidebarCategoryResponse[];
   };
 };
 const initState: CategoryState = {
@@ -17,6 +18,7 @@ const initState: CategoryState = {
   data: {
     root: [],
     sub: null,
+    homepage: [],
   },
 };
 
@@ -73,6 +75,26 @@ const categoryReducer = (
         ...state,
         // data:{...state.data.sub}
       };
+    case NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY:
+      return {
+        ...state,
+        requesting: true,
+      };
+    case NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        success: true,
+        data: { ...state.data, homepage: payload.data },
+      };
+    case NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY_FAIL:
+      return {
+        ...state,
+        success: false,
+        requesting: false,
+        message: payload.message,
+      };
+
     default:
       return state;
   }

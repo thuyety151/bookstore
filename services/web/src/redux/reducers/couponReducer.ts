@@ -1,5 +1,6 @@
 import { Coupon } from "../../model/coupon";
 import { NAME_ACTIONS } from "../constants/coupon/actionTypes";
+import { NAME_ACTIONS as ORDER_NAME_ACTIONS } from "../constants/order/actionTypes";
 
 export type CouponState = {
   success: Boolean;
@@ -43,6 +44,9 @@ const couponReducer = (
         message: payload.message,
         data: {} as Coupon,
       };
+    case NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON:
+    case ORDER_NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE:
+      return initState;
     default:
       return state;
   }

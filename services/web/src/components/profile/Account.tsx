@@ -16,6 +16,7 @@ import { userService } from "../../service/auth.service";
 import { createBrowserHistory } from "history";
 import AddressDashboard from "./address/AddressDashBoard";
 import OrderDashboard from "./order/OrderDashboard";
+import { useParams } from "react-router-dom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,10 +60,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .MuiTab-wrapper": {
       alignItem: "start !important",
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       marginLeft: 0,
-      margin: 20
-    }
+      margin: 20,
+    },
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -72,11 +73,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "208px",
     position: "relative",
     border: "1px",
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       width: "168px",
-    height: "108px",
-    margin: "10px 0px"
-    }
+      height: "108px",
+      margin: "10px 0px",
+    },
   },
   box: {
     width: "100px",
@@ -91,11 +92,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       width: "80px",
-    height: "80px",
-    margin: "10px 0px"
-    }
+      height: "80px",
+      margin: "10px 0px",
+    },
   },
   icon: {
     width: "40px",
@@ -109,22 +110,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(3, 3),
     fontWeight: "bold",
   },
-  mobileOnly : {
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    }
+  mobileOnly: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   gridContainer: {
-    [theme.breakpoints.down('sm')]: {
-      flexWrap: 'nowrap',
-      gap: '20px'
-    }
-  }
+    [theme.breakpoints.down("sm")]: {
+      flexWrap: "nowrap",
+      gap: "20px",
+    },
+  },
 }));
 
 export default function MyAccount() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const { tabName } = useParams() as any;
+  const [value, setValue] = React.useState(tabName === "address" ? 2 : 0);
   const history = createBrowserHistory({ forceRefresh: true });
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -139,7 +141,7 @@ export default function MyAccount() {
   return (
     <div className={classes.root}>
       <Grid container>
-        <Grid item sm={3} className ={classes.mobileOnly}>
+        <Grid item sm={3} className={classes.mobileOnly}>
           <Typography variant="h4" align="left" className={classes.text}>
             My Account
           </Typography>

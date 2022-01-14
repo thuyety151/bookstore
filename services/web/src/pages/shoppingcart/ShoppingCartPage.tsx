@@ -30,22 +30,15 @@ const ShoppingCartPage: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = () => {
-    console.log(
-      currentAddress?.id,
-      currentAddress.phone,
-      vnf_regex.test(currentAddress.phone),
-      currentAddress?.id && !vnf_regex.test(currentAddress.phone)
-    );
-
-    if (!vnf_regex.test(currentAddress.phone)) {
+    if (!items.itemToCheckOut.length || !currentAddress?.id) {
+      enqueueSnackbar("Please choose items and address", { variant: "error" });
+      return;
+    }
+    if (!vnf_regex.test(currentAddress?.phone)) {
       enqueueSnackbar("Phone number is not valid", { variant: "error" });
       return;
     }
-    if (!items.itemToCheckOut.length || !currentAddress?.id) {
-      enqueueSnackbar("Please choose items and address", { variant: "error" });
-    } else {
-      history.push("/check-out");
-    }
+    history.push("/check-out");
   };
 
   return (

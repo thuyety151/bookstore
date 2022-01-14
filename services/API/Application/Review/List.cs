@@ -45,7 +45,7 @@ namespace Application.Review
                         CreateDate = x.CreateDate,
                         UpdateDate = x.UpdateDate,
                         Media = x.Media
-                    }).AsQueryable();
+                    }).OrderByDescending(x=>x.CreateDate).AsQueryable();
                 return Result<PagedList<ReviewDto>>.Success(
                     await PagedList<ReviewDto>.CreatePage(reviews, request.Params.PageIndex, request.Params.PageSize));
             }

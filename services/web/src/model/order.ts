@@ -1,4 +1,5 @@
 import { Address } from "./address";
+import { Coupon } from "./coupon";
 import Item from "./item";
 
 export type Order = {
@@ -15,4 +16,5 @@ export type Order = {
   items: Item[];
   addressToShip: Address;
   total: number;
+  coupon: Coupon;
 };
