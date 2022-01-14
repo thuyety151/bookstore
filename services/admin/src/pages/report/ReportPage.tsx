@@ -26,6 +26,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateRangePicker, { DateRange } from "@mui/lab/DateRangePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import ContainedButton from "components/button/ContainedButton";
+import { format } from "date-fns";
 
 export const reportOptions = [
   {
@@ -81,7 +82,16 @@ const ReportPage: React.FC = () => {
   };
   const [date, setDate] = React.useState<DateRange<Date>>([null, null]);
   const handleReportCustom = () => {
-    console.log(date);
+    if (date.filter((x) => !!x).length !== 2) {
+      return;
+    }
+    dispatch(
+      getReports(
+        "custom",
+        date[0]?.toJSON() || new Date(),
+        date[1]?.toJSON() || new Date()
+      )
+    );
   };
   return (
     <div className="report">
@@ -109,16 +119,31 @@ const ReportPage: React.FC = () => {
                         onChange={(newValue: any) => {
                           setDate(newValue);
                         }}
+                        maxDate={new Date()}
                         renderInput={(startProps: any, endProps: any) => (
                           <React.Fragment>
                             <TextField
                               {...startProps}
                               variant="outlined"
                               size="small"
+                              inputProps={{
+                                ...startProps.inputProps,
+                                value: date[0]
+                                  ? format(date[0], "dd/MM/yyyy")
+                                  : "",
+                                placeholder: "dd/MM/yyyy",
+                              }}
                             />
                             <Box sx={{ mx: 1 }}> to </Box>
                             <TextField
                               {...endProps}
+                              inputProps={{
+                                ...startProps.inputProps,
+                                value: date[1]
+                                  ? format(date[1], "dd/MM/yyyy")
+                                  : "",
+                                placeholder: "dd/MM/yyyy",
+                              }}
                               variant="outlined"
                               size="small"
                             />

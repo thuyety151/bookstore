@@ -42,6 +42,7 @@ const reportReducer = (
         ...state,
         requesting: false,
       };
+    
     default:
       return state;
   }
