@@ -35,7 +35,10 @@ import { getLanguages } from "../../redux/actions/language/getAction";
 import { getCategories } from "../../redux/actions/category/getAction";
 import { getAllAuthor } from "../../redux/actions/author/getActions";
 import { getAttributes } from "../../redux/actions/attribute/getAction";
-import { filterParams, getBooksForSale } from "../../redux/actions/books/getAction";
+import {
+  filterParams,
+  getBooksForSale,
+} from "../../redux/actions/books/getAction";
 import { Category } from "../../model/category";
 import Attribute from "../../model/attribute";
 
@@ -45,7 +48,6 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
@@ -71,9 +73,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     feature: false,
   });
 
- 
-
-  const initBookFilterParams : filterParams = {
+  const initBookFilterParams: filterParams = {
     categoryId: categoryId || "",
     authorId: "",
     languageIds: "",
@@ -137,9 +137,9 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("bfs: " + JSON.stringify(bookFilterParams));
+    console.log("bfs: ", bookFilterParams);
     dispatch(
-      getBooksForSale(predicate, bookFilterParams, {
+      getBooksForSale(predicate || "popular", bookFilterParams, {
         ...pagination,
       })
     );
