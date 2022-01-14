@@ -127,15 +127,14 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     image: {
-      // width: 230,
       maxHeight: "10rem",
       width: "100%",
       height: "auto",
     },
     paper: {
-      padding: theme.spacing(0, 2),
+      padding: theme.spacing(1, 2),
       // margin: "auto",
-      margin: theme.spacing(1, 0),
+      margin: theme.spacing(1, 1),
       // maxWidth: 500,
       textAlign: "left",
       height: "100%",

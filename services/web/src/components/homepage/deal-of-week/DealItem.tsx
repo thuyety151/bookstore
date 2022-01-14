@@ -8,6 +8,7 @@ import Slider from "./Slider";
 import { Book } from "../../../model";
 import { generatePath, useHistory } from "react-router-dom";
 import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
+import "./styles.scss"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +21,15 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: 500,
       minHeight: 300,
       textAlign: "left",
+    },
+    itemContainer: {
+      position: 'relative',
+    },
+    available: {
+      position: 'absolute',
+      top: 200,
+      right: 5,
+      left: 5
     },
     img: {
       // margin: "auto",
@@ -70,7 +80,7 @@ export default function DealItem({ item }: Props) {
               />
             </ButtonBase>
           </Grid>
-          <Grid item xs={7} container spacing={1}>
+          <Grid item xs={7} container spacing={1} className={classes.itemContainer}>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography
@@ -96,7 +106,7 @@ export default function DealItem({ item }: Props) {
                 direction="row"
                 justifyContent="space-between"
                 spacing={2}
-                style={{ margin: "10px" }}
+                className = {classes.available}
               >
                 <Typography gutterBottom variant="subtitle2" align="center">
                   Available: {item.totalStock}
