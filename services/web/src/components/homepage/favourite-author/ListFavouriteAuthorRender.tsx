@@ -94,6 +94,7 @@ const SlideEffect: React.FC = () => {
             <AliceCarousel
               mouseTracking
               disableDotsControls
+              disableButtonsControls
               items={items}
               responsive={responsive}
             />

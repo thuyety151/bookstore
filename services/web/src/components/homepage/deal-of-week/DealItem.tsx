@@ -77,6 +77,7 @@ export default function DealItem({ item }: Props) {
                 className={classes.img}
                 alt="complex"
                 src={item.pictureUrl}
+                style={{height: 250}}
               />
             </ButtonBase>
           </Grid>
