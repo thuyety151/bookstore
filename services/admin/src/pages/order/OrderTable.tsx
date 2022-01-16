@@ -178,6 +178,7 @@ const OrderTable: React.FC = () => {
           setModelToViewDetail(null);
           enqueueSnackbar("Cancel order successfully!", { variant: "success" });
           setconfirmCancel(false);
+          refreshTable();
         },
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });

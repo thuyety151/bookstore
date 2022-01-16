@@ -441,7 +441,7 @@ export default function BillInfo(props: Props) {
         />
       </Grid>
       <Dialog
-        open={!currentAddress ? true : false}
+        open={!currentAddress?.id ? true : false}
         // onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

@@ -141,6 +141,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     dispatch(
       getBooksForSale(predicate || "popular", bookFilterParams, {
         ...pagination,
+        pageIndex: 1,
       })
     );
     // eslint-disable-next-line

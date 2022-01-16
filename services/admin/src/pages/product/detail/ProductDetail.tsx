@@ -325,6 +325,7 @@ export default function ProductDetail() {
     setBooksParams({
       ...bookParams,
       // categoryIds: [...categoryIdsCheckList],
+      publicationDate: bookParams.publicationDate || new Date(),
       description: convertToHTML(description.getCurrentContent()),
       shortDescription: convertToHTML(shortDescription.getCurrentContent()),
       attributes: [...bookAttributeSelected],
@@ -974,7 +975,8 @@ export default function ProductDetail() {
                   <FormControl component="fieldset">
                     <RadioGroup
                       aria-label="gender"
-                      defaultValue="true"
+                      defaultValue="false"
+                      value={bookParams.isPublic?.toString()}
                       name="radio-buttons-group"
                       onChange={handlePublicChange}
                     >
