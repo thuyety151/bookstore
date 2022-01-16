@@ -67,10 +67,10 @@ namespace Application.Report
 
                         break;
                     case "this-month":
-                        var currentMonth = DateTime.Now.Month;
+                        var current = DateTime.Now;
                         var ordersThisMonth =
-                            _context.Orders.Where(x => x.OrderDate.Month == currentMonth && x.IsDeleted == false);
-                        var totalDay = DateTime.DaysInMonth(DateTime.Now.Year, currentMonth);
+                            _context.Orders.Where(x => x.OrderDate.Month == current.Month && x.OrderDate.Year == current.Year && x.IsDeleted == false);
+                        var totalDay = DateTime.DaysInMonth(DateTime.Now.Year, current.Month);
                         for (int i = 1; i <= totalDay; i++)
                         {
                             var day = i;
@@ -78,7 +78,7 @@ namespace Application.Report
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString() + '/' + currentMonth + '/' + DateTime.Now.Year;
+                            reportDto.Name = day.ToString() + '/' + current.Month + '/' + current.Year;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
@@ -104,15 +104,15 @@ namespace Application.Report
                         var ordersLastMonth =
                             _context.Orders.Where(x => x.OrderDate.Month == lastMonth && x.IsDeleted == false);
                         var totalDayLastMonth = DateTime.Now.Month == 12 ? DateTime.DaysInMonth(DateTime.Now.Year - 1, lastMonth) : DateTime.DaysInMonth(DateTime.Now.Year, lastMonth);
-                        var currentLatsYear = DateTime.Now.Month == 1 ? DateTime.Now.Year - 1 : DateTime.Now.Year; 
+                        var currentLastYear = DateTime.Now.Month == 1 ? DateTime.Now.Year - 1 : DateTime.Now.Year; 
                         for (int i = 1; i <= totalDayLastMonth; i++)
                         {
                             var day = i;
-                            var ordersInDay = ordersLastMonth.Where(x => x.OrderDate.Day == day);
+                            var ordersInDay = ordersLastMonth.Where(x => x.OrderDate.Day == day && x.OrderDate.Year == currentLastYear);
 
                             ReportDto reportDto = new ReportDto();
 
-                            reportDto.Name = day.ToString() + '/' + lastMonth + '/' + currentLatsYear;
+                            reportDto.Name = day.ToString() + '/' + lastMonth + '/' + currentLastYear;
                             reportDto.NetSale = ordersInDay.Sum(x => x.SubTotal);
                             reportDto.OrderPlaced = ordersInDay.Count();
                             reportDto.ItemsPurchased = ordersInDay
@@ -135,11 +135,11 @@ namespace Application.Report
                         break;
                     case "last-7-days":
                         var last7Day = DateTime.Now.AddDays(-7);
-                        var ordersLast7Days = _context.Orders.Where(x => x.IsDeleted);
+                        var ordersLast7Days = _context.Orders.Where(x => x.IsDeleted == false);
                         for (int i = 0; i <= 7; i++)
                         {
                             var day = last7Day.AddDays(i);
-                            var ordersInDay = ordersLast7Days.Where(x => x.OrderDate == day);
+                            var ordersInDay = ordersLast7Days.Where(x => x.OrderDate.Day == day.Day && x.OrderDate.Month == day.Month && x.OrderDate.Year == day.Year);
 
                             ReportDto reportDto = new ReportDto();
 
