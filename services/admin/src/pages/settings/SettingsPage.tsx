@@ -254,6 +254,7 @@ const SettingsPage: React.FC = () => {
             text="Save"
             onClick={() => handleSubmit()}
             style={{ width: "100px" }}
+            loading={settiingsState.requesting}
           />
         </Grid>
       </Paper>
