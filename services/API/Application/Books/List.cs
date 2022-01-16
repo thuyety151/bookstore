@@ -100,13 +100,13 @@ namespace Application.Books
                         {
                             BookId = g.Key,
                             Rating = (int) Math.Round(g.Average())
-                        });
-                    var listBookId = reviews.Where(x => x.Rating == request.Params.Rates).Select(x => x.BookId);
+                        }).ToList();
 
-                    foreach (var bookId in listBookId)
-                    {
-                        query = query.Where(x => x.BookId == bookId);
-                    }
+                  
+                    var listBookId = reviews.Where(x => x.Rating == request.Params.Rates).Select(x => x.BookId).ToList();
+
+                    query = query.Where(x => listBookId.Contains(x.BookId));
+                    var test = query.ToList();
                 }
 
                 if (!string.IsNullOrWhiteSpace(request.Params.Predicate))
