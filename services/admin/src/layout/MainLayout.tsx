@@ -27,8 +27,9 @@ import { routes } from "../routers/routes";
 import PrivateRoute from "../components/route/PrivateRoute";
 import { Grid } from "@material-ui/core";
 import MenuAccount from "./components/MenuAccount";
+import "./styles.scss";
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const MainLayout: React.FC = () => {
   const classes = useStyles();
@@ -59,7 +60,7 @@ const MainLayout: React.FC = () => {
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 edge="start"
-                className={clsx(classes.menuButton,"text-gray", {
+                className={clsx(classes.menuButton, "text-gray", {
                   [classes.hide]: open,
                 })}
               >
@@ -69,10 +70,10 @@ const MainLayout: React.FC = () => {
                 BookWorm Management
               </Typography>
             </Grid>
-            <Grid item >
+            <Grid item>
               <Grid container alignItems="center">
-                 <Typography>Admin</Typography>
-              <MenuAccount />
+                <Typography>Admin</Typography>
+                <MenuAccount />
               </Grid>
             </Grid>
           </Grid>
@@ -80,8 +81,9 @@ const MainLayout: React.FC = () => {
       </AppBar>
       <Drawer
         variant="permanent"
-        className={clsx(classes.drawer, {
+        className={clsx(classes.drawer, "drawer", {
           [classes.drawerOpen]: open,
+          // "drawer-mini": !open,
           [classes.drawerClose]: !open,
         })}
         classes={{
@@ -149,7 +151,7 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      color:"#000",
+      color: "#000",
       backgroundColor: "#fff",
       boxShadow: "none",
       borderBottom: "1px solid #E4E9F2",

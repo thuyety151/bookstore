@@ -19,7 +19,8 @@ code {
   cursor: pointer;
 }
 
-:root{
-  --primary:#2271b1;
-  --text-grey:#8D8D94
+:root {
+  --primary: #2271b1;
+  --text-grey: #8d8d94;
+  --item-selected: #032d7c;
 }
