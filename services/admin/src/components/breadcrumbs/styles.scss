@@ -1,0 +1,15 @@
+.bread-crumbs{
+    padding: 8px 0;
+    &__contents{
+        display: flex;
+        align-items: flex-end;
+
+        .MuiTypography-root{
+            padding-right: 8px;
+        }
+    }
+    img{
+        height: 2rem;
+        padding: 4px;
+    }
+}

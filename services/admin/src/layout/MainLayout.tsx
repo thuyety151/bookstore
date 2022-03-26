@@ -56,11 +56,10 @@ const MainLayout: React.FC = () => {
           <Grid container alignItems="center" justifyContent="space-between">
             <Grid item className={classes.headerItem}>
               <IconButton
-                color="inherit"
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 edge="start"
-                className={clsx(classes.menuButton, {
+                className={clsx(classes.menuButton,"text-gray", {
                   [classes.hide]: open,
                 })}
               >
@@ -70,8 +69,11 @@ const MainLayout: React.FC = () => {
                 BookWorm Management
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item >
+              <Grid container alignItems="center">
+                 <Typography>Admin</Typography>
               <MenuAccount />
+              </Grid>
             </Grid>
           </Grid>
         </Toolbar>
@@ -147,6 +149,10 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      color:"#000",
+      backgroundColor: "#fff",
+      boxShadow: "none",
+      borderBottom: "1px solid #E4E9F2",
     },
     appBarShift: {
       marginLeft: drawerWidth,

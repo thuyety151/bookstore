@@ -18,3 +18,8 @@ code {
 .cursor-pointer {
   cursor: pointer;
 }
+
+:root{
+  --primary:#2271b1;
+  --text-grey:#8D8D94
+}
