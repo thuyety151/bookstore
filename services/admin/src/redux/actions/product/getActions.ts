@@ -50,7 +50,6 @@ export const getProductDetail = (props: getProductDetailType) => async (
   dispatch({ type: ACTION_NAMES.GET_PRODUCT_DETAIL.GET_PRODUCT_DETAIL });
 
   var response = await api.get("/books?id=" + props.id);
-  console.log("response:" + response.data.value);
   if (response.data?.isSuccess) {
     dispatch({
       type: ACTION_NAMES.GET_PRODUCT_DETAIL.GET_PRODUCT_DETAIL_SUCCESS,

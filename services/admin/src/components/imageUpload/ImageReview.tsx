@@ -42,7 +42,6 @@ export default function ImageReview({ uploadImage }: Props) {
     return () => {
       files.forEach((file: any) => {
         URL.revokeObjectURL(file.preview);
-        console.log("efefe" + file);
       });
     };
   }, [files]);
