@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
+@import "./App.scss";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -21,6 +23,11 @@ code {
 
 :root {
   --primary: #2271b1;
-  --text-grey: #8d8d94;
+  // --text-grey: #8d8d94;
+  --text-grey: #7993b0;
   --item-selected: #032d7c;
+  --page-bg-color: #fbfdff;
+  --card-active: #008fe2;
+  // --border-grey: #d6e2f1;
+  --border-grey: #dfe8f4;
 }

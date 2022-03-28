@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Divider, Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {
   Area,
@@ -32,7 +32,11 @@ const Chart: React.FC = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Paper variant="outlined">
-            <Typography variant="h5">Net Sales</Typography>
+            <div className="card-header">
+              <Typography variant="h5">Net Sales</Typography>
+              <Divider />
+            </div>
+
             <AreaChart
               data={data}
               width={1000}
@@ -58,7 +62,10 @@ const Chart: React.FC = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
-            <Typography variant="h5">Refunded order</Typography>
+            <div className="header">
+              <Typography variant="h5">Refunded order</Typography>
+              <Divider />
+            </div>
             <LineChart
               width={1000}
               height={340}
@@ -83,7 +90,10 @@ const Chart: React.FC = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
-            <Typography variant="h5">Charged for shipping</Typography>
+            <div className="header">
+              <Typography variant="h5">Charged for shipping</Typography>
+              <Divider />
+            </div>
             <LineChart
               width={1000}
               height={340}
@@ -108,7 +118,12 @@ const Chart: React.FC = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper variant="outlined">
-            <Typography variant="h5">Item Purchased & Order Placed</Typography>
+            <div className="header">
+              <Typography variant="h5">
+                Item Purchased & Order Placed
+              </Typography>
+              <Divider />
+            </div>
             <BarChart
               width={1000}
               height={340}

@@ -1,12 +1,12 @@
 import { Typography } from "@material-ui/core";
-import "./styles.scss"
+import "./styles.scss";
 
 export type BreadCrumbsType = {
   label: string;
   path: string;
-    current: boolean;
-    icon: string;
-}
+  current: boolean;
+  icon: string;
+};
 
 export const sampleData: BreadCrumbsType[] = [
   {
@@ -18,20 +18,22 @@ export const sampleData: BreadCrumbsType[] = [
 ];
 
 const BreadCrumbs: React.FC = () => {
-    return (
-      <div className="bread-crumbs">
-        <div className="bread-crumbs__contents">
-          {sampleData.map((item,index) => (
-            <>
-              {item.icon && <img src={item.icon} alt="bread-crumbs-icon" />}
-                  <Typography> {item.label}</Typography>
-                  {index >0 && index === sampleData.length - 1 &&
-                  <Typography>/</Typography>}
-            </>
-          ))}
-        </div>
+  console.log(sampleData);
+  return (
+    <div className="bread-crumbs">
+      <div className="bread-crumbs__contents">
+        {sampleData.map((item, index) => (
+          <>
+            {item.icon && <img src={item.icon} alt="icon" />}
+            <Typography> {item.label}</Typography>
+            {index > 0 && index === sampleData.length - 1 && (
+              <Typography>/</Typography>
+            )}
+          </>
+        ))}
       </div>
-    );
-}
+    </div>
+  );
+};
 
 export default BreadCrumbs;

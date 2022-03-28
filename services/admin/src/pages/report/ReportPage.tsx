@@ -27,6 +27,8 @@ import DateRangePicker, { DateRange } from "@mui/lab/DateRangePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import ContainedButton from "components/button/ContainedButton";
 import { format } from "date-fns";
+import HeaderPage from "components/headerPage/HeaderPage";
+import ReportOptions from "./components/ReportOptions";
 
 export const reportOptions = [
   {
@@ -44,10 +46,6 @@ export const reportOptions = [
   {
     name: "This year",
     value: "year",
-  },
-  {
-    name: "This year",
-    value: "custom",
   },
 ];
 const ReportPage: React.FC = () => {
@@ -95,7 +93,9 @@ const ReportPage: React.FC = () => {
   };
   return (
     <div className="report">
-      <Grid item xs={12}>
+      <HeaderPage />
+      <ReportOptions />
+      {/* <Grid item xs={12}>
         <Paper className={classes.paperNav} variant="outlined">
           <List
             component="nav"
@@ -166,7 +166,7 @@ const ReportPage: React.FC = () => {
           </List>
           {requesting && <LinearProgress />}
         </Paper>
-      </Grid>
+      </Grid> */}
       <Button
         variant="contained"
         // color="secondary"
@@ -182,7 +182,7 @@ const ReportPage: React.FC = () => {
             <Typography variant="h5">
               ${sum(data.flatMap((x) => x.netSale)).toFixed(2)}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" style={{ color: "var(--text-grey)" }}>
               Net sales in this period
             </Typography>
           </Paper>
@@ -190,7 +190,7 @@ const ReportPage: React.FC = () => {
             <Typography variant="h5">
               {sum(data.flatMap((x) => x.orderPlaced))}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" style={{ color: "var(--text-grey)" }}>
               Orders placed
             </Typography>
           </Paper>
@@ -198,7 +198,7 @@ const ReportPage: React.FC = () => {
             <Typography variant="h5">
               {sum(data.flatMap((x) => x.itemsPurchased))}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" style={{ color: "var(--text-grey)" }}>
               Items purchased
             </Typography>
           </Paper>
@@ -206,7 +206,7 @@ const ReportPage: React.FC = () => {
             <Typography variant="h5">
               ${sum(data.flatMap((x) => x.refunded)).toFixed(2)}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" style={{ color: "var(--text-grey)" }}>
               Refunded order
             </Typography>
           </Paper>
@@ -231,7 +231,7 @@ const ReportPage: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paperNav: {
-      background: "#fff",
+      background: "#fbfdff",
       // height: 50,
     },
     paperItem: {

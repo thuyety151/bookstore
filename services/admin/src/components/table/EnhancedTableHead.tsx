@@ -50,7 +50,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
             className="primary"
-            style={{ width: headCell.width }}
+            style={{ width: headCell.width, fontWeight: 600 }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}

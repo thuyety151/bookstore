@@ -23,6 +23,8 @@ import { getCategoryPagination } from "redux/actions/category/getAction";
 import { deleteCategory } from "redux/actions/category/postAction";
 import { useSnackbar } from "notistack";
 import { PUBLIC_URL } from "routers/types";
+import ActionMenu from "components/table/ActionMenu";
+import clsx from "clsx";
 
 const headCells: HeadCell[] = [
   {
@@ -42,7 +44,7 @@ const headCells: HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: "Name",
-    width: "10%",
+    width: "30%",
   },
   {
     id: "description",
@@ -56,7 +58,7 @@ const headCells: HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: "Slug",
-    width: "10%",
+    width: "20%",
   },
   {
     id: "count",
@@ -70,7 +72,7 @@ const headCells: HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: "",
-    width: "25%",
+    width: "20%",
   },
 ];
 
@@ -185,7 +187,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
     );
   };
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, "pr-lg")}>
       <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
@@ -216,13 +218,16 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
                           "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"
                         }
                         alt="media"
-                        style={{ width: "100px" }}
+                        style={{ width: "50px" }}
                       />
                     </TableCell>
-                    <TableCell>{row.name}</TableCell>
+                    <TableCell className="bolder">{row.name}</TableCell>
                     <TableCell>{row.description}</TableCell>
                     <TableCell>{row.slug}</TableCell>
                     <TableCell>{row.count}</TableCell>
+                    {/* <TableCell>
+                      <ActionMenu />
+                    </TableCell> */}
                     <TableCell>
                       <Button
                         className="btn-view"
@@ -257,7 +262,17 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
         />
       </Paper>
       {/* Dialog confirm delete */}
-      <Dialog
+      {modelToDelete && (
+        <DialogConfirm
+          modelId={modelToDelete}
+          loading={cateState.requesting}
+          title="Delete order"
+          message="Are you sure you want to delete this order?"
+          handleClose={() => setModelToDelete(null)}
+          onConfirm={handleDelete}
+        />
+      )}
+      {/* <Dialog
         open={!!modelToDelete}
         onClose={() => setModelToDelete(null)}
         aria-labelledby="alert-dialog-title"
@@ -271,7 +286,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
           handleClose={() => setModelToDelete(null)}
           onConfirm={handleDelete}
         />
-      </Dialog>
+      </Dialog> */}
       {/* End dialog confirm delete */}
       {/* Dialog view detail */}
     </div>

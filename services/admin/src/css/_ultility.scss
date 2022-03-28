@@ -1,0 +1,24 @@
+/* use to custom global */
+
+.MuiButtonBase-root {
+  border-radius: 8px !important;
+}
+.MuiTextField-root {
+  border: 2px solid #dee7f3;
+  // padding: 10px 16px !important;
+  background: #fff !important;
+  border-radius: 12px;
+}
+
+.MuiOutlinedInput-root {
+  border-radius: 8px !important;
+}
+.MuiOutlinedInput-input {
+  padding: 16px !important;
+}
+.btn-outlined {
+  border: 2px solid #dee7f3;
+}
+.MuiPaper-outlined {
+  border: 2px solid var(--border-grey) !important;
+}

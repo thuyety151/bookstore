@@ -1,4 +1,5 @@
 import { Grid, Typography } from "@material-ui/core";
+import HeaderPage from "components/headerPage/HeaderPage";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
@@ -11,6 +12,7 @@ const CouponsPage: React.FC = () => {
   const { success } = useSelector((state: RootStore) => state.coupons);
   return (
     <div>
+      <HeaderPage />
       <Typography
         variant="h5"
         style={{ padding: "16px 0px", paddingLeft: "36px" }}

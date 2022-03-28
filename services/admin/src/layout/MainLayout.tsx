@@ -205,6 +205,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3, 0),
       minHeight: "100vh",
+      backgroundColor: "var(--page-bg-color)",
     },
     headerItem: {
       display: "flex",
