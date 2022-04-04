@@ -1,7 +1,6 @@
 import {
   Button,
   Icon,
-  IconButton,
   InputAdornment,
   TextField,
   Typography,
@@ -9,7 +8,10 @@ import {
 import "./styles.scss";
 import SearchIcon from "@material-ui/icons/Search";
 
-const FilterContainer: React.FC = () => {
+export type FilterType = {
+  onAdd: () => void;
+};
+const FilterContainer: React.FC<{ onAdd?: () => void }> = (props) => {
   return (
     <div className="filter-container">
       <TextField
@@ -27,6 +29,9 @@ const FilterContainer: React.FC = () => {
         <Button className="btn-outlined">
           <span className="material-icons-outlined">file_download</span>
           <Typography style={{ paddingLeft: 4 }}>Download</Typography>
+        </Button>
+        <Button className="btn-fill" onClick={props.onAdd}>
+          <Icon>add</Icon>
         </Button>
         <Button className="btn-fill">
           <Icon>replay</Icon>

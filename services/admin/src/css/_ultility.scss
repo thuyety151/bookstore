@@ -22,3 +22,10 @@
 .MuiPaper-outlined {
   border: 2px solid var(--border-grey) !important;
 }
+.MuiTableSortLabel-root {
+  color: var(--item-selected) !important;
+}
+
+.MuiDialog-paper {
+  border-radius: 16px;
+}

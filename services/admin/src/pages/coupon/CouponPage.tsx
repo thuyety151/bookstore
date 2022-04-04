@@ -12,7 +12,7 @@ const CouponsPage: React.FC = () => {
   const { success } = useSelector((state: RootStore) => state.coupons);
   return (
     <div>
-      <HeaderPage />
+      <HeaderPage title="Coupon" />
       <Typography
         variant="h5"
         style={{ padding: "16px 0px", paddingLeft: "36px" }}

@@ -1,0 +1,32 @@
+.upload-images-container {
+  .MuiDialog-paper {
+    width: 50vw;
+    max-width: 50vw;
+  }
+  .MuiDialogTitle-root {
+    text-align: center;
+  }
+  .image-list-review {
+    height: 50vh;
+    overflow: auto;
+  }
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 18px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #a4a4a4;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a4a4a4;
+  }
+}

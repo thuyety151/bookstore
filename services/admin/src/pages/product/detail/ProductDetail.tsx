@@ -48,6 +48,7 @@ import { addBook } from "redux/actions/product/postAction";
 import { useSnackbar } from "notistack";
 import VInput from "components/form/VInput";
 import { ValidationName } from "helper/useValidator";
+import ImageUploadContainer from "components/imageUpload/ImageUploadContainer";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -1019,6 +1020,7 @@ export default function ProductDetail() {
           </Grid>
         </Grid>
       </Grid>
+      <ImageUploadContainer />
     </div>
   );
 }

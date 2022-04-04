@@ -18,7 +18,7 @@ const CategoryPage: React.FC = () => {
 
   return (
     <div className="category-page ">
-      <HeaderPage />
+      <HeaderPage title="Categories" />
       <FilterContainer />
       <Grid container justifyContent="space-between" className="pt-lg">
         <Grid item xs={8} className={classes.table}>

@@ -93,7 +93,7 @@ const ReportPage: React.FC = () => {
   };
   return (
     <div className="report">
-      <HeaderPage />
+      <HeaderPage title="Dashboard" />
       <ReportOptions />
       {/* <Grid item xs={12}>
         <Paper className={classes.paperNav} variant="outlined">

@@ -73,6 +73,6 @@ export default function ImageReview({ uploadImage }: Props) {
       </div>
     </div>
   ) : (
-    <ImageUploadWidget setFiles={setFiles} />
+    <ImageUploadWidget setFiles={setFiles} files={files} />
   );
 }

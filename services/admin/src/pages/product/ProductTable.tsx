@@ -185,18 +185,18 @@ export default function ProductTable() {
       })
     );
   };
-  const navToAdd = () => {
-    historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
-  };
+  // const navToAdd = () => {
+  //   historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
+  // };
   const navToDetail = (id: string) => {
     window.open(PUBLIC_URL.PRODUCT + id);
   };
 
   return (
     <div className={classes.root}>
-      <Button className={classes.btnAddNew} onClick={navToAdd}>
+      {/* <Button className={classes.btnAddNew} onClick={navToAdd}>
         Add New
-      </Button>
+      </Button> */}
       <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
