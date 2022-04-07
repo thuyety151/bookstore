@@ -19,13 +19,23 @@
 .btn-outlined {
   border: 2px solid #dee7f3;
 }
-.MuiPaper-outlined {
-  border: 2px solid var(--border-grey) !important;
-}
+// .MuiPaper-outlined {
+//   border: 2px solid var(--border-grey) !important;
+// }
 .MuiTableSortLabel-root {
   color: var(--item-selected) !important;
 }
 
 .MuiDialog-paper {
   border-radius: 16px;
+}
+.border-bottom-default {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  margin: 0 -24px;
+}
+.card-title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
