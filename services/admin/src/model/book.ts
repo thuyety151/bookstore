@@ -16,6 +16,7 @@ export type Book = {
     stockStatus: string;
     categories: string;
     publishDate: string;
+    files:any
 }
 
 export interface BookDetail {
@@ -41,5 +42,6 @@ export interface BookDetail {
     isPublic: boolean;
     updateDate: Date;
     categoryIds: string[];
+    files:[]
 }
 

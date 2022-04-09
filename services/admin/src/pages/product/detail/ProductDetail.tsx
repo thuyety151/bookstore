@@ -49,6 +49,7 @@ import VInput from "components/form/VInput";
 import { ValidationName } from "helper/useValidator";
 import ImageUploadContainer from "components/imageUpload/ImageUploadContainer";
 import ProductDataContainer from "./components/ProductDataContainer";
+import { Media } from "model/media";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -79,6 +80,7 @@ export default function ProductDetail() {
     isPublic: false,
     updateDate: new Date(),
     categoryIds: [] as string[],
+    files: [],
   };
   //Selector
   const bookDetail = useSelector(
@@ -101,8 +103,18 @@ export default function ProductDetail() {
   const [bookParams, setBooksParams] = useState<BookDetail>(
     bookDetail ? bookDetail : initialBookParams
   );
+  type BookFile = File & Media;
 
   const [mediaState, setMediaState] = useState(bookParams.media);
+  const [filesState, setFilesState] = useState<BookFile[]>(
+    (bookParams.media as any) || []
+  );
+
+  useEffect(() => {
+    if (bookParams.media?.length) {
+      setFilesState(bookParams.media as any);
+    }
+  }, [bookParams.media]);
 
   const [isOpen, setOpen] = useState({
     image: true,
@@ -305,24 +317,13 @@ export default function ProductDetail() {
      *  handle data again
      */
 
-    if (
-      !bookParams.name
-      // ||
-      // !bookParams.categoryIds?.length ||
-      // !bookParams.media
-    ) {
+    if (!bookParams.name) {
       return;
     }
     if (!bookParams.attributes) {
       enqueueSnackbar("Please choose attributes", { variant: "error" });
       return;
     }
-    // const categoryIdsStateCheckList = categories.filter((category, index) => {
-    //   return categoryState[index] === true;
-    // });
-    // const categoryIdsCheckList: string[] = categoryIdsStateCheckList.map(
-    //   (x) => x.id
-    // );
     setBooksParams({
       ...bookParams,
       // categoryIds: [...categoryIdsCheckList],
@@ -330,7 +331,8 @@ export default function ProductDetail() {
       description: convertToHTML(description.getCurrentContent()),
       shortDescription: convertToHTML(shortDescription.getCurrentContent()),
       attributes: [...bookAttributeSelected],
-      media: [...mediaState],
+      media: mediaState,
+      files: filesState as [],
     });
     setAdd(true);
   };
@@ -363,12 +365,6 @@ export default function ProductDetail() {
           id: bookId,
           onSuccess: (bookDetail: any) => {
             setBooksParams(bookDetail);
-            // setCategoryState(bookDetail.categoryIds);
-            // setCategoryState(
-            //   categories.map((category, index) => {
-            //     return bookDetail.categoryIds?.includes(category.id);
-            //   })
-            // );
             setMediaState(bookDetail.media);
             setBookAttributeSelected(bookDetail.attributes);
             setOpenAttr(new Array(bookDetail.attributes.length + 1).fill(true));
@@ -677,7 +673,13 @@ export default function ProductDetail() {
           </Grid>
           <Grid item>
             <ProductDataContainer title="Product Images">
-              <ImageUploadContainer />
+              <ImageUploadContainer
+                files={filesState}
+                setFiles={(val) => setFilesState(val)}
+                onRemoveFile={(file) =>
+                  setFilesState(filesState.filter((x) => x !== file))
+                }
+              />
             </ProductDataContainer>
           </Grid>
         </Grid>

@@ -88,27 +88,7 @@ namespace Application.Books.Upsert
                         };
                         book.Categories.Add(bookCategory);
                     }
-                    if (request.BookParams.Media.Any())
-                    {
-                        var photo = _context.Media.FirstOrDefault(x =>
-                            x.Id == request.BookParams.Media.FirstOrDefault().Id);
-
-                        if (photo != null)
-                        {
-                            photo.IsMain = true;
-                            photo.IsVideo = false;
-                            photo.Name = book.Name;
-                            
-                            book.Media.Add(photo);
-
-                            var mediaIds = request.BookParams.Media.Where(x => x.Id != photo.Id).Select(x => x.Id).ToList();
-                            if (mediaIds.Count > 0)
-                            {
-                                var medias = _context.Media.Where(x => mediaIds.Contains(x.Id)).ToList();
-                                medias.ForEach(x => book.Media.Add(x));
-                            }
-                        }
-                    }
+                    UpsertMedia(book,request);
                     await _context.Books.AddAsync(book);
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(book.Id);
@@ -186,25 +166,13 @@ namespace Application.Books.Upsert
                                 Category = category
                             };
                             bookToUpdate.Categories.Add(bookCategory);
+                            
                         }
                     }
 
-                    // TODO: update book with multiple image
-                    //Add main photo                                                              
-                    if (request.BookParams.Media.Any() && !bookToUpdate.Media.Equals(request.BookParams.Media))
-                    {
-                        var photo = _context.Media.FirstOrDefault(
-                            x => x.Id == request.BookParams.Media.FirstOrDefault().Id);
-
-                        if (photo != null)
-                        {
-                            photo.IsMain = true;
-                            photo.IsVideo = false;
-                            photo.Name = bookToUpdate.Name;
-
-                            bookToUpdate.Media.Add(photo);
-                        }
-                    }
+                    // Update book medias
+                     bookToUpdate.Media.Clear();  
+                     UpsertMedia(bookToUpdate,request);
                     var result = await _context.SaveChangesAsync() > 0;
 
                     if (result)
@@ -212,6 +180,30 @@ namespace Application.Books.Upsert
                 }
 
                 return Result<Guid>.Failure("Error when add or update book");
+            }
+            private void UpsertMedia(Book book, Command request)
+            {
+                if (request.BookParams.Media.Any())
+                {
+                    var photo = _context.Media.FirstOrDefault(x =>
+                        x.Id == request.BookParams.Media.FirstOrDefault().Id);
+
+                    if (photo != null)
+                    {
+                        photo.IsMain = true;
+                        photo.IsVideo = false;
+                        photo.Name = book.Name;
+                            
+                        book.Media.Add(photo);
+
+                        var mediaIds = request.BookParams.Media.Where(x => x.Id != photo.Id).Select(x => x.Id).ToList();
+                        if (mediaIds.Count > 0)
+                        {
+                            var medias = _context.Media.Where(x => mediaIds.Contains(x.Id)).ToList();
+                            medias.ForEach(x => book.Media.Add(x));
+                        }
+                    }
+                }
             }
         }
     }

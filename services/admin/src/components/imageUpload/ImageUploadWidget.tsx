@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
@@ -44,7 +44,14 @@ export default function ImageUploadWidget({ setFiles, files }: Props) {
     [currentFiles, setFiles]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  useEffect(() => {
+    setCurrentFiles(files);
+  }, [files]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/jpeg,image/png",
+  });
 
   return (
     <div
