@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Review } from '../../model/review';
+import { Review } from '../../../model/review';
 import { Divider, Typography } from '@material-ui/core';
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined';

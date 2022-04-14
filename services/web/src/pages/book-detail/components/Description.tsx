@@ -9,7 +9,7 @@ import {
   Tabs,
   Theme,
 } from "@material-ui/core";
-import { RootStore } from "../../redux/store";
+import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
