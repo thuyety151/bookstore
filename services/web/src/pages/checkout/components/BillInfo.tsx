@@ -42,17 +42,17 @@ import {
   ROUTE_HOME,
   ROUTE_PLACE_ORDER,
   ROUTE_PROFILE_PREDICATE,
-} from "../../routers/types";
-import { getPageCart } from "../../redux/actions/cart/getAction";
-import api from "../../boot/axios";
+} from "../../../routers/types";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
+import api from "../../../boot/axios";
 import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
-import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
-import StockStatus from "../../shared/enum/stockStatus";
-import { PaymentMethod } from "../../shared/enum/paymentMethod";
+import momo from "../../../assets/icons/momo_icon_circle_pinkbg.svg";
+import StockStatus from "../../../shared/enum/stockStatus";
+import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { sum } from "lodash";
-import { DiscountType } from "../../model/coupon";
+import { DiscountType } from "../../../model/coupon";
 import CancelIcon from "@material-ui/icons/Cancel";
-import { CouponState } from "../../redux/reducers/couponReducer";
+import { CouponState } from "../../../redux/reducers/couponReducer";
 
 type Props = {
   note: string;
