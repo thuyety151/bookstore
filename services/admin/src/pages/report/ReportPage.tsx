@@ -1,32 +1,17 @@
 import {
-  Button,
   createStyles,
   Grid,
-  LinearProgress,
-  List,
-  ListItem,
-  ListItemText,
   makeStyles,
   Paper,
-  TextField,
   Theme,
   Typography,
 } from "@material-ui/core";
 import { sum } from "lodash";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getReports } from "redux/actions/report/getActions";
+import React from "react";
+import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
 import Chart from "./components/Chart";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import { CSVLink } from "react-csv";
 import "./styles.scss";
-import Box from "@mui/material/Box";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DateRangePicker, { DateRange } from "@mui/lab/DateRangePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import ContainedButton from "components/button/ContainedButton";
-import { format } from "date-fns";
 import HeaderPage from "components/headerPage/HeaderPage";
 import ReportOptions from "./components/ReportOptions";
 
@@ -50,47 +35,8 @@ export const reportOptions = [
 ];
 const ReportPage: React.FC = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const { data, } = useSelector((state: RootStore) => state.reports);
+  const { data } = useSelector((state: RootStore) => state.reports);
 
-  // const handleListItemClick = (
-  //   event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  //   index: number
-  // ) => {
-  //   setSelectedIndex(index);
-  // };
-  useEffect(() => {
-    dispatch(getReports(reportOptions[selectedIndex].value));
-  }, [dispatch, selectedIndex]);
-
-  const headers = [
-    { label: "Date", key: "name" },
-    { label: "Number of items sold", key: "itemsPurchased" },
-    { label: "Number of orders", key: "orderPlaced" },
-    { label: "Net sales amount", key: "netSale" },
-    { label: "Shipping amount", key: "shippingFee" },
-    { label: "Refund amount", key: "refunded" },
-  ];
-
-  const csvReport = {
-    fileName: "Report" + reportOptions[selectedIndex].value + ".csv",
-    headers: headers,
-    data: data,
-  };
-  const [date, setDate] = React.useState<DateRange<Date>>([null, null]);
-  const handleReportCustom = () => {
-    if (date.filter((x) => !!x).length !== 2) {
-      return;
-    }
-    dispatch(
-      getReports(
-        "custom",
-        date[0]?.toJSON() || new Date(),
-        date[1]?.toJSON() || new Date()
-      )
-    );
-  };
   return (
     <div className="report">
       <HeaderPage title="Dashboard" />
@@ -168,14 +114,6 @@ const ReportPage: React.FC = () => {
           {requesting && <LinearProgress />}
         </Paper>
       </Grid> */}
-      <Button
-        variant="contained"
-        // color="secondary"
-        className={classes.btnExport}
-      >
-        <GetAppIcon />
-        <CSVLink {...csvReport}> Export CSV</CSVLink>
-      </Button>
 
       <Grid container spacing={2}>
         <Grid item xs={2} className="quick-view">
