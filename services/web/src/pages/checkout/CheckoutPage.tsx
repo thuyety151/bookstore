@@ -6,8 +6,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
-import BillDetailComponent from "../../components/checkout/BillDetail";
-import BillInfoComponent from "../../components/checkout/BillInfo";
+import BillDetailComponent from './components/BillDetail'
+import BillInfoComponent from './components/BillInfo'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

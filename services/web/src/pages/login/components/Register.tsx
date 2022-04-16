@@ -2,8 +2,6 @@ import {
   Button,
   CircularProgress,
   createStyles,
-  Divider,
-  // Divider,
   Grid,
   IconButton,
   InputAdornment,
@@ -14,25 +12,32 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Facebook, Visibility, VisibilityOff } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { useSnackbar } from "notistack";
-import api from "../../boot/axios";
+import * as yup from "yup";
+import api from "../../../boot/axios";
 import { useState } from "react";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-export default function LoginComponent() {
+export default function RegisterComponent() {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const [isLoading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+
+  const [isLoading, setLoading] = useState(false);
+
   const validationSchema = yup.object({
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
     email: yup
       .string()
       .email("Enter a valid email")
@@ -41,28 +46,36 @@ export default function LoginComponent() {
       .string()
       .min(8, "Password should be of minimum 8 characters length")
       .required("Password is required"),
+    confirmPassword: yup.string().required("Confirm password is required"),
   });
 
   const formik = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      setSubmitting(true);
-      var email = values.email;
-      var password = values.password;
+    onSubmit: async (values) => {
+      if (values.password !== values.confirmPassword) {
+        enqueueSnackbar("Confirm password is not match!", { variant: "error" });
+        return;
+      }
+      let firstName = values.firstName;
+      let lastName = values.lastName;
+      let email = values.email;
+      let password = values.password;
 
       try {
         setLoading(true);
-        var response = await api.post("/account/login", { email, password });
-
-        if (response.status === 401) {
-          setLoading(false);
-          console.log("401!");
-          enqueueSnackbar("401", { variant: "error" });
-        }
+        var response = await api.post("/account/register", {
+          firstName,
+          lastName,
+          email,
+          password,
+        });
         if (response.data.token) {
           setLoading(false);
           localStorage.setItem("user", JSON.stringify(response.data));
@@ -71,58 +84,15 @@ export default function LoginComponent() {
         }
       } catch {
         setLoading(false);
-        console.log("Email or password is invalid!");
-        enqueueSnackbar("Email or password is invalid!", { variant: "error" });
-      } finally {
-        setSubmitting(false);
+        enqueueSnackbar("Email already exists!", {
+          variant: "error",
+        });
       }
     },
   });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    formik.handleSubmit();
-  };
-
   const handleOnClick = () => {
-    history.push("/register");
+    history.push("/login");
   };
-
-  const handleFacebookLogin = async () => {
-    window.FB.login(
-      async (response) => {
-        if (response.authResponse) {
-          console.log("Welcome!  Fetching your information.... ");
-          console.log(response.authResponse.accessToken);
-
-          var responseApi = await api.post(
-            `/account/facebook-login?accessToken=${response.authResponse.accessToken}`,
-            {}
-          );
-
-          console.log(JSON.stringify(responseApi));
-
-          if (responseApi.data) {
-            localStorage.setItem("user", JSON.stringify(responseApi.data));
-            enqueueSnackbar("Login successfully", {
-              variant: "success",
-            });
-            history.push("/");
-          } else {
-            enqueueSnackbar("Unauthorize", {
-              variant: "error",
-            });
-          }
-        } else {
-          enqueueSnackbar("User cancelled login or did not fully authorize.", {
-            variant: "error",
-          });
-        }
-      },
-      { scope: "public_profile, email" }
-    );
-  };
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} variant="outlined" square>
@@ -136,28 +106,65 @@ export default function LoginComponent() {
           <Grid item xs container direction="column">
             <Grid item>
               <Typography variant="h4" gutterBottom className={classes.text}>
-                Sign in
+                Create an account
               </Typography>
             </Grid>
             <Grid item>
               <Typography variant="body2" gutterBottom className={classes.text}>
-                New user?
+                Already have an account?
                 <Link
-                  href=""
+                  href="#"
                   className={classes.link}
-                  onClick={() => handleOnClick()}
+                  onClick={() => {
+                    handleOnClick();
+                  }}
                 >
-                  Create new account
+                  Sign in
                 </Link>
               </Typography>
             </Grid>
 
-            <form className={classes.form} onSubmit={handleSubmit}>
+            <form className={classes.form} onSubmit={formik.handleSubmit}>
               <Grid item xs={12} container spacing={1}>
                 <Grid item xs={12}>
                   <TextField
-                    label="Email"
-                    variant="filled"
+                    label="First name"
+                    variant="standard"
+                    id="firstName"
+                    name="firstName"
+                    value={formik.values.firstName}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.firstName &&
+                      Boolean(formik.errors.firstName)
+                    }
+                    helperText={
+                      formik.touched.firstName && formik.errors.firstName
+                    }
+                    color="secondary"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Last name"
+                    variant="standard"
+                    id="lastName"
+                    name="lastName"
+                    value={formik.values.lastName}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.lastName && Boolean(formik.errors.lastName)
+                    }
+                    helperText={
+                      formik.touched.lastName && formik.errors.lastName
+                    }
+                    color="secondary"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Email address"
+                    variant="standard"
                     type="email"
                     id="email"
                     name="email"
@@ -168,10 +175,11 @@ export default function LoginComponent() {
                     color="secondary"
                   />
                 </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     label="Password"
-                    variant="filled"
+                    variant="standard"
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
@@ -199,6 +207,40 @@ export default function LoginComponent() {
                     }}
                   />
                 </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    label="Confirm Password"
+                    variant="standard"
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.confirmPassword &&
+                      Boolean(formik.errors.confirmPassword)
+                    }
+                    helperText={
+                      formik.touched.confirmPassword &&
+                      formik.errors.confirmPassword
+                    }
+                    color="secondary"
+                    InputProps={{ // <-- This is where the toggle button is added.
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowConfirmPassword}
+                            onMouseDown={handleMouseDownConfirmPassword}
+                          >
+                            {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   {isLoading ? (
                     <Button
@@ -216,25 +258,12 @@ export default function LoginComponent() {
                       color="secondary"
                       className={classes.signUp}
                     >
-                      Sign In
+                      Create account
                     </Button>
                   )}
                 </Grid>
               </Grid>
             </form>
-
-            <Divider className={classes.divider} />
-
-            <Grid item className={classes.gridFb}>
-              <Button
-                variant="outlined"
-                className={classes.facebook}
-                startIcon={<Facebook />}
-                onClick={handleFacebookLogin}
-              >
-                Continue with Facebook
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       </Paper>
@@ -248,10 +277,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       backgroundColor: "#fff6f6",
       height: 700,
+      margin: 0
     },
     paper: {
       padding: theme.spacing(2),
-
       maxWidth: 500,
       textAlign: "left",
       "&:hover": {
@@ -260,10 +289,11 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: "20px",
       margin: "auto",
       position: "relative",
-      top: 50,
+      top: 40,
     },
     text: {
       marginLeft: "15px",
+      marginRight: "5px",
     },
     link: {
       marginLeft: "5px",
@@ -275,7 +305,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       padding: theme.spacing(1),
-      "& .MuiTextField-root": {
+      "& .MuiTextField-root ": {
         margin: theme.spacing(1),
         width: "400px",
       },
@@ -283,39 +313,12 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
-    button: {
-      borderRadius: "50px",
-      textTransform: "none",
-      width: 300,
-      height: "45px",
-      fontWeight: 600,
-      margin: "5px 20px 5px 70px",
-    },
-    facebook: {
-      background: "#4267B2",
-      borderRadius: "50px",
-      textTransform: "none",
-      width: 300,
-      height: "45px",
-      fontWeight: 600,
-      color: "#fff",
-      border: "1px solid #000",
-      margin: "auto",
-    },
+
     signUp: {
       textTransform: "none",
       borderRadius: "50px",
-      "& .MuiButtonBase-root": {
-        margin: "5px 0px 20px 330px",
-      },
       float: "right",
       marginRight: "70px !important",
-    },
-    divider: {
-      margin: "10px",
-    },
-    gridFb: {
-      margin: "auto",
     },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,

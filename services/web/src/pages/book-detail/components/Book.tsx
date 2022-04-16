@@ -15,14 +15,14 @@ import { FavoriteBorderOutlined } from "@material-ui/icons";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStore } from "../../redux/store";
-import Attribute from "../../model/attribute";
-import AddOrUpdateItem from "../../model/AddOrUpdateItem";
-import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
-import Item from "../../model/item";
+import { RootStore } from "../../../redux/store";
+import Attribute from "../../../model/attribute";
+import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
+import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
+import Item from "../../../model/item";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
-import defaultBook from "../../assets/images/default.jpeg";
+import defaultBook from "../../../assets/images/default.jpeg";
 
 
 

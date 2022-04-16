@@ -16,10 +16,10 @@ import {
 import ReviewItem from "./ReviewItem";
 
 import Rating from "@mui/material/Rating";
-import { RootStore } from "../../redux/store";
+import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateReview } from "../../model/review";
-import { addReview, getReviews } from "../../redux/actions/review/reviewAction";
+import { CreateReview } from "../../../model/review";
+import { addReview, getReviews } from "../../../redux/actions/review/reviewAction";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
 import { Pagination } from "@material-ui/lab";

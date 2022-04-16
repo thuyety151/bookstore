@@ -1,5 +1,5 @@
 import React from "react";
-import RegisterComponent from "../../components/authenticate/Register"
+import RegisterComponent from "./components/Register";
 
 
 
