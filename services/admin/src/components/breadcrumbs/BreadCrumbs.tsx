@@ -1,5 +1,9 @@
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import "./styles.scss";
+import Route from "model/route";
+import { routes } from "routers/routes";
+import logo from "../../assets/icons/icon-home.png";
 
 export type BreadCrumbsType = {
   label: string;
@@ -18,19 +22,38 @@ export const sampleData: BreadCrumbsType[] = [
 ];
 
 const BreadCrumbs: React.FC = () => {
-  console.log(sampleData);
+  const history = useHistory();
+  const currentRoute = routes.find(
+    (r: Route) => r.path === history.location.pathname
+  );
+
+  const onNavigate = (route: string) => {
+    history.push(route);
+  };
+
   return (
     <div className="bread-crumbs">
       <div className="bread-crumbs__contents">
-        {sampleData.map((item, index) => (
-          <>
-            {item.icon && <img src={item.icon} alt="icon" />}
-            <Typography> {item.label}</Typography>
-            {index > 0 && index === sampleData.length - 1 && (
-              <Typography>/</Typography>
-            )}
-          </>
-        ))}
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Grid item style={{ display: "flex", alignItems: "flex-end" }}>
+            <img src={logo} alt="icon" />
+            {currentRoute?.parents?.map((r: string, index) => (
+              <Typography
+                key={`item-breadcrumb-${index}`}
+                onClick={() => onNavigate(r)}
+                className="cursor-pointer"
+              >
+                {routes.find((route) => route.path === r)?.name || "--"} /{" "}
+              </Typography>
+            ))}
+            <Typography> {currentRoute?.name}</Typography>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

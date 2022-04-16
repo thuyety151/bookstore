@@ -25,7 +25,7 @@ import { Switch, useHistory, useLocation } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 import { routes } from "../routers/routes";
 import PrivateRoute from "../components/route/PrivateRoute";
-import { Grid } from "@material-ui/core";
+import { Badge, Grid } from "@material-ui/core";
 import MenuAccount from "./components/MenuAccount";
 import "./styles.scss";
 
@@ -72,6 +72,15 @@ const MainLayout: React.FC = () => {
             </Grid>
             <Grid item>
               <Grid container alignItems="center">
+                <Badge badgeContent={4} color="secondary" className="mr-md">
+                  <IconButton
+                    size="small"
+                    color="secondary"
+                    className="icon-noti"
+                  >
+                    <img src="img/icons/bell.svg" alt="icon-noti" />
+                  </IconButton>
+                </Badge>
                 <Typography>Admin</Typography>
                 <MenuAccount />
               </Grid>

@@ -1,21 +1,14 @@
 import {
   Box,
   Button,
-  createStyles,
   Grid,
-  LinearProgress,
   List,
   ListItem,
   ListItemText,
-  makeStyles,
-  Paper,
   TextField,
-  Theme,
-  Typography,
 } from "@material-ui/core";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { sum } from "lodash";
-import React, { useEffect } from "react";
+import React from "react";
 import { reportOptions } from "../ReportPage";
 import "../styles.scss";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";

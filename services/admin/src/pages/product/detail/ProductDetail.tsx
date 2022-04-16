@@ -50,6 +50,7 @@ import { ValidationName } from "helper/useValidator";
 import ImageUploadContainer from "components/imageUpload/ImageUploadContainer";
 import ProductDataContainer from "./components/ProductDataContainer";
 import { Media } from "model/media";
+import HeaderPage from "components/headerPage/HeaderPage";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -421,7 +422,7 @@ export default function ProductDetail() {
 
   return (
     <div className={classes.root}>
-      <h2>Create book</h2>
+      <HeaderPage title="Create Book" />
       <Grid container direction="row" spacing={2}>
         <Grid item container xs={9} direction="column" style={{ gap: "28px" }}>
           <Grid item>
@@ -946,7 +947,8 @@ export default function ProductDetail() {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "0 16px",
+      // padding: "0 16px",
+      margin: " 0 5rem ",
     },
     actionsContainer: {},
     title: {

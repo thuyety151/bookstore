@@ -1,22 +1,17 @@
-import {
-  Grid,
-  Typography,
-  Theme,
-  createStyles,
-  makeStyles,
-} from "@material-ui/core";
+import { Grid, Theme, createStyles, makeStyles } from "@material-ui/core";
+import HeaderPage from "components/headerPage/HeaderPage";
+import FilterContainer from "components/table/FilterContainer";
 import OrderTable from "./OrderTable";
+import clsx from "clsx";
 
 const OrderPage: React.FC = () => {
   const classes = useStyles();
-  // const orderState = useSelector((state: RootStore) => state.orders.data);
 
   return (
     <div className={classes.root}>
-      <Grid container className={classes.actionsContainer}>
-        <Typography variant="h5" className={classes.title}>
-          Orders
-        </Typography>
+      <HeaderPage title="Orders" />
+      <FilterContainer />
+      <Grid container className={clsx(classes.actionsContainer, "pt-md")}>
         <OrderTable />
       </Grid>
     </div>
@@ -26,7 +21,7 @@ const OrderPage: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: "0 16px",
+      padding: "0 5rem",
     },
     actionsContainer: {},
     title: {

@@ -1,7 +1,6 @@
 import { Grid } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import HeaderPage from "components/headerPage/HeaderPage";
-import ActionMenu from "components/table/ActionMenu";
 import FilterContainer from "components/table/FilterContainer";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";

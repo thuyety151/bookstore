@@ -16,9 +16,9 @@ const ProductPage: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <HeaderPage title="Books" />
+      <HeaderPage title="Products" />
       <FilterContainer onAdd={onAdd} />
-      <Grid container className={clsx(classes.actionsContainer, "pb-lg")}>
+      <Grid container className={clsx(classes.actionsContainer, "pb-lg mt-md")}>
         <ProductTable />
       </Grid>
     </div>
@@ -28,7 +28,6 @@ const ProductPage: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // margin: "0 16px",
       padding: "0 5rem",
     },
     actionsContainer: {},

@@ -52,14 +52,14 @@ const ReportPage: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const { data, requesting } = useSelector((state: RootStore) => state.reports);
+  const { data, } = useSelector((state: RootStore) => state.reports);
 
-  const handleListItemClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-  };
+  // const handleListItemClick = (
+  //   event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  //   index: number
+  // ) => {
+  //   setSelectedIndex(index);
+  // };
   useEffect(() => {
     dispatch(getReports(reportOptions[selectedIndex].value));
   }, [dispatch, selectedIndex]);
@@ -95,6 +95,7 @@ const ReportPage: React.FC = () => {
     <div className="report">
       <HeaderPage title="Dashboard" />
       <ReportOptions />
+      {/* TODO: Implement get report  */}
       {/* <Grid item xs={12}>
         <Paper className={classes.paperNav} variant="outlined">
           <List

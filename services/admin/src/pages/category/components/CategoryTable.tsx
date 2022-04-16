@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EnhancedTableHead, {
   HeadCell,
 } from "components/table/EnhancedTableHead";
-import { Button, Dialog } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
@@ -23,7 +23,6 @@ import { getCategoryPagination } from "redux/actions/category/getAction";
 import { deleteCategory } from "redux/actions/category/postAction";
 import { useSnackbar } from "notistack";
 import { PUBLIC_URL } from "routers/types";
-import ActionMenu from "components/table/ActionMenu";
 import clsx from "clsx";
 
 const headCells: HeadCell[] = [
@@ -151,12 +150,8 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
 
   const handleEdit = (model: Category) => {
     props.setModelEdit(model);
-    // history.push(
-    //   generatePath(ROUTE_ORDER_EDIT, {
-    //     orderId: id || modelToViewDetail.id,
-    //   })
-    // );
   };
+
   const handleDelete = () => {
     dispatch(
       deleteCategory({
