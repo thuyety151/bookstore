@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Box, createStyles, Divider, Grid, Tab, Tabs, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { RootStore } from '../../redux/store';
+import { RootStore } from '../../../redux/store';
 
 const useStyles = makeStyles((theme: Theme) => 
 createStyles({

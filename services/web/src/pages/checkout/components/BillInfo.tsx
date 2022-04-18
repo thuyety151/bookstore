@@ -24,35 +24,35 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { makeStyles } from "@material-ui/core/styles";
-import Item from "../../model/item";
-import { RootStore } from "../../redux/store";
+import Item from "../../../model/item";
+import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { formatAddress, formatVNDtoUSD } from "../../helper/format";
-import { verifyCoupon } from "../../redux/actions/coupon/getAction";
-import { subTotal } from "../../redux/reducers/cartReducer";
-import { getFee } from "../../redux/actions/order/getActions";
-import { getServices } from "../../redux/actions/delivery/getAction";
-import { NAME_ACTIONS } from "../../redux/constants/cart/actionTypes";
-import { NAME_ACTIONS as CP_NAME_ACTIONS } from "../../redux/constants/coupon/actionTypes";
-import PrimaryButton from "../button/PrimaryButton";
-import { createOrder } from "../../redux/actions/order/postAction";
+import { formatAddress, formatVNDtoUSD } from "../../../helper/format";
+import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
+import { subTotal } from "../../../redux/reducers/cartReducer";
+import { getFee } from "../../../redux/actions/order/getActions";
+import { getServices } from "../../../redux/actions/delivery/getAction";
+import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
+import { NAME_ACTIONS as CP_NAME_ACTIONS } from "../../../redux/constants/coupon/actionTypes";
+import PrimaryButton from "../../../components/button/PrimaryButton";
+import { createOrder } from "../../../redux/actions/order/postAction";
 import { generatePath, useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import {
   ROUTE_HOME,
   ROUTE_PLACE_ORDER,
   ROUTE_PROFILE_PREDICATE,
-} from "../../routers/types";
-import { getPageCart } from "../../redux/actions/cart/getAction";
-import api from "../../boot/axios";
+} from "../../../routers/types";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
+import api from "../../../boot/axios";
 import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
-import momo from "../../assets/icons/momo_icon_circle_pinkbg.svg";
-import StockStatus from "../../shared/enum/stockStatus";
-import { PaymentMethod } from "../../shared/enum/paymentMethod";
+import momo from "../../../assets/icons/momo_icon_circle_pinkbg.svg";
+import StockStatus from "../../../shared/enum/stockStatus";
+import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { sum } from "lodash";
-import { DiscountType } from "../../model/coupon";
+import { DiscountType } from "../../../model/coupon";
 import CancelIcon from "@material-ui/icons/Cancel";
-import { CouponState } from "../../redux/reducers/couponReducer";
+import { CouponState } from "../../../redux/reducers/couponReducer";
 
 type Props = {
   note: string;

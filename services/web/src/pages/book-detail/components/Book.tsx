@@ -14,14 +14,14 @@ import { FavoriteBorderOutlined } from "@material-ui/icons";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStore } from "../../redux/store";
-import Attribute from "../../model/attribute";
-import AddOrUpdateItem from "../../model/AddOrUpdateItem";
-import { addOrUpdateItem } from "../../redux/actions/cart/addOrUpdateAction";
-import Item from "../../model/item";
+import { RootStore } from "../../../redux/store";
+import Attribute from "../../../model/attribute";
+import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
+import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
+import Item from "../../../model/item";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
-import BookImages from "../../pages/book-detail/components/BookImages";
+import BookImages from "./BookImages";
 
 export default function DetailBook() {
   const classes = useStyles();
@@ -114,6 +114,7 @@ export default function DetailBook() {
             className={classes.gridContainer}
           >
             <Grid item xs={12} sm={3}>
+              {/* TODO: add default image */}
               {data.media?.length > 0 && <BookImages images={data.media} />}
             </Grid>
             <Grid item sm={7} container spacing={2}>

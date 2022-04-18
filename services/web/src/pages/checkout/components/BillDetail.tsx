@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import { RootStore } from "../../redux/store";
+import { RootStore } from "../../../redux/store";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import "./styles.scss";
