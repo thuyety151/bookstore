@@ -18,7 +18,7 @@ export const ROUTE_SHOPS = "/shops/:id";
 export const ROUTE_CART = "/cart";
 export const ROUTE_PLACE_ORDER = "/place-order/:orderId";
 export const ROUTE_CHECK_OUT = "/check-out";
-export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale/:predicate";
+export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale/:predicate/:keywords?";
 export const ROUTE_BOOKS_FOR_SALE_CATE = "/books-for-sale-category/:categoryId";
 
 export type RouteConfig = {
