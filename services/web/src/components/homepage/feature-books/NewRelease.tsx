@@ -111,7 +111,13 @@ export default function NewRelease() {
             <Paper square className={classes.paper}>
               <Tabs value={tab} onChange={handleChange} centered>
                 {state.data.map((c: NewReleaseType, index: number) => {
-                  return <Tab label={c.categoryName} {...a11yProps(index)} />;
+                  return (
+                    <Tab
+                      label={c.categoryName}
+                      {...a11yProps(index)}
+                      key={`tab-${index}`}
+                    />
+                  );
                 })}
               </Tabs>
             </Paper>
@@ -151,14 +157,14 @@ export default function NewRelease() {
               </Grid>
               <Grid item xs={9}>
                 <Grid container className={classes.grid}>
-                  { 
-                  defaultItems.map((item, ind) => (
+                  {defaultItems.map((item, ind) => (
                     <Grid
                       item
                       xs={3}
                       className="new-release-item"
+                      key={`items-${ind}`}
                     >
-                     {item}
+                      {item}
                     </Grid>
                   ))}
                 </Grid>
