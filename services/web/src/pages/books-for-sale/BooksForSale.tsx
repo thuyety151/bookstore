@@ -61,6 +61,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   const authours = useSelector((state: RootStore) => state.author.data);
   const attributes = useSelector((state: RootStore) => state.attributes.data);
   const pagination = useSelector((state: RootStore) => state.books.pagination);
+  const { keywords } = useSelector((state: RootStore) => state.books);
 
   //State
   const [isOpen, setOpen] = useState({
@@ -137,7 +138,6 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("bfs: ", bookFilterParams);
     dispatch(
       getBooksForSale(predicate || "popular", bookFilterParams, {
         ...pagination,
@@ -145,7 +145,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
       })
     );
     // eslint-disable-next-line
-  }, [bookFilterParams]);
+  }, [bookFilterParams, keywords]);
 
   const handleChangePrice = (event: any, newValue: number | number[]) => {
     const price = newValue as number[];

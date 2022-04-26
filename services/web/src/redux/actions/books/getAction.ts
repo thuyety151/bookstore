@@ -1,5 +1,6 @@
 import api from "../../../boot/axios";
 import { booksContant } from "../../constants/books/actionTypes";
+import store from "../../store";
 
 export const getMostView = () => async (dispatch: any) => {
   try {
@@ -79,6 +80,7 @@ export type filterParams = {
   minPrice: number;
   maxPrice: number;
   rates: number;
+  keywords?: string;
 };
 export const getBooksForSale =
   (predicate: string, filterParams?: filterParams, params?: paginationParams) =>
@@ -87,6 +89,7 @@ export const getBooksForSale =
     const response = await api.get("/books/books-for-sale", {
       params: {
         predicate,
+        keywords: store.getState().books.keywords,
         ...filterParams,
         pageSize: params?.pageSize,
         pageIndex: params?.pageIndex,

@@ -5,6 +5,7 @@ export type BookState = {
   success: Boolean;
   data: Detail | null;
   message?: string | null;
+  
 };
 
 const initState: BookState = {

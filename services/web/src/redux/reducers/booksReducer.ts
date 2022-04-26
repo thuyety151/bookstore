@@ -12,6 +12,7 @@ export type BooksSate = {
     totalPage: number;
     totalCount: number;
   };
+  keywords?: string | null;
 };
 
 const initialState: BooksSate = {
@@ -25,6 +26,7 @@ const initialState: BooksSate = {
     totalPage: 0,
     totalCount: 0,
   },
+  keywords: null,
 };
 
 const booksReducer = (
@@ -68,6 +70,11 @@ const booksReducer = (
         success: false,
         data: [],
         message: payload.message,
+      };
+    case booksContant.SET_KEYWORDS:
+      return {
+        ...state,
+        keywords: payload.data,
       };
     default:
       return state;
