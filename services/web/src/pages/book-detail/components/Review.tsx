@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Divider,
+  Icon,
   LinearProgress,
   Tab,
   Tabs,
@@ -24,6 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
 import { Pagination } from "@material-ui/lab";
 import { useSnackbar } from "notistack";
+import ImageUploadWidget from "../imagesUpload/ImageUploadWidget";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,6 +54,19 @@ const useStyles = makeStyles((theme: Theme) =>
     rate: {
       color: "#ffbf00 !important",
     },
+    btnRemoveImage: {
+      color: "#fff",
+      display: "flex",
+      width: "100%",
+      justifyContent: "end",
+      opacity: 0.7,
+      cursor:"pointer"
+    },
+    imagePreview: {
+          backgroundSize: "cover",
+    width: 160,
+    height: 160
+    }
   })
 );
 
@@ -70,6 +85,7 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
       borderRadius: 5,
       backgroundColor: "#ffbf00",
     },
+   
   })
 )(LinearProgress);
 
@@ -79,7 +95,7 @@ export default function CenteredGrid() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
+const [files, setFiles] = useState([]);
   const [value, setValue] = React.useState(3);
   const [page, setpage] = useState(1);
   const [rateValue, setRateValue] = React.useState<number | null>(5);
@@ -111,6 +127,7 @@ export default function CenteredGrid() {
       content: content,
       rate: rateValue,
       bookId: bookId,
+      files:[]
     };
     dispatch(
       addReview({
@@ -137,6 +154,10 @@ export default function CenteredGrid() {
     setpage(value);
     dispatch(getReviews(bookId, { ...reviews.pagination, pageIndex: value }));
   };
+
+  const onRemoveFile = (file:any) => {
+    setFiles(files.filter((x:any) => x?.preview !== file?.preview));
+  }
   return (
     <div className={classes.root}>
       <AppBar id="review" position="static" color="default">
@@ -331,6 +352,32 @@ export default function CenteredGrid() {
                   onChange={(e) => setContent(e.target.value)}
                 />
               </Grid>
+              <Grid container direction="row" style={{ gap: 8 ,padding:"16px 0"}}>
+                {files.map((file: any) => (
+                  <Grid
+                    item
+                    className={classes.imagePreview}
+                    style={{
+                      backgroundImage: `url(${file?.preview})`,
+                    }}
+                  >
+                    <Icon
+                      className={classes.btnRemoveImage}
+                      onClick={() => onRemoveFile(file)}
+                    >
+                      remove_circle
+                    </Icon>
+                  </Grid>
+                ))}
+              </Grid>
+              <Grid item>
+                <ImageUploadWidget
+                  setFiles={(files: any) => {
+                    setFiles(files);
+                  }}
+                />
+              </Grid>
+
               <Grid item>
                 <Button
                   variant="contained"

@@ -12,5 +12,6 @@ export interface CreateReview {
     title: string,
     content: string,
     rate: number | null,
-    bookId: string
+    bookId: string,
+    files?:File[]
 }
