@@ -1,10 +1,13 @@
+import Media from "./media"
+
 export interface Review {
     id: string,
     title: string,
     content: string,
     rate: number | null,
     createDate: string | null, 
-    bookId: string
+    bookId: string,
+    media?:Media[]
 }
 
 export interface CreateReview {

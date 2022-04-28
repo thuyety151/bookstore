@@ -5,6 +5,7 @@ import {
   AppBar,
   Box,
   Button,
+  CircularProgress,
   Divider,
   Icon,
   LinearProgress,
@@ -20,12 +21,15 @@ import Rating from "@mui/material/Rating";
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateReview } from "../../../model/review";
-import { addReview, getReviews } from "../../../redux/actions/review/reviewAction";
+import {
+  addReview,
+  getReviews,
+} from "../../../redux/actions/review/reviewAction";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
 import { Pagination } from "@material-ui/lab";
 import { useSnackbar } from "notistack";
-import ImageUploadWidget from "../imagesUpload/ImageUploadWidget";
+import ImageUploadWidget from "../../../components/imagesUpload/ImageUploadWidget";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,13 +64,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       justifyContent: "end",
       opacity: 0.7,
-      cursor:"pointer"
+      cursor: "pointer",
     },
     imagePreview: {
-          backgroundSize: "cover",
-    width: 160,
-    height: 160
-    }
+      backgroundSize: "cover",
+      width: 160,
+      height: 160,
+    },
   })
 );
 
@@ -85,7 +89,6 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
       borderRadius: 5,
       backgroundColor: "#ffbf00",
     },
-   
   })
 )(LinearProgress);
 
@@ -95,10 +98,12 @@ export default function CenteredGrid() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([]);
   const [value, setValue] = React.useState(3);
   const [page, setpage] = useState(1);
   const [rateValue, setRateValue] = React.useState<number | null>(5);
+  const [canReview, setCanReview] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -119,26 +124,34 @@ const [files, setFiles] = useState([]);
   const totalThreeStar = rates.filter((rate) => rate === 3).length;
   const totalTwoStar = rates.filter((rate) => rate === 2).length;
   const totalOneStar = rates.filter((rate) => rate === 1).length;
+  const { data } = useSelector((state: RootStore) => state.book);
 
   const handleSubmit = () => {
+    setLoading(true);
     const review: CreateReview = {
       id: uuidv4(),
       title: title,
       content: content,
       rate: rateValue,
       bookId: bookId,
-      files:[]
+      files: [],
     };
     dispatch(
       addReview({
-        review,
+        review: {
+          ...review,
+          files,
+        },
         onSuccess: () => {
           dispatch(getReviews(bookId));
           setpage(1);
           enqueueSnackbar("Comment successfully!", { variant: "success" });
+          setLoading(false);
+          setCanReview(false);
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
+          setLoading(false);
         },
       })
     );
@@ -155,9 +168,9 @@ const [files, setFiles] = useState([]);
     dispatch(getReviews(bookId, { ...reviews.pagination, pageIndex: value }));
   };
 
-  const onRemoveFile = (file:any) => {
-    setFiles(files.filter((x:any) => x?.preview !== file?.preview));
-  }
+  const onRemoveFile = (file: any) => {
+    setFiles(files.filter((x: any) => x?.preview !== file?.preview));
+  };
   return (
     <div className={classes.root}>
       <AppBar id="review" position="static" color="default">
@@ -307,23 +320,7 @@ const [files, setFiles] = useState([]);
             ) : null}
           </Grid>
 
-          <Grid item container id="form-add-review">
-            <Typography variant="h6"> Write a review</Typography>
-            <Grid item container spacing={2}>
-              <Grid item>
-                <Typography variant="body1"> Select a rating: </Typography>
-              </Grid>
-              <Grid item>
-                <Rating
-                  name="simple-controlled"
-                  className={classes.rate}
-                  value={rateValue}
-                  onChange={(event, newValue) => {
-                    setRateValue(newValue);
-                  }}
-                />
-              </Grid>
-            </Grid>
+          {data?.canReview && canReview && (
             <form className={classes.form}>
               <Grid item>
                 <h4>Add a title</h4>
@@ -352,7 +349,11 @@ const [files, setFiles] = useState([]);
                   onChange={(e) => setContent(e.target.value)}
                 />
               </Grid>
-              <Grid container direction="row" style={{ gap: 8 ,padding:"16px 0"}}>
+              <Grid
+                container
+                direction="row"
+                style={{ gap: 8, padding: "16px 0" }}
+              >
                 {files.map((file: any) => (
                   <Grid
                     item
@@ -384,11 +385,15 @@ const [files, setFiles] = useState([]);
                   className={classes.button}
                   onClick={handleSubmit}
                 >
-                  Submit Review
+                  {loading ? (
+                    <CircularProgress style={{ color: "#fff" }} />
+                  ) : (
+                    "Submit Review"
+                  )}
                 </Button>
               </Grid>
             </form>
-          </Grid>
+          )}
         </Grid>
       </Box>
     </div>
