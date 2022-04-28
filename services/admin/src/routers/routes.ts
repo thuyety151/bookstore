@@ -7,6 +7,7 @@ import {
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
   ROUTE_EXAMPLE,
+  ROUTE_IMPORT_DATA,
   ROUTE_LOGIN,
   ROUTE_ORDERS,
   ROUTE_ORDER_CREATE,
@@ -32,6 +33,7 @@ import CouponsPage from "pages/coupon/CouponPage";
 import ReportPage from "pages/report/ReportPage";
 import LoginPage from "pages/login/LoginPage";
 import Dashboard from "pages/dashboard/Dashboard";
+import ImportData from "pages/import-data/ImportData";
 
 export const routePage: Route[] = [
   {
@@ -144,6 +146,12 @@ export const routes: Route[] = [
     path: ROUTE_EXAMPLE,
     name: "Example",
     component: Example,
+    exact: true,
+  },
+  {
+    path: ROUTE_IMPORT_DATA,
+    name: "Import Data",
+    component: ImportData,
     exact: true,
   },
 ];

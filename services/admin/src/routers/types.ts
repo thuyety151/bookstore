@@ -11,6 +11,7 @@ export const ROUTE_CATEGORIES = "/categories";
 export const ROUTE_ORDERS = "/orders";
 export const ROUTE_SETTINGS = "/settings";
 export const ROUTE_COUPONS = "/coupons";
+export const ROUTE_IMPORT_DATA = "/import-data";
 export const ROUTE_USERS = "/users";
 export const ROUTE_ORDER_DETAIL = "/orders/:orderId";
 export const ROUTE_PRODUCT_DETAIL = "/products/:bookId";
@@ -44,6 +45,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_PRODUCT_ADD]: { permissions: [sharedTypes.ROLE_ADMIN] },
   [ROUTE_REPORT]: { permissions: [sharedTypes.ROLE_ADMIN] },
   [ROUTE_EXAMPLE]: { permissions: [sharedTypes.ROLE_ADMIN] },
+  [ROUTE_IMPORT_DATA]: { permissions: [sharedTypes.ROLE_ADMIN] },
 };
 
 export type AppRoute =
@@ -102,7 +104,11 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     icon: "confirmation_number",
     pathName: ROUTE_COUPONS,
   },
-
+  {
+    title: "Import Data",
+    icon: "backup",
+    pathName: ROUTE_IMPORT_DATA,
+  },
   // {
   //   title: "Users",
   //   icon: "people_outline",
