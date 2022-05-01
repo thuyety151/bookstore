@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220430084347_AddChatMessages")]
+    partial class AddChatMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -898,11 +900,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.ChatMessage", b =>
                 {
                     b.HasOne("Domain.AppUser", "From")
-                        .WithMany("SentMessages")
+                        .WithMany()
                         .HasForeignKey("FromId");
 
                     b.HasOne("Domain.AppUser", "To")
-                        .WithMany("ReceivedMessages")
+                        .WithMany()
                         .HasForeignKey("ToId");
                 });
 
