@@ -43,6 +43,7 @@ namespace Persistence
                 .HasForeignKey(x => x.CouponId);
 
             builder.Entity<BookAttribute>(x => x.HasKey(x => new { x.BookId, x.AttributeId }));
+            
         }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -63,5 +64,6 @@ namespace Persistence
         public DbSet<BookAttribute> BookAttributes { get; set; }
         public DbSet<ConfigHomePage> ConfigHomePages { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
     }
 }
