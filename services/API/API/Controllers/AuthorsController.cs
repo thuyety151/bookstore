@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Application.Authors;
 using Application.Core;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,7 +19,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new AuthorsForSale.Query(){SearchString = searchString}));
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> Upsert(Author authorParams)
+        {
+            return HandleResult(await Mediator.Send(new Upsert.Command() { AuthorParams = authorParams }));
+        }
         
     }
 }
