@@ -146,7 +146,7 @@ const ListBookForSale: React.FC = () => {
                 >
                   {sortValue.map((x, index) => {
                     return (
-                      <MenuItem key={index} value={x as any}>
+                      <MenuItem key={`sort-value-${index}`} value={x as any}>
                         {x.description}
                       </MenuItem>
                     );
@@ -169,7 +169,11 @@ const ListBookForSale: React.FC = () => {
                 >
                   {defaultItems.map((book, index) => {
                     return (
-                      <Grid item className="books-for-sale-item" key={index}>
+                      <Grid
+                        item
+                        className="books-for-sale-item"
+                        key={`book-default-${index}`}
+                      >
                         <Paper
                           className={classes.paper}
                           variant="outlined"
@@ -197,7 +201,11 @@ const ListBookForSale: React.FC = () => {
                 >
                   {booksState.data.map((book, index) => {
                     return (
-                      <Grid item className="books-for-sale-item" key={index}>
+                      <Grid
+                        item
+                        className="books-for-sale-item"
+                        key={`booksState-${index}`}
+                      >
                         <BestSellerComponent item={book} />
                       </Grid>
                     );
@@ -215,7 +223,11 @@ const ListBookForSale: React.FC = () => {
                 >
                   {booksState.data.map((book, index) => {
                     return (
-                      <Grid item className="books-for-sale-item" key={index}>
+                      <Grid
+                        item
+                        className="books-for-sale-item"
+                        key={`books-for-sale-item -state-${index}`}
+                      >
                         <BestSellerComponent item={book} />
                       </Grid>
                     );

@@ -20,7 +20,6 @@ function Categories() {
   const history = useHistory();
   const dispatch = useDispatch();
   const rootCategoryState = useSelector((state: RootStore) => state.category);
-  console.log(rootCategoryState);
 
   const handleNavigateToCate = (id: string) => {
     history.push(generatePath(ROUTE_BOOKS_FOR_SALE_CATE, { categoryId: id }));

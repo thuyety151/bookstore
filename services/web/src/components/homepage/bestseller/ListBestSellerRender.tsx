@@ -13,7 +13,7 @@ import { getBestSelling } from "../../../redux/actions/books/getBestSelling";
 import { Predicate, ROUTE_BOOKS_FOR_SALE } from "../../../routers/types";
 import { Book } from "../../../model";
 import "./styles.scss";
-import defaultBookUrl from "../../../assets/images/default.jpeg"
+import defaultBookUrl from "../../../assets/images/default.jpeg";
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
@@ -24,11 +24,9 @@ const defaultItems = [
   <img className="image" src={defaultBookUrl} alt="img" />,
   <img className="image" src={defaultBookUrl} alt="img" />,
   <img className="image" src={defaultBookUrl} alt="img" />,
-  <img className="image"src={defaultBookUrl} alt="img" />,
-  <img className="image" src={defaultBookUrl} alt="img" />
-]
-
-
+  <img className="image" src={defaultBookUrl} alt="img" />,
+  <img className="image" src={defaultBookUrl} alt="img" />,
+];
 
 const SlideEffect: React.FC = () => {
   const classes = useStyles();
@@ -48,14 +46,9 @@ const SlideEffect: React.FC = () => {
     );
   };
 
-  const defaultThumbItems = defaultItems.map((item : any, index : any) => {
-    return  (
-        <div className="thumb">
-            {item}
-        </div>
-    );
-});
-
+  const defaultThumbItems = defaultItems.map((item: any, index: any) => {
+    return <div className="thumb">{item}</div>;
+  });
 
   const items = state.data.map((item, index) => {
     return (
@@ -78,7 +71,7 @@ const SlideEffect: React.FC = () => {
       setThumbIndex(thumbIndex - 1);
     }
   };
-  
+
   const syncThumbs = (e: any) => {
     setThumbIndex(e.item);
   };

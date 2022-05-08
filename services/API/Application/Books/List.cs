@@ -158,6 +158,10 @@ namespace Application.Books
                             break;
                     }
                 }
+                if(!string.IsNullOrWhiteSpace(request.Params.Keywords))
+                {
+                    query = query.Where(x => x.Book.Name.Contains(request.Params.Keywords));
+                }
 
 
                 var booksDto = query.ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
