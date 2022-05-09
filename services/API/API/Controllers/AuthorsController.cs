@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Application.Authors;
 using Application.Core;
@@ -25,6 +26,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() { AuthorParams = authorParams }));
         }
-        
+        [HttpGet]
+        public async Task<IActionResult> GetAuthor(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Detail.Query(){Id = id}));
+        }
     }
 }

@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import addressReducer from "./addressReducer";
 import attributeReducer from "./attributeReducer";
 import authenticationReducer from "./authenticationReducer";
+import authorReducer from "./authorReducer";
 import categoryReducer from "./categoryReducer";
 import couponReducer from "./couponReducer";
 import languageReducer from "./languageReducer";
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   reports: reportReducer,
   settings: settingsReducer,
   authentication: authenticationReducer,
+  authors: authorReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
