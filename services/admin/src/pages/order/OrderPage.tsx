@@ -95,7 +95,7 @@ const OrderPage: React.FC = () => {
       <FilterContainer />
       <Grid container className={clsx(classes.actionsContainer, "pt-md")}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-          <AntTab label="All" />
+          <AntTab label="All" value="" />
           <AntTab label="Ready To Pick" value="Ready To Pick" />
           <AntTab label="Cancel" value="Cancel" />
         </AntTabs>
