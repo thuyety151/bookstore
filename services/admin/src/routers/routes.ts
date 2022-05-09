@@ -3,6 +3,7 @@ import Error404 from "../pages/Error404";
 import MainLayout from "../layout/MainLayout";
 import {
   ROUTE_ATTRIBUTES,
+  ROUTE_AUTHORS,
   ROUTE_CATEGORIES,
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
@@ -32,6 +33,7 @@ import CouponsPage from "pages/coupon/CouponPage";
 import ReportPage from "pages/report/ReportPage";
 import LoginPage from "pages/login/LoginPage";
 import Dashboard from "pages/dashboard/Dashboard";
+import AuthorPage from "pages/author/AuthorPage";
 
 export const routePage: Route[] = [
   {
@@ -57,49 +59,49 @@ export const routePage: Route[] = [
 export const routes: Route[] = [
   {
     path: ROUTE_DASHBOARD,
-    name: "Example",
+    name: "Dashboard",
     component: Dashboard,
     exact: true,
   },
   {
     path: ROUTE_PRODUCTS,
-    name: "Book",
+    name: "Products",
     component: ProductPage,
     exact: true,
   },
   {
     path: ROUTE_ATTRIBUTES,
-    name: "Error",
+    name: "Attributes",
     component: AttributePage,
     exact: true,
   },
   {
     path: ROUTE_CATEGORIES,
-    name: "Category",
+    name: "Categories",
     component: CategoryPage,
     exact: true,
   },
   {
     path: ROUTE_ORDERS,
-    name: "Error",
+    name: "Orders",
     component: OrderPage,
     exact: true,
   },
   {
     path: ROUTE_SETTINGS,
-    name: "Error",
+    name: "Settings",
     component: SettingsPage,
     exact: true,
   },
   {
     path: ROUTE_COUPONS,
-    name: "Coupon",
+    name: "Coupons",
     component: CouponsPage,
     exact: true,
   },
   {
     path: ROUTE_REPORT,
-    name: "Report",
+    name: "Dashboard",
     component: ReportPage,
     exact: true,
   },
@@ -111,7 +113,7 @@ export const routes: Route[] = [
   },
   {
     path: ROUTE_ORDER_DETAIL,
-    name: "Order",
+    name: "Order Detail",
     component: OrderEditPage,
     exact: true,
   },
@@ -135,8 +137,15 @@ export const routes: Route[] = [
   },
   {
     path: ROUTE_PRODUCT_ADD,
-    name: "Add product",
+    name: "Add Product",
     component: ProductDetailPage,
+    exact: true,
+    parents: [ROUTE_PRODUCTS],
+  },
+  {
+    path: ROUTE_AUTHORS,
+    name: "Authors",
+    component: AuthorPage,
     exact: true,
   },
   {

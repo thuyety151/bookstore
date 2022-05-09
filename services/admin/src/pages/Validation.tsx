@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import VInput from "components/form/VInput";
 import { TextField } from "@material-ui/core";
@@ -10,7 +10,7 @@ const Validation: React.FC = () => {
   const [form, setForm] = useState("");
   const [submit, setSubmit] = useState(false);
 
-  const inputRef = useRef("");
+  // const inputRef = useRef("");
 
   // useEffect(() => {
   //   console.log("model", model);
@@ -30,11 +30,9 @@ const Validation: React.FC = () => {
     // }
     // console.log(inputRef?.current?.value);
     setSubmit(true);
-    console.log(inputRef.current);
     document.getElementById("formm")?.focus();
     document.getElementById("formm")?.blur();
     // console.log(inputRef.current.);
-    console.log("click");
     // inputRef?.current?.blur();
   };
 

@@ -14,6 +14,7 @@ import {
 import ContainedButton from "components/button/ContainedButton";
 import InputSelect from "components/form/InputSelect";
 import VInput from "components/form/VInput";
+import HeaderPage from "components/headerPage/HeaderPage";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,11 +96,9 @@ const SettingsPage: React.FC = () => {
     ]);
   };
   return (
-    <div style={{ margin: "0 16px" }}>
+    <div style={{ margin: "0 5rem" }}>
+      <HeaderPage title="Settings for Homepage" />
       <Paper className={classes.root} variant="outlined">
-        <Typography variant="h5" className={classes.name}>
-          Settings for Homepage
-        </Typography>
         <Grid
           container
           alignItems="center"

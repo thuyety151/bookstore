@@ -1,5 +1,6 @@
 import {
   createStyles,
+  Divider,
   Grid,
   makeStyles,
   MenuItem,
@@ -22,6 +23,7 @@ import { getListParent } from "redux/actions/category/getAction";
 import { upsertCategory } from "redux/actions/category/postAction";
 import { Media } from "model/media";
 import { RootStore } from "redux/store";
+import clsx from "clsx";
 
 export type AddFormProps = {
   model?: Category | null;
@@ -117,11 +119,14 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     });
   };
   return (
-    <div className={classes.root}>
-      <Paper variant="outlined" style={{ padding: "16px" }}>
+    <div className={clsx(classes.root)}>
+      <Paper variant="outlined" className={clsx("pa-xl", "border-radius-12")}>
         <Grid>
           {!props.model && (
-            <Typography className="bolder">Add new category</Typography>
+            <div className="card-header">
+              <Typography className="bolder">Add new category</Typography>
+              <Divider />
+            </div>
           )}
           <br />
           <Typography>Name</Typography>

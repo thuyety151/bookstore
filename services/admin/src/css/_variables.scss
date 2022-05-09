@@ -1,0 +1,58 @@
+$var-pixel: (
+  "none": 0,
+  "xs": 4,
+  "sm": 8,
+  "md": 16,
+  "lg": 24,
+  "xl": 32,
+);
+
+@each $name, $value in $var-pixel {
+  .px-#{$name} {
+    padding-left: #{$value}px !important;
+    padding-right: #{$value}px !important;
+  }
+  .py-#{$name} {
+    padding-top: #{$value}px !important;
+    padding-bottom: #{$value}px !important;
+  }
+  .pl-#{$name} {
+    padding-left: #{$value}px !important;
+  }
+  .pr-#{$name} {
+    padding-right: #{$value}px !important;
+  }
+  .pt-#{$name} {
+    padding-top: #{$value}px !important;
+  }
+  .pb-#{$name} {
+    padding-bottom: #{$value}px !important;
+  }
+  .pa-#{$name} {
+    padding: #{$value}px !important;
+  }
+  //margin
+  .mx-#{$name} {
+    margin-left: #{$value}px !important;
+    margin-right: #{$value}px !important;
+  }
+  .my-#{$name} {
+    margin-top: #{$value}px !important;
+    margin-bottom: #{$value}px !important;
+  }
+  .ml-#{$name} {
+    margin-left: #{$value}px !important;
+  }
+  .mr-#{$name} {
+    margin-right: #{$value}px !important;
+  }
+  .mt-#{$name} {
+    margin-top: #{$value}px !important;
+  }
+  .mb-#{$name} {
+    margin-bottom: #{$value}px !important;
+  }
+  .ma-#{$name} {
+    margin: #{$value}px !important;
+  }
+}

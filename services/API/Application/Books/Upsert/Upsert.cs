@@ -88,27 +88,12 @@ namespace Application.Books.Upsert
                         };
                         book.Categories.Add(bookCategory);
                     }
-
-                    //Add main photo
-                    if (request.BookParams.Media.Any())
-                    {
-                        var photo = _context.Media.FirstOrDefault(x =>
-                            x.Id == request.BookParams.Media.FirstOrDefault().Id);
-
-                        if (photo != null)
-                        {
-                            photo.IsMain = true;
-                            photo.IsVideo = false;
-                            photo.Name = book.Name;
-
-                            book.Media.Add(photo);
-                        }
-                    }
-
+                    UpsertMedia(book,request);
                     await _context.Books.AddAsync(book);
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(book.Id);
                 }
+
                 //Update
                 else
                 {
@@ -123,7 +108,7 @@ namespace Application.Books.Upsert
                     {
                         return Result<Guid>.Failure("Book does not exist");
                     }
-                    
+
                     bookToUpdate.Description = request.BookParams.Description;
                     bookToUpdate.Dimensions = request.BookParams.Dimensions;
                     bookToUpdate.IsPublic = request.BookParams.IsPublic;
@@ -133,19 +118,19 @@ namespace Application.Books.Upsert
                     bookToUpdate.PublicationDate = request.BookParams.PublicationDate;
                     bookToUpdate.Publisher = request.BookParams.Publisher;
                     bookToUpdate.PublicationCountry = request.BookParams.PublicationCountry;
-                    
+
                     if (!string.IsNullOrWhiteSpace(request.BookParams.AuthorId))
                     {
-                        bookToUpdate.Author =                                                                       
+                        bookToUpdate.Author =
                             _context.Authors.FirstOrDefault(x => x.Id.ToString() == request.BookParams.AuthorId);
                     }
 
                     if (!string.IsNullOrWhiteSpace(request.BookParams.LanguageId))
                     {
-                        bookToUpdate.Language = _context.Languages.FirstOrDefault(x =>   
-                            x.Id.ToString() == request.BookParams.LanguageId);            
+                        bookToUpdate.Language = _context.Languages.FirstOrDefault(x =>
+                            x.Id.ToString() == request.BookParams.LanguageId);
                     }
-                    
+
                     if (request.BookParams.Attributes != null)
                     {
                         //Remove old attribute list
@@ -171,7 +156,7 @@ namespace Application.Books.Upsert
                     {
                         var categories =
                             _context.Categories.Where(x => request.BookParams.CategoryIds.Contains(x.Id.ToString()));
-                        
+
                         //remove old categories
                         bookToUpdate.Categories.Clear();
                         foreach (var category in categories)
@@ -181,32 +166,44 @@ namespace Application.Books.Upsert
                                 Category = category
                             };
                             bookToUpdate.Categories.Add(bookCategory);
+                            
                         }
                     }
-                    
-                                                                                                    
-                    //Add main photo                                                              
-                    if (request.BookParams.Media.Any() && !bookToUpdate.Media.Equals(request.BookParams.Media))          
-                    {                                                                             
-                        var photo = _context.Media.FirstOrDefault(                                
-                            x => x.Id == request.BookParams.Media.FirstOrDefault().Id);                         
-                                                                                
-                        if (photo != null)                                                        
-                        {                                                                         
-                            photo.IsMain = true;                                                  
-                            photo.IsVideo = false;                                                
-                            photo.Name = bookToUpdate.Name;                                               
-                                                                                
-                            bookToUpdate.Media.Add(photo);                                                
-                        }                                                                         
-                    }
-                    var result = await _context.SaveChangesAsync() > 0; 
-                    
-                    if(result)
-                        return Result<Guid>.Success(bookToUpdate.Id);                                         
+
+                    // Update book medias
+                     bookToUpdate.Media.Clear();  
+                     UpsertMedia(bookToUpdate,request);
+                    var result = await _context.SaveChangesAsync() > 0;
+
+                    if (result)
+                        return Result<Guid>.Success(bookToUpdate.Id);
                 }
 
                 return Result<Guid>.Failure("Error when add or update book");
+            }
+            private void UpsertMedia(Book book, Command request)
+            {
+                if (request.BookParams.Media.Any())
+                {
+                    var photo = _context.Media.FirstOrDefault(x =>
+                        x.Id == request.BookParams.Media.FirstOrDefault().Id);
+
+                    if (photo != null)
+                    {
+                        photo.IsMain = true;
+                        photo.IsVideo = false;
+                        photo.Name = book.Name;
+                            
+                        book.Media.Add(photo);
+
+                        var mediaIds = request.BookParams.Media.Where(x => x.Id != photo.Id).Select(x => x.Id).ToList();
+                        if (mediaIds.Count > 0)
+                        {
+                            var medias = _context.Media.Where(x => mediaIds.Contains(x.Id)).ToList();
+                            medias.ForEach(x => book.Media.Add(x));
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import HeaderPage from "components/headerPage/HeaderPage";
+import FilterContainer from "components/table/FilterContainer";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
@@ -13,11 +15,10 @@ const AttributePage: React.FC = () => {
   const { success } = useSelector((state: RootStore) => state.attributes);
 
   return (
-    <div style={{ margin: "0 16px" }}>
-      <Typography variant="h5" className={classes.title}>
-        Attributes
-      </Typography>
-      <Grid container justifyContent="space-around">
+    <div style={{ margin: "0 5rem" }}>
+      <HeaderPage title="Attributes" />
+      <FilterContainer />
+      <Grid container justifyContent="space-between" className="pt-md">
         <Grid item xs={6} className={classes.table}>
           <AttributeTable setModelEdit={setModelEdit} />
         </Grid>

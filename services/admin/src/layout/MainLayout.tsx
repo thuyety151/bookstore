@@ -25,10 +25,11 @@ import { Switch, useHistory, useLocation } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 import { routes } from "../routers/routes";
 import PrivateRoute from "../components/route/PrivateRoute";
-import { Grid } from "@material-ui/core";
+import { Badge, Grid } from "@material-ui/core";
 import MenuAccount from "./components/MenuAccount";
+import "./styles.scss";
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const MainLayout: React.FC = () => {
   const classes = useStyles();
@@ -56,11 +57,10 @@ const MainLayout: React.FC = () => {
           <Grid container alignItems="center" justifyContent="space-between">
             <Grid item className={classes.headerItem}>
               <IconButton
-                color="inherit"
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 edge="start"
-                className={clsx(classes.menuButton, {
+                className={clsx(classes.menuButton, "text-gray", {
                   [classes.hide]: open,
                 })}
               >
@@ -71,15 +71,28 @@ const MainLayout: React.FC = () => {
               </Typography>
             </Grid>
             <Grid item>
-              <MenuAccount />
+              <Grid container alignItems="center">
+                <Badge badgeContent={4} color="secondary" className="mr-md">
+                  <IconButton
+                    size="small"
+                    color="secondary"
+                    className="icon-noti"
+                  >
+                    <img src="img/icons/bell.svg" alt="icon-noti" />
+                  </IconButton>
+                </Badge>
+                <Typography>Admin</Typography>
+                <MenuAccount />
+              </Grid>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
         variant="permanent"
-        className={clsx(classes.drawer, {
+        className={clsx(classes.drawer, "drawer", {
           [classes.drawerOpen]: open,
+          // "drawer-mini": !open,
           [classes.drawerClose]: !open,
         })}
         classes={{
@@ -147,6 +160,10 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      color: "#000",
+      backgroundColor: "#fff",
+      boxShadow: "none",
+      borderBottom: "1px solid #E4E9F2",
     },
     appBarShift: {
       marginLeft: drawerWidth,
@@ -197,6 +214,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3, 0),
       minHeight: "100vh",
+      backgroundColor: "var(--page-bg-color)",
     },
     headerItem: {
       display: "flex",

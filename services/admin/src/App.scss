@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
+@import "./css/_ultility.scss";
+@import "./css/_variables.scss";
+
+.App {
+  font-family: "Inter", sans-serif;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  --color-pink-bg: #fff6f6;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.text-bold {
+  font-weight: 500 !important;
+  display: inherit;
+}
+.MuiTypography-root {
+  font-family: "Inter", sans-serif !important;
+  display: inherit;
+}
+.pink-background {
+  background-color: #fff6f6;
+}
+.MuiTableCell-root {
+  font-family: "Inter", sans-serif !important;
+  --color-pink-bg: #fff6f6;
+}
+.MuiFormLabel-rootroot {
+  font-family: "Inter", sans-serif !important;
+  display: inherit;
+}
+.text-error {
+  color: red !important;
+}
+label {
+  font-family: "Inter", sans-serif !important;
+  color: black;
+}
+.text-gray {
+  color: #8d8d94 !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.bg-primary {
+  background-color: #1d2326;
+}
+.MuiButton-startIcon {
+  margin: 0 !important;
+  display: inherit;
+}
+.MuiButtonBase-root {
+  text-transform: inherit !important;
+}
+.primary {
+  color: #2271b1 !important;
+}
+.bolder {
+  font-weight: 700 !important;
+}
+.highlight-info {
+  color: #2271b1 !important;
+  text-decoration: underline;
+}
+.p-x-8 {
+  padding: 8px 0;
+}
+.m-x-8 {
+  margin: 8px 0 !important;
+}
+.btn-view {
+  background-color: #f0f0f5 !important;
+  color: #a2a2a8 !important;
+  margin: 4px !important;
+}
+.btn-delete {
+  background-color: #faded7 !important;
+  color: #e13610 !important;
+  margin: 4px !important;
+}
+.btn-edit {
+  background-color: #e2edfe !important;
+  color: #639dfa !important;
+  margin: 4px !important;
+}
+.MuiButton-root {
+  min-width: inherit !important;
+}
+.border-gray {
+  color: #e4e9f2;
+}
+.card-header {
+  .MuiTypography-root {
+    padding-bottom: 20px;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .MuiDivider-root {
+    margin: 0 -32px;
+  }
+}
+.p-t-md {
+  padding-top: 16px;
+}
+.btn-fill {
+  background-color: var(--item-selected) !important;
+  color: #fff !important;
+}
+.btn-outlined {
+  background: #fff !important;
+  color: var(--text-grey) !important;
+  border: 2px solid #dee7f3 !important;
+}
+.border-radius-12 {
+  border-radius: 12px !important;
+}
