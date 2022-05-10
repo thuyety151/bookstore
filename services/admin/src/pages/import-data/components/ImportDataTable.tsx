@@ -14,8 +14,9 @@ import EnhancedTableHead, {
 import { Button } from "@material-ui/core";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
-import { getCouponPagination } from "redux/actions/coupon/getAction";
 import { format } from "date-fns";
+import { getImportDataPagination } from "redux/actions/importData/getAction";
+import { Media } from "model/media";
 
 const headCells: HeadCell[] = [
   {
@@ -46,7 +47,7 @@ const headCells: HeadCell[] = [
     id: "actions",
     numeric: true,
     disablePadding: false,
-    label: "",
+    label: "Download",
   },
 ];
 
@@ -78,15 +79,15 @@ const ImportDataTable: React.FC = () => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const couponState = useSelector((state: RootStore) => state.coupons);
+  const state = useSelector((state: RootStore) => state.importData);
   const dispatch = useDispatch();
-  const { pagination } = useSelector((state: RootStore) => state.coupons);
+  const { pagination } = useSelector((state: RootStore) => state.importData);
 
   useEffect(() => {
-    if (couponState.success) {
+    if (state.success) {
       // props.setModelEdit(null);
       dispatch(
-        getCouponPagination({
+        getImportDataPagination({
           pagination: {
             ...pagination,
             pageIndex: page + 1,
@@ -98,11 +99,11 @@ const ImportDataTable: React.FC = () => {
       );
     }
     // eslint-disable-next-line
-  }, [couponState.success]);
+  }, [state.success]);
 
   useEffect(() => {
     dispatch(
-      getCouponPagination({
+      getImportDataPagination({
         pagination: {
           ...pagination,
           pageIndex: page + 1,
@@ -138,31 +139,33 @@ const ImportDataTable: React.FC = () => {
           >
             <EnhancedTableHead
               classes={classes}
-              // order={order}
-              // orderBy={orderBy}
               rowCount={sampleData.length}
               headerCells={headCells}
-              loading={couponState.requesting}
+              loading={state.requesting}
             />
             <TableBody>
-              {sampleData?.map((row: any, index: number) => {
+              {state.data?.map((row: Media, index: number) => {
                 return (
                   <TableRow hover tabIndex={-1} key={`import-data-${index}`}>
                     <TableCell align="center" padding="checkbox">
                       {index + 1}
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.datetime}</TableCell>
+                    <TableCell>
+                      {format(new Date(row.createdAt), "dd/MM/yyyy")}
+                    </TableCell>
                     <TableCell
-                      className={row.status ? classes.success : classes.failed}
+                      className={
+                        row.isSuccess ? classes.success : classes.failed
+                      }
                     >
-                      {row.status ? "Success" : "Failed"}
+                      {row.isSuccess ? "Success" : "Failed"}
                     </TableCell>
 
                     <TableCell
                       style={{ display: "flex", justifyContent: "center" }}
                     >
-                      <Button variant="outlined">
+                      <Button variant="outlined" href={row.url}>
                         <span className="material-icons-outlined px-lg">
                           file_download
                         </span>
