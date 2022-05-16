@@ -1,3 +1,4 @@
+using System;
 namespace API.DTOs
 {
     public class UserDto
@@ -7,5 +8,6 @@ namespace API.DTOs
         public string Email { get; set; }
         public string Token { get; set; }
         public string Role { get; set; }
+        public String PhotoUrl { get; set; }
     }
 }
