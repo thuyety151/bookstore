@@ -14,4 +14,5 @@ export default interface Route {
   component: any;
   props?: any;
   children?: SpecificRouteType[];
+  parents?: string[];
 }

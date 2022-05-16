@@ -2,9 +2,8 @@ import { Button, makeStyles } from "@material-ui/core";
 import ImageReview from "components/imageUpload/ImageReview";
 import { Media } from "model/media";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addPhoto, deletePhoto } from "redux/actions/media/postAction";
-import { RootStore } from "redux/store";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles({
@@ -34,7 +33,7 @@ interface Props {
 export default function ProductImage({ media, changeImage }: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  let { data } = useSelector((state: RootStore) => state.media);
+  let data = typeof media !== "undefined" ? media[0] : ({} as Media);
   const [addPhotoMode, setAddPhotoMode] = useState(true);
   const [isNewPhoto, setNewPhoto] = useState(false);
   const initMedia: Media = {

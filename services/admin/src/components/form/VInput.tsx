@@ -33,7 +33,7 @@ const VInput: React.FC<TextFieldProps & VRule> = (props) => {
         id="outlined-error-helper-text"
         helperText={head(rules.filter((e) => !!e))}
         variant="outlined"
-        value={value}
+        value={value ||""}
         onBlur={handleBlur}
       />
     </div>

@@ -1,0 +1,13 @@
+.dialog-confirm {
+  .MuiDialog-paper {
+    border-radius: 12px;
+  }
+  &__title {
+    padding-bottom: 20px;
+    font-weight: 600 !important;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .MuiDialogTitle-root {
+  }
+}

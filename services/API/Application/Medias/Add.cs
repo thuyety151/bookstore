@@ -34,6 +34,7 @@ namespace Application.Medias
                 {
                     Id = mediaUploadResult.PublicId,
                     Url = mediaUploadResult.Url,
+                    Name=request.File.FileName
                 };
 
                 _context.Media.Add(photo);

@@ -1,0 +1,46 @@
+.book-images-container {
+  list-style: none;
+  #viewer {
+    img {
+      width: 100%;
+      object-fit: contain;
+      height: 30rem;
+    }
+  }
+  .others {
+    gap: 8px;
+    display: flex;
+    img {
+      width: calc((100% - 4 * 8px) / 5);
+      border-radius: 8px;
+      object-fit: contain;
+    }
+    .selected {
+      border: 2px solid rgb(255, 57, 69);
+    }
+  }
+  .more {
+    position: relative;
+    img {
+      height: 100% !important;
+      width: 100% !important;
+    }
+    .overlay {
+      border-radius: 8px;
+      display: flex;
+      background: #000;
+      opacity: 0.7;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      align-items: center;
+      justify-content: center;
+      p {
+        color: #fff;
+        text-align: center;
+      }
+    }
+  }
+}

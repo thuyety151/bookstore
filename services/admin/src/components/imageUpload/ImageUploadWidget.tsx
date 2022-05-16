@@ -1,11 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 interface Props {
-  setFiles : (files: any) => void
+  setFiles: (files: any) => void;
+  files: any;
 }
-export default function ImageUploadWidget({setFiles}: Props) {
+export default function ImageUploadWidget({ setFiles, files }: Props) {
   const dzStyles = {
     border: "dashed 3px #eee",
     borderColor: "#eee",
@@ -18,25 +19,39 @@ export default function ImageUploadWidget({setFiles}: Props) {
   const dzActive = {
     borderColor: "green",
   };
- 
-  
+
+  const [currentFiles, setCurrentFiles] = useState(files);
+
   const onDrop = useCallback(
     (acceptedFiles) => {
-      console.log(acceptedFiles);
-      setFiles(
-        acceptedFiles.map((file: any) =>
+      setFiles([
+        ...currentFiles,
+        ...acceptedFiles.map((file: any) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
-        )
-      );
+        ),
+      ]);
+      setCurrentFiles([
+        ...currentFiles,
+        ...acceptedFiles.map((file: any) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        ),
+      ]);
     },
-    [setFiles]
+    [currentFiles, setFiles]
   );
 
- 
+  useEffect(() => {
+    setCurrentFiles(files);
+  }, [files]);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/jpeg,image/png",
+  });
 
   return (
     <div
@@ -44,9 +59,8 @@ export default function ImageUploadWidget({setFiles}: Props) {
       style={isDragActive ? { ...dzStyles, ...dzActive } : dzStyles}
     >
       <input {...getInputProps()} />
-      <CloudUploadIcon/>
+      <CloudUploadIcon />
       <p>Upload image here</p>
     </div>
   );
 }
-

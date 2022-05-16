@@ -22,7 +22,6 @@ const productReducer = (
   state: ProductState = initState,
   payload: any
 ): ProductState => {
-  console.log("payyy:" + payload.type);
   switch (payload.type) {
     case ACTION_NAMES.GET_PRODUCT_PAGINATION.GET_PRODUCT_PAGINATION:
       return {

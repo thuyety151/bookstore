@@ -22,8 +22,6 @@ export const addPhoto  = (props : addPhotoType) => async (dispatch : any) => {
         headers : {'Content-type': 'multipart/form-data'}
     });
 
-    console.log(response);
-
     if(response.data?.isSuccess){
         dispatch({
             type: ACTION_NAMES.ADD_PHOTO.ADD_PHOTO_SUCCESS,

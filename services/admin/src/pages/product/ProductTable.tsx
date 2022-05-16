@@ -25,12 +25,8 @@ import { RootStore } from "redux/store";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import {
-  PUBLIC_URL,
-  ROUTE_PRODUCT_ADD,
-  ROUTE_PRODUCT_DETAIL,
-} from "routers/types";
-import { createBrowserHistory } from "history";
+import { PUBLIC_URL, ROUTE_PRODUCT_DETAIL } from "routers/types";
+// import { createBrowserHistory } from "history";
 import DialogConfirm from "components/dialog/DialogConfirm";
 import { useSnackbar } from "notistack";
 import { deleteBook } from "redux/actions/product/deleteAction";
@@ -100,7 +96,7 @@ export default function ProductTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const historyForAdd = createBrowserHistory({ forceRefresh: true });
+  // const historyForAdd = createBrowserHistory({ forceRefresh: true });
 
   const pagination = useSelector((state: RootStore) => state.books.pagination);
   const booksState = useSelector((state: RootStore) => state.books);
@@ -185,18 +181,18 @@ export default function ProductTable() {
       })
     );
   };
-  const navToAdd = () => {
-    historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
-  };
+  // const navToAdd = () => {
+  //   historyForAdd.push(generatePath(ROUTE_PRODUCT_ADD));
+  // };
   const navToDetail = (id: string) => {
     window.open(PUBLIC_URL.PRODUCT + id);
   };
 
   return (
     <div className={classes.root}>
-      <Button className={classes.btnAddNew} onClick={navToAdd}>
+      {/* <Button className={classes.btnAddNew} onClick={navToAdd}>
         Add New
-      </Button>
+      </Button> */}
       <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table

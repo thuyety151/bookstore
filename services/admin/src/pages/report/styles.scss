@@ -1,16 +1,45 @@
 .quick-view {
-  //   display: flex;
   padding: 0;
   .MuiPaper-root {
     width: 100% !important;
     margin-right: 20px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .MuiPaper-root:nth-child(1) {
+    box-shadow: -5px 0px 0px 0px #4a48bd;
+  }
+  .MuiPaper-root:nth-child(2) {
+    box-shadow: -5px 0px 0px 0px #038fe2;
+  }
+  .MuiPaper-root:nth-child(3) {
+    box-shadow: -5px 0px 0px 0px #0ab581;
+  }
+  .MuiPaper-root:nth-child(4) {
+    box-shadow: -5px 0px 0px 0px #f15290;
+  }
+  .MuiPaper-root:nth-child(5) {
+    box-shadow: -5px 0px 0px 0px #879dbf;
   }
 }
+
 .charts {
   .MuiPaper-root {
     width: 100%;
-    padding: 20px;
+    padding: 16px;
+    border-radius: 12px;
   }
+  // .card-header {
+  //   .MuiTypography-root {
+  //     padding-bottom: 20px;
+  //     font-weight: 600;
+  //     font-size: 20px;
+  //     letter-spacing: 1px;
+  //   }
+  //   .MuiDivider-root {
+  //     margin: 0 -20px;
+  //   }
+  // }
 }
 .report {
   padding: 0 5rem;
@@ -26,4 +55,51 @@
   height: auto !important;
   justify-items: center;
   display: grid;
+}
+
+.report-options-container {
+  button {
+    background-color: var(--item-selected);
+    padding: 8px 20px;
+    color: #fff;
+    margin-left: 8px;
+  }
+
+  .report-options {
+    background: #dbe7ff;
+    height: 5rem;
+    border-radius: 16px;
+    align-items: center;
+    display: flex;
+    padding: 16px;
+    justify-content: space-between;
+    .MuiList-root {
+      display: flex;
+      gap: 16px;
+      .MuiListItem-button {
+        background: #fff;
+        border: 2px solid #dee7f3;
+        border-radius: 12px;
+        // padding: 10px 16px;
+        width: fit-content;
+        &:hover {
+          // color: ;
+          background: #fff;
+          // border-color: var(--card-active);
+        }
+        .MuiTypography-root {
+          font-weight: 600;
+        }
+      }
+      .Mui-selected {
+        border-color: var(--item-selected);
+      }
+    }
+    .MuiOutlinedInput-notchedOutline {
+      border: 2px solid #dee7f3;
+      padding: 10px 16px !important;
+      background: #fff !important;
+      border-radius: 12px;
+    }
+  }
 }
