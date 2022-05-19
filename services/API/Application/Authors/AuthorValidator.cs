@@ -8,6 +8,7 @@ namespace Application.Authors
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Media).NotEmpty();
+            RuleFor(x => x.Description).NotEmpty();
 
         }
     }
