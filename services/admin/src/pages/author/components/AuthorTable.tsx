@@ -131,6 +131,7 @@ const AuthorTable: React.FC<AttributeTableProps> = (props) => {
         data: {
           ...modelToDelete,
           name: modelToDelete?.name || "",
+          description: modelToDelete?.description || "",
           medias: modelToDelete?.medias || [],
           isDeleted: true,
         },
