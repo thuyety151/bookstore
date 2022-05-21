@@ -367,37 +367,6 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.ChatMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Body")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FromId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ToId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromId");
-
-                    b.HasIndex("ToId");
-
-                    b.ToTable("ChatMessages");
-                });
-
             modelBuilder.Entity("Domain.ConfigHomePage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -476,6 +445,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsReviewed")
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -893,17 +865,6 @@ namespace Persistence.Migrations
                         .WithMany("SubCategories")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Domain.ChatMessage", b =>
-                {
-                    b.HasOne("Domain.AppUser", "From")
-                        .WithMany("SentMessages")
-                        .HasForeignKey("FromId");
-
-                    b.HasOne("Domain.AppUser", "To")
-                        .WithMany("ReceivedMessages")
-                        .HasForeignKey("ToId");
                 });
 
             modelBuilder.Entity("Domain.Item", b =>

@@ -94,6 +94,7 @@ namespace Application.Carts.Items
                         PictureUrl = bookAttribute.Book.Media.FirstOrDefault(x => x.IsMain)?.Url,
                         Quantity = request.ItemParams.Quantity,
                         StockStatus = StockStatus.InStock.ToString(),
+                        IsReviewed = false
                     };
                     
                     if (DateTime.Now >= bookAttribute.SalePriceStartDate && DateTime.Now <= bookAttribute.SalePriceEndDate)

@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
@@ -7,6 +9,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Enum;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -23,11 +26,13 @@ namespace Application.Books.Detail
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper,IHttpContextAccessor httpContextAccessor)
             {
                 _context = context;
                 _mapper = mapper;
+                _httpContextAccessor = httpContextAccessor;
             }
             public async Task<Result<BookDetailDto>> Handle(Query request, CancellationToken cancellationToken)
             {
@@ -47,7 +52,15 @@ namespace Application.Books.Detail
                 bookDetailDto.StockStatus = bookDetailDto.TotalStock > 0
                     ? StockStatus.InStock.ToString()
                     : StockStatus.OutOfStock.ToString();
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId != null)
+                {
+                    // check permission
+                    bool canReviewitems = _context.Orders.Include(x => x.Items).Any(x =>
+                        x.Items.Any(i => i.ProductId == request.Id && x.UserId.ToString() == userId && i.IsReviewed==false));
 
+                    bookDetailDto.CanReview = canReviewitems;
+                }
                 return Result<BookDetailDto>.Success(bookDetailDto);
             }
         }
