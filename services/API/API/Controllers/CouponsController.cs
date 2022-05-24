@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using Application.Coupons;
 using Application.Coupons.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -31,6 +32,22 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteCoupon(Delete.Command command)
         {
             return HandleResult(await Mediator.Send(command));
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("save-user-coupon")]
+        public async Task<IActionResult> SaveUserCoupon(SaveUserCoupon.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
+        
+        [HttpGet]
+        [Authorize]
+        [Route("user-coupons")]
+        public async Task<IActionResult> GetUserCoupons()
+        {
+            return HandleResult(await Mediator.Send(new ListUserCoupon.Query(){}));
         }
     }
 }

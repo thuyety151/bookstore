@@ -44,6 +44,8 @@ namespace Persistence
 
             builder.Entity<BookAttribute>(x => x.HasKey(x => new { x.BookId, x.AttributeId }));
             
+            builder.Entity<UserCoupon>().HasKey(uc => new { uc.UserId, uc.CouponId });
+            
         }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -65,5 +67,6 @@ namespace Persistence
         public DbSet<ConfigHomePage> ConfigHomePages { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<UserCoupon> UserCoupons { get; set; }
     }
 }

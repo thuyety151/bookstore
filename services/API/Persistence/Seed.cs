@@ -367,6 +367,42 @@ namespace Persistence
                         IsMain = true,
                         IsVideo = false
                     },
+                    new Media()
+                    {
+                        Id = "1000_F_291676005_IcSCl53QbU3ufMXkcueU5hHpCd9HL2mT_gdlx9d",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1653385134/1000_F_291676005_IcSCl53QbU3ufMXkcueU5hHpCd9HL2mT_gdlx9d.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "1000_F_291676143_GtsMEfoFeRQADmmeLg7MSiOxYE1ET9hZ_hcuwqt",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1653385219/1000_F_291676143_GtsMEfoFeRQADmmeLg7MSiOxYE1ET9hZ_hcuwqt.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "1000_F_291676484_c75u4ZW3kkGUOpoPLA8z5KheyhRlidNA_rcg5ah",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1653385222/1000_F_291676484_c75u4ZW3kkGUOpoPLA8z5KheyhRlidNA_rcg5ah.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "1000_F_305138551_NlXQ4mYosD5N0rSPqKWIWmq8lsgQIs7V_idzccw",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1653385222/1000_F_305138551_NlXQ4mYosD5N0rSPqKWIWmq8lsgQIs7V_idzccw.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    new Media()
+                    {
+                        Id = "1000_F_291678347_ldV3Fs2UXsVMe1fpkoTcluIjNh65z6ya_xdfec3",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1653385222/1000_F_291678347_ldV3Fs2UXsVMe1fpkoTcluIjNh65z6ya_xdfec3.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
+                    
                 };
                 medias.AddRange(mediaList);
                 await context.Media.AddRangeAsync(mediaList);
@@ -1696,35 +1732,62 @@ namespace Persistence
                     new Coupon()
                     {
                         Id = new Guid(),
-                        Code = "HOT30",
-                        Description = "Nothing",
+                        Code = "CASHB",
+                        Description = "CASH BACK - 50% OFF",
                         DiscountType = (int) DiscountType.Percentage,
-                        ExpireDate = DateTime.Now.AddMonths(1),
-                        MinSpend = 0,
+                        ExpireDate = DateTime.Now.AddMonths(2),
+                        MinSpend = 10,
                         IsDeleted = false,
-                        CouponAmount = 30
+                        CouponAmount = 50,
+                        Media = medias.FirstOrDefault(x => x.Id == "1000_F_291676005_IcSCl53QbU3ufMXkcueU5hHpCd9HL2mT_gdlx9d")
                     },
                     new Coupon()
                     {
                         Id = new Guid(),
-                        Code = "HOT50",
-                        Description = "50$",
+                        Code = "GROPEN",
+                        Description = "GRAND OPEN - 50$ OFF",
                         DiscountType = (int) DiscountType.FixedCart,
                         ExpireDate = DateTime.Now.AddMonths(2),
-                        MinSpend = 0,
+                        MinSpend = 10,
                         IsDeleted = false,
-                        CouponAmount = 50
+                        CouponAmount = 50,
+                        Media = medias.FirstOrDefault(x => x.Id == "1000_F_291676143_GtsMEfoFeRQADmmeLg7MSiOxYE1ET9hZ_hcuwqt")
                     },
                     new Coupon()
                     {
                         Id = new Guid(),
-                        Code = "30PER",
-                        Description = "30%",
+                        Code = "SNOW20",
+                        Description = "WINTER SALE - 20$ OFF",
+                        DiscountType = (int) DiscountType.FixedCart,
+                        ExpireDate = DateTime.Now,
+                        MinSpend = 5,
+                        IsDeleted = false,
+                        CouponAmount = 20,
+                        Media = medias.FirstOrDefault(x => x.Id == "1000_F_291678347_ldV3Fs2UXsVMe1fpkoTcluIjNh65z6ya_xdfec3")
+                    },
+                    new Coupon()
+                    {
+                        Id = new Guid(),
+                        Code = "BLACKF",
+                        Description = "BLACK FRIDAY - 30% OFF",
                         DiscountType = (int) DiscountType.Percentage,
                         ExpireDate = DateTime.Now,
-                        MinSpend = 0,
+                        MinSpend = 5,
                         IsDeleted = false,
-                        CouponAmount = 30
+                        CouponAmount = 30,
+                        Media = medias.FirstOrDefault(x => x.Id == "1000_F_291676484_c75u4ZW3kkGUOpoPLA8z5KheyhRlidNA_rcg5ah")
+                    },
+                    new Coupon()
+                    {
+                        Id = new Guid(),
+                        Code = "NEWY20",
+                        Description = "HAPPY NEW YEAR - 20% OFF",
+                        DiscountType = (int) DiscountType.Percentage,
+                        ExpireDate = DateTime.Now,
+                        MinSpend = 5,
+                        IsDeleted = false,
+                        CouponAmount = 20,
+                        Media = medias.FirstOrDefault(x => x.Id == "1000_F_305138551_NlXQ4mYosD5N0rSPqKWIWmq8lsgQIs7V_idzccw")
                     }
                 };
                 await context.Coupons.AddRangeAsync(couponList);
