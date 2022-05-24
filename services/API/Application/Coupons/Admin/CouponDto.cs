@@ -10,5 +10,6 @@ namespace Application.Coupons.Admin
         public double CouponAmount { get; set; }
         public int DiscountType { get; set; }
         public DateTime ExpireDate { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
