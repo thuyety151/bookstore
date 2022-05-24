@@ -19,5 +19,6 @@ export interface Detail {
     dimensions: string,
     publicationDate: string,
     publisher: string,
-    publicationCountry: string
+    publicationCountry: string,
+    canReview?: boolean
 }

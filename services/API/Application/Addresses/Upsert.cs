@@ -40,6 +40,7 @@ namespace Application.Addresses
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var id = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = _context.Users.Include(x => x.Address)
                     .FirstOrDefault(
                         x => x.Id == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));

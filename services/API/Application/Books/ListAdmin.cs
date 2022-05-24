@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using Domain.Enum;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace Application.Books
         public class Query : IRequest<Result<PagedList<BooksDto>>>
         {
             public PagingParams Params { get; set; }
+            public string Status { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<BooksDto>>>
@@ -33,7 +35,8 @@ namespace Application.Books
             public async Task<Result<PagedList<BooksDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var defaultAttributeId = _context.ConfigHomePages.FirstOrDefault()?.DefaultAttributeId;
-                var booksDto = _context.BookAttributes
+                var hi = StockStatus.InStock.ToString() == request.Status;
+                var books = _context.BookAttributes
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Categories)
                     .ThenInclude(x => x.Category)
@@ -45,12 +48,15 @@ namespace Application.Books
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Attribute)
                     .Where(x => x.Book.IsDeleted == false && x.AttributeId == defaultAttributeId)
-                    .OrderByDescending(x => x.Book.CreateDate)
-                    .ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
+                    .OrderByDescending(x => x.Book.CreateDate);
+                if (request.Status != null)
+                {
+                    books = (IOrderedQueryable<BookAttribute>) books.Where(x => x.StockStatus.Equals((StockStatus) Enum.Parse(typeof(StockStatus), request.Status)));
+                }
+                var booksDto = books.ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));
             }
         }
     }
 }
-

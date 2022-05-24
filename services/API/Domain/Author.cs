@@ -12,5 +12,6 @@ namespace Domain
         public bool IsDeleted { get; set; }
 
         public ICollection<Book> Books { get; set; }
+        public string Description { get; set; }
     }
 }

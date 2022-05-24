@@ -83,7 +83,7 @@ const headCells: HeadCell[] = [
   },
 ];
 
-const OrderTable: React.FC = () => {
+const OrderTable: React.FC<{ status: string }> = ({ status }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -104,6 +104,7 @@ const OrderTable: React.FC = () => {
           pageSize: rowsPerPage,
           pageIndex: page + 1,
         },
+        status,
         onSuccess: () => {},
         onFailure: () => {},
       })
@@ -135,6 +136,7 @@ const OrderTable: React.FC = () => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
+        status,
         onSuccess: () => {},
         onFailure: () => {},
       })

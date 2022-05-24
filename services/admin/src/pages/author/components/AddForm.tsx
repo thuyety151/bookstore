@@ -31,6 +31,7 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     id: props.model?.id || null,
     name: props.model?.name || "",
     medias: props.model?.medias || ([] as Media[]),
+    description: props.model?.description || "",
   });
   const [filesState, setFilesState] = useState<File[] & Media[]>(
     (props.model?.medias || []) as File[] & Media[]
@@ -119,6 +120,21 @@ const AddForm: React.FC<AddFormProps> = (props) => {
               }
             }}
             rules={[ValidationName.Required]}
+          />
+          <br />
+          <Typography>Description</Typography>
+          <VInput
+            value={formValue.description}
+            onChange={handleChange("description")}
+            margin="dense"
+            inputRef={(input) => {
+              if (input != null && isSubmit) {
+                input.focus();
+                input.blur();
+              }
+            }}
+            rules={[ValidationName.Required]}
+            multiline
           />
           <br />
           <Typography>Image</Typography>

@@ -11,5 +11,6 @@ namespace Application.Authors
         public string ImageUrl { get; set; }
         public int Count { get; set; }
         public Media Media { get; set; }
+        public string Description { get; set; }
     }
 }
