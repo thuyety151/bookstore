@@ -132,6 +132,19 @@ namespace Application.Orders
                     return Result<Guid>.Failure("Error when create order");
                 }
 
+                //Remove coupon in user coupon
+                if (order.Coupon != null)
+                {
+                    var userCoupon = _context.UserCoupons.FirstOrDefault(x =>
+                        x.CouponId == order.Coupon.Id && x.UserId == order.UserId.ToString());
+
+                    if (userCoupon != null)
+                    {
+                        _context.UserCoupons.Remove(userCoupon);
+                    }
+                  
+                }
+
                 return Result<Guid>.Success(order.Id);
             }
         }

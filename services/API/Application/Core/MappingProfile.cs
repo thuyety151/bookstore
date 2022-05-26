@@ -75,7 +75,8 @@ namespace Application.Core
                 .ForMember(x => x.CouponAmount, o=> o.MapFrom(x => x.Coupon.CouponAmount))
                 .ForMember(x => x.DiscountType, o=> o.MapFrom(x => x.Coupon.DiscountType))
                 .ForMember(x => x.ExpireDate, o=> o.MapFrom(x => x.Coupon.ExpireDate))
-                .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.Coupon.Media.Url));
+                .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.Coupon.Media.Url))
+                .ForMember(x => x.MinSpend, o => o.MapFrom(x => x.Coupon.MinSpend));
 
         }
     }

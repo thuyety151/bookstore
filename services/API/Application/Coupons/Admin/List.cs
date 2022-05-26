@@ -35,7 +35,8 @@ namespace Application.Coupons.Admin
                         CouponAmount = x.CouponAmount,
                         DiscountType = x.DiscountType,
                         ExpireDate = x.ExpireDate, 
-                        ImageUrl = x.Media.Url
+                        ImageUrl = x.Media.Url,
+                        MinSpend = x.MinSpend
                     });
 
                 return Result<PagedList<CouponDto>>.Success(
