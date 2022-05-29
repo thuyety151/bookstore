@@ -1,13 +1,17 @@
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Coupons;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Enum;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Persistence;
 
 namespace Application.Books
@@ -23,11 +27,14 @@ namespace Application.Books
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly IHttpContextAccessor _httpContext;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper, IHttpContextAccessor httpContext)
             {
                 _context = context;
                 _mapper = mapper;
+                _httpContext = httpContext;
+
             }
 
             public async Task<Result<PagedList<BooksDto>>> Handle(Query request, CancellationToken cancellationToken)
@@ -49,7 +56,7 @@ namespace Application.Books
                 {
                     query = query.Where(
                         x => x.Book.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId
-                        || c.Category.ParentId.ToString() == request.Params.CategoryId));
+                                                        || c.Category.ParentId.ToString() == request.Params.CategoryId));
                 }
 
                 if (!string.IsNullOrWhiteSpace(request.Params.AuthorId))
@@ -72,8 +79,8 @@ namespace Application.Books
                     var defaultAttributeId = _context.ConfigHomePages.FirstOrDefault()?.DefaultAttributeId;
                     query = query.Where(x => x.AttributeId == defaultAttributeId);
                 }
-               
-                if (request.Params.MinPrice >= 0 && request.Params.MaxPrice > 0 && request.Params.MaxPrice < 500) 
+
+                if (request.Params.MinPrice >= 0 && request.Params.MaxPrice > 0 && request.Params.MaxPrice < 500)
                 {
                     query = query.Where(x =>
                         x.Price >
@@ -102,7 +109,7 @@ namespace Application.Books
                             Rating = (int) Math.Round(g.Average())
                         }).ToList();
 
-                  
+
                     var listBookId = reviews.Where(x => x.Rating == request.Params.Rates).Select(x => x.BookId).ToList();
 
                     query = query.Where(x => listBookId.Contains(x.BookId));
@@ -118,12 +125,12 @@ namespace Application.Books
                         case "home-most-view":
                             var configQuantityHome =
                                 configQuantity.FirstOrDefault(x => x.Key == ConfigQuantityName.MostView.ToString());
-                            request.Params.PageSize =  configQuantityHome?.Quantity ??
+                            request.Params.PageSize = configQuantityHome?.Quantity ??
                                                       request.Params.PageSize;
 
                             query = query.OrderByDescending(x => x.Book.ViewCount).Where(x => x.AttributeId == configQuantityHome.DefaultAttributeId);
                             break;
-                  
+
                         case "popular":
                             query = query.OrderByDescending(x => x.Book.ViewCount);
                             break;
@@ -139,8 +146,8 @@ namespace Application.Books
                         case "on-sale":
                             var configQuantityOnSale =
                                 configQuantity.FirstOrDefault(x => x.Key == ConfigQuantityName.OnSale.ToString());
-                            request.Params.PageSize =  configQuantityOnSale?.Quantity ??
-                                                       request.Params.PageSize;
+                            request.Params.PageSize = configQuantityOnSale?.Quantity ??
+                                                      request.Params.PageSize;
 
                             query = query.Where(x => x.SalePriceEndDate >= DateTime.Now)
                                 .OrderByDescending(x => x.SalePriceEndDate);
@@ -148,8 +155,8 @@ namespace Application.Books
                         case "deal-of-week":
                             var configQuantityDealOfWeek =
                                 configQuantity.FirstOrDefault(x => x.Key == ConfigQuantityName.DealsOfWeek.ToString());
-                            request.Params.PageSize =  configQuantityDealOfWeek?.Quantity ??
-                                                       request.Params.PageSize;
+                            request.Params.PageSize = configQuantityDealOfWeek?.Quantity ??
+                                                      request.Params.PageSize;
 
                             query = query.Where(x => x.SalePriceEndDate >= DateTime.Now)
                                 .OrderByDescending(x => x.TotalStock);
@@ -158,23 +165,27 @@ namespace Application.Books
                             break;
                     }
                 }
-                if(!string.IsNullOrWhiteSpace(request.Params.Keywords))
+                if (!string.IsNullOrWhiteSpace(request.Params.Keywords))
                 {
                     query = query.Where(x => x.Book.Name.Contains(request.Params.Keywords));
                 }
 
+                var currentUserId = Guid.Parse(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var listItems = _context.WishLists.Include(x => x.Items).Where(x => x.Id == currentUserId)
+                    .SelectMany(x => x.Items).AsQueryable();
 
+                var join = query.GroupJoin(
+                    listItems,
+                    x => new {  JoinCol2 = x.BookId }, // Left table join key
+                    y => new {  JoinCol2 = y.ProductId }, // Right table join key
+                    (ba, z) => new { ba, _item = z.Any() }
+                );
+                Console.Write(join.ToList().Count);
                 var booksDto = query.ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
 
                 return Result<PagedList<BooksDto>>.Success
                     (await PagedList<BooksDto>.CreatePage(booksDto, request.Params.PageIndex, request.Params.PageSize));
             }
-            
-            
         }
-        
-     
-       
     }
 }
-

@@ -10,9 +10,9 @@ import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
-
 import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
 import BooksForSalePage from "../pages/books-for-sale/BooksForSale";
+
 import {
   ROUTE_AUTHOR,
   ROUTE_BOOK,
@@ -29,7 +29,9 @@ import {
   ROUTE_PROFILE,
   ROUTE_PROFILE_PREDICATE,
   ROUTE_REGISTER,
+  ROUTE_WISHLIST,
 } from "./types";
+import WishlistPage from "../pages/wishlist/WishlistPage";
 
 export const routes: Route[] = [
   {
@@ -159,6 +161,12 @@ export const routeMainLayout: Route[] = [
     path: ROUTE_CART,
     name: "Cart",
     component: ShoppingCartPage,
+    exact: false,
+  },
+  {
+    path: ROUTE_WISHLIST,
+    name: "Cart",
+    component: WishlistPage,
     exact: false,
   },
   {

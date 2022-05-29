@@ -20,6 +20,7 @@ namespace Application.Books
         public string Categories { get; set; }
         public DateTime PublishDate { get; set; }
         public int TotalStock { get; set; }
+        public bool IsWishListItem { get; set; }
         
     }
 }
