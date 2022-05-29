@@ -34,13 +34,13 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(command));
         }
 
-        // [HttpPost]
-        // [Authorize]
-        // [Route("save-user-coupon")]
-        // public async Task<IActionResult> SaveUserCoupon(SaveUserCoupon.Command command)
-        // {
-        //     return HandleResult(await Mediator.Send(command));
-        // }
+        [HttpPost]
+        [Authorize]
+        [Route("save-user-coupon")]
+        public async Task<IActionResult> SaveUserCoupon(SaveUserCoupon.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
         
         [HttpGet]
         [Authorize]
