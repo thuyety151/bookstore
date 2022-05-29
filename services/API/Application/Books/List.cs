@@ -34,7 +34,6 @@ namespace Application.Books
                 _context = context;
                 _mapper = mapper;
                 _httpContext = httpContext;
-
             }
 
             public async Task<Result<PagedList<BooksDto>>> Handle(Query request, CancellationToken cancellationToken)
@@ -170,17 +169,6 @@ namespace Application.Books
                     query = query.Where(x => x.Book.Name.Contains(request.Params.Keywords));
                 }
 
-                var currentUserId = Guid.Parse(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var listItems = _context.WishLists.Include(x => x.Items).Where(x => x.Id == currentUserId)
-                    .SelectMany(x => x.Items).AsQueryable();
-
-                var join = query.GroupJoin(
-                    listItems,
-                    x => new {  JoinCol2 = x.BookId }, // Left table join key
-                    y => new {  JoinCol2 = y.ProductId }, // Right table join key
-                    (ba, z) => new { ba, _item = z.Any() }
-                );
-                Console.Write(join.ToList().Count);
                 var booksDto = query.ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
 
                 return Result<PagedList<BooksDto>>.Success
