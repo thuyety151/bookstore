@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211122193553_UpdateAuthor")]
-    partial class UpdateAuthor
+    [Migration("20220531061643_CreateDataModel")]
+    partial class CreateDataModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,6 +164,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -183,6 +186,9 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -336,6 +342,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -361,6 +370,37 @@ namespace Persistence.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Domain.ChatMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FromId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ToId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromId");
+
+                    b.HasIndex("ToId");
+
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("Domain.ConfigHomePage", b =>
@@ -398,6 +438,9 @@ namespace Persistence.Migrations
                     b.Property<double>("CouponAmount")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -410,10 +453,15 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("MediaId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double>("MinSpend")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MediaId");
 
                     b.ToTable("Coupons");
                 });
@@ -438,6 +486,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsReviewed")
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -529,6 +580,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("AddressToShipId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CouponId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -547,11 +601,20 @@ namespace Persistence.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResultCode")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("SubTotal")
                         .HasColumnType("float");
+
+                    b.Property<long>("TransId")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -559,6 +622,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressToShipId");
+
+                    b.HasIndex("CouponId");
 
                     b.ToTable("Orders");
                 });
@@ -610,6 +675,21 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Domain.UserCoupon", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("CouponId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "CouponId");
+
+                    b.HasIndex("CouponId");
+
+                    b.ToTable("UserCoupons");
                 });
 
             modelBuilder.Entity("Domain.WishList", b =>
@@ -843,13 +923,31 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("Domain.ChatMessage", b =>
+                {
+                    b.HasOne("Domain.AppUser", "From")
+                        .WithMany()
+                        .HasForeignKey("FromId");
+
+                    b.HasOne("Domain.AppUser", "To")
+                        .WithMany()
+                        .HasForeignKey("ToId");
+                });
+
+            modelBuilder.Entity("Domain.Coupon", b =>
+                {
+                    b.HasOne("Domain.Media", "Media")
+                        .WithMany()
+                        .HasForeignKey("MediaId");
+                });
+
             modelBuilder.Entity("Domain.Item", b =>
                 {
                     b.HasOne("Domain.Cart", null)
                         .WithMany("Items")
                         .HasForeignKey("CartId");
 
-                    b.HasOne("Domain.Order", null)
+                    b.HasOne("Domain.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
 
@@ -874,6 +972,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Address", "AddressToShip")
                         .WithMany()
                         .HasForeignKey("AddressToShipId");
+
+                    b.HasOne("Domain.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId");
                 });
 
             modelBuilder.Entity("Domain.Review", b =>
@@ -887,6 +989,21 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Domain.UserCoupon", b =>
+                {
+                    b.HasOne("Domain.Coupon", "Coupon")
+                        .WithMany("Users")
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany("Coupons")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

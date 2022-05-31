@@ -48,7 +48,7 @@ namespace Application.Orders
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //Get list item 
-                var items = _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString()));
+                var items = await _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString())).ToListAsync();
 
                 // Check quantity
                 foreach (var item in items)
