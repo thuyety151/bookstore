@@ -24,140 +24,8 @@ namespace Persistence
             List<Media> medias = new List<Media>();
             List<Item> items = new List<Item>();
             List<Book> books = new List<Book>();
-
-            if (!userManager.Users.Any())
-            {
-                var users = new List<AppUser>
-                {
-                    new AppUser()
-                    {
-                        UserName = "admin",
-                        Email = "admin@gmail.com",
-                        Role = Role.Admin,
-                        Address = new List<Address>()
-                        {
-                            new Address()
-                            {
-                                Id = new Guid(),
-                                FirstName = "Truong",
-                                LastName = "Nguyen",
-                                Phone = "0866944171",
-                                ApartmentNumber = "54",
-                                StreetAddress = "So 8",
-                                ProvinceId = 202,
-                                ProvinceName = "Hồ Chí Minh",
-                                DistrictId = 3695,
-                                DistrictName = "Thành Phố Thủ Đức",
-                                WardName = "Phường Linh Chiểu",
-                                IsMain = true
-                            }
-                        },
-                    },
-                    new AppUser()
-                    {
-                        UserName = "shop_manager",
-                        Email = "shop_manager@gmail.com",
-                        Role = Role.ShopManager,
-                        Address = new List<Address>()
-                        {
-                            new Address()
-                            {
-                                Id = new Guid(),
-                                FirstName = "Truong",
-                                LastName = "Nguyen",
-                                Phone = "0866944171",
-                                ApartmentNumber = "54",
-                                StreetAddress = "So 8",
-                                ProvinceId = 202,
-                                ProvinceName = "Hồ Chí Minh",
-                                DistrictId = 3695,
-                                DistrictName = "Thành Phố Thủ Đức",
-                                WardName = "Phường Linh Chiểu",
-                                IsMain = true
-                            }
-                        },
-                    },
-                    new AppUser()
-                    {
-                        UserName = "customer",
-                        Email = "customer@gmail.com",
-                        Role = Role.Customer,
-                        Address = new List<Address>()
-                        {
-                            new Address()
-                            {
-                                Id = new Guid(),
-                                FirstName = "Khung",
-                                LastName = "Long",
-                                Phone = "1234567890",
-                                ApartmentNumber = "1179",
-                                StreetAddress = "So 8",
-                                ProvinceId = 202,
-                                ProvinceName = "Hồ Chí Minh",
-                                DistrictId = 3695,
-                                DistrictName = "Thành Phố Thủ Đức",
-                                WardName = "Phường Linh Chiểu",
-                                IsMain = true
-                            }
-                        },
-                    },
-                    new AppUser()
-                    {
-                        UserName = "thuyety15",
-                        Email = "thuyety15@gmail.com",
-                        Role = Role.Customer,
-                        Address = new List<Address>()
-                        {
-                            new Address()
-                            {
-                                Id = new Guid(),
-                                FirstName = "Y",
-                                LastName = "Nguyen",
-                                Phone = "1234567890",
-                                ApartmentNumber = "10",
-                                StreetAddress = "So 8",
-                                ProvinceId = 202,
-                                ProvinceName = "Hồ Chí Minh",
-                                DistrictId = 3695,
-                                DistrictName = "Thành Phố Thủ Đức",
-                                WardName = "Phường Linh Chiểu",
-                                IsMain = true
-                            }
-                        },
-                    },
-                    new AppUser()
-                    {
-                        UserName = "truongnguyen",
-                        Email = "truongnguyen1232000@gmail.com",
-                        Role = Role.Customer,
-                        Address = new List<Address>()
-                        {
-                            new Address()
-                            {
-                                Id = new Guid(),
-                                FirstName = "Nguyen",
-                                LastName = "Truong",
-                                Phone = "1234567890",
-                                ApartmentNumber = "1179",
-                                StreetAddress = "So 8",
-                                ProvinceId = 202,
-                                ProvinceName = "Hồ Chí Minh",
-                                DistrictId = 3695,
-                                DistrictName = "Thành Phố Thủ Đức",
-                                WardName = "Phường Linh Chiểu",
-                                IsMain = true
-                            }
-                        },
-                    },
-                };
-
-                foreach (var user in users)
-                {
-                    await userManager.CreateAsync(user, "KhungLongXanh@123");
-                }
-            }
-
-            if (!context.Media.Any())
+            
+             if (!context.Media.Any())
             {
                 var mediaList = new List<Media>()
                 {
@@ -402,12 +270,156 @@ namespace Persistence
                         IsMain = true,
                         IsVideo = false
                     },
+                    new Media()
+                    {
+                        Id = "ufdrmng19mxrrpcl6jwv",
+                        Url = "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1654259352/ufdrmng19mxrrpcl6jwv.jpg",
+                        IsMain = true,
+                        IsVideo = false
+                    },
                     
                 };
                 medias.AddRange(mediaList);
                 await context.Media.AddRangeAsync(mediaList);
             }
 
+
+            if (!userManager.Users.Any())
+            {
+                var users = new List<AppUser>
+                {
+                    new AppUser()
+                    {
+                        UserName = "admin",
+                        Email = "admin@gmail.com",
+                        Role = Role.Admin,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Truong",
+                                LastName = "Nguyen",
+                                Phone = "0866944171",
+                                ApartmentNumber = "54",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
+                                IsMain = true
+                            }
+                        },
+                        Photo = medias.FirstOrDefault(x => x.Id == "ufdrmng19mxrrpcl6jwv")
+                    },
+                    new AppUser()
+                    {
+                        UserName = "shop_manager",
+                        Email = "shop_manager@gmail.com",
+                        Role = Role.ShopManager,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Truong",
+                                LastName = "Nguyen",
+                                Phone = "0866944171",
+                                ApartmentNumber = "54",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
+                                IsMain = true
+                            }
+                        },
+                    },
+                    new AppUser()
+                    {
+                        UserName = "customer",
+                        Email = "customer@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Khung",
+                                LastName = "Long",
+                                Phone = "1234567890",
+                                ApartmentNumber = "1179",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
+                                IsMain = true
+                            }
+                        },
+                        Photo = medias.FirstOrDefault(x => x.Id == "ufdrmng19mxrrpcl6jwv")
+                    },
+                    new AppUser()
+                    {
+                        UserName = "thuyety15",
+                        Email = "thuyety15@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Y",
+                                LastName = "Nguyen",
+                                Phone = "1234567890",
+                                ApartmentNumber = "10",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
+                                IsMain = true
+                            }
+                        },
+                    },
+                    new AppUser()
+                    {
+                        UserName = "truongnguyen",
+                        Email = "truongnguyen1232000@gmail.com",
+                        Role = Role.Customer,
+                        Address = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Id = new Guid(),
+                                FirstName = "Nguyen",
+                                LastName = "Truong",
+                                Phone = "1234567890",
+                                ApartmentNumber = "1179",
+                                StreetAddress = "So 8",
+                                ProvinceId = 202,
+                                ProvinceName = "Hồ Chí Minh",
+                                DistrictId = 3695,
+                                DistrictName = "Thành Phố Thủ Đức",
+                                WardName = "Phường Linh Chiểu",
+                                IsMain = true
+                            }
+                        },
+                        
+                    },
+                };
+
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "KhungLongXanh@123");
+                }
+            }
+
+           
             if (!context.Attributes.Any())
             {
                 var attributesList = new List<Attribute>()
