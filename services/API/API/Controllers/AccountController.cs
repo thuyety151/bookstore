@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Persistence;
 
 namespace API.Controllers
 {
@@ -25,9 +26,10 @@ namespace API.Controllers
         private readonly TokenService _tokenService;
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
+        private readonly DataContext _context;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            TokenService tokenService, IConfiguration configuration)
+            TokenService tokenService, IConfiguration configuration, DataContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -37,12 +39,13 @@ namespace API.Controllers
             {
                 BaseAddress = new Uri("https://graph.facebook.com")
             };
+            _context = context;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email);
+            var user = await _userManager.Users.Include(x=>x.Photo).FirstOrDefaultAsync(x => x.Email == loginDto.Email);
 
             if (user == null)
             {
@@ -100,6 +103,14 @@ namespace API.Controllers
 
             user.FirstName = updateAccountDto.FirstName;
             user.LastName = updateAccountDto.LastName;
+            if (updateAccountDto.Photo != null)
+            {
+                var photo = _context.Media.SingleOrDefault(x => x.Id == updateAccountDto.Photo.Id);
+                if (photo != null)
+                {
+                    user.Photo = photo;
+                }
+            }
 
             await _userManager.UpdateAsync(user);
 
@@ -188,7 +199,8 @@ namespace API.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Token = _tokenService.CreateToken(user),
-                Role = user.Role
+                Role = user.Role,
+                PhotoUrl = user.Photo != null ? user.Photo.Url : ""
             };
             return userDto;
         }
