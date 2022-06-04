@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import "./styles.scss";
+// import { ROUTE_WISHLIST } from "../../../routers/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +79,7 @@ const HeaderComponent: React.FC<{
               <LocationOnOutlinedIcon />
             </Tooltip>
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => history.push("/wishlist")}>
             <Tooltip title="Wishlist" aria-label="Wishlist">
               <FavoriteBorderOutlinedIcon />
             </Tooltip>
