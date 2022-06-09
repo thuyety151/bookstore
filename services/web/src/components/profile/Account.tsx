@@ -17,6 +17,7 @@ import { createBrowserHistory } from "history";
 import AddressDashboard from "./address/AddressDashBoard";
 import OrderDashboard from "./order/OrderDashboard";
 import { useParams } from "react-router-dom";
+import WishlistPage from "../../pages/wishlist/WishlistPage";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -123,10 +124,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+export const tabs = [
+  "dashboard",
+  "orders",
+  "address",
+  "shopping_cart",
+  "account",
+  "wishlist",
+];
+
 export default function MyAccount() {
   const classes = useStyles();
   const { tabName } = useParams() as any;
-  const [value, setValue] = React.useState(tabName === "address" ? 2 : 0);
+  const [value, setValue] = React.useState(tabs.indexOf(tabName) || 0);
   const history = createBrowserHistory({ forceRefresh: true });
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -222,6 +232,7 @@ export default function MyAccount() {
           </TabPanel>
           <TabPanel value={value} index={5}>
             <Typography variant="h5">Wishlish</Typography>
+            <WishlistPage />
           </TabPanel>
         </Grid>
       </Grid>
