@@ -15,6 +15,14 @@ const Config = {
     process.env.REACT_APP_API_GHN_KEY,
     "REACT_APP_API_GHN_KEY"
   ),
+  webpushKey: assertEnv(
+    process.env.REACT_APP_WEB_PUSH_KEY,
+    "REACT_APP_WEB_PUSH_KEY"
+  ),
+  firebaseServerKey: assertEnv(
+    process.env.REACT_APP_FIREBASE_SERVER_KEY,
+    "REACT_APP_FIREBASE_SERVER_KEY"
+  ),
 };
 
 export default Config;

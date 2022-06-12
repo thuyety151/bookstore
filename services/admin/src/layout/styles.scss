@@ -44,3 +44,13 @@
 .icon-noti {
   color: var(--item-selected);
 }
+
+.list-noti {
+  margin-top: 2.75rem;
+  &__item {
+    border-radius: 0 !important;
+  }
+  .MuiChip-root {
+    height: 1.5rem !important;
+  }
+}

@@ -7,6 +7,7 @@ import categoryReducer from "./categoryReducer";
 import couponReducer from "./couponReducer";
 import languageReducer from "./languageReducer";
 import mediaReducer from "./mediaReducer";
+import notiReducer from "./notiReducer";
 import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
 import reportReducer from "./reportReducer";
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   authentication: authenticationReducer,
   authors: authorReducer,
+  notis: notiReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);
