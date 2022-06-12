@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220612095832_StoreUserNotificationData")]
+    partial class StoreUserNotificationData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -724,18 +726,26 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.UserNoti", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("NotificationId")
+                    b.Property<Guid>("NotiId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.HasKey("UserId", "NotificationId");
+                    b.Property<Guid?>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "NotiId");
 
                     b.HasIndex("NotificationId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserNotis");
                 });
@@ -1065,15 +1075,11 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Notification", "Notification")
                         .WithMany("Users")
-                        .HasForeignKey("NotificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NotificationId");
 
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany("Notis")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

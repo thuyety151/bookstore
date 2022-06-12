@@ -1,6 +1,8 @@
+using System;
 using Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Attribute = Domain.Attribute;
 
 namespace Persistence
 {
@@ -43,9 +45,16 @@ namespace Persistence
                 .HasForeignKey(x => x.CouponId);
 
             builder.Entity<BookAttribute>(x => x.HasKey(x => new { x.BookId, x.AttributeId }));
-            
+
             builder.Entity<UserCoupon>().HasKey(uc => new { uc.UserId, uc.CouponId });
+            builder.Entity<FcmToken>().HasKey(x => x.Token);
             
+            builder.Entity<UserNoti>().HasKey(x => new { x.UserId, x.NotificationId });
+            builder.Entity<UserNoti>().HasOne(x => x.Notification)
+                .WithMany(x => x.Users).HasForeignKey(x => x.NotificationId);
+            builder.Entity<UserNoti>().HasOne(x => x.User)
+                .WithMany(x => x.Notis).HasForeignKey(x => x.UserId);
+
         }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -66,7 +75,10 @@ namespace Persistence
         public DbSet<BookAttribute> BookAttributes { get; set; }
         public DbSet<ConfigHomePage> ConfigHomePages { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
-        public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<UserCoupon> UserCoupons { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<FcmToken> FcmTokens { get; set; }
+        public DbSet<UserNoti> UserNotis { get; set; }
     }
 }
