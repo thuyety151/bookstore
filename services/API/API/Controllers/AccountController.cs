@@ -5,8 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Service;
+using Application.Core;
 using Domain;
 using Domain.Constant;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -204,5 +206,29 @@ namespace API.Controllers
             };
             return userDto;
         }
+        
+        [Authorize]
+        [HttpPost("save-fcm-token")]
+        public async Task<ActionResult<Unit>> SaveFcmToken(string token)
+        {
+            var user = await _userManager.Users.Include(x=>x.FcmTokens).FirstOrDefaultAsync(x =>
+                x.Email == User.FindFirstValue(ClaimTypes.Email));
+
+            var existedToken = user.FcmTokens.FirstOrDefault(x => x.Token==token);
+
+            if (existedToken != null)
+            {
+                return BadRequest("Token is existed");
+            }
+            user?.FcmTokens.Add(new FcmToken()
+            {
+                Token = token,
+                User = user
+            });
+
+            await _context.SaveChangesAsync();
+            return Unit.Value;
+        }
+        
     }
 }

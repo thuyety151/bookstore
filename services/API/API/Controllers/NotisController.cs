@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application.Carts;
 using Application.Core;
 using Application.Notification;
+using Application.Notification.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
@@ -26,6 +27,13 @@ namespace API.Controllers
         public async Task<IActionResult> ReadNoti(Guid? id,bool isReadAll )
         {
             return HandleResult(await Mediator.Send(new UpdateStatus.Command() { Id = id,IsReadAll = isReadAll}));
+        }
+        
+        [HttpGet]
+        [Route("list-admin-token")]
+        public async Task<IActionResult> GetAdminTokens()
+        {
+            return HandleResult(await Mediator.Send(new ListAdminToken.Query(){}));
         }
     }
 }

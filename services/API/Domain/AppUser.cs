@@ -16,5 +16,7 @@ namespace Domain
         public ICollection<Address> Address { get; set; }
         public ICollection<UserCoupon> Coupons { get; set; }
         public ICollection<UserNoti> Notis { get; set; }
+        public ICollection<FcmToken> FcmTokens { get; set; }
+        
     }
 }

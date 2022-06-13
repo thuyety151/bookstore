@@ -22,7 +22,6 @@ namespace Application.Notification
         {
             public CommandValidator()
             {
-                RuleFor(x => x.NotiParams.UserIds).NotEmpty();
                 RuleFor(x => x.NotiParams.Metadata).NotEmpty();
             }
         }
@@ -41,12 +40,19 @@ namespace Application.Notification
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var users = _context.Users.Where(x => request.NotiParams.UserIds.Contains(x.Id)).ToList();
+                if (request.NotiParams.FcmTokens.Count > 0)
+                {
+                    users = new List<AppUser>(_context.Users
+                        .Where(x => x.FcmTokens.Any(t => request.NotiParams.FcmTokens.Contains(t.Token))));
+                }
+                
                 var noti = new Domain.Notification()
                 {
                     Id = new Guid(),
                     Metadata = request.NotiParams.Metadata,
                     CreatedDate = request.NotiParams.CreatedDate
                 };
+                
                 _context.Notifications.Add(noti);
 
                 var listUserNoti = new List<UserNoti>();

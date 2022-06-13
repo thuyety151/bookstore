@@ -15,7 +15,7 @@ namespace Application.Notification
 {
     public class List
     {
-          public class Query : IRequest<Result<PagedList<NotiDto>>>
+        public class Query : IRequest<Result<PagedList<NotiDto>>>
         {
             public PagingParams Params { get; set; }
         }
@@ -42,8 +42,8 @@ namespace Application.Notification
                         Metadata = x.Notification.Metadata,
                         CreatedDate = x.Notification.CreatedDate,
                         IsRead = x.IsRead
-                    });
-                
+                    }).OrderByDescending(x=>x.CreatedDate);
+
                 return Result<PagedList<NotiDto>>.Success(
                     await PagedList<NotiDto>.CreatePage(notis, request.Params.PageIndex, request.Params.PageSize));
             }
