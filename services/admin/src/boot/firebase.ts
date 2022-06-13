@@ -4,8 +4,8 @@ import Config from "config/config";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { onBackgroundMessage } from "firebase/messaging/sw";
 import axios from "axios";
+import { saveFcmToken } from "redux/actions/noti/postActions";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,6 +28,7 @@ export const getTokenForNoti = (setTokenFound: any) => {
       if (currentToken) {
         console.log("current token for client: ", currentToken);
         setTokenFound(true);
+        saveFcmToken(currentToken);
         // Track the token -> client mapping, by sending to backend server
         // show on the UI that permission is secured
       } else {

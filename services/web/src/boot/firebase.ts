@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { onBackgroundMessage } from "firebase/messaging/sw";
 import axios from "axios";
 import Config from "../config/config";
 import { saveFcmToken } from "../redux/actions/noti/postActions";

@@ -70,8 +70,8 @@ const ListNoti: React.FC = () => {
         }}
       >
         <Paper className="list-noti">
-          <MenuItem onClick={readAll} className="mt-sm">
-            <Chip label="Read all" />
+          <MenuItem className="mt-sm">
+            <Chip label="Read all" onClick={readAll} />
           </MenuItem>
           {listNoti.map((item, index) => (
             <MenuItem
