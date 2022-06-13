@@ -50,13 +50,22 @@ const notiReducer = (
       return {
         ...state,
         listNoti: state.listNoti.map((item: any) =>
-          item.id === payload.id
+          item.id === payload.id || payload.isReadAll
             ? {
                 ...item,
                 isRead: true,
               }
             : item
         ),
+      };
+    case ACTION_NAMES.CATCH_NEW_NOTI:
+      return {
+        ...state,
+        listNoti: [payload.data, ...state.listNoti],
+        pagination: {
+          ...state.pagination,
+          totalCount: state.pagination.totalCount + 1,
+        },
       };
     default:
       return state;

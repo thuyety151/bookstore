@@ -40,7 +40,7 @@ export const sendNoti = () => async (dispatch: any) => {
 export const readNotis =
   (id?: string, isReadAll?: boolean) => async (dispatch: any) => {
     await api.post("/notis/read?id=" + id + "&isReadAll=" + isReadAll);
-    dispatch({ type: ACTION_NAMES.SET_READ_NOTI.SET_READ_NOTI_SUCCESS, id });
+    dispatch({ type: ACTION_NAMES.SET_READ_NOTI.SET_READ_NOTI_SUCCESS, id ,isReadAll});
   };
 
 export const saveFcmToken = async (token: string) => {
