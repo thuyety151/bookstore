@@ -1,6 +1,7 @@
 import { omit } from "lodash";
 import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
+import { apiFCM } from "../../../boot/firebase";
 import { formatAddress } from "../../../helper/format";
 import { shopAddress } from "../../../mocks/shopInfo";
 import { PaymentMethod } from "../../../shared/enum/paymentMethod";
@@ -93,6 +94,36 @@ export const createOrder =
               type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
                 .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
             });
+            const tokens = await api.get("/notis/list-admin-token");
+            Promise.all(
+              tokens.data.value.map(async (token: string) => {
+                await apiFCM.post("/send", {
+                  to: token,
+                  notification: {
+                    title: `You have a new order - ${createDelivery.data.data.order_code} `,
+                    body: `You have a new order - ${createDelivery.data.data.order_code} `,
+                    mutable_content: true,
+                    sound: "Tri-tone",
+                  },
+                });
+                await api.post("/notis/create", {
+                  fcmTokens: tokens.data.value,
+                  userIds: ["b6ae2fe7-9059-4ab3-a618-2e37086f84e7"],
+                  metadata: JSON.stringify({
+                    title: `You have a new order - ${createDelivery.data.data.order_code}`,
+                    body: {
+                      type: "Canceled",
+                      orderCode: createDelivery.data.data.order_code,
+                      orderId: response.data.value,
+                      contents: `You have a new order - ${createDelivery.data.data.order_code}`,
+                    },
+                    mutable_content: true,
+                    sound: "Tri-tone",
+                  }),
+                  createdDate: new Date(),
+                });
+              })
+            );
           } else {
             /**
              * Delete order when create GHN fail
@@ -158,12 +189,43 @@ export const cancelOrder =
             type: NAME_ACTIONS.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY,
             orderCode: props.orderCode,
           });
-        } else {
-          props.onFailure(response.data?.message);
+
+          // create noti to admin
+
+          const tokens = await api.get("/notis/list-admin-token");
+          Promise.all(
+            tokens.data.value.map(async (token: string) => {
+              await apiFCM.post("/send", {
+                to: token,
+                notification: {
+                  title: `Order ${props.orderCode} was canceled `,
+                  body: `Order ${props.orderCode} was canceled `,
+                  mutable_content: true,
+                  sound: "Tri-tone",
+                },
+              });
+              await api.post("/notis/create", {
+                fcmTokens: tokens.data.value,
+                userIds: ["b6ae2fe7-9059-4ab3-a618-2e37086f84e7"],
+                metadata: JSON.stringify({
+                  title: `Order ${props.orderCode} was canceled `,
+                  body: {
+                    type: "Canceled",
+                    orderCode: props.orderCode,
+                    orderId: props.orderId,
+                    contents: `Order ${props.orderCode} was canceled `,
+                  },
+                  mutable_content: true,
+                  sound: "Tri-tone",
+                }),
+                createdDate: new Date(),
+              });
+            })
+          );
+          return;
         }
-      } else {
-        props.onFailure(response.data?.message);
       }
+      throw new Error(response.data?.message);
     } catch (error: any) {
       props.onFailure(error);
     }

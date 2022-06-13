@@ -10,11 +10,13 @@ import {
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { SnackbarProvider } from "notistack";
+import Notification from "./layout/Notification";
 
 const App: React.FunctionComponent<{}> = (props) => {
   return (
     <div>
       <Provider store={store}>
+        <Notification />
         <BrowserRouter>
           <SnackbarProvider maxSnack={3}>
             <Switch>
