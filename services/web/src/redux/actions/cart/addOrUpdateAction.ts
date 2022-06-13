@@ -33,7 +33,7 @@ export const addOrUpdateItem =
     } catch (error: any) {
       dispatch({
         type: NAME_ACTIONS.ADD_OR_UPDATE_ITEM.ADD_OR_UPDATE_ITEM_FAIL,
-        data: error.messages,
+        data: error.message,
       });
     }
   };

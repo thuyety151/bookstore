@@ -24,7 +24,7 @@ export const getReviews =
     } catch (error: any) {
       dispatch({
         type: reviewConstants.GET_FAILURE,
-        message: error.messages,
+        message: error.message,
       });
     }
   };

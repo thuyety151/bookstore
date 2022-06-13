@@ -20,6 +20,7 @@ import categoryBfsReducer from "./books-for-sale/categoryReducer";
 import languageReducer from "./languageReducer";
 import attributeReducer from "./attributeReducer";
 import wishlistReducer from "./wishlistReducer";
+import couponsReducer from "./couponsReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
   categoryBfs: categoryBfsReducer,
   languages: languageReducer ,
   attributes: attributeReducer,
-  wishlist: wishlistReducer
+  wishlist: wishlistReducer,
+  coupons: couponsReducer
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

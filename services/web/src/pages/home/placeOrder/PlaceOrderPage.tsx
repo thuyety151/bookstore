@@ -51,7 +51,7 @@ const PlaceOrderPage: React.FC = () => {
   const subTotal = () => {
     return placeOrder.coupon
       ? sum(placeOrder.items?.flatMap((x) => x.price))?.toFixed(2)
-      : placeOrder?.subTotal;
+      : placeOrder?.subTotal.toFixed(2);
   };
   return (
     <div className={classes.root}>

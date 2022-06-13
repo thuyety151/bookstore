@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
+  Chip,
   Collapse,
   Dialog,
   DialogActions,
@@ -10,10 +11,7 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  FormHelperText,
   Grid,
-  IconButton,
-  InputAdornment,
   InputBase,
   Paper,
   Radio,
@@ -27,13 +25,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Item from "../../../model/item";
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { formatAddress, formatVNDtoUSD } from "../../../helper/format";
-import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
+import { formatAddress } from "../../../helper/format";
 import { subTotal } from "../../../redux/reducers/cartReducer";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { getServices } from "../../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
-import { NAME_ACTIONS as CP_NAME_ACTIONS } from "../../../redux/constants/coupon/actionTypes";
 import PrimaryButton from "../../../components/button/PrimaryButton";
 import { createOrder } from "../../../redux/actions/order/postAction";
 import { generatePath, useHistory } from "react-router-dom";
@@ -51,8 +47,6 @@ import StockStatus from "../../../shared/enum/stockStatus";
 import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { sum } from "lodash";
 import { DiscountType } from "../../../model/coupon";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { CouponState } from "../../../redux/reducers/couponReducer";
 
 type Props = {
   note: string;
@@ -71,12 +65,10 @@ export default function BillInfo(props: Props) {
   const loading = useSelector((state: RootStore) => state.order.requesting);
 
   //State
+  const [couponAmount, setCouponAmount] = useState(0);
   const [itemToCheckout, setItemToCheckout] = useState(cart.itemToCheckOut);
-  const [couponCode, setCouponCode] = useState("");
-  const couponState: CouponState = useSelector(
-    (state: RootStore) => state.coupon
-  );
-  const { fee, coupon } = useSelector((state: RootStore) => state.order);
+
+  const { fee } = useSelector((state: RootStore) => state.order);
   const [openSection, setopenSection] = useState({
     total: true,
     shipping: true,
@@ -86,6 +78,8 @@ export default function BillInfo(props: Props) {
   });
 
   const [value, setValue] = React.useState("Cash on delivery");
+
+  const couponState = useSelector((state: RootStore) => state.coupons);
 
   //Function
   const addressInfor = () => {
@@ -98,9 +92,6 @@ export default function BillInfo(props: Props) {
     setValue((event.target as HTMLInputElement).value);
   };
 
-  const handleApplyCoupon = () => {
-    dispatch(verifyCoupon(couponCode));
-  };
 
   const handleClickPayment = () => {
     if (value === "Cash on delivery") {
@@ -145,12 +136,6 @@ export default function BillInfo(props: Props) {
     }
   };
 
-  //Effect
-  useEffect(() => {
-    setCouponCode(couponState.data.code || "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [couponState.data]);
-
   useEffect(() => {
     if (!itemToCheckout.length) {
       setItemToCheckout(
@@ -178,6 +163,7 @@ export default function BillInfo(props: Props) {
         },
       })
     );
+    calCouponAmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemToCheckout]);
 
@@ -189,29 +175,31 @@ export default function BillInfo(props: Props) {
   }, []);
 
   const total = () => {
-    const couponAmount =
-      coupon.discountType === DiscountType.Percentage
-        ? (coupon.couponAmount / 100) *
-          sum(itemToCheckout.map((x) => x.quantity * x.price))
-        : formatVNDtoUSD(coupon.couponAmount) || 0;
-    return (
-      sum(itemToCheckout.map((x) => x.quantity * x.price)) -
-      couponAmount +
-      (fee || 0)
-    )?.toFixed(2);
+    var total =
+      sum(itemToCheckout.map((x) => x.quantity * x.price)) - couponAmount > 0
+        ? sum(itemToCheckout.map((x) => x.quantity * x.price)) - couponAmount
+        : 0;
+    return total + (fee || 0);
   };
-  const couponAmount = () => {
-    return couponState.data?.discountType === DiscountType.Percentage
-      ? (
+  
+  
+  const calCouponAmount = () => {
+    var amountDiscount = 0;
+    console.log("discount type:" + couponState.selectedCoupon?.discountType);
+    if (couponState.selectedCoupon !== undefined) {
+      if (couponState.selectedCoupon.discountType === DiscountType.Percentage) {
+        amountDiscount =
           (sum(itemToCheckout.map((x) => x.quantity * x.price)) *
-            couponState.data?.couponAmount) /
-          100
-        ).toFixed(2)
-      : couponState.data?.couponAmount;
+            couponState.selectedCoupon.couponAmount) /
+          100;
+      } else {
+        amountDiscount = couponState.selectedCoupon.couponAmount;
+      }
+      setCouponAmount(amountDiscount);
+    }
   };
-  const handleRemoveCoupon = () => {
-    dispatch({ type: CP_NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
-  };
+
+
   const handleClose = (key: string) => {
     if (key === "home-page") {
       history.push(ROUTE_HOME);
@@ -268,7 +256,7 @@ export default function BillInfo(props: Props) {
           <Grid item container direction="column">
             <div className="row">
               <span>Subtotal</span>
-              <span>${subTotal(itemToCheckout)}</span>
+              <span>${subTotal(itemToCheckout).toFixed(2)}</span>
             </div>
             <Grid item className="row">
               <span>Shipping</span>
@@ -302,7 +290,7 @@ export default function BillInfo(props: Props) {
       </Collapse>
       {/* shippine */}
       {/* coupon */}
-      <Collapse in={openSection.coupon} collapsedSize={82}>
+      <Collapse in={openSection.coupon} collapsedSize={86}>
         <Paper variant="outlined" className={classes.paper}>
           <div>
             <h3>Coupon</h3>
@@ -318,24 +306,12 @@ export default function BillInfo(props: Props) {
               {openSection.coupon ? <RemoveIcon /> : <AddIcon />}
             </span>
           </div>
-          {couponState.data?.discountType && (
-            <Grid container style={{ display: "contents" }}>
-              <Grid item className="row">
-                <span>Coupon</span>
-                <span>
-                  {couponState.data?.discountType === DiscountType.FixedCart &&
-                    "$"}{" "}
-                  {couponState.data?.couponAmount}{" "}
-                  {couponState.data?.discountType === DiscountType.Percentage &&
-                    "%"}
-                </span>
-              </Grid>
-              <Grid item className="row">
-                <span></span>
-                <span>- ${couponAmount()}</span>
-              </Grid>
+          <Grid container style={{ display: "contents" }}>
+            <Grid item className="row-coupon">
+              {couponState.selectedCoupon?.description && <span>Coupon</span>}
+              <span>{couponState.selectedCoupon?.description}</span>
             </Grid>
-          )}
+          </Grid>
           <Paper
             variant="outlined"
             className={classes.inputForm}
@@ -343,43 +319,23 @@ export default function BillInfo(props: Props) {
           >
             <InputBase
               style={{ width: "100%" }}
-              placeholder="Coupon here"
               inputProps={{ "aria-label": "naked" }}
-              value={couponCode}
-              onChange={(event) => setCouponCode(event.target.value)}
-              endAdornment={
-                couponCode ? (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={handleRemoveCoupon}
-                      // onMouseDown={handleMouseDownPassword}
-                    >
-                      <CancelIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null
-              }
             />
-            <span
-              className="cap cursor-pointer"
-              style={{ textAlign: "right", minWidth: "8rem" }}
-              onClick={handleApplyCoupon}
-            >
-              Apply coupon
-            </span>
+            {couponState.selectedCoupon !== undefined ? (
+              <Chip
+                label={"-$" + couponAmount.toFixed(2)}
+                color="secondary"
+                className={classes.chipCoupon}
+              />
+            ) : null}
           </Paper>
-          {couponState.message && (
-            <FormHelperText className="text-error">
-              {couponState.message}
-            </FormHelperText>
-          )}
         </Paper>
       </Collapse>
       {/* total */}
       <Paper variant="outlined" className={classes.paper}>
         <div className="row total">
           <h3>Total</h3>
-          <h3>${total()}</h3>
+          <h3>${total().toFixed(2)}</h3>
         </div>
       </Paper>
       <Collapse in={openSection.payment} collapsedSize={82}>
@@ -526,6 +482,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   inputForm: {
+    position: "relative",
     justifyContent: "space-around !important",
     alignItems: "center",
     padding: "8px  8px !important",
@@ -563,5 +520,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   small: {
     width: theme.spacing(3),
     height: theme.spacing(3),
+  },
+  chipCoupon: {
+    position: "absolute",
+    left: 20,
   },
 }));
