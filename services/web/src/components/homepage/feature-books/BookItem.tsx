@@ -1,4 +1,5 @@
 import {
+  Button,
   createStyles,
   Grid,
   makeStyles,
@@ -17,6 +18,7 @@ import "./styles.scss";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
+import { addToWL } from "../../../redux/actions/wishlist/postActions";
 
 const BookItem: React.FC<{ item: Book }> = (props) => {
   const { item } = props;
@@ -54,6 +56,28 @@ const BookItem: React.FC<{ item: Book }> = (props) => {
       })
     );
   };
+
+    const addToWishlist = () => {
+      dispatch(
+        addToWL({
+          item: {
+            productId: item.id,
+            attributeId: item.attributeId,
+            // TODO: Remove params quantity in BE & FE
+            quantity: 1,
+          },
+          onSuccess: () => {
+            enqueueSnackbar("Add to wishlist successfully!", {
+              variant: "success",
+            });
+          },
+          onFailure: (e) => {
+            enqueueSnackbar(e, { variant: "error" });
+          },
+        })
+      );
+    };
+  
   return (
     <div className={clsx(classes.root, "featured-item")}>
       <Paper className={classes.paper} variant="outlined" square>
@@ -128,7 +152,9 @@ const BookItem: React.FC<{ item: Book }> = (props) => {
               >
                 ADD TO CART
               </Typography>
-              <FavoriteBorderOutlined className={classes.favorite} />
+              <Button onClick={addToWishlist}>
+                <FavoriteBorderOutlined className={classes.favorite} />
+              </Button>
             </Grid>
           </Grid>
         </Grid>

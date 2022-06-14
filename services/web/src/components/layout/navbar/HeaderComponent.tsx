@@ -10,10 +10,11 @@ import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import { ListItem } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import "./styles.scss";
+import { ROUTE_PROFILE_PREDICATE } from "../../../routers/types";
 // import { ROUTE_WISHLIST } from "../../../routers/types";
 
 const useStyles = makeStyles((theme) => ({
@@ -79,7 +80,16 @@ const HeaderComponent: React.FC<{
               <LocationOnOutlinedIcon />
             </Tooltip>
           </ListItem>
-          <ListItem button onClick={() => history.push("/wishlist")}>
+          <ListItem
+            button
+            onClick={() =>
+              history.push(
+                generatePath(ROUTE_PROFILE_PREDICATE, {
+                  tabName: "wishlist",
+                })
+              )
+            }
+          >
             <Tooltip title="Wishlist" aria-label="Wishlist">
               <FavoriteBorderOutlinedIcon />
             </Tooltip>
