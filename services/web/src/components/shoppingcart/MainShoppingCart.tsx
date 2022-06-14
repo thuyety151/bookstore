@@ -130,7 +130,7 @@ const MainShoppingCart: React.FC<{
           className={classes.title}
         >
           <span>Subtotal:</span>
-          <span>${subTotal()}</span>
+          <span>${subTotal().toFixed(2)}</span>
         </Grid>
         <Grid
           item

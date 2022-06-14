@@ -1,5 +1,4 @@
 import api from "../../../boot/axios";
-import { booksContant } from "../../constants/books/actionTypes";
 import { ACTION_NAMES } from "../../constants/wishlist/actionTypes";
 export type paginationParams = {
   pageSize: number;

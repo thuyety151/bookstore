@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BookItem from "../../components/homepage/feature-books/BookItem";
 import { getWishlist } from "../../redux/actions/wishlist/getAction";
-import { ACTION_NAMES } from "../../redux/constants/wishlist/actionTypes";
 import { RootStore } from "../../redux/store";
 
 const WishlistPage: React.FC = () => {
