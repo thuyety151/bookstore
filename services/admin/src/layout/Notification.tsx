@@ -1,8 +1,8 @@
 import { getTokenForNoti, onMessageListener } from "boot/firebase";
-import FloatNoti, { NotiContent } from "components/noti/FloatNoti";
+import FloatNoti, { RealtimeNoti } from "components/noti/FloatNoti";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { ACTION_NAMES } from "redux/actions/noti/actionTypes";
+import { getAll } from "redux/actions/noti/getActions";
 
 export type NotificationData = {
   title: string;
@@ -12,19 +12,16 @@ export type NotificationData = {
 const Notification: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isTokenFound, setTokenFound] = useState(false);
-  const [noti, setNoti] = useState<NotiContent | null>(null);
+  const [noti, setNoti] = useState<RealtimeNoti | null>(null);
   const dispatch = useDispatch();
 
   getTokenForNoti(setTokenFound);
 
   onMessageListener()
     .then((payload: any) => {
-      setNoti(JSON.parse(payload.notification.body));
-      dispatch({
-        type: ACTION_NAMES.CATCH_NEW_NOTI,
-        data: noti,
-      });
-      console.log(JSON.parse(payload.notification.body));
+      setNoti(payload.notification);
+
+      dispatch(getAll());
     })
     .catch((err) => console.log("failed: ", err));
 

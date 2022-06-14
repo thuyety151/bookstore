@@ -43,7 +43,10 @@ const notiReducer = (
       return {
         ...state,
         resquesting: false,
-        listNoti: payload.data,
+        listNoti:
+          payload.pagination?.pageIndex === 1
+            ? payload.data
+            : [...state.listNoti, ...payload.data],
         pagination: payload.pagination,
       };
     case ACTION_NAMES.SET_READ_NOTI.SET_READ_NOTI_SUCCESS:

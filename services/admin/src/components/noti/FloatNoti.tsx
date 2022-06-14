@@ -12,13 +12,18 @@ export type NotiContent = {
   title: string;
 };
 
+export type RealtimeNoti = {
+  title: string;
+  body: any;
+};
+
 export type FloatNotiProps = {
-  model: NotiContent | null;
+  model: RealtimeNoti | null;
   setModel: (value: any) => void;
 };
 
 const FloatNoti: React.FC<FloatNotiProps> = (props) => {
-  const [open, setOpen] = React.useState(!!props.model?.type);
+  const [open, setOpen] = React.useState(!!props.model?.title);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -33,7 +38,7 @@ const FloatNoti: React.FC<FloatNotiProps> = (props) => {
   };
 
   React.useEffect(() => {
-    setOpen(!!props.model?.type);
+    setOpen(!!props.model?.title);
   }, [props.model]);
 
   return (
@@ -49,8 +54,8 @@ const FloatNoti: React.FC<FloatNotiProps> = (props) => {
       >
         <Paper>
           <Alert onClose={handleClose} severity="info">
-            <AlertTitle>{props.model?.orderId}</AlertTitle>
-            {props.model?.orderCode}
+            <AlertTitle>{props.model?.title}</AlertTitle>
+            {props.model?.body}
           </Alert>
         </Paper>
       </Snackbar>
