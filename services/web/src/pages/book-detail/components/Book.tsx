@@ -21,6 +21,7 @@ import Item from "../../../model/item";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import BookImages from "./BookImages";
+import { addToWL } from "../../../redux/actions/wishlist/postActions";
 
 export default function DetailBook() {
   const classes = useStyles();
@@ -102,6 +103,28 @@ export default function DetailBook() {
       })
     );
   }
+
+  const addToWishlist = () => {
+    dispatch(
+      addToWL({
+        item: {
+          productId: data?.id || "",
+          attributeId: attribute.id,
+          // TODO: Remove params quantity in BE & FE
+          quantity: 1,
+        },
+        onSuccess: () => {
+          enqueueSnackbar("Add to wishlist successfully!", {
+            variant: "success",
+          });
+        },
+        onFailure: (e) => {
+          enqueueSnackbar(e, { variant: "error" });
+        },
+      })
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -214,6 +237,7 @@ export default function DetailBook() {
                     container
                     direction="row"
                     className={classes.favorite}
+                    onClick={addToWishlist}
                   >
                     <Grid item>
                       <FavoriteBorderOutlined />
