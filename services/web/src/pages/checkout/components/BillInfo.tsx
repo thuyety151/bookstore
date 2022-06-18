@@ -92,7 +92,6 @@ export default function BillInfo(props: Props) {
     setValue((event.target as HTMLInputElement).value);
   };
 
-
   const handleClickPayment = () => {
     if (value === "Cash on delivery") {
       dispatch(
@@ -181,8 +180,7 @@ export default function BillInfo(props: Props) {
         : 0;
     return total + (fee || 0);
   };
-  
-  
+
   const calCouponAmount = () => {
     var amountDiscount = 0;
     console.log("discount type:" + couponState.selectedCoupon?.discountType);
@@ -198,7 +196,6 @@ export default function BillInfo(props: Props) {
       setCouponAmount(amountDiscount);
     }
   };
-
 
   const handleClose = (key: string) => {
     if (key === "home-page") {
@@ -369,7 +366,8 @@ export default function BillInfo(props: Props) {
                     label="Cash on delivery"
                   />
                   <Typography className={classes.text}>
-                    <LocalAtmRoundedIcon /> Pay with cash upon delivery.
+                    <LocalAtmRoundedIcon style={{ paddingRight: 6 }} /> Pay with
+                    cash upon delivery.
                   </Typography>
                   <FormControlLabel
                     value="MoMo"
@@ -377,7 +375,12 @@ export default function BillInfo(props: Props) {
                     label="MoMo"
                   />
                   <Typography className={classes.text}>
-                    <Avatar alt="MoMo" src={momo} className={classes.small} />{" "}
+                    <Avatar
+                      alt="MoMo"
+                      src={momo}
+                      className={classes.small}
+                      style={{ paddingRight: 6 }}
+                    />{" "}
                     {""}Scan QR MoMo.
                   </Typography>
                 </RadioGroup>

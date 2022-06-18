@@ -11,7 +11,6 @@ import {
   Select,
 } from "@material-ui/core";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
-import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
@@ -222,22 +221,6 @@ export default function DetailBook() {
                     <Grid item>
                       <Typography gutterBottom variant="body1">
                         Add to Wishlist
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    container
-                    direction="row"
-                    className={classes.favorite}
-                  >
-                    <Grid item>
-                      <ShareOutlinedIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography gutterBottom variant="body1">
-                        Share
                       </Typography>
                     </Grid>
                   </Grid>

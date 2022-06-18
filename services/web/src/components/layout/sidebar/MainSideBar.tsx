@@ -12,7 +12,6 @@ import Box from "@material-ui/core/Box";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import ChildSideBarComponent from "./SideBarItem";
-import BottomSidebar from "./BottomSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoot } from "../../../redux/actions/category/getAction";
 import { SidebarCategoryResponse } from "../../../model/category";
@@ -20,6 +19,10 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { RootStore } from "../../../redux/store";
 import { Grid } from "@material-ui/core";
 import "./styles.scss";
+import { useHistory } from "react-router-dom";
+import { userService } from "../../../service/auth.service";
+import { SideBarChildren } from "../../../model/sidebar";
+import { createBrowserHistory } from "history";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,6 +62,8 @@ const MainSideBar: React.FC<{
   const loading: Boolean = useSelector(
     (state: RootStore) => state.category.requesting
   );
+  const history = useHistory();
+  const historyLogout = createBrowserHistory({ forceRefresh: true });
 
   useEffect(() => {
     if (data.root?.length === 0) {
@@ -69,7 +74,7 @@ const MainSideBar: React.FC<{
 
   const [categoryName, setCategoryName] = React.useState("");
   const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
+    (anchor: Anchor, open: boolean, item?: SideBarChildren) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
@@ -77,6 +82,13 @@ const MainSideBar: React.FC<{
           (event as React.KeyboardEvent).key === "Shift")
       ) {
         return;
+      }
+      if (item?.isLogOut && Boolean(localStorage.getItem("user"))) {
+        userService.logout();
+        historyLogout.push("/login");
+      }
+      if (item?.path) {
+        history.push(item.path);
       }
       setOpenSidebar(!openSideBar);
     };
@@ -170,7 +182,7 @@ const MainSideBar: React.FC<{
               button
               key={index}
               className={classes.itemHelp}
-              onClick={toggleDrawer(anchor, false)}
+              onClick={toggleDrawer(anchor, false, item)}
             >
               <span> {item.name} </span>
             </ListItem>
@@ -178,7 +190,6 @@ const MainSideBar: React.FC<{
         </List>
       </div>
       <Divider />
-      <BottomSidebar />
     </Grid>
   );
   return (
