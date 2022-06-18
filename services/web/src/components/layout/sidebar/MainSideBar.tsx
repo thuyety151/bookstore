@@ -86,6 +86,8 @@ const MainSideBar: React.FC<{
       if (item?.isLogOut && Boolean(localStorage.getItem("user"))) {
         userService.logout();
         historyLogout.push("/login");
+        setOpenSidebar(!openSideBar);
+        return;
       }
       if (item?.path) {
         history.push(item.path);
