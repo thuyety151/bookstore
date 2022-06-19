@@ -17,9 +17,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListCoupons([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> ListCoupons([FromQuery] PagingParams pagingParams,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams}));
+            return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams,Keywords = keywords}));
         }
 
         [HttpPost]

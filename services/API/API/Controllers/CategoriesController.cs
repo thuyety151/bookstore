@@ -42,9 +42,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IActionResult> GetAll([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetAll([FromQuery] PagingParams pagingParams,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new GetAll.Query(){Params = pagingParams}));
+            return HandlePagedResult(await Mediator.Send(new GetAll.Query(){Params = pagingParams,Keywords = keywords}));
         }
         
         [HttpGet]

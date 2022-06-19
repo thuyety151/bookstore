@@ -18,6 +18,7 @@ namespace Application.Authors
         {
             public string Predicate { get; set; }
             public PagingParams Params { get; set; }
+            public string Keywords { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<AuthorDto>>>
@@ -48,6 +49,10 @@ namespace Application.Authors
                         .Include(x => x.Media).Where(x =>
                             x.IsDeleted == false && x.Name.Substring(0, 1) == request.Predicate)
                         .ProjectTo<AuthorDto>(_mapper.ConfigurationProvider).AsQueryable();
+                    if (!string.IsNullOrWhiteSpace(request.Keywords))
+                    {
+                        authors = authors.Where(x => x.Name.ToLower().Contains(request.Keywords));
+                    }
                     return Result<PagedList<AuthorDto>>.Success(
                         await PagedList<AuthorDto>.CreatePage(authors, request.Params.PageIndex,
                             request.Params.PageSize));

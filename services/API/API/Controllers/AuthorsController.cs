@@ -10,9 +10,9 @@ namespace API.Controllers
     public class AuthorsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetAuthors([FromQuery] PagingParams pagingParams, string predicate)
+        public async Task<IActionResult> GetAuthors([FromQuery] PagingParams pagingParams, string predicate,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query(){Predicate = predicate, Params = pagingParams}));
+            return HandlePagedResult(await Mediator.Send(new List.Query(){Predicate = predicate, Params = pagingParams,Keywords = keywords}));
         }
         
         [HttpGet("search")]

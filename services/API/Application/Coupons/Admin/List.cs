@@ -13,8 +13,9 @@ namespace Application.Coupons.Admin
         public class Query : IRequest<Result<PagedList<CouponDto>>>
         {
             public PagingParams Params { get; set; }
+            public string Keywords { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Query, Result<PagedList<CouponDto>>>
         {
             private readonly DataContext _context;
@@ -34,11 +35,16 @@ namespace Application.Coupons.Admin
                         Code = x.Code,
                         CouponAmount = x.CouponAmount,
                         DiscountType = x.DiscountType,
-                        ExpireDate = x.ExpireDate, 
+                        ExpireDate = x.ExpireDate,
                         ImageUrl = x.Media.Url,
                         MinSpend = x.MinSpend
                     });
-
+                if (!string.IsNullOrWhiteSpace(request.Keywords))
+                {
+                    couponDtos = couponDtos.Where(x => x.Code.ToLower().Contains(request.Keywords.ToLower()) ||
+                                                       x.Description.ToLower().Contains(request.Keywords.ToLower())
+                    );
+                }
                 return Result<PagedList<CouponDto>>.Success(
                     await PagedList<CouponDto>.CreatePage(couponDtos, request.Params.PageIndex,
                         request.Params.PageSize));
