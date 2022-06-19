@@ -268,7 +268,7 @@ export default function BillInfo(props: Props) {
       {/* shippine */}
       <Collapse in={openSection.shipping} collapsedSize={82}>
         <Paper variant="outlined" className={classes.paper}>
-          <div>
+          <div>placeOrder?.subTotal.toFixed(2)
             <h3>Shipping</h3>
             <span
               className="cursor-pointer"

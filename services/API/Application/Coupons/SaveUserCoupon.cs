@@ -41,6 +41,19 @@ namespace Application.Coupons
             {
                 var userId = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Result<Unit>.Failure("Unauthorized");
+                }
+
+                var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+                
+                if (user == null)
+                {
+                    return Result<Unit>.Failure("Unauthorized");
+                }
+                
+
                 var coupon = _context.Coupons.FirstOrDefault(x => x.Id.ToString() == request.CouponId);
 
                 if (coupon == null)
@@ -48,11 +61,16 @@ namespace Application.Coupons
                     return Result<Unit>.Failure("Coupon does not exist");
                 }
 
+                if (coupon.IsExpired)
+                {
+                    return Result<Unit>.Failure("Coupon is expired");
+                }
+
                 var userCoupon = _context.UserCoupons.FirstOrDefault(x => x.CouponId.ToString() == request.CouponId);
 
                 if (userCoupon != null)
                 {
-                    return Result<Unit>.Failure("You already save this coupon");
+                    return Result<Unit>.Failure(userCoupon.IsUsed ? "You already used this coupon" : "You already saved this coupon");
                 }
 
                 _context.UserCoupons.Add(new UserCoupon()
@@ -60,11 +78,15 @@ namespace Application.Coupons
                     CouponId = coupon.Id,
                     Coupon = coupon,
                     UserId = userId,
-                    User = _context.Users.FirstOrDefault(x => x.Id == userId)
+                    User = user
                 });
 
-                await _context.SaveChangesAsync();
-                
+                var result = await _context.SaveChangesAsync();
+
+                if (result == 0)
+                {
+                    Result<Unit>.Failure("Something wrong when save coupon!");
+                }
                 return Result<Unit>.Success(Unit.Value);
             }
         }

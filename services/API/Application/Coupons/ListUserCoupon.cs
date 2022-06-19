@@ -38,7 +38,7 @@ namespace Application.Coupons
                 var userId = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var couponDtos = await _context.UserCoupons.Include(x => x.Coupon).ThenInclude(x => x.Media)
-                    .Where(x => x.UserId == userId)
+                    .Where(x => x.UserId == userId && x.Coupon.IsDeleted == false)
                     .ProjectTo<Admin.CouponDto>(_mapper.ConfigurationProvider).ToListAsync();
 
                 return Result<List<Admin.CouponDto>>.Success(couponDtos);
