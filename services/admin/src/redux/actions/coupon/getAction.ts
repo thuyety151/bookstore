@@ -5,6 +5,7 @@ import { ACTION_NAMES } from "./actionType";
 export type getPaginationType = {
   pagination: Pagination;
   keywords: string;
+  predicate: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -18,6 +19,7 @@ export const getCouponPagination =
         ...(props.keywords && {
           keywords: props.keywords,
         }),
+        predicate:props.predicate
       },
     });
 

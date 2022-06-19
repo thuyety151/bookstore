@@ -18,7 +18,7 @@ interface StyledTabProps {
   value?: string;
 }
 
-const AntTabs = withStyles({
+export const AntTabs = withStyles({
   root: {
     borderBottom: "1px solid #e8e8e8",
   },
@@ -27,7 +27,7 @@ const AntTabs = withStyles({
   },
 })(Tabs);
 
-const AntTab = withStyles((theme: Theme) =>
+export const AntTab = withStyles((theme: Theme) =>
   createStyles({
     root: {
       textTransform: "none",
@@ -66,7 +66,7 @@ interface TabPanelProps {
   value: any;
 }
 
-function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: TabPanelProps) {
   const { children, value, ...other } = props;
 
   return (
