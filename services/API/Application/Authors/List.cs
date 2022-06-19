@@ -39,6 +39,10 @@ namespace Application.Authors
                     var authors = _context.Authors
                         .Include(x => x.Media).Where(x => x.IsDeleted == false)
                         .ProjectTo<AuthorDto>(_mapper.ConfigurationProvider).AsQueryable();
+                    if (!string.IsNullOrWhiteSpace(request.Keywords))
+                    {
+                        authors = authors.Where(x => x.Name.ToLower().Contains(request.Keywords));
+                    }
                     return Result<PagedList<AuthorDto>>.Success(
                         await PagedList<AuthorDto>.CreatePage(authors, request.Params.PageIndex,
                             request.Params.PageSize));
@@ -49,10 +53,7 @@ namespace Application.Authors
                         .Include(x => x.Media).Where(x =>
                             x.IsDeleted == false && x.Name.Substring(0, 1) == request.Predicate)
                         .ProjectTo<AuthorDto>(_mapper.ConfigurationProvider).AsQueryable();
-                    if (!string.IsNullOrWhiteSpace(request.Keywords))
-                    {
-                        authors = authors.Where(x => x.Name.ToLower().Contains(request.Keywords));
-                    }
+                   
                     return Result<PagedList<AuthorDto>>.Success(
                         await PagedList<AuthorDto>.CreatePage(authors, request.Params.PageIndex,
                             request.Params.PageSize));
