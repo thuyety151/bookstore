@@ -4,16 +4,21 @@ import { ACTION_NAMES } from "./actionType";
 
 export type getPaginationType = {
   pagination: Pagination;
+  keywords: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
 
-
 export const getCouponPagination =
   (props: getPaginationType) => async (dispatch: any) => {
-    dispatch({ type: ACTION_NAMES.GET_PAGINATION.GET_COUPON_PAGINATION});
+    dispatch({ type: ACTION_NAMES.GET_PAGINATION.GET_COUPON_PAGINATION });
     const response = await api.get("/coupons", {
-      params: props.pagination,
+      params: {
+        ...props.pagination,
+        ...(props.keywords && {
+          keywords: props.keywords,
+        }),
+      },
     });
 
     if (response.data.isSuccess) {
@@ -31,4 +36,3 @@ export const getCouponPagination =
       props.onFailure(response.data.error);
     }
   };
-

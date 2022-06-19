@@ -10,14 +10,20 @@ import EditForm from "./components/EditForm";
 
 const CouponsPage: React.FC = () => {
   const [modelEdit, setModelEdit] = useState(null);
+  const [keywords, setKeywords] = useState<string>("");
   const { success } = useSelector((state: RootStore) => state.coupons);
+
+  const onSearch = (keywords: string) => {
+    setKeywords(keywords);
+  };
+
   return (
     <div style={{ margin: "0 5rem" }}>
       <HeaderPage title="Coupon" />
-      <FilterContainer />
+      <FilterContainer placeholderSearch="Search by code" onSearch={onSearch} />
       <Grid container justifyContent="space-between" className="pt-md">
         <Grid item xs={7}>
-          <CouponTable setModelEdit={setModelEdit} />
+          <CouponTable setModelEdit={setModelEdit} keywords={keywords} />
         </Grid>
         <Grid item xs={4} key={Number(success)}>
           <AddForm />

@@ -58,6 +58,7 @@ const headCells: HeadCell[] = [
 
 export type AttributeTableProps = {
   setModelEdit: any;
+  keywords: string;
 };
 
 const AuthorTable: React.FC<AttributeTableProps> = (props) => {
@@ -81,6 +82,7 @@ const AuthorTable: React.FC<AttributeTableProps> = (props) => {
             pageIndex: page + 1,
             pageSize: rowsPerPage,
           },
+          keywords: props.keywords,
           onSuccess: () => {},
           onFailure: () => {},
         })
@@ -97,12 +99,14 @@ const AuthorTable: React.FC<AttributeTableProps> = (props) => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
+        keywords: props.keywords,
+
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, props.keywords]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
