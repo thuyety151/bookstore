@@ -3,7 +3,7 @@ export type AddressFormSchema = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  appartmentNumber: string;
+  apartmentNumber: string;
   province: {
     id: number;
     name: string;
@@ -49,7 +49,7 @@ export type AddressFormValidationSchema = {
   firstName: InputValidation;
   lastName: InputValidation;
   phoneNumber: InputValidation;
-  appartmentNumber: InputValidation;
+  apartmentNumber: InputValidation;
   province: {
     id: number;
     name: string;
