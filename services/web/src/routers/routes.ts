@@ -32,6 +32,7 @@ import {
   ROUTE_WISHLIST,
 } from "./types";
 import WishlistPage from "../pages/wishlist/WishlistPage";
+import ListAuthorPage from "../pages/author/ListAuthorPage";
 
 export const routes: Route[] = [
   {
@@ -112,7 +113,7 @@ export const routeMainLayout: Route[] = [
   {
     path: ROUTE_AUTHOR,
     name: "Author",
-    component: CategoryPage,
+    component: ListAuthorPage,
     exact: false,
   },
   {

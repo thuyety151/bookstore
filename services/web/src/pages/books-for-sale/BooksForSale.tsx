@@ -192,7 +192,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     <div>
       <Grid container direction="row">
         {/*-------------------------------Desktop Filter--------------------------------*/}
-        <Grid md={4} className={classes.desktop}>
+        <Grid item md={4} className={classes.desktop}>
           <Grid container>
             <Button
               variant="contained"

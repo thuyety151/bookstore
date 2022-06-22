@@ -6,6 +6,13 @@ export type AuthorState = {
   success: Boolean;
   data: Author[];
   message?: string;
+  listAuthor: Author[];
+  pagination: {
+    pageIndex: number;
+    pageSize: number;
+    totalPage: number;
+    totalCount: number;
+  };
 };
 
 const initState: AuthorState = {
@@ -13,6 +20,13 @@ const initState: AuthorState = {
   success: true,
   data: [],
   message: "",
+  pagination: {
+    pageIndex: 0,
+    pageSize: 20,
+    totalPage: 0,
+    totalCount: 0,
+  },
+  listAuthor: [],
 };
 
 const authorReducer = (
@@ -39,6 +53,20 @@ const authorReducer = (
         requesting: false,
         message: payload.message,
         success: false,
+      };
+    case NAME_ACTIONS.GET_AUTHORS_PAGINATION.GET_AUTHORS_PAGINATION:
+      return {
+        ...state,
+        requesting: true,
+        listAuthor: [],
+      };
+    case NAME_ACTIONS.GET_AUTHORS_PAGINATION.GET_AUTHORS_PAGINATION_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        listAuthor: payload.data,
+        success: true,
+        pagination: JSON.parse(payload.pagination),
       };
     default:
       return state;

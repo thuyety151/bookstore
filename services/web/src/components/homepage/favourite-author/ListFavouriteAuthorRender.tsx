@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
@@ -9,6 +9,9 @@ import { useHistory } from "react-router-dom";
 import { getAllAuthor } from "../../../redux/actions/author/getActions";
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import { ROUTE_AUTHOR } from "../../../routers/types";
+import { ReactComponent as Icon } from "../../../assets/images/themifyIcon/angle-right.svg";
+
 const responsive = {
   0: { items: 1 },
   568: { items: 2 },
@@ -28,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       justifyContent: "space-between",
       alignItems: "center",
+      display: "flex",
     },
     viewAll: {
       display: "flex",
@@ -47,13 +51,8 @@ const SlideEffect: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const authors = useSelector((state: RootStore) => state.author);
-
   const handleNavBook = (id?: string) => {
-    if (id) {
-      history.push(`/book/${id}`);
-    } else {
-      history.push(`/book`);
-    }
+    history.push(ROUTE_AUTHOR);
   };
 
   useEffect(() => {
@@ -87,7 +86,12 @@ const SlideEffect: React.FC = () => {
             item
             className={classes.viewAll}
             onClick={() => handleNavBook()}
-          ></Grid>
+          >
+            <Typography variant="subtitle1" gutterBottom>
+              View All
+            </Typography>
+            <SvgIcon component={Icon} className="icon" />
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper} elevation={0}>
