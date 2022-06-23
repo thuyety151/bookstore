@@ -3,7 +3,7 @@ import { NAME_ACTIONS } from "../../constants/author/actionTypes";
 
 export const getAllAuthor = () => async (dispatch: any) => {
   dispatch({ type: NAME_ACTIONS.GET_ALL_AUTHOR.GET_ALL });
-  const response = await api.get("/authors");
+  const response = await api.get("/authors/search");
   if (response.data) {
     dispatch({
       type: NAME_ACTIONS.GET_ALL_AUTHOR.GET_ALL_SUCCESS,

@@ -49,9 +49,9 @@ namespace API.Controllers
         
         [HttpGet]
         [Route("books-for-sale")]
-        public async Task<IActionResult> GetAllForBooksForSale([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetAllForBooksForSale()
         {
-            return HandlePagedResult(await Mediator.Send(new CategoriesBooksForSale.Query(){Params = pagingParams}));
+            return HandleResult(await Mediator.Send(new CategoriesBooksForSale.Query(){}));
         }
 
     }

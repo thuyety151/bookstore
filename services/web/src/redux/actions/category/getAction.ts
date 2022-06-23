@@ -41,7 +41,7 @@ export const refreshSideBar = () => (dispatch: any) => {
 export const getCategories = () => async (dispatch: any) => {
   dispatch({ type: NAME_ACTIONS.GET_CATEGORIES });
 
-  var response = await api.get("/categories/all");
+  var response = await api.get("/categories/books-for-sale");
 
   if (response.data?.isSuccess) {
     dispatch({

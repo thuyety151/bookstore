@@ -5,6 +5,7 @@ export interface Category {
   description?: any;
   mediaUrl?: any;
   count: number;
+  subCategories: Category[]
 }
 export interface CategoryType {
   id: string;

@@ -9,3 +9,11 @@
 	width: 100%;
 	height: auto;
 }
+
+#outlined-basic {
+    padding: 14px;
+}
+
+#outlined-basic-label .MuiInputLabel-outlined {
+    transform: translate(14px, 14px) scale(1);
+}

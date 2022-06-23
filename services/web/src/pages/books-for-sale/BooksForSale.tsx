@@ -13,12 +13,10 @@ import {
   makeStyles,
   Paper,
   Slide,
-  Slider,
   Theme,
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -41,6 +39,11 @@ import {
 } from "../../redux/actions/books/getAction";
 import { Category } from "../../model/category";
 import Attribute from "../../model/attribute";
+import FilterChips from "./components/FilterChips";
+import SelectedFilters from "./components/SelectedFilters";
+import PriceFilter from "./components/PriceFilter";
+import ReviewFilter from "./components/ReviewFilter";
+import SearchText from "./components/SearchText";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
@@ -48,6 +51,19 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+export type chipParam = {
+  key: number;
+  label: string;
+};
+
+export type filterChips = {
+  authorChips: chipParam[];
+  languageChips: chipParam[];
+  attributeChips: chipParam[];
+  ratesChips: chipParam[];
+  parentCategoryChips: chipParam[];
+};
 
 const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
@@ -75,53 +91,277 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   });
 
   const initBookFilterParams: filterParams = {
-    categoryId: categoryId || "",
-    authorId: "",
+    categoryIds: categoryId|| "",
+    authorIds: "",
     languageIds: "",
-    attributeId: "",
+    attributeIds: "",
     minPrice: 0,
     maxPrice: 500,
-    rates: 0,
+    rates: "",
   };
-  const [bookFilterParams, setBookFilterParams] =
-    useState(initBookFilterParams);
+  const [bookFilterParams, setBookFilterParams] = useState(
+    initBookFilterParams
+  );
+
+  const initChipFilterParams: filterChips = {
+    authorChips: [],
+    languageChips: [],
+    attributeChips: [],
+    ratesChips: [],
+    parentCategoryChips: []
+  };
+  const [chipFilterParams, setChipFilterParams] = useState(
+    initChipFilterParams
+  );
+
+  const [authorsCheckedState, setAuthorsCheckedState] = useState(
+    new Array(authours.length).fill(false)
+  );
+
+  const [languagesCheckedState, setLanguagesCheckedState] = useState(
+    new Array(languages.length).fill(false)
+  );
+
+  const [attributesCheckedState, setAttributesCheckedState] = useState(
+    new Array(attributes.length).fill(false)
+  );
+
+  const rates = [1, 2, 3, 4, 5];
+
+  const [ratesCheckedState, setRatesCheckedState] = useState(
+    new Array(rates.length).fill(false)
+  );
+
+  const [parentCategoriesCheckedState, setParentCategoriesCheckedState] = useState(
+    new Array(categories.length).fill(false)
+  );
 
   //Function
-  function handleLanguageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.checked) {
-      setBookFilterParams({
-        ...bookFilterParams,
-        languageIds: event.target.name,
-      });
-    }
+  function handleLanguageChange(position: number) {
+    const updatedLanguagesCheckState = languagesCheckedState.map(
+      (item, index) => (index === position ? !item : item)
+    );
+
+    setLanguagesCheckedState(updatedLanguagesCheckState);
+
+    const languageIds = updatedLanguagesCheckState.reduce(
+      (ids, currentState, index) => {
+        if (currentState === true) {
+          return [...ids, languages[index].id];
+        }
+        return ids;
+      },
+      []
+    );
+
+    const languageChips = updatedLanguagesCheckState.reduce(
+      (languageChips, currentState, index) => {
+        if (currentState === true) {
+          return [
+            ...languageChips,
+            { key: index, label: languages[index].name },
+          ];
+        }
+        return languageChips;
+      },
+      [] as chipParam[]
+    );
+
+    setBookFilterParams({
+      ...bookFilterParams,
+      languageIds: languageIds.join(),
+    });
+    setChipFilterParams((prev) => {
+      return {
+        ...prev,
+        languageChips: [...languageChips],
+      };
+    });
   }
 
   function handleCategoryChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.checked) {
       setBookFilterParams({
         ...bookFilterParams,
-        categoryId: event.target.name,
+        categoryIds: event.target.id,
       });
+      // setChipFilterParams((prev: any[]) => {
+      //   const newElement = prev.filter((x) => x.key === event.target.id);
+      //   if (newElement.length > 0) {
+      //     return [...prev];
+      //   } else {
+      //     return [
+      //       ...prev,
+      //       {
+      //         key: event.target.id,
+      //         label: event.target.name,
+      //       },
+      //     ];
+      //   }
+      // });
     }
   }
 
-  function handleAuthorChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.checked) {
-      setBookFilterParams({
-        ...bookFilterParams,
-        authorId: event.target.name,
-      });
-    }
+  function handleParentCategoryChange(position: number) {
+    const updatedParentCategoryiesCheckState = parentCategoriesCheckedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setParentCategoriesCheckedState(updatedParentCategoryiesCheckState);
+
+    const parentCategoryIds = updatedParentCategoryiesCheckState.reduce(
+      (ids, currentState, index) => {
+        if (currentState === true) {
+          return [...ids, categories[index].id];
+        }
+        return ids;
+      },
+      []
+    );
+
+    const parentCategoryChips = updatedParentCategoryiesCheckState.reduce(
+      (parentCategoryChips, currentState, index) => {
+        if (currentState === true) {
+          return [...parentCategoryChips, { key: index, label: categories[index].name }];
+        }
+        return parentCategoryChips;
+      },
+      [] as chipParam[]
+    );
+
+    setBookFilterParams({
+      ...bookFilterParams,
+      categoryIds: parentCategoryIds.join(),
+    });
+    setChipFilterParams((prev) => {
+      return {
+        ...prev,
+        parentCategoryChips: [...parentCategoryChips],
+      };
+    });
   }
 
-  function handleAttributeChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.checked) {
-      setBookFilterParams({
-        ...bookFilterParams,
-        attributeId: event.target.name,
-      });
-    }
+  function handleAuthorChange(position: number) {
+    const updatedAuthorsCheckState = authorsCheckedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setAuthorsCheckedState(updatedAuthorsCheckState);
+
+    const authorIds = updatedAuthorsCheckState.reduce(
+      (ids, currentState, index) => {
+        if (currentState === true) {
+          return [...ids, authours[index].id];
+        }
+        return ids;
+      },
+      []
+    );
+
+    const authorChips = updatedAuthorsCheckState.reduce(
+      (authorChips, currentState, index) => {
+        if (currentState === true) {
+          return [...authorChips, { key: index, label: authours[index].name }];
+        }
+        return authorChips;
+      },
+      [] as chipParam[]
+    );
+
+    setBookFilterParams({
+      ...bookFilterParams,
+      authorIds: authorIds.join(),
+    });
+
+    setChipFilterParams((prev) => {
+      return {
+        ...prev,
+        authorChips: [...authorChips],
+      };
+    });
   }
+
+  function handleAttributeChange(position: number) {
+    const updatedAttributesCheckState = attributesCheckedState.map(
+      (item, index) => (index === position ? !item : item)
+    );
+
+    setAttributesCheckedState(updatedAttributesCheckState);
+
+    const attributeIds = updatedAttributesCheckState.reduce(
+      (ids, currentState, index) => {
+        if (currentState === true) {
+          return [...ids, attributes[index].id];
+        }
+        return ids;
+      },
+      []
+    );
+
+    const attributeChips = updatedAttributesCheckState.reduce(
+      (attributeChips, currentState, index) => {
+        if (currentState === true) {
+          return [
+            ...attributeChips,
+            { key: index, label: attributes[index].name },
+          ];
+        }
+        return attributeChips;
+      },
+      [] as chipParam[]
+    );
+
+    setBookFilterParams({
+      ...bookFilterParams,
+      attributeIds: attributeIds.join(),
+    });
+
+    setChipFilterParams((prev) => {
+      return {
+        ...prev,
+        attributeChips: [...attributeChips],
+      };
+    });
+  }
+
+  const handleRateChange = (position: number) => {
+    const updatedRatesCheckState = ratesCheckedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setRatesCheckedState(updatedRatesCheckState);
+
+    const rateIds = updatedRatesCheckState.reduce(
+      (ids, currentState, index) => {
+        if (currentState === true) {
+          return [...ids, rates[index]];
+        }
+        return ids;
+      },
+      []
+    );
+
+    const rateChips = updatedRatesCheckState.reduce(
+      (rateChips, currentState, index) => {
+        if (currentState === true) {
+          return [...rateChips, { key: index, label: rates[index].toString() + ' star' }];
+        }
+        return rateChips;
+      },
+      [] as chipParam[]
+    );
+    setBookFilterParams({
+      ...bookFilterParams,
+      rates: rateIds.join(),
+    });
+
+    setChipFilterParams((prev) => {
+      return {
+        ...prev,
+        ratesChips: [...rateChips],
+      };
+    });
+  };
 
   //useEffect
   useEffect(() => {
@@ -156,25 +396,19 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     });
   };
 
-  const [state, setState] = React.useState({
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-  });
-
-  const handleRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-    const rateValue = parseInt(event.target.name);
-    setBookFilterParams({
-      ...bookFilterParams,
-      rates: rateValue,
-    });
-  };
+ 
 
   const handleClearAllFilter = () => {
     setBookFilterParams(initBookFilterParams);
+
+    setAttributesCheckedState(Array(attributes.length).fill(false));
+    setAuthorsCheckedState(Array(authours.length).fill(false));
+    setLanguagesCheckedState(Array(languages.length).fill(false));
+    setRatesCheckedState(Array(rates.length).fill(false));
+    setParentCategoriesCheckedState(Array(categories.length).fill(false));
+
+    setChipFilterParams(initChipFilterParams);
+
   };
 
   /*-------------------------------Mobile Filter--------------------------------*/
@@ -206,7 +440,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
             <Grid container direction="column" className={classes.grid}>
               <Collapse in={isOpen.category} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
-                  <div>
+                  <div className={classes.filterTitle}>
                     <h3>Category</h3>
                     <span
                       className="curso r-pointer icon"
@@ -217,41 +451,17 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       {isOpen.category ? <RemoveIcon /> : <AddIcon />}
                     </span>
                   </div>
-                  <Grid
-                    item
-                    container
-                    direction="column"
-                    className={classes.collapse}
-                  >
-                    <span>
-                      <FormControl component="fieldset">
-                        <FormGroup>
-                          {categories?.map((category: Category) => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={
-                                    category.id === bookFilterParams.categoryId
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={handleCategoryChange}
-                                  name={category.id}
-                                />
-                              }
-                              label={category.name}
-                            />
-                          ))}
-                        </FormGroup>
-                      </FormControl>
-                    </span>
-                  </Grid>
+                  <SearchText
+                    categories={categories}
+                    bookFilterParams={bookFilterParams}
+                    handleCategoryChange={handleParentCategoryChange}
+                    checkedState = {parentCategoriesCheckedState}
+                  />
                 </Paper>
               </Collapse>
-
               <Collapse in={isOpen.author} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
-                  <div>
+                  <div className={classes.filterTitle}>
                     <h3>Author</h3>
                     <span
                       className="curso r-pointer icon"
@@ -262,41 +472,18 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       {isOpen.author ? <RemoveIcon /> : <AddIcon />}
                     </span>
                   </div>
-                  <Grid
-                    item
-                    container
-                    direction="column"
-                    className={classes.collapse}
-                  >
-                    <span>
-                      <FormControl component="fieldset">
-                        <FormGroup>
-                          {authours?.map((author: Author) => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={
-                                    author.id === bookFilterParams.authorId
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={handleAuthorChange}
-                                  name={author.id}
-                                />
-                              }
-                              label={author.name}
-                            />
-                          ))}
-                        </FormGroup>
-                      </FormControl>
-                    </span>
-                  </Grid>
+                  <SelectedFilters
+                    data={authours}
+                    bookFilterParams={bookFilterParams}
+                    handleChange={handleAuthorChange}
+                    checkedState={authorsCheckedState}
+                  />
                 </Paper>
               </Collapse>
 
               <Collapse in={isOpen.language} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
-                  <div>
+                  <div className={classes.filterTitle}>
                     <h3>Language</h3>
                     <span
                       className="curso r-pointer icon"
@@ -307,41 +494,18 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       {isOpen.language ? <RemoveIcon /> : <AddIcon />}
                     </span>
                   </div>
-                  <Grid
-                    item
-                    container
-                    direction="column"
-                    className={classes.collapse}
-                  >
-                    <span>
-                      <FormControl component="fieldset">
-                        <FormGroup>
-                          {languages?.map((language: Language) => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={
-                                    language.id === bookFilterParams.languageIds
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={handleLanguageChange}
-                                  name={language.id}
-                                />
-                              }
-                              label={language.name}
-                            />
-                          ))}
-                        </FormGroup>
-                      </FormControl>
-                    </span>
-                  </Grid>
+                  <SelectedFilters
+                    data={languages}
+                    bookFilterParams={bookFilterParams}
+                    handleChange={handleLanguageChange}
+                    checkedState={languagesCheckedState}
+                  />
                 </Paper>
               </Collapse>
 
               <Collapse in={isOpen.format} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
-                  <div>
+                  <div className={classes.filterTitle}>
                     <h3>Format</h3>
                     <span
                       className="curso r-pointer icon"
@@ -352,42 +516,18 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       {isOpen.format ? <RemoveIcon /> : <AddIcon />}
                     </span>
                   </div>
-                  <Grid
-                    item
-                    container
-                    direction="column"
-                    className={classes.collapse}
-                  >
-                    <span>
-                      <FormControl component="fieldset">
-                        <FormGroup>
-                          {attributes?.map((attribute: Attribute) => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={
-                                    attribute.id ===
-                                    bookFilterParams.attributeId
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={handleAttributeChange}
-                                  name={attribute.id}
-                                />
-                              }
-                              label={attribute.name}
-                            />
-                          ))}
-                        </FormGroup>
-                      </FormControl>
-                    </span>
-                  </Grid>
+                  <SelectedFilters
+                    data={attributes}
+                    bookFilterParams={bookFilterParams}
+                    handleChange={handleAttributeChange}
+                    checkedState={attributesCheckedState}
+                  />
                 </Paper>
               </Collapse>
 
               <Collapse in={isOpen.price} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
-                  <div>
+                  <div className={classes.filterTitle}>
                     <h3>Filter by price</h3>
                     <span
                       className="curso r-pointer icon"
@@ -398,34 +538,16 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       {isOpen.price ? <RemoveIcon /> : <AddIcon />}
                     </span>
                   </div>
-                  <Grid
-                    item
-                    container
-                    direction="column"
-                    className={classes.collapse}
-                  >
-                    <Slider
-                      value={[
-                        bookFilterParams.minPrice,
-                        bookFilterParams.maxPrice,
-                      ]}
-                      onChange={handleChangePrice}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="range-slider"
-                      className={classes.slider}
-                      max={500}
-                    />
-                    <p className={classes.price}>
-                      Price: ${bookFilterParams.minPrice} - $
-                      {bookFilterParams.maxPrice}
-                    </p>
-                  </Grid>
+                  <PriceFilter
+                    bookFilterParams={bookFilterParams}
+                    handleChange={handleChangePrice}
+                  />
                 </Paper>
               </Collapse>
 
               <Collapse in={isOpen.review} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
-                  <div>
+                  <div className={classes.filterTitle}>
                     <h3>By Reivew</h3>
                     <span
                       className="curso r-pointer icon"
@@ -436,83 +558,35 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                       {isOpen.review ? <RemoveIcon /> : <AddIcon />}
                     </span>
                   </div>
-                  <Grid
-                    item
-                    container
-                    direction="column"
-                    className={classes.collapse}
-                  >
-                    <FormControl component="fieldset">
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                bookFilterParams.rates === 5 ? true : false
-                              }
-                              onChange={handleRateChange}
-                              name="5"
-                            />
-                          }
-                          label={<Rating name="read-only" value={5} readOnly />}
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                bookFilterParams.rates === 4 ? true : false
-                              }
-                              onChange={handleRateChange}
-                              name="4"
-                            />
-                          }
-                          label={<Rating name="read-only" value={4} readOnly />}
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                bookFilterParams.rates === 3 ? true : false
-                              }
-                              onChange={handleRateChange}
-                              name="3"
-                            />
-                          }
-                          label={<Rating name="read-only" value={3} readOnly />}
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                bookFilterParams.rates === 2 ? true : false
-                              }
-                              onChange={handleRateChange}
-                              name="2"
-                            />
-                          }
-                          label={<Rating name="read-only" value={2} readOnly />}
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                bookFilterParams.rates === 1 ? true : false
-                              }
-                              onChange={handleRateChange}
-                              name="1"
-                            />
-                          }
-                          label={<Rating name="read-only" value={1} readOnly />}
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
+                  <ReviewFilter
+                    data={rates}
+                    bookFilterParams={bookFilterParams}
+                    handleChange={handleRateChange}
+                    checkedState={ratesCheckedState}
+                  />
                 </Paper>
               </Collapse>
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} md={8}>
+          <Grid item xs={12} style={{display:'flex', flexWrap: 'wrap'}}>
+          {chipFilterParams.authorChips.length > 0 ? (
+            <FilterChips filterData={chipFilterParams.authorChips}  handleDelete={handleAuthorChange}/>
+          ) : null}
+          {chipFilterParams.languageChips.length > 0 ? (
+            <FilterChips filterData={chipFilterParams.languageChips} handleDelete={handleLanguageChange}/>
+          ) : null}
+          {chipFilterParams.attributeChips.length > 0 ? (
+            <FilterChips filterData={chipFilterParams.attributeChips} handleDelete={handleAttributeChange} />
+          ) : null}
+           {chipFilterParams.ratesChips.length > 0 ? (
+            <FilterChips filterData={chipFilterParams.ratesChips} handleDelete={handleRateChange}/>
+          ) : null}
+          {chipFilterParams.parentCategoryChips.length > 0 ? (
+            <FilterChips filterData={chipFilterParams.parentCategoryChips} handleDelete={handleParentCategoryChange}/>
+          ) : null}
+          </Grid>
           {/*-------------------------------List Books For Sale--------------------------------*/}
           <ListBookForSale />
         </Grid>
@@ -560,7 +634,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
           variant="contained"
           color="secondary"
           size="medium"
-          style={{ width: 200 }}
+          style={{ width: 200, textTransform: 'none'}}
           onClick={handleClearAllFilter}
         >
           Clear all filter
@@ -594,7 +668,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                             control={
                               <Checkbox
                                 checked={
-                                  category.id === bookFilterParams.categoryId
+                                  category.id === bookFilterParams.categoryIds
                                     ? true
                                     : false
                                 }
@@ -634,16 +708,16 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                   <span>
                     <FormControl component="fieldset">
                       <FormGroup>
-                        {authours?.map((author: Author) => (
+                        {authours?.map((author: Author, index: number) => (
                           <FormControlLabel
                             control={
                               <Checkbox
                                 checked={
-                                  author.id === bookFilterParams.authorId
+                                  author.id === bookFilterParams.authorIds
                                     ? true
                                     : false
                                 }
-                                onChange={handleAuthorChange}
+                                onChange={() => handleAuthorChange(index)}
                                 name={author.id}
                               />
                             }
@@ -679,7 +753,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                   <span>
                     <FormControl component="fieldset">
                       <FormGroup>
-                        {languages?.map((language: Language) => (
+                        {languages?.map((language: Language, index: number) => (
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -688,7 +762,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                                     ? true
                                     : false
                                 }
-                                onChange={handleLanguageChange}
+                                onChange={() => handleLanguageChange(index)}
                                 name={language.id}
                               />
                             }
@@ -724,22 +798,25 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                   <span>
                     <FormControl component="fieldset">
                       <FormGroup>
-                        {attributes?.map((attribute: Attribute) => (
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                checked={
-                                  attribute.id === bookFilterParams.attributeId
-                                    ? true
-                                    : false
-                                }
-                                onChange={handleAttributeChange}
-                                name={attribute.id}
-                              />
-                            }
-                            label={attribute.name}
-                          />
-                        ))}
+                        {attributes?.map(
+                          (attribute: Attribute, index: number) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={
+                                    attribute.id ===
+                                    bookFilterParams.attributeIds
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={() => handleAttributeChange(index)}
+                                  name={attribute.id}
+                                />
+                              }
+                              label={attribute.name}
+                            />
+                          )
+                        )}
                       </FormGroup>
                     </FormControl>
                   </span>
@@ -758,28 +835,10 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                     {isOpen.price ? <RemoveIcon /> : <AddIcon />}
                   </span>
                 </div>
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  className={classes.collapse}
-                >
-                  <Slider
-                    value={[
-                      bookFilterParams.minPrice,
-                      bookFilterParams.maxPrice,
-                    ]}
-                    onChange={handleChangePrice}
-                    valueLabelDisplay="auto"
-                    aria-labelledby="range-slider"
-                    className={classes.slider}
-                    max={500}
-                  />
-                  <p className={classes.price}>
-                    Price: ${bookFilterParams.minPrice} - $
-                    {bookFilterParams.maxPrice}
-                  </p>
-                </Grid>
+                <PriceFilter
+                  bookFilterParams={bookFilterParams}
+                  handleChange={handleChangePrice}
+                />
               </Paper>
             </Collapse>
 
@@ -796,77 +855,12 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
                     {isOpen.review ? <RemoveIcon /> : <AddIcon />}
                   </span>
                 </div>
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  className={classes.collapse}
-                >
-                  <FormControl component="fieldset">
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              bookFilterParams.rates === 5 ? true : false
-                            }
-                            onChange={handleRateChange}
-                            name="5"
-                          />
-                        }
-                        label={<Rating name="read-only" value={5} readOnly />}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              bookFilterParams.rates === 4 ? true : false
-                            }
-                            onChange={handleRateChange}
-                            name="4"
-                          />
-                        }
-                        label={<Rating name="read-only" value={4} readOnly />}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              bookFilterParams.rates === 3 ? true : false
-                            }
-                            onChange={handleRateChange}
-                            name="3"
-                          />
-                        }
-                        label={<Rating name="read-only" value={3} readOnly />}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              bookFilterParams.rates === 2 ? true : false
-                            }
-                            onChange={handleRateChange}
-                            name="2"
-                          />
-                        }
-                        label={<Rating name="read-only" value={2} readOnly />}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              bookFilterParams.rates === 1 ? true : false
-                            }
-                            onChange={handleRateChange}
-                            name="1"
-                          />
-                        }
-                        label={<Rating name="read-only" value={1} readOnly />}
-                      />
-                    </FormGroup>
-                  </FormControl>
-                </Grid>
+                <ReviewFilter
+                    data={rates}
+                    bookFilterParams={bookFilterParams}
+                    handleChange={handleRateChange}
+                    checkedState={ratesCheckedState}
+                  />
               </Paper>
             </Collapse>
           </Grid>
@@ -887,10 +881,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     padding: theme.spacing(4, 4),
-    "& div": {
-      justifyContent: "space-between",
-      display: "flex",
-    },
     "& h3": {
       margin: 0,
     },
@@ -901,12 +891,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   item: {
     margin: theme.spacing(2, 2),
   },
-  slider: {
-    color: "black",
-  },
-  price: {
-    textAlign: "center",
-  },
+
   appBar: {
     position: "relative",
   },
@@ -933,5 +918,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   wrapper: {
     position: "absolute",
+  },
+  root: {
+    display: "flex",
+    justifyContent: "start",
+    flexWrap: "wrap",
+    listStyle: "none",
+    padding: theme.spacing(0.5),
+    margin: 0,
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
+  filterTitle: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));

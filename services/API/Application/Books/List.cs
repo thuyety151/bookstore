@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -51,27 +52,31 @@ namespace Application.Books
                     .Include(x => x.Attribute)
                     .Where(x => x.Book.IsPublic && x.Book.IsDeleted == false && x.StockStatus == StockStatus.InStock && x.TotalStock > 0)
                     .AsQueryable();
-                if (!string.IsNullOrWhiteSpace(request.Params.CategoryId))
+                
+                if (!string.IsNullOrWhiteSpace(request.Params.CategoryIds))
                 {
-                    query = query.Where(
-                        x => x.Book.Categories.Any(c => c.CategoryId.ToString() == request.Params.CategoryId
-                                                        || c.Category.ParentId.ToString() == request.Params.CategoryId));
+                    var categoryIds = request.Params.CategoryIds.Split(",").ToList();
+
+                    query = query.Where(x => x.Book.Categories.Any(c =>
+                        categoryIds.Contains(c.CategoryId.ToString()) || categoryIds.Contains(c.Category.ParentId.ToString())  ));
                 }
 
-                if (!string.IsNullOrWhiteSpace(request.Params.AuthorId))
+                if (!string.IsNullOrWhiteSpace(request.Params.AuthorIds))
                 {
-                    query = query.Where(x => x.Book.Author.Id.ToString() == request.Params.AuthorId);
+                    var authorIds = request.Params.AuthorIds.Split(",").ToList();
+                    query = query.Where(x => authorIds.Contains(x.Book.Author.Id.ToString()));
                 }
 
                 if (!string.IsNullOrWhiteSpace(request.Params.LanguageIds))
                 {
-                    query = query.Where(x => x.Book.Language.Id.ToString() == request.Params.LanguageIds);
+                    var languageIds = request.Params.LanguageIds.Split(",").ToList();
+                    query = query.Where(x => languageIds.Contains(x.Book.Language.Id.ToString()));
                 }
 
-                if (!string.IsNullOrWhiteSpace(request.Params.AttributeId))
+                if (!string.IsNullOrWhiteSpace(request.Params.AttributeIds))
                 {
-                    query = query.Where(x =>
-                        x.AttributeId.ToString() == request.Params.AttributeId && x.StockStatus == StockStatus.InStock);
+                    var attributeIds = request.Params.AttributeIds.Split(",").ToList();
+                    query = query.Where(x => attributeIds.Contains(x.Attribute.Id.ToString()) && x.StockStatus == StockStatus.InStock);
                 }
                 else
                 {
@@ -88,18 +93,9 @@ namespace Application.Books
                         request.Params.MaxPrice);
                 }
 
-                if (request.Params.Rates > 0)
+                if (!string.IsNullOrEmpty(request.Params.Rates))
                 {
-                    // var rateStrings = request.Params.Rates.Split(",");
-                    // List<int> rates = new List<int>();
-                    // foreach (var s in rateStrings)
-                    // {
-                    //     var rateInt = Int32.Parse(s);
-                    //     if (rateInt > 0 && rateInt <= 5)
-                    //     {
-                    //         rates.Add(rateInt);
-                    //     }
-                    // }
+                    var rates = request.Params.Rates.Split(",").Select(Int32.Parse).ToList();
 
                     var reviews = _context.Reviews.AsNoTracking().GroupBy(x => x.BookId, r => r.Rate)
                         .Select(g => new
@@ -109,7 +105,7 @@ namespace Application.Books
                         }).ToList();
 
 
-                    var listBookId = reviews.Where(x => x.Rating == request.Params.Rates).Select(x => x.BookId).ToList();
+                    var listBookId = reviews.Where(x => rates.Contains(x.Rating)).Select(x => x.BookId).ToList();
 
                     query = query.Where(x => listBookId.Contains(x.BookId));
                     var test = query.ToList();

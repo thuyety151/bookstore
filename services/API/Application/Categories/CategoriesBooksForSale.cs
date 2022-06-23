@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,11 @@ namespace Application.Categories
 {
     public class CategoriesBooksForSale
     {
-        public class Query : IRequest<Result<PagedList<CategoryDtosBooksForSale>>>
+        public class Query : IRequest<Result<List<CategoryDtosBooksForSale>>>
         {
-            public PagingParams Params { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<PagedList<CategoryDtosBooksForSale>>>
+        public class Handler : IRequestHandler<Query, Result<List<CategoryDtosBooksForSale>>>
         {
             private readonly DataContext _context;
 
@@ -24,10 +24,10 @@ namespace Application.Categories
                 _context = context;
             }
             
-            public async Task<Result<PagedList<CategoryDtosBooksForSale>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<CategoryDtosBooksForSale>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var categoriesCategoryDtosBooksForSales = _context.Categories.Include(x => x.SubCategories)
-                    .Where(x => x.IsDeleted == false)
+                var categoriesCategoryDtosBooksForSales = await _context.Categories.Include(x => x.SubCategories)
+                    .Where(x => x.IsDeleted == false && x.ParentCategory == null)
                     .Select(x => new CategoryDtosBooksForSale()
                     {
                         Id = x.Id,
@@ -37,11 +37,9 @@ namespace Application.Categories
                             Id = s.Id,
                             Name = s.Name
                         }).ToList()
-                    });
+                    }).ToListAsync();
 
-                return Result<PagedList<CategoryDtosBooksForSale>>.Success(
-                    await PagedList<CategoryDtosBooksForSale>.CreatePage(categoriesCategoryDtosBooksForSales,
-                        request.Params.PageIndex, request.Params.PageSize));
+                return Result<List<CategoryDtosBooksForSale>>.Success(categoriesCategoryDtosBooksForSales);
             }
         }
     }
