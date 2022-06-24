@@ -13,6 +13,7 @@ export type AuthorState = {
     totalPage: number;
     totalCount: number;
   };
+  detail: Author | null;
 };
 
 const initState: AuthorState = {
@@ -27,6 +28,7 @@ const initState: AuthorState = {
     totalCount: 0,
   },
   listAuthor: [],
+  detail: null,
 };
 
 const authorReducer = (
@@ -67,6 +69,18 @@ const authorReducer = (
         listAuthor: payload.data,
         success: true,
         pagination: JSON.parse(payload.pagination),
+      };
+    case NAME_ACTIONS.GET_AUTHOR_BY_ID.GET_AUTHOR_BY_ID:
+      return {
+        ...state,
+        requesting: true,
+        detail: null,
+      };
+    case NAME_ACTIONS.GET_AUTHOR_BY_ID.GET_AUTHOR_BY_ID_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        detail: payload.data,
       };
     default:
       return state;

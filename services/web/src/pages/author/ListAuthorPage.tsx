@@ -14,8 +14,11 @@ import { getAuthorPagination } from "../../redux/actions/author/getActions";
 import { RootStore } from "../../redux/store";
 import emptySearchResultImage from "../../assets/images/empty_result.webp";
 import { Pagination } from "@material-ui/lab";
+import { generatePath, useHistory } from "react-router-dom";
+import { ROUTE_AUTHOR_DETAIL } from "../../routers/types";
 
 const ListAuthorPage: React.FC = () => {
+  const history = useHistory();
   const classes = useStyles();
   const alphabet = [...Array(26)].map((x, i) => String.fromCharCode(i + 97));
   const dispatch = useDispatch();
@@ -25,8 +28,16 @@ const ListAuthorPage: React.FC = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [predicate, setPredicate] = useState("all");
 
+  const viewDetail = (id: string) => {
+    history.push(
+      generatePath(ROUTE_AUTHOR_DETAIL, {
+        id,
+      })
+    );
+  };
+
   const AuthorCard = (author: Author) => (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={() => viewDetail(author.id)}>
       <CardContent className={classes.avatar}>
         <Avatar
           alt="Remy Sharp"
@@ -52,7 +63,7 @@ const ListAuthorPage: React.FC = () => {
         pageIndex,
       })
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [predicate, pageIndex]);
 
   const handleChangePage = (
@@ -87,11 +98,13 @@ const ListAuthorPage: React.FC = () => {
           {listAuthor.length > 0 ? (
             listAuthor.map((author) => AuthorCard(author))
           ) : (
-            <img
-              src={emptySearchResultImage}
-              alt="empty-result"
-              className={classes.emptyImg}
-            ></img>
+            <div style={{ justifyContent: "center" }}>
+              <img
+                src={emptySearchResultImage}
+                alt="empty-result"
+                className={classes.emptyImg}
+              />
+            </div>
           )}
         </Grid>
         <Grid container justifyContent="center" className={classes.pagination}>

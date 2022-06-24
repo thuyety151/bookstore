@@ -26,5 +26,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command() { AuthorParams = authorParams }));
         }
+        [HttpGet("detail")]
+        public async Task<IActionResult> GetAuthorsById([FromQuery] Guid id)
+        {
+            return HandleResult(await Mediator.Send(new AuthorDetail.Query(){Id = id}));
+        }
     }
 }

@@ -19,7 +19,8 @@ export const getAllAuthor = () => async (dispatch: any) => {
 };
 
 export const getAuthorPagination =
-  (predicate: string, pagination?: paginationParams) => async (dispatch: any) => {
+  (predicate: string, pagination?: paginationParams) =>
+  async (dispatch: any) => {
     dispatch({
       type: NAME_ACTIONS.GET_AUTHORS_PAGINATION.GET_AUTHORS_PAGINATION,
     });
@@ -39,3 +40,20 @@ export const getAuthorPagination =
       });
     }
   };
+
+export const getAuthorById = (id: string) => async (dispatch: any) => {
+  dispatch({
+    type: NAME_ACTIONS.GET_AUTHOR_BY_ID.GET_AUTHOR_BY_ID,
+  });
+  const response = await api.get("/authors/detail", {
+    params: {
+      id,
+    },
+  });
+  if (response.data) {
+    dispatch({
+      type: NAME_ACTIONS.GET_AUTHOR_BY_ID.GET_AUTHOR_BY_ID_SUCCESS,
+      data: response.data.value,
+    });
+  }
+};

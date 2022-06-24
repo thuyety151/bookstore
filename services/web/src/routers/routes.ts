@@ -15,8 +15,10 @@ import BooksForSalePage from "../pages/books-for-sale/BooksForSale";
 
 import {
   ROUTE_AUTHOR,
+  ROUTE_AUTHOR_DETAIL,
   ROUTE_BOOK,
   ROUTE_BOOKS_FOR_SALE,
+  ROUTE_BOOKS_FOR_SALE_AUTHOR,
   ROUTE_BOOKS_FOR_SALE_CATE,
   ROUTE_BOOK_DETAIL,
   ROUTE_BOOK_DETAIL_ADMIN,
@@ -33,6 +35,7 @@ import {
 } from "./types";
 import WishlistPage from "../pages/wishlist/WishlistPage";
 import ListAuthorPage from "../pages/author/ListAuthorPage";
+import AuthorDetail from "../pages/author/AuthorDetail";
 
 export const routes: Route[] = [
   {
@@ -87,6 +90,12 @@ export const routeMainLayout: Route[] = [
     exact: false,
   },
   {
+    path: ROUTE_BOOKS_FOR_SALE_AUTHOR,
+    name: "Books For Sale",
+    component: BooksForSalePage,
+    exact: false,
+  },
+  {
     path: ROUTE_CHECK_OUT,
     name: "Check out",
     component: CheckoutPage,
@@ -115,6 +124,12 @@ export const routeMainLayout: Route[] = [
     name: "Author",
     component: ListAuthorPage,
     exact: false,
+  },
+  {
+    path: ROUTE_AUTHOR_DETAIL,
+    name: "detail",
+    component: AuthorDetail,
+    exact: true,
   },
   {
     path: ROUTE_BOOK,

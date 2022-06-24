@@ -117,7 +117,7 @@ export default function CenteredGrid() {
     (a, b) => (a !== null && b !== null ? a + b : 0),
     0
   );
-  const avgRate = sumRate ? sumRate / rates.length : 0;
+  const avgRate = sumRate ? Math.round(sumRate / rates.length) : 0;
   const { enqueueSnackbar } = useSnackbar();
   const totalFiveStar = rates.filter((rate) => rate === 5).length;
   const totalFourStar = rates.filter((rate) => rate === 4).length;
