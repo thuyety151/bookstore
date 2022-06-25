@@ -54,7 +54,11 @@ const HeaderComponent: React.FC<{
   };
 
   const handlePersonOutLine = () => {
-    history.push("/profile");
+    history.push(
+      generatePath(ROUTE_PROFILE_PREDICATE, {
+        tabName: "account",
+      })
+    );
   };
   return (
     <div className={classes.root}>
