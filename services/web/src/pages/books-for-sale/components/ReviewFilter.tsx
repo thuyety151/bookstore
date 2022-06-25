@@ -12,7 +12,7 @@ import { filterParams } from "../../../redux/actions/books/getAction";
 
 interface Props {
   data: number[];
-  handleChange: (position: number) => void;
+  handleChange: (position: string) => void;
   bookFilterParams: filterParams;
   checkedState: boolean[];
 }
@@ -34,7 +34,7 @@ export default function ReviewFilter({
                 control={
                   <Checkbox
                     checked={checkedState[index]}
-                    onChange={() => handleChange(index)}
+                    onChange={() => handleChange(index.toString())}
                     name={value.toString()}
                     id={value.toString()}
                   />

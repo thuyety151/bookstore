@@ -14,6 +14,7 @@ namespace Application.Categories
         public int SubTotal { get; set; }
         public Media Media { get; set; }
         public Guid? ParentId { get; set; }
+       
         public List<CategoryDto> SubCategories { get; set; }
     }
 }

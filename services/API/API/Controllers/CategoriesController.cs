@@ -53,6 +53,13 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new CategoriesBooksForSale.Query(){}));
         }
+        
+        [HttpGet]
+        [Route("flatten-categories")]
+        public async Task<IActionResult> GetAllFlattenCategories()
+        {
+            return HandleResult(await Mediator.Send(new FlattenCategory.Query(){}));
+        }
 
     }
 }

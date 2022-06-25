@@ -3,7 +3,7 @@ import { chipParam } from "../BooksForSale";
 
 interface Props {
     filterData : chipParam[];
-    handleDelete: (position : number ) => void;
+    handleDelete: (position : string ) => void;
 }
 export default function FilterChips(props : Props) {
   const classes = useStyles();

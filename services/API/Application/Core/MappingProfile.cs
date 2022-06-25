@@ -78,6 +78,11 @@ namespace Application.Core
                 .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.Coupon.Media.Url))
                 .ForMember(x => x.MinSpend, o => o.MapFrom(x => x.Coupon.MinSpend));
 
+            CreateMap<Category, CategoryDtosBooksForSale>()
+                .ForMember(x => x.Value, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.Label, o => o.MapFrom(x => x.Name))
+                .ForMember(x => x.Children, o => o.MapFrom(x => x.SubCategories));
+
         }
     }
     

@@ -56,6 +56,25 @@ export const getCategories = () => async (dispatch: any) => {
   }
 };
 
+export const getFlattenCategories = () => async (dispatch: any) => {
+  dispatch({ type: NAME_ACTIONS.GET_FLATTEN_CATEGORIES });
+
+  var response = await api.get("/categories/flatten-categories");
+
+  if (response.data?.isSuccess) {
+    dispatch({
+      type: NAME_ACTIONS.GET_FLATTEN_CATEGORIES.GET_FLATTEN_CATEGORIES_SUCCESS,
+      data: response.data.value,
+    });
+  } else {
+    dispatch({
+      type: NAME_ACTIONS.GET_FLATTEN_CATEGORIES.GET_FLATTEN_CATEGORIES_FAIL,
+      message: response.data.error,
+    });
+  }
+};
+
+
 export const getCategoriesForHomepage = () => async (dispatch: any) => {
   dispatch({ type: NAME_ACTIONS.CATEGORY_FOR_HOME_PAGE.GET_ALL_CATEGORY });
   const response = await api.get("/categories");

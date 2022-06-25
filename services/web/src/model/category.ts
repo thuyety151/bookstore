@@ -7,6 +7,12 @@ export interface Category {
   count: number;
   subCategories: Category[]
 }
+
+export interface CategoryBooksForSale {
+  value: string;
+  label: string;
+  children: Category[]
+}
 export interface CategoryType {
   id: string;
   icon: string;
