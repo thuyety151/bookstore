@@ -218,7 +218,7 @@ namespace API.Controllers
 
             if (existedToken != null)
             {
-                return BadRequest("Token is existed");
+                return Unit.Value;
             }
             user?.FcmTokens.Add(new FcmToken()
             {

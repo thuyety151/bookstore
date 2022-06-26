@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Books;
 using Application.Core;
 using Domain;
 using Domain.Enum;
@@ -42,7 +43,9 @@ namespace Application.Notification
                         Metadata = x.Notification.Metadata,
                         CreatedDate = x.Notification.CreatedDate,
                         IsRead = x.IsRead
-                    }).OrderByDescending(x=>x.CreatedDate);
+                    })
+                    .OrderByDescending(x => x.CreatedDate);
+                    
 
                 return Result<PagedList<NotiDto>>.Success(
                     await PagedList<NotiDto>.CreatePage(notis, request.Params.PageIndex, request.Params.PageSize));

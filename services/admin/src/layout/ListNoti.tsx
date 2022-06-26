@@ -12,9 +12,11 @@ import Stack from "@mui/material/Stack";
 import InfiniteScroll from "components/infinityscroll/InfinityScroll";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { generatePath, useHistory } from "react-router-dom";
 import { getAll } from "redux/actions/noti/getActions";
 import { readNotis } from "redux/actions/noti/postActions";
 import { RootStore } from "redux/store";
+import { ROUTE_ORDER_DETAIL } from "routers/types";
 import "./styles.scss";
 
 const ListNoti: React.FC = () => {
@@ -23,6 +25,7 @@ const ListNoti: React.FC = () => {
   );
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   const handleClick = () => {
     setOpen(true);
@@ -36,14 +39,21 @@ const ListNoti: React.FC = () => {
     if (!listNoti.length) {
       dispatch(getAll());
     }
-    console.log(listNoti.length);
   }, [dispatch, listNoti.length]);
 
   const readNoti = (item: any) => {
     setOpen(false);
+    if (item?.metadata.body.orderId) {
+      history.push(
+        generatePath(ROUTE_ORDER_DETAIL, {
+          orderId: item?.metadata.body.orderId,
+        })
+      );
+    }
     if (item?.isRead) {
       return;
     }
+
     dispatch(readNotis(item.id, false));
   };
 
@@ -91,25 +101,31 @@ const ListNoti: React.FC = () => {
             onBottomHit={onLoadMore}
             loadOnMount={true}
           >
-            {listNoti.map((item, index) => (
-              <MenuItem
-                className="list-noti__item"
-                style={{
-                  background: item?.isRead ? "#fff" : "aliceblue",
-                }}
-                onClick={() => readNoti(item)}
-                key={`${item?.id} ${index}`}
-              >
-                <Grid container direction="column">
-                  <Typography variant="subtitle2" style={{ fontWeight: 600 }}>
-                    {item?.metadata?.title}
-                  </Typography>
-                  <Typography variant="caption">
-                    {item?.metadata?.body?.contents}
-                  </Typography>
-                </Grid>
-              </MenuItem>
-            ))}
+            {listNoti.length > 0 ? (
+              listNoti.map((item, index) => (
+                <MenuItem
+                  className="list-noti__item"
+                  style={{
+                    background: item?.isRead ? "#fff" : "aliceblue",
+                  }}
+                  onClick={() => readNoti(item)}
+                  key={`${item?.id} ${index}`}
+                >
+                  <Grid container direction="column">
+                    <Typography variant="subtitle2" style={{ fontWeight: 600 }}>
+                      {item?.metadata?.title}
+                    </Typography>
+                    <Typography variant="caption">
+                      {item?.metadata?.body?.contents}
+                    </Typography>
+                  </Grid>
+                </MenuItem>
+              ))
+            ) : (
+              <Grid style={{ padding: "0 2rem" }}>
+                <Typography>Empty</Typography>
+              </Grid>
+            )}
           </InfiniteScroll>
           {/* {listNoti.map((item, index) => (
             <MenuItem

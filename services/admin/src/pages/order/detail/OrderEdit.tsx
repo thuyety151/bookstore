@@ -23,6 +23,7 @@ import ContainedButton from "components/button/ContainedButton";
 import { updateOrderNote } from "redux/actions/order/postActions";
 import { useSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
+import clsx from "clsx";
 
 const OrderEdit: React.FC = () => {
   const classes = useStyles();
@@ -65,7 +66,7 @@ const OrderEdit: React.FC = () => {
     );
   };
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, "px-lg")}>
       <Grid container direction="column">
         <Paper variant="outlined" square className={classes.container}>
           <Grid className={classes.header}>

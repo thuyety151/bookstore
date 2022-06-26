@@ -204,24 +204,24 @@ export const cancelOrder =
                   sound: "Tri-tone",
                 },
               });
-              await api.post("/notis/create", {
-                fcmTokens: tokens.data.value,
-                userIds: ["b6ae2fe7-9059-4ab3-a618-2e37086f84e7"],
-                metadata: JSON.stringify({
-                  title: `Order ${props.orderCode} was canceled `,
-                  body: {
-                    type: "Canceled",
-                    orderCode: props.orderCode,
-                    orderId: props.orderId,
-                    contents: `Order ${props.orderCode} was canceled `,
-                  },
-                  mutable_content: true,
-                  sound: "Tri-tone",
-                }),
-                createdDate: new Date(),
-              });
             })
           );
+          await api.post("/notis/create", {
+            fcmTokens: tokens.data.value,
+            userIds: [],
+            metadata: JSON.stringify({
+              title: `Order ${props.orderCode} was canceled `,
+              body: {
+                type: "Canceled",
+                orderCode: props.orderCode,
+                orderId: props.orderId,
+                contents: `Order ${props.orderCode} was canceled `,
+              },
+              mutable_content: true,
+              sound: "Tri-tone",
+            }),
+            createdDate: new Date(),
+          });
           return;
         }
       }

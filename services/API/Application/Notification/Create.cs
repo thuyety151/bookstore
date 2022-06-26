@@ -61,7 +61,6 @@ namespace Application.Notification
                 {
                     listUserNoti.Add(new Domain.UserNoti()
                     {
-
                         UserId = user.Id,
                         NotificationId = noti.Id
                     });

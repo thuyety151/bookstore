@@ -53,7 +53,7 @@ const ProductTable: React.FC = () => {
             //   orderBy={orderBy}
             //   rowCount={orderState.data.length}
             headerCells={headCells}
-            loading={orderState.requesting && !orderId}
+            loading={orderState.requesting ? !orderId : false}
           />
           <TableBody>
             {orderState.currentOrder?.items?.map(
