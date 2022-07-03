@@ -20,7 +20,7 @@ import { ROUTE_ORDER_DETAIL } from "routers/types";
 import "./styles.scss";
 
 const ListNoti: React.FC = () => {
-  const { listNoti, pagination, resquesting } = useSelector(
+  const { listNoti, pagination, requesting } = useSelector(
     (state: RootStore) => state.notis
   );
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const ListNoti: React.FC = () => {
           </MenuItem>
           <InfiniteScroll
             // hasMoreData={listNoti.length < pagination.totalCount}
-            isLoading={resquesting}
+            isLoading={requesting}
             hasMoreData={true}
             onBottomHit={onLoadMore}
             loadOnMount={true}

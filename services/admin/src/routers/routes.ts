@@ -9,6 +9,7 @@ import {
   ROUTE_DASHBOARD,
   ROUTE_EXAMPLE,
   ROUTE_LOGIN,
+  ROUTE_NOTI,
   ROUTE_ORDERS,
   ROUTE_ORDER_CREATE,
   ROUTE_ORDER_DETAIL,
@@ -34,6 +35,7 @@ import ReportPage from "pages/report/ReportPage";
 import LoginPage from "pages/login/LoginPage";
 import Dashboard from "pages/dashboard/Dashboard";
 import AuthorPage from "pages/author/AuthorPage";
+import NotiPage from "pages/notification/NotiPage";
 
 export const routePage: Route[] = [
   {
@@ -152,6 +154,12 @@ export const routes: Route[] = [
     path: ROUTE_EXAMPLE,
     name: "Example",
     component: Example,
+    exact: true,
+  },
+  {
+    path: ROUTE_NOTI,
+    name: "Noti",
+    component: NotiPage,
     exact: true,
   },
 ];

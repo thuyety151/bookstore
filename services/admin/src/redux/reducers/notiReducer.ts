@@ -11,22 +11,35 @@ export type Notification = {
   };
   createdDate: any;
   isRead: boolean;
+  count: number;
 };
 
 export type NotiState = {
-  resquesting: boolean;
+  requesting: boolean;
   message: string;
   data: Media;
   listNoti: Notification[];
   pagination: Pagination;
+  requestingSend: boolean;
+  admin: {
+    data: Notification[];
+    pagination: Pagination;
+    requesting: boolean;
+  };
 };
 
 const initialState: NotiState = {
-  resquesting: false,
+  requesting: false,
   message: "",
   data: {} as any,
   listNoti: [],
   pagination: { ...paginationValue },
+  requestingSend: false,
+  admin: {
+    requesting: false,
+    pagination: { ...paginationValue },
+    data: [],
+  },
 };
 
 const notiReducer = (
@@ -35,14 +48,15 @@ const notiReducer = (
 ): NotiState => {
   switch (payload.type) {
     case ACTION_NAMES.GET_ALL.GET_NOTI_PAGINATION:
+    case ACTION_NAMES.ADMIN_GET_ALL_NOTI.ADMIN_GET_NOTI_PAGINATION:
       return {
         ...state,
-        resquesting: true,
+        requesting: true,
       };
     case ACTION_NAMES.GET_ALL.GET_NOTI_PAGINATION_SUCCESS:
       return {
         ...state,
-        resquesting: false,
+        requesting: false,
         listNoti:
           payload.pagination?.pageIndex === 1
             ? payload.data
@@ -68,6 +82,30 @@ const notiReducer = (
         pagination: {
           ...state.pagination,
           totalCount: state.pagination.totalCount + 1,
+        },
+      };
+    case ACTION_NAMES.SEND_TO_USERS.SEND_TO_USERS:
+      return {
+        ...state,
+        requestingSend: true,
+      };
+    case ACTION_NAMES.SEND_TO_USERS.SEND_TO_USERS_SUCCESS:
+      return {
+        ...state,
+        pagination: { ...paginationValue, pageIndex: 0 },
+      };
+    case ACTION_NAMES.SEND_TO_USERS.SEND_TO_USERS_FINALLY:
+      return {
+        ...state,
+        requestingSend: false,
+      };
+    case ACTION_NAMES.ADMIN_GET_ALL_NOTI.ADMIN_GET_NOTI_PAGINATION_SUCCESS:
+      return {
+        ...state,
+        admin: {
+          requesting: false,
+          data: payload.data,
+          pagination: payload.pagination,
         },
       };
     default:

@@ -1,3 +1,4 @@
+import api from "boot/axios";
 import { ROLE_ADMIN } from "shared/types";
 import { userService } from "../../../service/auth.service";
 import { ACTION_NAMES } from "./actionTypes";
