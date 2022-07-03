@@ -27,8 +27,6 @@ import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { formatAddress } from "../../../helper/format";
 import { subTotal } from "../../../redux/reducers/cartReducer";
-import { getFee } from "../../../redux/actions/order/getActions";
-import { getServices } from "../../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
 import PrimaryButton from "../../../components/button/PrimaryButton";
 import { createOrder } from "../../../redux/actions/order/postAction";
@@ -92,20 +90,18 @@ export default function BillInfo(props: Props) {
     setValue((event.target as HTMLInputElement).value);
   };
 
-
   const handleClickPayment = () => {
     if (value === "Cash on delivery") {
       dispatch(
         createOrder({
           note: props.note,
           paymentMethod: PaymentMethod.CashOnDelivery,
-          onSuccess: ( orderId: string) => {
+          onSuccess: (orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
                 orderId,
               })
             );
-            dispatch(getPageCart());
           },
           onFailure: (error: any) => {
             enqueueSnackbar(error, { variant: "error" });
@@ -125,9 +121,7 @@ export default function BillInfo(props: Props) {
             } else {
               enqueueSnackbar("Error when payment", { variant: "error" });
             }
-
-            dispatch(getPageCart());
-          }, 
+          },
           onFailure: (error: any) => {
             enqueueSnackbar(error, { variant: "error" });
           },
@@ -181,8 +175,7 @@ export default function BillInfo(props: Props) {
         : 0;
     return total + (fee || 0);
   };
-  
-  
+
   const calCouponAmount = () => {
     var amountDiscount = 0;
     console.log("discount type:" + couponState.selectedCoupon?.discountType);
@@ -198,7 +191,6 @@ export default function BillInfo(props: Props) {
       setCouponAmount(amountDiscount);
     }
   };
-
 
   const handleClose = (key: string) => {
     if (key === "home-page") {

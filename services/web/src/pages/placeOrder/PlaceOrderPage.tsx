@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -23,11 +23,13 @@ import { getPageCart } from "../../redux/actions/cart/getAction";
 import { useSnackbar } from "notistack";
 import { PaymentMethod } from "../../shared/enum/paymentMethod";
 import CheckIcon from "@material-ui/icons/Check";
-import { green, red } from "@material-ui/core/colors";
-import CloseIcon from "@material-ui/icons/Close";
+import { green } from "@material-ui/core/colors";
 import OrderError from "./components/OrderError";
 import { generatePath, useHistory } from "react-router-dom";
-import { Predicate, ROUTE_BOOKS_FOR_SALE } from "../../routers/types";
+import {
+  Predicate,
+  ROUTE_BOOKS_FOR_SALE,
+} from "../../routers/types";
 import { Order } from "../../model/order";
 
 const PlaceOrderPage: React.FC = () => {
@@ -53,26 +55,29 @@ const PlaceOrderPage: React.FC = () => {
     dispatch(
       getPlaceOrder({
         id: orderId,
-        onSuccess: (placeOrderRes : Order) => {
+        onSuccess: (placeOrderRes: Order) => {
           createGHN(placeOrderRes);
         },
-        onFailure: (message:  string) => {
+        onFailure: (message: string) => {
           enqueueSnackbar("Error when create order GiaoHangNhanh", {
             variant: "error",
           });
         },
       })
     );
-    async function createGHN(placeOrderRes : Order) {
+    async function createGHN(placeOrderRes: Order) {
       console.log(
-        "1: " + placeOrderRes.paymentMethod + "2: " + PaymentMethod.Momo.toString()
+        "1: " +
+          placeOrderRes.paymentMethod +
+          "2: " +
+          PaymentMethod.Momo.toString()
       );
       //momo
       if (
         (placeOrderRes.paymentMethod === PaymentMethod.Momo.toString() &&
           transId !== 0 &&
           resultCode !== -1) ||
-          placeOrderRes.paymentMethod === 'CashOnDelivery'
+        placeOrderRes.paymentMethod === "CashOnDelivery"
       ) {
         if (placeOrderRes.paymentMethod === PaymentMethod.Momo.toString()) {
           console.log("11");
@@ -97,7 +102,7 @@ const PlaceOrderPage: React.FC = () => {
               })
             );
           }
-        } else if (placeOrderRes.paymentMethod === 'CashOnDelivery') {
+        } else if (placeOrderRes.paymentMethod === "CashOnDelivery") {
           console.log("22");
           dispatch(
             createOrderGHN({
@@ -134,7 +139,7 @@ const PlaceOrderPage: React.FC = () => {
       <>
         {requesting ? (
           <CircularProgress />
-        ) : !success? (
+        ) : !success ? (
           <OrderError />
         ) : (
           <>
@@ -181,7 +186,8 @@ const PlaceOrderPage: React.FC = () => {
                       <Grid item>
                         <Typography>Payment method:</Typography>
                         <Typography variant="inherit" className="text-bold">
-                          {placeOrder.paymentMethod === PaymentMethod.Momo.toString()
+                          {placeOrder.paymentMethod ===
+                          PaymentMethod.Momo.toString()
                             ? "Momo"
                             : "Cash On Delivery"}
                         </Typography>
@@ -221,7 +227,7 @@ const PlaceOrderPage: React.FC = () => {
                           Subtotal:
                         </Typography>
                         <Typography variant="inherit" className="text-bold">
-                          ${placeOrder.subTotal.toFixed(2)}
+                          ${placeOrder.subTotal?.toFixed(2)}
                         </Typography>
                       </Grid>
                       {placeOrder.coupon && (
@@ -248,7 +254,8 @@ const PlaceOrderPage: React.FC = () => {
                           Payment Method:
                         </Typography>
                         <Typography variant="inherit" className="text-bold">
-                          {placeOrder.paymentMethod === PaymentMethod.Momo.toString()
+                          {placeOrder.paymentMethod ===
+                          PaymentMethod.Momo.toString()
                             ? "Momo"
                             : "Cash On Delivery"}
                         </Typography>
@@ -262,7 +269,7 @@ const PlaceOrderPage: React.FC = () => {
                       className={classes.total}
                     >
                       <Grid item>Total</Grid>
-                      <Grid item>${placeOrder.total.toFixed(2)}</Grid>
+                      <Grid item>${placeOrder.total?.toFixed(2)}</Grid>
                     </Grid>
                     <Divider />
                     <Grid item container>

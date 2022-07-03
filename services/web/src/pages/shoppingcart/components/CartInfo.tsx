@@ -76,15 +76,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         (x) => x.service_id === parseInt(event.target.value as string)
       ) || deliveryState.services[0]
     );
-    dispatch(
-      getFee({
-        serviceType: serviceType,
-        onSuccess: (fee) => {},
-        onFailure: (error: any) => {
-          enqueueSnackbar(error, { variant: "error" });
-        },
-      })
-    );
   };
 
   // const handleGetFee = () => {
