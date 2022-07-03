@@ -8,13 +8,11 @@ export type ServiceType = {
 export type DeliveryState = {
   requesting: boolean;
   services: ServiceType[];
-  currentService: ServiceType;
 };
 
 const initState: DeliveryState = {
   requesting: false,
   services: [] as any,
-  currentService: {} as any,
 };
 
 const deliveryReducer = (

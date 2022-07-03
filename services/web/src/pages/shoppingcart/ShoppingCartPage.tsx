@@ -10,7 +10,7 @@ import CartTable from "./components/CartTable";
 import CartInfo from "./components/CartInfo";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { RootStore } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { vnf_regex } from "../../helper/validator";
@@ -25,13 +25,19 @@ const ShoppingCartPage: React.FC = () => {
   const items = useSelector((state: RootStore) => state.cart);
   const history = useHistory();
   const [chooseAddress, setChooseAddress] = React.useState(false);
+  const dispatch = useDispatch();
   // const dispatch = useDispatch();
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
+  const { currentService } = useSelector((state: RootStore) => state.order);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = () => {
+    if (!currentService?.service_id) {
+      enqueueSnackbar("Please choose service type", { variant: "error" });
+      return;
+    }
     if (!items.itemToCheckOut.length || !currentAddress?.id) {
       enqueueSnackbar("Please choose items and address", { variant: "error" });
       return;
@@ -44,12 +50,17 @@ const ShoppingCartPage: React.FC = () => {
   };
 
   useEffect(() => {
-    getDefaultAddress({
-      onSuccess: () => {
-        getServices({onSuccess: () => {}});
-      }
-    });
-  }, []);
+    dispatch(
+      getDefaultAddress({
+        onSuccess: () => {},
+      })
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getServices({ onSuccess: () => {} }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentAddress]);
 
   return (
     <div className={clsx(classes.root, "page-cart")}>

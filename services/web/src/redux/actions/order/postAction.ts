@@ -1,4 +1,4 @@
-import { omit, orderBy } from "lodash";
+import { omit } from "lodash";
 import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
@@ -36,7 +36,7 @@ export const createOrder =
     if (response.data.isSuccess) {
       props.onSuccess(response.data.value);
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
-      
+
     } else {
       props.onFailure(response.data.error);
       dispatch({
@@ -80,21 +80,19 @@ export const cancelOrder =
     }
   };
 
-  export type CreateOrderGHNProps = {
-    order: Order;
-    onSuccess: (code: any, orderId: any) => void;
-    onFailure: (error: any) => void;
-  };
-  
-  export const createOrderGHN = (props : CreateOrderGHNProps) => async (dispatch : any) => {
+export type CreateOrderGHNProps = {
+  order: Order;
+  onSuccess: (code: any, orderId: any) => void;
+  onFailure: (error: any) => void;
+};
+
+export const createOrderGHN =
+  (props: CreateOrderGHNProps) => async (dispatch: any) => {
     const state = store.getState();
     const address = store.getState().address.currentAddress;
 
-    console.log('current service: ' + JSON.stringify(state.order.currentService) )
-
     dispatch({
-      type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-        .CREATE_DELIVERY_FOR_ORDER,
+      type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER.CREATE_DELIVERY_FOR_ORDER,
     });
     //call api GHN
     const order = {
@@ -142,7 +140,7 @@ export const cancelOrder =
         const resultUpdateOrderCode = await api.post(
           "/orders/update-order-code",
           {
-            id: props.order.orderCode,
+            id: props.order.id,
             orderCode: createDelivery.data.data.order_code,
           }
         );
@@ -188,4 +186,4 @@ export const cancelOrder =
         message: error?.message,
       });
     }
-  }
+  };
