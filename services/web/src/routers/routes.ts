@@ -10,7 +10,7 @@ import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
-import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
+import PlaceOrderPage from "../pages/placeOrder/PlaceOrderPage";
 import BooksForSalePage from "../pages/books-for-sale/BooksForSale";
 
 import {

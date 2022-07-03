@@ -8,11 +8,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Account } from "../../model/account";
+import { Account } from "../../../model/account";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useSnackbar } from "notistack";
-import api from "../../boot/axios";
+import api from "../../../boot/axios";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

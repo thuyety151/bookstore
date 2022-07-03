@@ -23,21 +23,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultAddress } from "../../../redux/actions/address/getAction";
 import { RootStore } from "../../../redux/store";
-import {
-  formatAddress,
-  formatCustomerInfo,
-} from "../../../helper/format";
+import { formatAddress, formatCustomerInfo } from "../../../helper/format";
 import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
 import { sum } from "lodash";
-// import { getFee } from "../../../redux/actions/order/getActions";
 import { getServices } from "../../../redux/actions/delivery/getAction";
 import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
 import { ServiceType } from "../../../redux/reducers/deliveryReducer";
 import { DiscountType } from "../../../model/coupon";
-import { NAME_ACTIONS } from "../../../redux/constants/coupon/actionTypes";
 import ChooseCoupons from "./ChooseCoupons";
+import { removeCouponByUser } from "../../../redux/actions/coupon/removeCouponByUser";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -58,11 +54,11 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   );
   const [serviceType, setServiceType] = useState<ServiceType>({} as any);
   const [chooseCoupon, setChooseCoupon] = useState(false);
-  // const [subTotal, setSubTotal] = useState<ServiceType>(0);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
   const couponState = useSelector((state: RootStore) => state.coupons);
   const { fee } = useSelector((state: RootStore) => state.order);
-  const [couponAmount, setCouponAmount] = useState(0);
+  const [totalCart, setTotalCart] = useState(0);
+  const [subTotalCart, setSubTotalCart] = useState(0);
 
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
@@ -80,15 +76,15 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         (x) => x.service_id === parseInt(event.target.value as string)
       ) || deliveryState.services[0]
     );
-    // dispatch(
-    //   getFee({
-    //     serviceType: serviceType,
-    //     onSuccess: (fee) => {},
-    //     onFailure: (error: any) => {
-    //       enqueueSnackbar(error, { variant: "error" });
-    //     },
-    //   })
-    // );
+    dispatch(
+      getFee({
+        serviceType: serviceType,
+        onSuccess: (fee) => {},
+        onFailure: (error: any) => {
+          enqueueSnackbar(error, { variant: "error" });
+        },
+      })
+    );
   };
 
   // const handleGetFee = () => {
@@ -104,29 +100,27 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   // };
 
   useEffect(() => {
-    // rest state of coupon
-    dispatch({ type: NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
-    dispatch(
-      getDefaultAddress(() => {
+    getDefaultAddress({
+      onSuccess: () => {
         dispatch(
           getServices({
             onSuccess: (firstService) => {
               setServiceType(firstService);
+              dispatch(
+                getFee({
+                  serviceType: firstService,
+                  onSuccess: (fee) => {},
+                  onFailure: (error: any) => {
+                    enqueueSnackbar(error, { variant: "error" });
+                  },
+                })
+              );
             },
           })
         );
-      })
-    );
-    // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    dispatch(
-      getServices({
-        onSuccess: (firstService) => {
-          setServiceType(firstService);
-        },
-      })
-    );
+      },
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultAddress]);
 
@@ -142,55 +136,55 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         })
       );
     }
+    subTotal();
 
-    calCouponAmount();
     // eslint-disable-next-line
   }, [serviceType, defaultAddress, itemsToCheckout?.length]);
-  // useEffect(() => {
-  //   setSubTotal(
-  //     itemsToCheckout.map((x) => {
-  //       return x.price * x.quantity;
-  //     }) +fe
-  //   );
-  // }, [serviceType]);
+
+  useEffect(() => {
+    total();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subTotalCart, couponState, serviceType]);
 
   const subTotal = () => {
-    return sum(
+    var sub = sum(
       itemsToCheckout.map((x) => {
         return x.price * x.quantity;
       })
     );
+    setSubTotalCart(sub);
   };
 
   const total = () => {
+    var amountDiscount = calCouponAmount();
+
     var total =
-      sum(itemsToCheckout.map((x) => x.quantity * x.price)) - couponAmount > 0
-        ? sum(itemsToCheckout.map((x) => x.quantity * x.price)) - couponAmount
-        : 0;
-    return total + (fee || 0);
+      subTotalCart - amountDiscount > 0 ? subTotalCart - amountDiscount : 0;
+    setTotalCart(total + (fee || 0));
   };
 
   const calCouponAmount = () => {
     var amountDiscount = 0;
-    console.log("discount type:" + couponState.selectedCoupon?.discountType);
     if (couponState.selectedCoupon !== undefined) {
       if (couponState.selectedCoupon.discountType === DiscountType.Percentage) {
         amountDiscount =
-          (sum(itemsToCheckout.map((x) => x.quantity * x.price)) *
-            couponState.selectedCoupon.couponAmount) /
-          100;
+          (subTotalCart * couponState.selectedCoupon.couponAmount) / 100;
       } else {
         amountDiscount = couponState.selectedCoupon.couponAmount;
       }
-      setCouponAmount(amountDiscount);
     }
+    return amountDiscount;
   };
 
   const handleDeleteCoupon = () => {
-    dispatch({
-      type:
-        NAME_ACTIONS.USER_REMOVE_APPLY_COUPON.USER_REMOVE_APPLY_COUPON_SUCCESS,
-    });
+    dispatch(
+      removeCouponByUser({
+        onSuccess: () => {
+          total();
+        },
+      })
+    );
   };
 
   return (
@@ -224,7 +218,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           <Grid container direction="column">
             <div className="row" style={{ paddingBottom: "8px" }}>
               <span>Subtotal</span>
-              <span>${subTotal().toFixed(2)}</span>
+              <span>${subTotalCart.toFixed(2)}</span>
             </div>
             <div className="row" style={{ padding: "0px" }}>
               <span>Shipping fee</span>
@@ -317,7 +311,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
             />
             {couponState.selectedCoupon !== undefined ? (
               <Chip
-                label={"-$" + couponAmount.toFixed(2)}
+                label={"-$" + calCouponAmount().toFixed(2)}
                 onDelete={handleDeleteCoupon}
                 color="secondary"
                 className={classes.chipCoupon}
@@ -347,7 +341,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           className={classes.total}
         >
           <h3>Total</h3>
-          <h3>{total().toFixed(2)}</h3>
+          <h3>{totalCart.toFixed(2)}</h3>
         </Grid>
       </Paper>
       {/* </Grid> */}
@@ -395,7 +389,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <ChooseCoupons />
+          <ChooseCoupons calTotalCart={total} />
         </DialogContent>
         <DialogActions></DialogActions>
       </Dialog>

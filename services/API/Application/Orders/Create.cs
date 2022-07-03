@@ -75,7 +75,7 @@ namespace Application.Orders
                     OrderDate = DateTime.Now,
                     Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name,
                     PaymentMethod = request.OrderParams.PaymentMethod,
-                    PaymentStatus = PaymentStatus.Pending,
+                    PaymentStatus = request.OrderParams.PaymentMethod == (int) PaymentMethod.MoMo ? PaymentStatus.Failed : PaymentStatus.Pending ,
                     SubTotal = items.Select(x => x.Price * x.Quantity).Sum(),
                     OrderFee = request.OrderParams.OrderFee,
                     OrderNote = request.OrderParams.OrderNote,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -17,6 +17,8 @@ import { vnf_regex } from "../../helper/validator";
 // import { getServices } from "../../redux/actions/delivery/getAction";
 import "./styles.scss";
 import clsx from "clsx";
+import { getDefaultAddress } from "../../redux/actions/address/getAction";
+import { getServices } from "../../redux/actions/delivery/getAction";
 
 const ShoppingCartPage: React.FC = () => {
   const classes = useStyles();
@@ -41,6 +43,14 @@ const ShoppingCartPage: React.FC = () => {
     history.push("/check-out");
   };
 
+  useEffect(() => {
+    getDefaultAddress({
+      onSuccess: () => {
+        getServices({onSuccess: () => {}});
+      }
+    });
+  }, []);
+
   return (
     <div className={clsx(classes.root, "page-cart")}>
       <Grid container justifyContent="center" alignContent="center">
@@ -54,12 +64,12 @@ const ShoppingCartPage: React.FC = () => {
           justifyContent="space-evenly"
           style={{ marginRight: 0 }}
         >
-          <Grid item sm={6} className="page-cart__table">
+          <Grid item sm={8} className="page-cart__table">
             <CartTable />
           </Grid>
           <Grid
             item
-            sm={4}
+            sm={3}
             className={clsx(classes.checkout, "page-cart__info")}
           >
             <CartInfo

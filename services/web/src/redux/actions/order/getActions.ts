@@ -6,6 +6,8 @@ import { Address } from "../../../model/address";
 import { NAME_ACTIONS } from "../../constants/order/actionTypes";
 import { ServiceType } from "../../reducers/deliveryReducer";
 import store from "../../store";
+import { formatAddress } from "../../../helper/format";
+import { Order } from "../../../model/order";
 
 type getFeeProps = {
   serviceType?: ServiceType;
@@ -87,12 +89,30 @@ export const getAllOrder = (status: string) => async (dispatch: any) => {
   }
 };
 
-export const getPlaceOrder = (id: string) => async (dispatch: any) => {
-  const response = await api.get(`/orders?id=${id}`);
+type getPlaceOrderProps = {
+  id: string;
+  onSuccess: (placeOrder: Order) => void;
+  onFailure: (error: string) => void;
+};
+export const getPlaceOrder = (props: getPlaceOrderProps) => async (dispatch: any) => {
+  dispatch({
+    type: NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER,
+  });
+  const response = await api.get(`/orders?id=${props.id}`);
   if (response.data.isSuccess) {
     dispatch({
-      type: NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER,
+      type: NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER_SUCCESS,
       data: response.data.value,
     });
+    props.onSuccess(response.data.value);
+  }
+  else {
+    dispatch({
+      type: NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER_FAILED,
+      message: 'Error when get place order',
+    });
+    props.onFailure('Error when get place order');
   }
 };
+
+

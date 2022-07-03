@@ -1,8 +1,10 @@
-import { omit } from "lodash";
+import { omit, orderBy } from "lodash";
 import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
+
 import { shopAddress } from "../../../mocks/shopInfo";
+import { Order } from "../../../model/order";
 import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { NAME_ACTIONS } from "../../constants/order/actionTypes";
 import { total } from "../../reducers/orderReducer";
@@ -10,10 +12,11 @@ import store from "../../store";
 
 export type CreateOrderProps = {
   note: string;
-  paymentMethod: any;
-  onSuccess: (code: any, orderId: any) => void;
+  paymentMethod: number;
+  onSuccess: (orderId: any) => void;
   onFailure: (error: any) => void;
 };
+
 export const createOrder =
   (props: CreateOrderProps) => async (dispatch: any) => {
     const state = store.getState();
@@ -23,109 +26,17 @@ export const createOrder =
       itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
       addressId: state.address.currentAddress.id,
       orderNote: props.note,
-      coupon: {
-        code: state.order.coupon?.code,
-      },
+      couponId: state.coupons.selectedCoupon?.id,
       address: omit(address, "id"),
       orderFee: state.order.fee,
-      paymentMethod: props.paymentMethod || "1",
+      paymentMethod: props.paymentMethod || 0,
     };
     const response = await api.post("/orders/create", data);
 
     if (response.data.isSuccess) {
+      props.onSuccess(response.data.value);
       dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
-      //call api GHN
-      const order = {
-        payment_type_id: 2,
-        note: props.note,
-        return_phone: address.phone,
-        return_address: formatAddress(address),
-        return_district_id: shopAddress.district_id,
-        return_ward_code: shopAddress.ward_code,
-        to_name: address.firstName + " " + address.lastName,
-        to_phone: address.phone,
-        to_address: formatAddress(address),
-        to_district_id: address.districtId,
-        to_ward_code: address.wardCode,
-        required_note: "KHONGCHOXEMHANG",
-        deliver_station_id: null,
-        weight: 200,
-        order_value: Math.round(total() * 23000),
-        service_type_id: state.order.currentService.service_type_id,
-        service_id: state.order.currentService.service_id,
-        insurance_value: Math.round(total() * 23000),
-        cod_amount:
-          props.paymentMethod === PaymentMethod.Momo
-            ? 0
-            : Math.round(total() * 23000),
-        pick_station_id: 1444,
-        items: state.cart.itemToCheckOut.map((item) => {
-          return {
-            name: item.productName,
-            quantity: item.quantity,
-            price: Math.round(item.price * 23000),
-            category: {
-              level1: "book",
-            },
-          };
-        }),
-      };
-      try {
-        const createDelivery = await apiGHN.post(
-          "/v2/shipping-order/create",
-          order
-        );
-        if (createDelivery.data.code === 200) {
-          // TODO: Integrate API UPDATE ORDER CODE
-          const resultUpdateOrderCode = await api.post(
-            "/orders/update-order-code",
-            {
-              id: response.data.value,
-              orderCode: createDelivery.data.data.order_code,
-            }
-          );
-          if (resultUpdateOrderCode.data.isSuccess) {
-            props.onSuccess(
-              createDelivery.data.data.order_code,
-              resultUpdateOrderCode.data.value
-            );
-            dispatch({
-              type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-                .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
-            });
-          } else {
-            /**
-             * Delete order when create GHN fail
-             */
-            await api.delete("/orders/delete-order-fail", {
-              params: {
-                id: response.data.value,
-              },
-            });
-            props.onFailure("Create order fail!");
-            dispatch({
-              type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-                .CREATE_DELIVERY_FOR_ORDER_FAIL,
-              message: resultUpdateOrderCode.data.message,
-            });
-          }
-        }
-      } catch (error: any) {
-        /**
-         * Delete order when create GHN fail
-         */
-        await api.delete("/orders/delete-order-fail", {
-          params: {
-            id: response.data.value,
-          },
-        });
-        props.onFailure(error.response?.data?.message);
-        dispatch({
-          type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-            .CREATE_DELIVERY_FOR_ORDER_FAIL,
-          message: error?.message,
-        });
-      }
+      
     } else {
       props.onFailure(response.data.error);
       dispatch({
@@ -168,3 +79,113 @@ export const cancelOrder =
       props.onFailure(error);
     }
   };
+
+  export type CreateOrderGHNProps = {
+    order: Order;
+    onSuccess: (code: any, orderId: any) => void;
+    onFailure: (error: any) => void;
+  };
+  
+  export const createOrderGHN = (props : CreateOrderGHNProps) => async (dispatch : any) => {
+    const state = store.getState();
+    const address = store.getState().address.currentAddress;
+
+    console.log('current service: ' + JSON.stringify(state.order.currentService) )
+
+    dispatch({
+      type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+        .CREATE_DELIVERY_FOR_ORDER,
+    });
+    //call api GHN
+    const order = {
+      payment_type_id: 2,
+      note: props.order.orderNote,
+      return_phone: address.phone,
+      return_address: formatAddress(address),
+      return_district_id: shopAddress.district_id,
+      return_ward_code: shopAddress.ward_code,
+      to_name: address.firstName + " " + address.lastName,
+      to_phone: address.phone,
+      to_address: formatAddress(address),
+      to_district_id: address.districtId,
+      to_ward_code: address.wardCode,
+      required_note: "KHONGCHOXEMHANG",
+      deliver_station_id: null,
+      weight: 200,
+      order_value: Math.round(total() * 23000),
+      service_type_id: state.order.currentService.service_type_id,
+      service_id: state.order.currentService.service_id,
+      insurance_value: Math.round(total() * 23000),
+      cod_amount:
+        props.order.paymentMethod === PaymentMethod.Momo.toString() //MoMo
+          ? 0
+          : Math.round(props.order.total * 23000),
+      pick_station_id: 1444,
+      items: props.order.items.map((item) => {
+        return {
+          name: item.productName,
+          quantity: item.quantity,
+          price: Math.round(item.price * 23000),
+          category: {
+            level1: "book",
+          },
+        };
+      }),
+    };
+    try {
+      const createDelivery = await apiGHN.post(
+        "/v2/shipping-order/create",
+        order
+      );
+      if (createDelivery.data.code === 200) {
+        // TODO: Integrate API UPDATE ORDER CODE
+        const resultUpdateOrderCode = await api.post(
+          "/orders/update-order-code",
+          {
+            id: props.order.orderCode,
+            orderCode: createDelivery.data.data.order_code,
+          }
+        );
+        if (resultUpdateOrderCode.data.isSuccess) {
+          props.onSuccess(
+            createDelivery.data.data.order_code,
+            resultUpdateOrderCode.data.value
+          );
+          dispatch({
+            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+              .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
+          });
+        } else {
+          /**
+           * Delete order when create GHN fail
+           */
+          await api.delete("/orders/delete-order-fail", {
+            params: {
+              id: props.order.id,
+            },
+          });
+          props.onFailure("Create order fail!");
+          dispatch({
+            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+              .CREATE_DELIVERY_FOR_ORDER_FAIL,
+            message: resultUpdateOrderCode.data.message,
+          });
+        }
+      }
+    } catch (error: any) {
+      /**
+       * Delete order when create GHN fail
+       */
+      await api.delete("/orders/delete-order-fail", {
+        params: {
+          id: props.order.id,
+        },
+      });
+      props.onFailure(error.response?.data?.message);
+      dispatch({
+        type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+          .CREATE_DELIVERY_FOR_ORDER_FAIL,
+        message: error?.message,
+      });
+    }
+  }

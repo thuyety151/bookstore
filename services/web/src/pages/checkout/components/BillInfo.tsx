@@ -99,7 +99,7 @@ export default function BillInfo(props: Props) {
         createOrder({
           note: props.note,
           paymentMethod: PaymentMethod.CashOnDelivery,
-          onSuccess: (code: string, orderId: string) => {
+          onSuccess: ( orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
                 orderId,
@@ -117,17 +117,17 @@ export default function BillInfo(props: Props) {
         createOrder({
           note: props.note,
           paymentMethod: PaymentMethod.Momo,
-          onSuccess: async (code: string, orderId: string) => {
+          onSuccess: async (orderId: string) => {
             var response = await api.post("/momo", { orderId: orderId });
 
             if (response.data?.isSuccess) {
-              window.open(response.data.value);
+              window.open(response.data.value, "_self");
             } else {
               enqueueSnackbar("Error when payment", { variant: "error" });
             }
 
             dispatch(getPageCart());
-          },
+          }, 
           onFailure: (error: any) => {
             enqueueSnackbar(error, { variant: "error" });
           },
@@ -149,20 +149,20 @@ export default function BillInfo(props: Props) {
     /**
      * get fee based on default address
      */
-    dispatch(
-      getServices({
-        onSuccess: () => {
-          if (!fee) {
-            dispatch(
-              getFee({
-                onSuccess: () => {},
-                onFailure: () => {},
-              })
-            );
-          }
-        },
-      })
-    );
+    // dispatch(
+    //   getServices({
+    //     onSuccess: () => {
+    //       if (!fee) {
+    //         dispatch(
+    //           getFee({
+    //             onSuccess: () => {},
+    //             onFailure: () => {},
+    //           })
+    //         );
+    //       }
+    //     },
+    //   })
+    // );
     calCouponAmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemToCheckout]);
@@ -268,7 +268,7 @@ export default function BillInfo(props: Props) {
       {/* shippine */}
       <Collapse in={openSection.shipping} collapsedSize={82}>
         <Paper variant="outlined" className={classes.paper}>
-          <div>placeOrder?.subTotal.toFixed(2)
+          <div>
             <h3>Shipping</h3>
             <span
               className="cursor-pointer"
