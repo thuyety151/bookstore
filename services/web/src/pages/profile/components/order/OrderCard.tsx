@@ -11,7 +11,6 @@ import { useSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
 import { Order } from "../../../../model/order";
 import { cancelOrder } from "../../../../redux/actions/order/postAction";
-import { PaymentMethod } from "../../../../shared/enum/paymentMethod";
 import "./styles.scss";
 
 const OrderCard: React.FC<{
@@ -80,7 +79,7 @@ const OrderCard: React.FC<{
           >
             <Grid item>
               {order.status === "Ready to pick" &&
-                order.paymentMethod === PaymentMethod.CashOnDelivery.toString() && (
+                order.paymentMethod === "CashOnDelivery" && (
                   <Button
                     variant="outlined"
                     disableRipple

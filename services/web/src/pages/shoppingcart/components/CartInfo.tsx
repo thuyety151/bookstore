@@ -34,6 +34,8 @@ import { ServiceType } from "../../../redux/reducers/deliveryReducer";
 import { DiscountType } from "../../../model/coupon";
 import ChooseCoupons from "./ChooseCoupons";
 import { removeCouponByUser } from "../../../redux/actions/coupon/removeCouponByUser";
+import { Address } from "../../../model/address";
+import { NAME_ACTIONS } from "../../../redux/constants/address/actionTypes";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -92,7 +94,11 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
 
   useEffect(() => {
     getDefaultAddress({
-      onSuccess: () => {
+      onSuccess: (defaultAddress: Address) => {
+        dispatch({
+          type: NAME_ACTIONS.SET_CURRENT_ADDRESS.SET_CURRENT_ADDRESS,
+          defaultAddress,
+        });
         dispatch(
           getServices({
             onSuccess: (firstService) => {

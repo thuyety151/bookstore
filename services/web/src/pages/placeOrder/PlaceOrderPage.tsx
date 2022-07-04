@@ -21,7 +21,6 @@ import { sum } from "lodash";
 import { createOrderGHN } from "../../redux/actions/order/postAction";
 import { getPageCart } from "../../redux/actions/cart/getAction";
 import { useSnackbar } from "notistack";
-import { PaymentMethod } from "../../shared/enum/paymentMethod";
 import CheckIcon from "@material-ui/icons/Check";
 import { green } from "@material-ui/core/colors";
 import OrderError from "./components/OrderError";
@@ -31,12 +30,10 @@ import {
   ROUTE_BOOKS_FOR_SALE,
 } from "../../routers/types";
 import { Order } from "../../model/order";
+import { Address } from "../../model/address";
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
-  // const cartState = useSelector((state: RootStore) => state.cart);
-  // const addressState = useSelector((state: RootStore) => state.address);
-  // const { orderCode } = useParams() as any;
   const { placeOrder, requesting, success } = useSelector(
     (state: RootStore) => state.order
   );
@@ -56,7 +53,7 @@ const PlaceOrderPage: React.FC = () => {
       getPlaceOrder({
         id: orderId,
         onSuccess: (placeOrderRes: Order) => {
-          createGHN(placeOrderRes);
+          createGHN(placeOrderRes, placeOrderRes.addressToShip);
         },
         onFailure: (message: string) => {
           enqueueSnackbar("Error when create order GiaoHangNhanh", {
@@ -65,21 +62,15 @@ const PlaceOrderPage: React.FC = () => {
         },
       })
     );
-    async function createGHN(placeOrderRes: Order) {
-      console.log(
-        "1: " +
-          placeOrderRes.paymentMethod +
-          "2: " +
-          PaymentMethod.Momo.toString()
-      );
+    async function createGHN(placeOrderRes: Order, currentAddress:Address) {
       //momo
       if (
-        (placeOrderRes.paymentMethod === PaymentMethod.Momo.toString() &&
+        (placeOrderRes.paymentMethod === "MoMo" &&
           transId !== 0 &&
-          resultCode !== -1) ||
+          resultCode === 0) ||
         placeOrderRes.paymentMethod === "CashOnDelivery"
       ) {
-        if (placeOrderRes.paymentMethod === PaymentMethod.Momo.toString()) {
+        if (placeOrderRes.paymentMethod === "MoMo") {
           console.log("11");
           var response = await api.post("/momo/payment-notification", {
             transId: transId,
@@ -92,9 +83,11 @@ const PlaceOrderPage: React.FC = () => {
             dispatch(
               createOrderGHN({
                 order: placeOrderRes,
+                address: currentAddress,
                 onSuccess: (code: string, orderId: string) => {
                   enqueueSnackbar("Order success", { variant: "success" });
                   dispatch(getPageCart());
+                  
                 },
                 onFailure: (error: any) => {
                   enqueueSnackbar(error, { variant: "error" });
@@ -103,14 +96,15 @@ const PlaceOrderPage: React.FC = () => {
             );
           }
         } else if (placeOrderRes.paymentMethod === "CashOnDelivery") {
-          console.log("22");
           dispatch(
             createOrderGHN({
               order: placeOrderRes,
+              address: currentAddress,
               onSuccess: (code: string, orderId: string) => {
                 console.log("222");
                 enqueueSnackbar("Order success", { variant: "success" });
                 dispatch(getPageCart());
+                
               },
               onFailure: (error: any) => {
                 enqueueSnackbar(error, { variant: "error" });
@@ -138,7 +132,7 @@ const PlaceOrderPage: React.FC = () => {
     <div className={classes.root}>
       <>
         {requesting ? (
-          <CircularProgress />
+          <CircularProgress className={classes.circleProcess} />
         ) : !success ? (
           <OrderError />
         ) : (
@@ -187,7 +181,7 @@ const PlaceOrderPage: React.FC = () => {
                         <Typography>Payment method:</Typography>
                         <Typography variant="inherit" className="text-bold">
                           {placeOrder.paymentMethod ===
-                          PaymentMethod.Momo.toString()
+                          "MoMo"
                             ? "Momo"
                             : "Cash On Delivery"}
                         </Typography>
@@ -255,7 +249,7 @@ const PlaceOrderPage: React.FC = () => {
                         </Typography>
                         <Typography variant="inherit" className="text-bold">
                           {placeOrder.paymentMethod ===
-                          PaymentMethod.Momo.toString()
+                          "MoMo"
                             ? "Momo"
                             : "Cash On Delivery"}
                         </Typography>
@@ -361,7 +355,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paperOutside: {
       backgroundColor: green[500],
-      height: 830,
+      height: 850,
       paddingTop: 20,
     },
     paperInside: {
@@ -399,6 +393,9 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       right: 10,
     },
+    circleProcess: {
+      margin: 'auto'
+    }
   })
 );
 export default PlaceOrderPage;

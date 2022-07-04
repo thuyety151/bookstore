@@ -4,10 +4,10 @@ import api from "../../../boot/axios";
 import { formatAddress } from "../../../helper/format";
 
 import { shopAddress } from "../../../mocks/shopInfo";
+import { Address } from "../../../model/address";
 import { Order } from "../../../model/order";
-import { PaymentMethod } from "../../../shared/enum/paymentMethod";
-import { NAME_ACTIONS } from "../../constants/order/actionTypes";
-import { total } from "../../reducers/orderReducer";
+import { NAME_ACTIONS } from "../../constants/coupon/actionTypes";
+import { NAME_ACTIONS as NAME_ACTIONS_ORDER} from "../../constants/order/actionTypes" ;
 import store from "../../store";
 
 export type CreateOrderProps = {
@@ -20,7 +20,7 @@ export type CreateOrderProps = {
 export const createOrder =
   (props: CreateOrderProps) => async (dispatch: any) => {
     const state = store.getState();
-    dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER });
+    dispatch({ type: NAME_ACTIONS_ORDER.CREATE_ORDER.CREATE_ORDER });
     const address = store.getState().address.currentAddress;
     const data = {
       itemIds: state.cart.itemToCheckOut.flatMap((x) => x.id),
@@ -29,18 +29,21 @@ export const createOrder =
       couponId: state.coupons.selectedCoupon?.id,
       address: omit(address, "id"),
       orderFee: state.order.fee,
-      paymentMethod: props.paymentMethod || 0,
+      paymentMethod: props.paymentMethod,
+      serviceTypeId: state.order.currentService.service_type_id,
+      serviceId: state.order.currentService.service_id
     };
     const response = await api.post("/orders/create", data);
 
     if (response.data.isSuccess) {
       props.onSuccess(response.data.value);
-      dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
+      dispatch({ type: NAME_ACTIONS_ORDER.CREATE_ORDER.CREATE_ORDER_SUCCESS });
+      dispatch({type:NAME_ACTIONS.USER_REMOVE_APPLY_COUPON.USER_REMOVE_APPLY_COUPON_SUCCESS})
 
     } else {
       props.onFailure(response.data.error);
       dispatch({
-        type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_FAIL,
+        type: NAME_ACTIONS_ORDER.CREATE_ORDER.CREATE_ORDER_FAIL,
         message: response.data.error,
       });
     }
@@ -66,7 +69,7 @@ export const cancelOrder =
         if (result.data.isSuccess) {
           props.onSuccess();
           dispatch({
-            type: NAME_ACTIONS.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY,
+            type: NAME_ACTIONS_ORDER.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY,
             orderCode: props.orderCode,
           });
         } else {
@@ -82,40 +85,39 @@ export const cancelOrder =
 
 export type CreateOrderGHNProps = {
   order: Order;
+  address: Address;
   onSuccess: (code: any, orderId: any) => void;
   onFailure: (error: any) => void;
 };
 
 export const createOrderGHN =
   (props: CreateOrderGHNProps) => async (dispatch: any) => {
-    const state = store.getState();
-    const address = store.getState().address.currentAddress;
-
+    
     dispatch({
-      type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER.CREATE_DELIVERY_FOR_ORDER,
+      type: NAME_ACTIONS_ORDER.CREATE_DELIVERY_FOR_ORDER.CREATE_DELIVERY_FOR_ORDER,
     });
     //call api GHN
     const order = {
       payment_type_id: 2,
       note: props.order.orderNote,
-      return_phone: address.phone,
-      return_address: formatAddress(address),
+      return_phone: props.address.phone,
+      return_address: formatAddress(props.address),
       return_district_id: shopAddress.district_id,
       return_ward_code: shopAddress.ward_code,
-      to_name: address.firstName + " " + address.lastName,
-      to_phone: address.phone,
-      to_address: formatAddress(address),
-      to_district_id: address.districtId,
-      to_ward_code: address.wardCode,
+      to_name: props.address.firstName + " " + props.address.lastName,
+      to_phone: props.address.phone,
+      to_address: formatAddress(props.address),
+      to_district_id: props.address.districtId,
+      to_ward_code: props.address.wardCode,
       required_note: "KHONGCHOXEMHANG",
       deliver_station_id: null,
       weight: 200,
-      order_value: Math.round(total() * 23000),
-      service_type_id: state.order.currentService.service_type_id,
-      service_id: state.order.currentService.service_id,
-      insurance_value: Math.round(total() * 23000),
+      order_value: Math.round(props.order.total * 23000),
+      service_type_id: props.order.serviceTypeId,
+      service_id: props.order.serviceId,
+      insurance_value: Math.round(props.order.total * 23000),
       cod_amount:
-        props.order.paymentMethod === PaymentMethod.Momo.toString() //MoMo
+        props.order.paymentMethod === "MoMo" //MoMo
           ? 0
           : Math.round(props.order.total * 23000),
       pick_station_id: 1444,
@@ -150,7 +152,7 @@ export const createOrderGHN =
             resultUpdateOrderCode.data.value
           );
           dispatch({
-            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+            type: NAME_ACTIONS_ORDER.CREATE_DELIVERY_FOR_ORDER
               .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
           });
         } else {
@@ -164,7 +166,7 @@ export const createOrderGHN =
           });
           props.onFailure("Create order fail!");
           dispatch({
-            type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+            type: NAME_ACTIONS_ORDER.CREATE_DELIVERY_FOR_ORDER
               .CREATE_DELIVERY_FOR_ORDER_FAIL,
             message: resultUpdateOrderCode.data.message,
           });
@@ -181,7 +183,7 @@ export const createOrderGHN =
       });
       props.onFailure(error.response?.data?.message);
       dispatch({
-        type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
+        type: NAME_ACTIONS_ORDER.CREATE_DELIVERY_FOR_ORDER
           .CREATE_DELIVERY_FOR_ORDER_FAIL,
         message: error?.message,
       });

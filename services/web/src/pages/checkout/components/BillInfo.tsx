@@ -42,7 +42,6 @@ import api from "../../../boot/axios";
 import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
 import momo from "../../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../../shared/enum/stockStatus";
-import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { sum } from "lodash";
 import { DiscountType } from "../../../model/coupon";
 
@@ -95,7 +94,7 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
-          paymentMethod: PaymentMethod.CashOnDelivery,
+          paymentMethod: 0,
           onSuccess: (orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
@@ -112,7 +111,7 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
-          paymentMethod: PaymentMethod.Momo,
+          paymentMethod: 1,
           onSuccess: async (orderId: string) => {
             var response = await api.post("/momo", { orderId: orderId });
 
