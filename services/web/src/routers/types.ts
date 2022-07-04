@@ -21,6 +21,7 @@ export const ROUTE_CHECK_OUT = "/check-out";
 export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale/:predicate/:keywords?";
 export const ROUTE_BOOKS_FOR_SALE_CATE = "/books-for-sale-category/:categoryId";
 export const ROUTE_WISHLIST = "/wishlist";
+export const ROUTE_LOCATION = "/location";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -56,6 +57,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_BOOKS_FOR_SALE]: { permissions: [] },
   [ROUTE_BOOKS_FOR_SALE_CATE]: { permissions: [] },
   [ROUTE_WISHLIST]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
+  [ROUTE_LOCATION]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
 };
 
 export type AppRoute =

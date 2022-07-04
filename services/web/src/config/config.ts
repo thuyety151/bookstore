@@ -15,6 +15,10 @@ const Config = {
     process.env.REACT_APP_API_GHN_KEY,
     "REACT_APP_API_GHN_KEY"
   ),
+  apiGGMapKey: assertEnv(
+    process.env.REACT_APP_GOOGLE_MAP_API_KEY,
+    "REACT_APP_GOOGLE_MAP_API_KEY"
+  ),
 };
 
 export default Config;

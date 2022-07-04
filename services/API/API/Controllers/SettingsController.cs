@@ -19,5 +19,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Upsert.Command(){Configs= configHomePage}));
         }
+        [HttpGet("address")]
+        public async Task<IActionResult> GetShopLocation()
+        {
+            return HandleResult(await Mediator.Send(new ShopLocation.Query()));
+        }
     }
 }

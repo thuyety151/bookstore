@@ -8,6 +8,7 @@ using Domain.Enum;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Attribute = Domain.Attribute;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Persistence
 {
@@ -24,8 +25,8 @@ namespace Persistence
             List<Media> medias = new List<Media>();
             List<Item> items = new List<Item>();
             List<Book> books = new List<Book>();
-            
-             if (!context.Media.Any())
+
+            if (!context.Media.Any())
             {
                 var mediaList = new List<Media>()
                 {
@@ -277,7 +278,7 @@ namespace Persistence
                         IsMain = true,
                         IsVideo = false
                     },
-                    
+
                 };
                 medias.AddRange(mediaList);
                 await context.Media.AddRangeAsync(mediaList);
@@ -409,7 +410,7 @@ namespace Persistence
                                 IsMain = true
                             }
                         },
-                        
+
                     },
                 };
 
@@ -419,7 +420,7 @@ namespace Persistence
                 }
             }
 
-           
+
             if (!context.Attributes.Any())
             {
                 var attributesList = new List<Attribute>()
@@ -1126,7 +1127,7 @@ namespace Persistence
                         Name = "The High 5 Habit: Take Control of Your Life with One Simple Habit",
                         ShortDescription = "In her global phenomenon The 5 Second Rule, Mel Robbins taught millions of people around the world the five second secret to motivation. Now she's back with another simple, proven tool you can use to take control of your life: The High 5 Habit.",
                         Description = "The High 5 Habit is a simple yet profound tool that changes your attitude, your mindset, and your behavior. So be prepared to laugh and learn as you take steps to immediately boost your confidence, happiness, and results.",
-                            Author = authors[4],
+                        Author = authors[4],
                         CreateDate = DateTime.Now,
                         IsDeleted = false,
                         IsPublic = true,
@@ -1643,7 +1644,7 @@ namespace Persistence
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                     },
-                     new BookAttribute()
+                    new BookAttribute()
                     {
                         BookId = books[15].Id,
                         AttributeId = attributes[0].Id,
@@ -1651,7 +1652,7 @@ namespace Persistence
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                     },
-                     new BookAttribute()
+                    new BookAttribute()
                     {
                         BookId = books[15].Id,
                         AttributeId = attributes[1].Id,
@@ -1659,7 +1660,7 @@ namespace Persistence
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                     },
-                     new BookAttribute()
+                    new BookAttribute()
                     {
                         BookId = books[15].Id,
                         AttributeId = attributes[2].Id,
@@ -1667,7 +1668,7 @@ namespace Persistence
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                     },
-                      new BookAttribute()
+                    new BookAttribute()
                     {
                         BookId = books[16].Id,
                         AttributeId = attributes[0].Id,
@@ -1675,7 +1676,7 @@ namespace Persistence
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                     },
-                     new BookAttribute()
+                    new BookAttribute()
                     {
                         BookId = books[16].Id,
                         AttributeId = attributes[1].Id,
@@ -1683,7 +1684,7 @@ namespace Persistence
                         TotalStock = 20,
                         StockStatus = StockStatus.InStock,
                     },
-                     new BookAttribute()
+                    new BookAttribute()
                     {
                         BookId = books[16].Id,
                         AttributeId = attributes[2].Id,
@@ -2017,6 +2018,18 @@ namespace Persistence
                         Id = new Guid(),
                         Key = ConfigQuantityName.TopAuthor.ToString(),
                         Quantity = 10,
+                    },
+                    new ConfigHomePage()
+                    {
+                        Id = new Guid(),
+                        Key = "Address",
+                        Quantity = 0,
+                        MetaData = JsonSerializer.Serialize(new
+                        {
+                            Longitude = 106.47134261637653,
+                            Latitude = 11.00836757114917,
+                            FullAddress = "309 Nguyễn Thị Rành, Trung Lập Hạ, Củ Chi, Thành phố Hồ Chí Minh, Việt Nam"
+                        })
                     }
                 };
                 await context.ConfigHomePages.AddRangeAsync(configs);

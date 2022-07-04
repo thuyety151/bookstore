@@ -24,6 +24,7 @@ import {
   ROUTE_CATEGORY,
   ROUTE_CHECK_OUT,
   ROUTE_HOME,
+  ROUTE_LOCATION,
   ROUTE_LOGIN,
   ROUTE_PLACE_ORDER,
   ROUTE_PROFILE,
@@ -32,6 +33,7 @@ import {
   ROUTE_WISHLIST,
 } from "./types";
 import WishlistPage from "../pages/wishlist/WishlistPage";
+import Location from "../pages/location/Location";
 
 export const routes: Route[] = [
   {
@@ -167,6 +169,12 @@ export const routeMainLayout: Route[] = [
     path: ROUTE_WISHLIST,
     name: "Cart",
     component: WishlistPage,
+    exact: false,
+  },
+  {
+    path: ROUTE_LOCATION,
+    name: "Location",
+    component: Location,
     exact: false,
   },
   {
