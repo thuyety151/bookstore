@@ -55,7 +55,7 @@ namespace Application.Notification.Admin
             {
 
                 var users = _context.Users.Include(x => x.FcmTokens).AsQueryable();
-                if (request.SendNotiParams.UserIds != null)
+                if (request.SendNotiParams.UserIds.Count>0)
                 {
                     users = users.Where(x => request.SendNotiParams.UserIds.Contains(x.Id));
                 }

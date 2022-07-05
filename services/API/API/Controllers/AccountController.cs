@@ -48,7 +48,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userManager.Users.Include(x=>x.Photo).FirstOrDefaultAsync(x => x.Email == loginDto.Email);
+            var user = await _userManager.Users.Include(x => x.Photo).FirstOrDefaultAsync(x => x.Email == loginDto.Email);
 
             if (user == null)
             {
@@ -207,20 +207,21 @@ namespace API.Controllers
             };
             return userDto;
         }
-        
+
         [Authorize]
         [HttpPost("save-fcm-token")]
         public async Task<ActionResult<Unit>> SaveFcmToken(string token)
         {
-            var user = await _userManager.Users.Include(x=>x.FcmTokens).FirstOrDefaultAsync(x =>
-                x.Email == User.FindFirstValue(ClaimTypes.Email));
-
-            var existedToken = user.FcmTokens.FirstOrDefault(x => x.Token==token);
-
+            // 1 token 1 user && 1 user N tokens
+            var existedToken = await _context.FcmTokens.FirstOrDefaultAsync(x => x.Token == token);
             if (existedToken != null)
             {
                 return Unit.Value;
             }
+
+            var user = await _userManager.Users.Include(x => x.FcmTokens).FirstOrDefaultAsync(x =>
+                x.Email == User.FindFirstValue(ClaimTypes.Email));
+
             user?.FcmTokens.Add(new FcmToken()
             {
                 Token = token,
@@ -234,15 +235,15 @@ namespace API.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<List<UserOptionDto>>> GetAllAccount()
         {
-            var user = await _context.Users.Include(x=>x.Photo).Where(x => x.IsDeleted == false && x.Role == Role.Customer)
-                .Select(x=>new UserOptionDto()
+            var user = await _context.Users.Include(x => x.Photo).Where(x => x.IsDeleted == false && x.Role == Role.Customer)
+                .Select(x => new UserOptionDto()
                 {
-                    Id=x.Id,
+                    Id = x.Id,
                     Name = x.UserName,
                     PhotoUrl = x.Photo.Url,
-                    FcmTokens = x.FcmTokens.Select(x=>x.Token).ToList()
+                    FcmTokens = x.FcmTokens.Select(x => x.Token).ToList()
                 }).ToListAsync();
-            
+
             await _context.SaveChangesAsync();
             return user;
         }

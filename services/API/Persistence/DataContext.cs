@@ -54,7 +54,7 @@ namespace Persistence
                 .WithMany(x => x.Users).HasForeignKey(x => x.NotificationId);
             builder.Entity<UserNoti>().HasOne(x => x.User)
                 .WithMany(x => x.Notis).HasForeignKey(x => x.UserId);
-
+            
         }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Author> Authors { get; set; }

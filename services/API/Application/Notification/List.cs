@@ -19,7 +19,6 @@ namespace Application.Notification
         public class Query : IRequest<Result<PagedList<NotiDto>>>
         {
             public PagingParams Params { get; set; }
-            public bool IsCustom { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<NotiDto>>>
@@ -46,7 +45,6 @@ namespace Application.Notification
                         IsRead = x.IsRead
                     })
                     .OrderByDescending(x => x.CreatedDate);
-
                 return Result<PagedList<NotiDto>>.Success(
                     await PagedList<NotiDto>.CreatePage(notis, request.Params.PageIndex, request.Params.PageSize));
             }

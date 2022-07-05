@@ -50,5 +50,17 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new SendNoti.Command(){SendNotiParams = notiParams}));
         }
+        [HttpGet]
+        [Route("list-noti")]
+        public async Task<IActionResult> List([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams}));
+        }
+        [HttpGet]
+        [Route("total-unread")]
+        public async Task<IActionResult> TotalUnread()
+        {
+            return HandleResult(await Mediator.Send(new TotalUnread.Query() ));
+        }
     }
 }

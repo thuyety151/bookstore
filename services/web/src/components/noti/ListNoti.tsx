@@ -34,7 +34,7 @@ const ListNoti: React.FC = () => {
     setOpen(false);
   };
 
-  useEffect(() => {g
+  useEffect(() => {
     dispatch(getAll());
   }, [dispatch]);
 
