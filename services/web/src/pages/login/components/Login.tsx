@@ -153,53 +153,55 @@ export default function LoginComponent() {
             </Grid>
 
             <form className={classes.form} onSubmit={handleSubmit}>
-              <Grid item xs={12} container spacing={1}>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Email"
-                    variant="filled"
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    color="secondary"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Password"
-                    variant="filled"
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.password && Boolean(formik.errors.password)
-                    }
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
-                    color="secondary"
-                    InputProps={{ // <-- This is where the toggle button is added.
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
+              <Grid item container>
+                <TextField
+                  label="Email"
+                  variant="filled"
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                  color="secondary"
+                />
+                <TextField
+                  label="Password"
+                  variant="filled"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
+                  color="secondary"
+                  InputProps={{
+                    // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Grid
+                  item
+                  style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    display: "flex",
+                  }}
+                >
                   {isLoading ? (
                     <Button
                       type="submit"
@@ -277,10 +279,14 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "400px",
+        width: "100%",
+      },
+      "& .MuiIconButton-root": {
+        width: "48px !important",
       },
       "& .MuiButtonBase-root": {
         margin: theme.spacing(1),
+        width: "300px",
       },
     },
     button: {
@@ -309,7 +315,6 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: "5px 0px 20px 330px",
       },
       float: "right",
-      marginRight: "70px !important",
     },
     divider: {
       margin: "10px",

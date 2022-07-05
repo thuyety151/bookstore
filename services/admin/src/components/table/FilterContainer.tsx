@@ -7,6 +7,8 @@ import {
 } from "@material-ui/core";
 import "./styles.scss";
 import SearchIcon from "@material-ui/icons/Search";
+import { useEffect, useRef } from "react";
+import { ChangeEvent } from "ag-grid-community/dist/lib/widgets/agCheckbox";
 
 export type FilterType = {
   placeholderSearch?: string;

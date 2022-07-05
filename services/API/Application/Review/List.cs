@@ -44,7 +44,9 @@ namespace Application.Review
                         Rate = x.Rate,
                         CreateDate = x.CreateDate,
                         UpdateDate = x.UpdateDate,
-                        Media = x.Media
+                        Media = x.Media,
+                        AvatarUrl= x.User.Photo.Url,
+                        UserName = x.User.UserName
                     }).OrderByDescending(x=>x.CreateDate).AsQueryable();
                 return Result<PagedList<ReviewDto>>.Success(
                     await PagedList<ReviewDto>.CreatePage(reviews, request.Params.PageIndex, request.Params.PageSize));

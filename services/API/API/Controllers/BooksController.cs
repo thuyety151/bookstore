@@ -2,10 +2,13 @@ using System;
 using System.Threading.Tasks;
 using Application.Books;
 using Application.Books.Detail;
+using Application.Books.Import;
 using Application.Books.Upsert;
 using Application.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using List = Application.Books.List;
+using ListImport = Application.Books.Import.List;
 
 namespace API.Controllers
 {
@@ -55,6 +58,21 @@ namespace API.Controllers
         public async Task<IActionResult> GetBestselling()
         {
             return HandleResult(await Mediator.Send(new BestSelling.Query() { }));
+        }
+        
+        [HttpPost]
+        [Route("import")]
+        public async Task<IActionResult> ImportData([FromForm] Import.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
+        
+        [HttpGet]
+        [Route("import")]
+        public async Task<IActionResult> GetImportHistory([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new ListImport.Query() { Params = pagingParams }));
+
         }
     }
 }

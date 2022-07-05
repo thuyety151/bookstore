@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
     // marginRight: "2rem",
   },
   paper: {
-    padding: theme.spacing(2),
+    // padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
     flex: "1 0 auto",
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     display: "flex",
   },
   listItem: {
@@ -56,13 +56,12 @@ const HeaderComponent: React.FC<{
   const handlePersonOutLine = () => {
     history.push(
       generatePath(ROUTE_PROFILE_PREDICATE, {
-        tabName: "account",
+        tabName: "dashboard",
       })
     );
   };
   return (
     <div className={classes.root}>
-      {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
       <div className={clsx(classes.container, "main-header")}>
         <div className={classes.listItem}>
           <ListItem

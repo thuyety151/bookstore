@@ -1,11 +1,16 @@
 .circle-process {
-    position: absolute;
-    top: 200px;
-    left: 400px;
+  position: absolute;
+  top: 200px;
+  left: 400px;
 }
 
 .image {
-	max-height: 10rem;
-	width: 100%;
-	height: auto;
+  max-height: 10rem;
+  width: 100%;
+  height: auto;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

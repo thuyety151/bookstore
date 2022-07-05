@@ -1,5 +1,5 @@
 import { Chip, TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 import api from "boot/axios";
 import React from "react";
 import { useEffect, useState } from "react";

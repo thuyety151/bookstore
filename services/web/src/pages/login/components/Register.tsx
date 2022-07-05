@@ -30,8 +30,10 @@ export default function RegisterComponent() {
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-  const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword(!showConfirmPassword);
+  const handleMouseDownConfirmPassword = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   const [isLoading, setLoading] = useState(false);
 
@@ -192,7 +194,8 @@ export default function RegisterComponent() {
                       formik.touched.password && formik.errors.password
                     }
                     color="secondary"
-                    InputProps={{ // <-- This is where the toggle button is added.
+                    InputProps={{
+                      // <-- This is where the toggle button is added.
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
@@ -203,7 +206,7 @@ export default function RegisterComponent() {
                             {showPassword ? <Visibility /> : <VisibilityOff />}
                           </IconButton>
                         </InputAdornment>
-                      )
+                      ),
                     }}
                   />
                 </Grid>
@@ -226,7 +229,8 @@ export default function RegisterComponent() {
                       formik.errors.confirmPassword
                     }
                     color="secondary"
-                    InputProps={{ // <-- This is where the toggle button is added.
+                    InputProps={{
+                      // <-- This is where the toggle button is added.
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
@@ -234,10 +238,14 @@ export default function RegisterComponent() {
                             onClick={handleClickShowConfirmPassword}
                             onMouseDown={handleMouseDownConfirmPassword}
                           >
-                            {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                            {showConfirmPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
                           </IconButton>
                         </InputAdornment>
-                      )
+                      ),
                     }}
                   />
                 </Grid>
@@ -277,7 +285,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       backgroundColor: "#fff6f6",
       height: 700,
-      margin: 0
+      margin: 0,
     },
     paper: {
       padding: theme.spacing(2),
@@ -307,13 +315,19 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       "& .MuiTextField-root ": {
         margin: theme.spacing(1),
-        width: "400px",
+        width: "100%",
+      },
+      "& .MuiIconButton-root": {
+        width: "48px !important",
       },
       "& .MuiButtonBase-root": {
         margin: theme.spacing(1),
+        width: 300,
       },
     },
-
+    visibility: {
+      width: "3rem",
+    },
     signUp: {
       textTransform: "none",
       borderRadius: "50px",

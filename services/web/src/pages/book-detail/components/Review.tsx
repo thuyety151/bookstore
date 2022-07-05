@@ -173,7 +173,7 @@ export default function CenteredGrid() {
   };
   return (
     <div className={classes.root}>
-      <AppBar id="review" position="static" color="default">
+      <AppBar id="review" position="static" color="default" elevation={0}>
         <Tabs
           centered
           value={value}
@@ -219,15 +219,6 @@ export default function CenteredGrid() {
                     href="#all-reviews"
                   >
                     See all reviews
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    className={classes.button}
-                    href="#form-add-review"
-                  >
-                    Write a review
                   </Button>
                 </Grid>
               </Grid>
@@ -321,78 +312,96 @@ export default function CenteredGrid() {
           </Grid>
 
           {data?.canReview && canReview && (
-            <form className={classes.form}>
-              <Grid item>
-                <h4>Add a title</h4>
-              </Grid>
-              <Grid item>
-                <TextField
-                  fullWidth
-                  label="Title"
-                  variant="filled"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </Grid>
-              <Grid item>
-                <h4>Details please! Your review helps other shoppers.</h4>
-              </Grid>
-              <Grid item>
-                <TextField
-                  minRows={5}
-                  fullWidth
-                  label="Content"
-                  variant="filled"
-                  multiline
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-              </Grid>
-              <Grid
-                container
-                direction="row"
-                style={{ gap: 8, padding: "16px 0" }}
-              >
-                {files.map((file: any) => (
-                  <Grid
-                    item
-                    className={classes.imagePreview}
-                    style={{
-                      backgroundImage: `url(${file?.preview})`,
+            <Grid item container id="form-add-review">
+              <Typography variant="h6"> Write a review</Typography>
+              <Grid item container spacing={2}>
+                <Grid item>
+                  <Typography variant="body1"> Select a rating: </Typography>
+                </Grid>
+                <Grid item>
+                  <Rating
+                    name="simple-controlled"
+                    className={classes.rate}
+                    value={rateValue}
+                    onChange={(event, newValue) => {
+                      setRateValue(newValue);
                     }}
-                  >
-                    <Icon
-                      className={classes.btnRemoveImage}
-                      onClick={() => onRemoveFile(file)}
-                    >
-                      remove_circle
-                    </Icon>
-                  </Grid>
-                ))}
+                  />
+                </Grid>
               </Grid>
-              <Grid item>
-                <ImageUploadWidget
-                  setFiles={(files: any) => {
-                    setFiles(files);
-                  }}
-                />
-              </Grid>
-
-              <Grid item>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={handleSubmit}
+              <form className={classes.form}>
+                <Grid item>
+                  <h4>Add a title</h4>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    fullWidth
+                    label="Title"
+                    variant="filled"
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </Grid>
+                <Grid item>
+                  <h4>Details please! Your review helps other shoppers.</h4>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    minRows={5}
+                    fullWidth
+                    label="Content"
+                    variant="filled"
+                    multiline
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  style={{ gap: 8, padding: "16px 0" }}
                 >
-                  {loading ? (
-                    <CircularProgress style={{ color: "#fff" }} />
-                  ) : (
-                    "Submit Review"
-                  )}
-                </Button>
-              </Grid>
-            </form>
+                  {files.map((file: any) => (
+                    <Grid
+                      item
+                      className={classes.imagePreview}
+                      style={{
+                        backgroundImage: `url(${file?.preview})`,
+                      }}
+                    >
+                      <Icon
+                        className={classes.btnRemoveImage}
+                        onClick={() => onRemoveFile(file)}
+                      >
+                        remove_circle
+                      </Icon>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Grid item>
+                  <ImageUploadWidget
+                    setFiles={(newFiles: any) => {
+                      setFiles([...files, ...newFiles] as any);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    onClick={handleSubmit}
+                  >
+                    {loading ? (
+                      <CircularProgress style={{ color: "#fff" }} />
+                    ) : (
+                      "Submit Review"
+                    )}
+                  </Button>
+                </Grid>
+              </form>
+            </Grid>
           )}
         </Grid>
       </Box>
