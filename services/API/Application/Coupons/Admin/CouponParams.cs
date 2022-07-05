@@ -11,6 +11,7 @@ namespace Application.Coupons.Admin
         public int DiscountType { get; set; }
         public DateTime ExpireDate { get; set; }
         public double MinSpend { get; set; }
+        public string MediaId { get; set; }
       
     }
 }
