@@ -15,7 +15,7 @@ export type Notification = {
 };
 
 export type NotiState = {
-  resquesting: boolean;
+  requesting: boolean;
   message: string;
   data: Media;
   listNoti: Notification[];
@@ -23,7 +23,7 @@ export type NotiState = {
 };
 
 const initialState: NotiState = {
-  resquesting: false,
+  requesting: false,
   message: "",
   data: {} as any,
   listNoti: [],
@@ -38,14 +38,17 @@ const notiReducer = (
     case ACTION_NAMES.GET_ALL.GET_NOTI_PAGINATION:
       return {
         ...state,
-        resquesting: true,
+        requesting: true,
       };
     case ACTION_NAMES.GET_ALL.GET_NOTI_PAGINATION_SUCCESS:
       return {
         ...state,
-        resquesting: false,
-        listNoti: payload.data.reverse(),
-        pagination: payload.pagination,
+        requesting: false,
+        listNoti: [...state.listNoti, ...payload.data],
+        pagination: {
+          ...payload.pagination,
+          pageIndex: payload.pagination.pageIndex + 1,
+        },
       };
     case ACTION_NAMES.SET_READ_NOTI.SET_READ_NOTI_SUCCESS:
       return {
@@ -58,6 +61,15 @@ const notiReducer = (
               }
             : item
         ),
+      };
+    case ACTION_NAMES.CATCH_NEW_NOTI:
+      return {
+        ...state,
+        listNoti: [payload.data, ...state.listNoti],
+        pagination: {
+          ...state.pagination,
+          totalCount: state.pagination.totalCount + 1,
+        },
       };
     default:
       return state;

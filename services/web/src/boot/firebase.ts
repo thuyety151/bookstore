@@ -50,6 +50,7 @@ export const messaging = getMessaging(app);
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
+      console.log("payload", payload);
       resolve(payload);
     });
   });

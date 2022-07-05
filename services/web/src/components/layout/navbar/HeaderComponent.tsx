@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import "./styles.scss";
+import ListNoti from "../../noti/ListNoti";
 // import { ROUTE_WISHLIST } from "../../../routers/types";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +56,9 @@ const HeaderComponent: React.FC<{
   const handlePersonOutLine = () => {
     history.push("/profile");
   };
+
+  const user = localStorage.getItem("user");
+
   return (
     <div className={classes.root}>
       {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
@@ -74,6 +78,13 @@ const HeaderComponent: React.FC<{
           </ListItem>
         </div>
         <div className={classes.listItem}>
+          {user && (
+            <ListItem button>
+              <Tooltip title="Shop location" aria-label="Shop location">
+                <ListNoti />
+              </Tooltip>
+            </ListItem>
+          )}
           <ListItem button>
             <Tooltip title="Shop location" aria-label="Shop location">
               <LocationOnOutlinedIcon />
