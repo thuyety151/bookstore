@@ -15,7 +15,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new List.Query()));
         }
         [HttpPost]
-        public async Task<IActionResult> Upsert(List<ConfigHomePageDto> configHomePage)
+        public async Task<IActionResult> Upsert(List<ConfigHomePage> configHomePage)
         {
             return HandleResult(await Mediator.Send(new Upsert.Command(){Configs= configHomePage}));
         }

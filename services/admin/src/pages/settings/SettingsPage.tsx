@@ -6,6 +6,7 @@ import {
   InputLabel,
   makeStyles,
   MenuItem,
+  OutlinedInput,
   Paper,
   Select,
   Theme,
@@ -47,6 +48,12 @@ const SettingsPage: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [formValue, setFormValue] = useState([] as Setting[]);
+  const [formAddressValue, setFormAddressValue] = useState({
+    fullAddress: "",
+    longitude: 0,
+    latitude: 0,
+  });
+
   useEffect(() => {
     dispatch(getAll());
     dispatch(
@@ -59,6 +66,23 @@ const SettingsPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const address = settiingsState.data?.find((x) => x.key === "Address");
+    if (address?.metaData) {
+      const data = JSON.parse(address?.metaData);
+      console.log("data", data, {
+        fullAddress: data.FullAddress,
+        longitude: data.Longitude,
+        latitude: data.Latitude,
+      });
+      setFormAddressValue({
+        fullAddress: data.FullAddress,
+        longitude: data.Longitude,
+        latitude: data.Latitude,
+      });
+    }
+  }, [settiingsState.requesting]);
+
+  useEffect(() => {
     setFormValue(settiingsState.data || []);
   }, [settiingsState]);
 
@@ -68,9 +92,32 @@ const SettingsPage: React.FC = () => {
     ) {
       return;
     }
+    console.log(
+      {
+        Longitude: formAddressValue.longitude,
+        Latitude: formAddressValue.latitude,
+        FullAddress: formAddressValue.fullAddress,
+      },
+      JSON.stringify({
+        Longitude: formAddressValue.longitude,
+        Latitude: formAddressValue.latitude,
+        FullAddress: formAddressValue.fullAddress,
+      })
+    );
+
     dispatch(
       updateSettings({
-        data: formValue,
+        data: [
+          ...formValue.filter((x) => x.key !== "Address"),
+          {
+            ...formValue.find((x) => x.key === "Address"),
+            metaData: JSON.stringify({
+              Longitude: formAddressValue.longitude,
+              Latitude: formAddressValue.latitude,
+              FullAddress: formAddressValue.fullAddress,
+            }),
+          } as Setting,
+        ],
         onSuccess: () => {
           enqueueSnackbar("Update successfully", { variant: "success" });
         },
@@ -80,6 +127,20 @@ const SettingsPage: React.FC = () => {
       })
     );
   };
+
+  // will enable when we have GG Map API Key
+  // useEffect(() => {
+  //   Geocode.fromAddress(formAddressValue.fullAddress, Config.apiGGMapKey).then(
+  //     (response) => {
+  //       const { lat, lng } = response.results[0].geometry.location;
+  //       console.log(lat, lng);
+  //     },
+  //     (error) => {
+  //       console.error(error);
+  //     }
+  //   );
+  // }, [formAddressValue.fullAddress]);
+
   const handleChange = (item: Setting, keyValueChange: string, value: any) => {
     setFormValue([
       ...formValue.map((x) =>
@@ -109,7 +170,7 @@ const SettingsPage: React.FC = () => {
         </Grid>
         <Grid container direction="row" justifyContent="space-evenly">
           <Grid item xs={5} className={classes.container}>
-            {settiingsState.data?.slice(0, 5).map((item, index) => {
+            {settiingsState.data?.slice(0, 6).map((item, index) => {
               return (
                 <Grid item className={classes.item} key={`settings-${index}`}>
                   <Typography className={classes.title}>
@@ -179,11 +240,67 @@ const SettingsPage: React.FC = () => {
             })}
           </Grid>
           <Grid item xs={5} className={classes.container}>
-            {settiingsState.data?.slice(5).map((item, index) => {
-              return (
+            {settiingsState.data?.slice(6).map((item, index) => {
+              console.log(item);
+              return item.key === "Address" ? (
+                <div>
+                  <Grid item className={classes.item} key={`settings-${index}`}>
+                    <Typography className={classes.title}>
+                      Shop Address
+                    </Typography>
+                    <Grid
+                      container
+                      direction="column"
+                      className={classes.contents}
+                    >
+                      <OutlinedInput
+                        placeholder="Full address"
+                        value={formAddressValue.fullAddress}
+                        onChange={(e) =>
+                          setFormAddressValue({
+                            ...formAddressValue,
+                            fullAddress: e.target.value as string,
+                          })
+                        }
+                        inputProps={{ "aria-label": "naked" }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid item className={classes.item}>
+                    <Typography className={classes.title}>Latitude</Typography>
+                    <OutlinedInput
+                      placeholder="Latitude"
+                      value={formAddressValue.latitude}
+                      type="number"
+                      onChange={(e) =>
+                        setFormAddressValue({
+                          ...formAddressValue,
+                          latitude: Number(e.target.value),
+                        })
+                      }
+                      inputProps={{ "aria-label": "naked" }}
+                    />
+                  </Grid>
+                  <Grid item className={classes.item}>
+                    <Typography className={classes.title}>Longitude</Typography>
+                    <OutlinedInput
+                      placeholder="Longitude"
+                      value={formAddressValue.longitude}
+                      type="number"
+                      onChange={(e) =>
+                        setFormAddressValue({
+                          ...formAddressValue,
+                          longitude: Number(e.target.value),
+                        })
+                      }
+                      inputProps={{ "aria-label": "naked" }}
+                    />
+                  </Grid>
+                </div>
+              ) : (
                 <Grid item className={classes.item} key={`settings-${index}`}>
                   <Typography className={classes.title}>
-                    {listTitle[5 + index]}
+                    {listTitle[6 + index]}
                   </Typography>
                   <Grid
                     container
@@ -191,9 +308,9 @@ const SettingsPage: React.FC = () => {
                     className={classes.contents}
                   >
                     <VInput
-                      key={`v-input-${5 + index}`}
+                      key={`v-input-${6 + index}`}
                       fullWidth
-                      value={formValue[5 + index]?.quantity || 0}
+                      value={formValue[6 + index]?.quantity || 0}
                       label="Quantity"
                       onChange={(e) =>
                         handleChange(item, "quantity", e.target.value)

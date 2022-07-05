@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -13,12 +14,12 @@ namespace Application.Settings
 {
     public class List
     {
-        public class  Query : IRequest<Result<List<ConfigHomePageDto>>>
+        public class  Query : IRequest<Result<List<ConfigHomePage>>>
         {
             
         }
         
-        public class Handler : IRequestHandler<Query, Result<List<ConfigHomePageDto>>>
+        public class Handler : IRequestHandler<Query, Result<List<ConfigHomePage>>>
         {
             private readonly DataContext _context;
 
@@ -27,19 +28,12 @@ namespace Application.Settings
                 _context = context;
             }
 
-            public async Task<Result<List<ConfigHomePageDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ConfigHomePage>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var settings =await _context.ConfigHomePages
-                    .Select(x=> new ConfigHomePageDto()
-                    {
-                        Id = x.Id,
-                        Quantity = x.Quantity,
-                        Key = x.Key,
-                        DefaultAttributeId = x.DefaultAttributeId == Guid.Empty ? (Guid?) null : x.DefaultAttributeId ,
-                        MetaData = x.MetaData.Length>0  ? JsonConvert.DeserializeObject<Guid[]>(x.MetaData) : null
-                    }).ToListAsync();
+                    .ToListAsync();
 
-                return Result<List<ConfigHomePageDto>>.Success(settings);
+                return Result<List<ConfigHomePage>>.Success(settings);
             }
         }
     }

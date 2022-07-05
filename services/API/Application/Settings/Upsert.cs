@@ -19,7 +19,7 @@ namespace Application.Settings
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public List<ConfigHomePageDto> Configs { get; set; }
+            public List<ConfigHomePage> Configs { get; set; }
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
@@ -36,8 +36,8 @@ namespace Application.Settings
                 foreach (var item in request.Configs.Select((value, index) => new { value, index }))
                 {
                     configs[item.index].Quantity = item.value.Quantity;
-                    configs[item.index].MetaData = item.value.MetaData == null ? null : JsonConvert.SerializeObject(item.value.MetaData);
-                    configs[item.index].DefaultAttributeId = item.value.DefaultAttributeId ?? Guid.Empty;
+                    configs[item.index].MetaData = item.value.MetaData == null ? null : item.value.MetaData;
+                    configs[item.index].DefaultAttributeId = item.value.DefaultAttributeId ;
                 }
                 await _context.SaveChangesAsync(cancellationToken);
                 return Result<Unit>.Success(Unit.Value);
