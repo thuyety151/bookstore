@@ -1,5 +1,6 @@
 import React from "react";
 import Categories from "../../components/homepage/category/CategoriesBanner";
+import Coupons from "../../components/homepage/coupon/ListCouponRender";
 import { createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import ListBestSellingComponent from "../../components/homepage/bestseller/ListBestSellerRender";
 import ListFavoriteAuthorComponent from "../../components/homepage/favourite-author/ListFavouriteAuthorRender";
@@ -33,6 +34,9 @@ const HomePage: React.FunctionComponent<{}> = (props) => {
         <Grid container>
           <Grid item xs={12} className={classes.item}>
             <Categories />
+          </Grid>
+          <Grid item xs={12} className={classes.item}>
+            <Coupons />
           </Grid>
           {/* <Grid item xs={12} className={classes.item}>
           <MiniCategory />

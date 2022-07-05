@@ -2,78 +2,68 @@ import { IconButton, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import { AppBar } from "@material-ui/core";
-// import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
 import logo from "../../../assets/images/book-worm.png";
 import { Divider } from "@material-ui/core";
 import icon from "../../../assets/icons/menu-bar.svg";
 import { useHistory } from "react-router";
 import { ROUTE_HOME } from "../../../routers/types";
+import SearchProduct from "./SearchProduct";
 
-const NavBarComponent: React.FC<{ openSideBar: boolean; setOpenSidebar: any }> =
-  ({ openSideBar, setOpenSidebar }) => {
-    const classes = useStyles();
-    const history = useHistory();
+const NavBarComponent: React.FC<{
+  openSideBar: boolean;
+  setOpenSidebar: any;
+}> = ({ openSideBar, setOpenSidebar }) => {
+  const classes = useStyles();
+  const history = useHistory();
 
-    const handleOpenSideBar = () => {
-      setOpenSidebar(!openSideBar);
-    };
-    const gotoHomePage = () => {
-      history.push(ROUTE_HOME);
-    };
-    return (
-      <div className={classes.root}>
-        <AppBar position="static" className={classes.header}>
-          <Toolbar className={classes.toolbar}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleOpenSideBar}
-              >
-                {/* <MenuIcon /> */}
-                <img src={icon} style={{ height: 30 }} alt="icon" />
-              </IconButton>
-              <img
-                src={logo}
-                style={{
-                  height: 64,
-                  justifySelf: "flex-start",
-                  cursor: "pointer",
-                }}
-                alt="logo"
-                onClick={gotoHomePage}
-              />
-            </div>
-            {/* <List
+  const handleOpenSideBar = () => {
+    setOpenSidebar(!openSideBar);
+  };
+  const gotoHomePage = () => {
+    history.push(ROUTE_HOME);
+  };
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.header}>
+        <Toolbar className={classes.toolbar}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleOpenSideBar}
+            >
+              {/* <MenuIcon /> */}
+              <img src={icon} style={{ height: 30 }} alt="icon" />
+            </IconButton>
+            <img
+              src={logo}
+              style={{
+                height: 64,
+                justifySelf: "flex-start",
+                cursor: "pointer",
+              }}
+              alt="logo"
+              onClick={gotoHomePage}
+            />
+          </div>
+          {/* <List
             component="nav"
             aria-labelledby="nested-list-subheader"
             className={classes.rootList}
           >
             <ListItemRender />
           </List> */}
-            {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search by Keywords"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onKeyPress={(e) => hanleSearch(e)}
-            />
-          </div> */}
-          </Toolbar>
-        </AppBar>
-        <Divider />
-      </div>
-    );
-  };
+          <SearchProduct />
+        </Toolbar>
+      </AppBar>
+      <Divider />
+    </div>
+  );
+};
 export default NavBarComponent;
 const useStyles = makeStyles((theme: Theme) => ({
   menuButton: {

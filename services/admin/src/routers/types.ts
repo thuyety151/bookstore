@@ -20,6 +20,7 @@ export const ROUTE_ORDER_CREATE = "/orders/create";
 export const ROUTE_ORDER_EDIT = "/orders/edit/:orderId";
 export const ROUTE_REPORT = "/report/:range";
 export const ROUTE_EXAMPLE = "/example";
+export const ROUTE_AUTHORS = "/authors";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -46,6 +47,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_REPORT]: { permissions: [sharedTypes.ROLE_ADMIN] },
   [ROUTE_EXAMPLE]: { permissions: [sharedTypes.ROLE_ADMIN] },
   [ROUTE_IMPORT_DATA]: { permissions: [sharedTypes.ROLE_ADMIN] },
+  [ROUTE_AUTHORS]: { permissions: [sharedTypes.ROLE_ADMIN] },
 };
 
 export type AppRoute =
@@ -109,6 +111,12 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     icon: "backup",
     pathName: ROUTE_IMPORT_DATA,
   },
+  {
+    title: "Authors",
+    icon: "assignment_ind",
+    pathName: ROUTE_AUTHORS,
+  },
+
   // {
   //   title: "Users",
   //   icon: "people_outline",

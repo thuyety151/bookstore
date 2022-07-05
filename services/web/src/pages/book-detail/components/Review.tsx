@@ -5,7 +5,9 @@ import {
   AppBar,
   Box,
   Button,
+  CircularProgress,
   Divider,
+  Icon,
   LinearProgress,
   Tab,
   Tabs,
@@ -19,11 +21,15 @@ import Rating from "@mui/material/Rating";
 import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateReview } from "../../../model/review";
-import { addReview, getReviews } from "../../../redux/actions/review/reviewAction";
+import {
+  addReview,
+  getReviews,
+} from "../../../redux/actions/review/reviewAction";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
 import { Pagination } from "@material-ui/lab";
 import { useSnackbar } from "notistack";
+import ImageUploadWidget from "../../../components/imagesUpload/ImageUploadWidget";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,6 +58,19 @@ const useStyles = makeStyles((theme: Theme) =>
     rate: {
       color: "#ffbf00 !important",
     },
+    btnRemoveImage: {
+      color: "#fff",
+      display: "flex",
+      width: "100%",
+      justifyContent: "end",
+      opacity: 0.7,
+      cursor: "pointer",
+    },
+    imagePreview: {
+      backgroundSize: "cover",
+      width: 160,
+      height: 160,
+    },
   })
 );
 
@@ -79,10 +98,12 @@ export default function CenteredGrid() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
+  const [files, setFiles] = useState([]);
   const [value, setValue] = React.useState(3);
   const [page, setpage] = useState(1);
   const [rateValue, setRateValue] = React.useState<number | null>(5);
+  const [canReview, setCanReview] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -103,25 +124,34 @@ export default function CenteredGrid() {
   const totalThreeStar = rates.filter((rate) => rate === 3).length;
   const totalTwoStar = rates.filter((rate) => rate === 2).length;
   const totalOneStar = rates.filter((rate) => rate === 1).length;
+  const { data } = useSelector((state: RootStore) => state.book);
 
   const handleSubmit = () => {
+    setLoading(true);
     const review: CreateReview = {
       id: uuidv4(),
       title: title,
       content: content,
       rate: rateValue,
       bookId: bookId,
+      files: [],
     };
     dispatch(
       addReview({
-        review,
+        review: {
+          ...review,
+          files,
+        },
         onSuccess: () => {
           dispatch(getReviews(bookId));
           setpage(1);
           enqueueSnackbar("Comment successfully!", { variant: "success" });
+          setLoading(false);
+          setCanReview(false);
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
+          setLoading(false);
         },
       })
     );
@@ -137,9 +167,13 @@ export default function CenteredGrid() {
     setpage(value);
     dispatch(getReviews(bookId, { ...reviews.pagination, pageIndex: value }));
   };
+
+  const onRemoveFile = (file: any) => {
+    setFiles(files.filter((x: any) => x?.preview !== file?.preview));
+  };
   return (
     <div className={classes.root}>
-      <AppBar id="review" position="static" color="default">
+      <AppBar id="review" position="static" color="default" elevation={0}>
         <Tabs
           centered
           value={value}
@@ -185,15 +219,6 @@ export default function CenteredGrid() {
                     href="#all-reviews"
                   >
                     See all reviews
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    className={classes.button}
-                    href="#form-add-review"
-                  >
-                    Write a review
                   </Button>
                 </Grid>
               </Grid>
@@ -286,62 +311,98 @@ export default function CenteredGrid() {
             ) : null}
           </Grid>
 
-          <Grid item container id="form-add-review">
-            <Typography variant="h6"> Write a review</Typography>
-            <Grid item container spacing={2}>
-              <Grid item>
-                <Typography variant="body1"> Select a rating: </Typography>
+          {data?.canReview && canReview && (
+            <Grid item container id="form-add-review">
+              <Typography variant="h6"> Write a review</Typography>
+              <Grid item container spacing={2}>
+                <Grid item>
+                  <Typography variant="body1"> Select a rating: </Typography>
+                </Grid>
+                <Grid item>
+                  <Rating
+                    name="simple-controlled"
+                    className={classes.rate}
+                    value={rateValue}
+                    onChange={(event, newValue) => {
+                      setRateValue(newValue);
+                    }}
+                  />
+                </Grid>
               </Grid>
-              <Grid item>
-                <Rating
-                  name="simple-controlled"
-                  className={classes.rate}
-                  value={rateValue}
-                  onChange={(event, newValue) => {
-                    setRateValue(newValue);
-                  }}
-                />
-              </Grid>
-            </Grid>
-            <form className={classes.form}>
-              <Grid item>
-                <h4>Add a title</h4>
-              </Grid>
-              <Grid item>
-                <TextField
-                  fullWidth
-                  label="Title"
-                  variant="filled"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </Grid>
-              <Grid item>
-                <h4>Details please! Your review helps other shoppers.</h4>
-              </Grid>
-              <Grid item>
-                <TextField
-                  minRows={5}
-                  fullWidth
-                  label="Content"
-                  variant="filled"
-                  multiline
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={handleSubmit}
+              <form className={classes.form}>
+                <Grid item>
+                  <h4>Add a title</h4>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    fullWidth
+                    label="Title"
+                    variant="filled"
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </Grid>
+                <Grid item>
+                  <h4>Details please! Your review helps other shoppers.</h4>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    minRows={5}
+                    fullWidth
+                    label="Content"
+                    variant="filled"
+                    multiline
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  style={{ gap: 8, padding: "16px 0" }}
                 >
-                  Submit Review
-                </Button>
-              </Grid>
-            </form>
-          </Grid>
+                  {files.map((file: any) => (
+                    <Grid
+                      item
+                      className={classes.imagePreview}
+                      style={{
+                        backgroundImage: `url(${file?.preview})`,
+                      }}
+                    >
+                      <Icon
+                        className={classes.btnRemoveImage}
+                        onClick={() => onRemoveFile(file)}
+                      >
+                        remove_circle
+                      </Icon>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Grid item>
+                  <ImageUploadWidget
+                    setFiles={(newFiles: any) => {
+                      setFiles([...files, ...newFiles] as any);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    onClick={handleSubmit}
+                  >
+                    {loading ? (
+                      <CircularProgress style={{ color: "#fff" }} />
+                    ) : (
+                      "Submit Review"
+                    )}
+                  </Button>
+                </Grid>
+              </form>
+            </Grid>
+          )}
         </Grid>
       </Box>
     </div>

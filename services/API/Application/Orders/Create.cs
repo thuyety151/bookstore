@@ -48,7 +48,7 @@ namespace Application.Orders
             public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
             {
                 //Get list item 
-                var items = _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString()));
+                var items = await _context.Items.Where(x => request.OrderParams.ItemIds.Contains(x.Id.ToString())).ToListAsync();
 
                 // Check quantity
                 foreach (var item in items)
@@ -85,30 +85,25 @@ namespace Application.Orders
                 };
 
                 // CHECK COUPON
-                if (request.OrderParams.Coupon?.Code != null)
+                if (!string.IsNullOrWhiteSpace(request.OrderParams.CouponId))
                 {
-                    var coupon = await _context.Coupons.Include(x => x.Books)
+                    var coupon = await _context.UserCoupons.Include(x => x.Coupon)
                         .SingleOrDefaultAsync((x) =>
-                            x.Code.ToLower() == request.OrderParams.Coupon.Code.Trim().ToLower() && x.IsDeleted == false);
+                            x.Coupon.Id.ToString().ToLower() == request.OrderParams.CouponId.ToLower() && x.Coupon.IsDeleted == false && x.IsUsed == false);
                     if (coupon == null)
                     {
                         return Result<Guid>.Failure("Coupon is not exist");
                     }
 
-                    if (DateTime.Now > coupon.ExpireDate)
+                    if (coupon.Coupon.DiscountType == (int) DiscountType.Percentage)
                     {
-                        return Result<Guid>.Failure("Coupon is expired");
+                        order.SubTotal = Math.Round(order.SubTotal - (coupon.Coupon.CouponAmount * order.SubTotal) / 100 , 2) ;
                     }
-
-                    if (coupon.DiscountType == (int) DiscountType.Percentage)
+                    else if (coupon.Coupon.DiscountType == (int) DiscountType.FixedCart)
                     {
-                        order.SubTotal = Math.Round(order.SubTotal - (coupon.CouponAmount * order.SubTotal) / 100 , 2) ;
+                        order.SubTotal = Math.Round(order.SubTotal - coupon.Coupon.CouponAmount , 2) ;
                     }
-                    else if (coupon.DiscountType == (int) DiscountType.FixedCart)
-                    {
-                        order.SubTotal = Math.Round(order.SubTotal - coupon.CouponAmount , 2) ;
-                    }
-                    order.Coupon = coupon;
+                    order.Coupon = coupon.Coupon;
                 }
 
                 var cart = _context.Carts.Include(x => x.Items)
@@ -125,6 +120,21 @@ namespace Application.Orders
                     }
 
                 await _context.Orders.AddAsync(order);
+              
+
+                //Remove coupon in user coupons
+                if (order.Coupon != null)
+                {
+                    var userCoupon = _context.UserCoupons.FirstOrDefault(x =>
+                        x.CouponId == order.Coupon.Id && x.UserId == order.UserId.ToString());
+
+                    if (userCoupon != null)
+                    {
+                        userCoupon.IsUsed = true;
+                    }
+                  
+                }
+                
                 var result = await _context.SaveChangesAsync() > 0;
 
                 if (result == false)

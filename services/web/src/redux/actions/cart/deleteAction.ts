@@ -30,8 +30,8 @@ export const deleteItem = (props: Props) => async (dispatch: any) => {
   } catch (error: any) {
     dispatch({
       type: NAME_ACTIONS.DELETE_ITEM.DELETE_ITEM_FAIL,
-      data: error.messages,
+      data: error.message,
     });
-    props.onFailure(error.messages);
+    props.onFailure(error.message);
   }
 };

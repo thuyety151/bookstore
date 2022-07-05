@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  Chip,
   Collapse,
   Dialog,
   DialogActions,
@@ -9,8 +10,6 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
-  IconButton,
-  InputAdornment,
   InputBase,
   Paper,
   Radio,
@@ -27,11 +26,9 @@ import { RootStore } from "../../../redux/store";
 import {
   formatAddress,
   formatCustomerInfo,
-  formatVNDtoUSD,
 } from "../../../helper/format";
 import ChooseAddressCard from "./address/ChooseAddressCard";
 import CloseIcon from "@material-ui/icons/Close";
-import { verifyCoupon } from "../../../redux/actions/coupon/getAction";
 import { sum } from "lodash";
 // import { getFee } from "../../../redux/actions/order/getActions";
 import { getServices } from "../../../redux/actions/delivery/getAction";
@@ -39,8 +36,8 @@ import { getFee } from "../../../redux/actions/order/getActions";
 import { useSnackbar } from "notistack";
 import { ServiceType } from "../../../redux/reducers/deliveryReducer";
 import { DiscountType } from "../../../model/coupon";
-import CancelIcon from "@material-ui/icons/Cancel";
 import { NAME_ACTIONS } from "../../../redux/constants/coupon/actionTypes";
+import ChooseCoupons from "./ChooseCoupons";
 
 const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   chooseAddress,
@@ -53,7 +50,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     shipping: true,
     coupon: true,
   });
-  const [couponCode, setCouponCode] = useState("");
   const defaultAddress = useSelector(
     (state: RootStore) => state.address?.currentAddress
   );
@@ -61,16 +57,21 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
     (state: RootStore) => state.cart.itemToCheckOut
   );
   const [serviceType, setServiceType] = useState<ServiceType>({} as any);
+  const [chooseCoupon, setChooseCoupon] = useState(false);
   // const [subTotal, setSubTotal] = useState<ServiceType>(0);
-  const couponState = useSelector((state: RootStore) => state.coupon);
   const deliveryState = useSelector((state: RootStore) => state.delivery);
-  const { fee, coupon } = useSelector((state: RootStore) => state.order);
+  const couponState = useSelector((state: RootStore) => state.coupons);
+  const { fee } = useSelector((state: RootStore) => state.order);
+  const [couponAmount, setCouponAmount] = useState(0);
 
   const dispatch = useDispatch();
   const handleChangeAddress = () => {
     setChooseAddress(true);
   };
 
+  const handleChooseCoupon = () => {
+    setChooseCoupon(true);
+  };
   const handleChangeServiceType = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
@@ -102,9 +103,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   //   );
   // };
 
-  const handleApplyCoupon = () => {
-    dispatch(verifyCoupon(couponCode));
-  };
   useEffect(() => {
     // rest state of coupon
     dispatch({ type: NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
@@ -144,6 +142,8 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         })
       );
     }
+
+    calCouponAmount();
     // eslint-disable-next-line
   }, [serviceType, defaultAddress, itemsToCheckout?.length]);
   // useEffect(() => {
@@ -163,29 +163,36 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
   };
 
   const total = () => {
-    const couponAmount =
-      coupon.discountType === DiscountType.Percentage
-        ? (coupon.couponAmount / 100) *
-          sum(itemsToCheckout.map((x) => x.quantity * x.price))
-        : formatVNDtoUSD(coupon.couponAmount) || 0;
-    return (
-      sum(itemsToCheckout.map((x) => x.quantity * x.price)) -
-      couponAmount +
-      (fee || 0)
-    )?.toFixed(2);
+    var total =
+      sum(itemsToCheckout.map((x) => x.quantity * x.price)) - couponAmount > 0
+        ? sum(itemsToCheckout.map((x) => x.quantity * x.price)) - couponAmount
+        : 0;
+    return total + (fee || 0);
   };
-  const couponAmount = () => {
-    return couponState.data?.discountType === DiscountType.Percentage
-      ? (
+
+  const calCouponAmount = () => {
+    var amountDiscount = 0;
+    console.log("discount type:" + couponState.selectedCoupon?.discountType);
+    if (couponState.selectedCoupon !== undefined) {
+      if (couponState.selectedCoupon.discountType === DiscountType.Percentage) {
+        amountDiscount =
           (sum(itemsToCheckout.map((x) => x.quantity * x.price)) *
-            couponState.data?.couponAmount) /
-          100
-        ).toFixed(2)
-      : couponState.data?.couponAmount;
+            couponState.selectedCoupon.couponAmount) /
+          100;
+      } else {
+        amountDiscount = couponState.selectedCoupon.couponAmount;
+      }
+      setCouponAmount(amountDiscount);
+    }
   };
-  const handleRemoveCoupon = () => {
-    dispatch({ type: NAME_ACTIONS.REMOVE_COUPON.REMOVE_COUPON });
+
+  const handleDeleteCoupon = () => {
+    dispatch({
+      type:
+        NAME_ACTIONS.USER_REMOVE_APPLY_COUPON.USER_REMOVE_APPLY_COUPON_SUCCESS,
+    });
   };
+
   return (
     <div className={classes.root}>
       {/* <Grid
@@ -217,7 +224,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           <Grid container direction="column">
             <div className="row" style={{ paddingBottom: "8px" }}>
               <span>Subtotal</span>
-              <span>${subTotal()}</span>
+              <span>${subTotal().toFixed(2)}</span>
             </div>
             <div className="row" style={{ padding: "0px" }}>
               <span>Shipping fee</span>
@@ -293,24 +300,12 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
               {openSection.coupon ? <RemoveIcon /> : <AddIcon />}
             </span>
           </div>
-          {couponState.data?.discountType && (
-            <Grid container style={{ display: "contents" }}>
-              <Grid item className="row">
-                <span>Coupon</span>
-                <span>
-                  {couponState.data?.discountType === DiscountType.FixedCart &&
-                    "$"}{" "}
-                  {couponState.data?.couponAmount}{" "}
-                  {couponState.data?.discountType === DiscountType.Percentage &&
-                    "%"}
-                </span>
-              </Grid>
-              <Grid item className="row">
-                <span></span>
-                <span>- ${couponAmount()}</span>
-              </Grid>
+          <Grid container style={{ display: "contents" }}>
+            <Grid item className="row-coupon">
+              {couponState.selectedCoupon?.description && <span>Coupon</span>}
+              <span>{couponState.selectedCoupon?.description}</span>
             </Grid>
-          )}
+          </Grid>
           <Paper
             variant="outlined"
             className={classes.inputForm}
@@ -318,25 +313,23 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           >
             <InputBase
               style={{ width: "100%" }}
-              placeholder="Coupon here"
               inputProps={{ "aria-label": "naked" }}
-              onChange={(event) => setCouponCode(event.target.value)}
-              endAdornment={
-                couponCode ? (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleRemoveCoupon}>
-                      <CancelIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null
-              }
             />
+            {couponState.selectedCoupon !== undefined ? (
+              <Chip
+                label={"-$" + couponAmount.toFixed(2)}
+                onDelete={handleDeleteCoupon}
+                color="secondary"
+                className={classes.chipCoupon}
+              />
+            ) : null}
+
             <span
               className="cap cursor-pointer"
               style={{ textAlign: "right", minWidth: "8rem" }}
-              onClick={handleApplyCoupon}
+              onClick={handleChooseCoupon}
             >
-              Apply coupon
+              Choose coupon
             </span>
           </Paper>
           {couponState.message && (
@@ -354,7 +347,7 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
           className={classes.total}
         >
           <h3>Total</h3>
-          <h3>{total()}</h3>
+          <h3>{total().toFixed(2)}</h3>
         </Grid>
       </Paper>
       {/* </Grid> */}
@@ -377,6 +370,32 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         </DialogTitle>
         <DialogContent>
           <ChooseAddressCard />
+        </DialogContent>
+        <DialogActions></DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={chooseCoupon}
+        // onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        className={classes.dialogChooseCoupon}
+      >
+        <DialogTitle id="form-dialog-title">
+          <Grid container justifyContent="space-between">
+            <Typography variant="h6">Choose Your Coupon</Typography>
+            <Button
+              style={{ justifyContent: "end", minWidth: "0px" }}
+              onClick={() => {
+                calCouponAmount();
+                setChooseCoupon(false);
+              }}
+            >
+              <CloseIcon />
+            </Button>
+          </Grid>
+        </DialogTitle>
+        <DialogContent>
+          <ChooseCoupons />
         </DialogContent>
         <DialogActions></DialogActions>
       </Dialog>
@@ -426,6 +445,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       display: "flex",
       padding: theme.spacing(2, 0),
     },
+    "& .row-coupon": {
+      justifyContent: "space-between",
+      display: "flex",
+      padding: theme.spacing(1, 0),
+    },
     "& div": {
       width: "100%",
     },
@@ -438,6 +462,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   inputForm: {
+    position: "relative",
     justifyContent: "space-around !important",
     alignItems: "center",
     padding: "8px  8px !important",
@@ -473,6 +498,26 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(1, 4),
     },
   },
+  dialogChooseCoupon: {
+    "& .MuiDialog-paper": {
+      margin: 0,
+      width: "30%",
+      maxWidth: "100vw",
+      padding: theme.spacing(4),
+    },
+    "& .MuiOutlinedInput-root": {
+      width: "100%",
+    },
+    "& .MuiInputLabel-root": {
+      fontWeight: 500,
+      fontSize: 16,
+      color: "#000",
+      margin: theme.spacing(1, 0),
+    },
+    "& button": {
+      padding: theme.spacing(1, 4),
+    },
+  },
   items: {
     // padding: theme.spacing(2),
     display: "inherit",
@@ -485,6 +530,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
     display: "flex",
     alignItems: "center",
+  },
+  chipCoupon: {
+    position: "absolute",
+    left: 20,
   },
 }));
 export default CartInfo;

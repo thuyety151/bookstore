@@ -14,6 +14,7 @@ using AutoMapper;
 using Domain;
 using Domain.Enum;
 using CategoryDto = Application.Categories.CategoryDto;
+using CouponDto = Application.Coupons.Admin.CouponDto;
 
 namespace Application.Core
 {
@@ -22,7 +23,8 @@ namespace Application.Core
         public MappingProfile()
         {
             CreateMap<Author, AuthorDto>()
-                .ForMember(x => x.ImageUrl, o => o.MapFrom(s => s.Media.Url));
+                .ForMember(x => x.ImageUrl, o => o.MapFrom(s => s.Media.Url))
+                .ForMember(x => x.Count, o => o.MapFrom(s => s.Books.Count));
             CreateMap<Category, CategoryDto>();
             CreateMap<Domain.Review, ReviewDto>();
             CreateMap<Category, BooksCategoriesDto>();
@@ -65,7 +67,17 @@ namespace Application.Core
                 .ForMember(x => x.TotalStock, o => o.MapFrom(x => x.TotalStock));
                 
             CreateMap<Item, ItemDto>();
-            
+
+            CreateMap<UserCoupon, CouponDto>()
+                .ForMember(x => x.Id, o=> o.MapFrom(x => x.Coupon.Id))
+                .ForMember(x => x.Code, o=> o.MapFrom(x => x.Coupon.Code))
+                .ForMember(x => x.Description, o=> o.MapFrom(x => x.Coupon.Description))
+                .ForMember(x => x.CouponAmount, o=> o.MapFrom(x => x.Coupon.CouponAmount))
+                .ForMember(x => x.DiscountType, o=> o.MapFrom(x => x.Coupon.DiscountType))
+                .ForMember(x => x.ExpireDate, o=> o.MapFrom(x => x.Coupon.ExpireDate))
+                .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.Coupon.Media.Url))
+                .ForMember(x => x.MinSpend, o => o.MapFrom(x => x.Coupon.MinSpend));
+
         }
     }
     

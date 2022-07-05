@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain
 {
@@ -19,5 +20,6 @@ namespace Domain
         public Guid? OrderId { get; set; }
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
+        public bool IsReviewed { get; set; }
     }
 }

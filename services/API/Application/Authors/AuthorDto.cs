@@ -1,4 +1,6 @@
 using System;
+using Domain;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Application.Authors
 {
@@ -7,5 +9,8 @@ namespace Application.Authors
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
+        public int Count { get; set; }
+        public Media Media { get; set; }
+        public string Description { get; set; }
     }
 }

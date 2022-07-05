@@ -3,6 +3,7 @@ import Error404 from "../pages/Error404";
 import MainLayout from "../layout/MainLayout";
 import {
   ROUTE_ATTRIBUTES,
+  ROUTE_AUTHORS,
   ROUTE_CATEGORIES,
   ROUTE_COUPONS,
   ROUTE_DASHBOARD,
@@ -34,6 +35,7 @@ import ReportPage from "pages/report/ReportPage";
 import LoginPage from "pages/login/LoginPage";
 import Dashboard from "pages/dashboard/Dashboard";
 import ImportData from "pages/import-data/ImportData";
+import AuthorPage from "pages/author/AuthorPage";
 
 export const routePage: Route[] = [
   {
@@ -141,6 +143,12 @@ export const routes: Route[] = [
     component: ProductDetailPage,
     exact: true,
     parents: [ROUTE_PRODUCTS],
+  },
+  {
+    path: ROUTE_AUTHORS,
+    name: "Authors",
+    component: AuthorPage,
+    exact: true,
   },
   {
     path: ROUTE_EXAMPLE,

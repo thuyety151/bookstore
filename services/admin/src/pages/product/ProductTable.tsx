@@ -92,7 +92,11 @@ const headCells: HeadCell[] = [
     label: "",
   },
 ];
-export default function ProductTable() {
+
+type Props = {
+  status: string;
+};
+export default function ProductTable({ status }: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -126,6 +130,7 @@ export default function ProductTable() {
                 pageIndex: pageIndex + 1,
                 pageSize: rowsPerPage,
               },
+              status,
               onSuccess: () => {},
               onFailure: () => {},
             })
@@ -156,6 +161,7 @@ export default function ProductTable() {
           pageIndex: pageIndex + 1,
           pageSize: rowsPerPage,
         },
+        status,
         onSuccess: () => {},
         onFailure: () => {},
       })

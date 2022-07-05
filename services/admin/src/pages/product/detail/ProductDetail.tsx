@@ -51,6 +51,8 @@ import ImageUploadContainer from "components/imageUpload/ImageUploadContainer";
 import ProductDataContainer from "./components/ProductDataContainer";
 import { Media } from "model/media";
 import HeaderPage from "components/headerPage/HeaderPage";
+import AuthorSelect from "components/AuthorSelect";
+import { Author } from "model/author";
 
 export default function ProductDetail() {
   const classes = useStyles();
@@ -82,6 +84,7 @@ export default function ProductDetail() {
     updateDate: new Date(),
     categoryIds: [] as string[],
     files: [],
+    author: [] as Author[],
   };
   //Selector
   const bookDetail = useSelector(
@@ -794,8 +797,9 @@ export default function ProductDetail() {
                 <span className={classes.checkBox}>
                   <FormControl component="fieldset">
                     <FormGroup>
-                      {languages?.map((language) => (
+                      {languages?.map((language, index) => (
                         <FormControlLabel
+                          key={`prod-lang-${index}`}
                           control={
                             <Checkbox
                               checked={
@@ -834,6 +838,7 @@ export default function ProductDetail() {
                     <FormGroup key={`list-checkbox-${bookParams?.id}`}>
                       {categories?.map((category, index) => (
                         <FormControlLabel
+                          key={`cate-${index}`}
                           control={
                             <Checkbox
                               key={category.id}
@@ -850,6 +855,32 @@ export default function ProductDetail() {
                     </FormGroup>
                   </FormControl>
                 </span>
+              </Grid>
+            </ProductDataContainer>
+          </Grid>
+
+          <Grid item className={classes.collapse}>
+            <ProductDataContainer
+              title="Public"
+              isOpen={isOpen.public}
+              setOpen={() => setOpen({ ...isOpen, public: !isOpen.public })}
+            >
+              <Grid
+                item
+                container
+                direction="column"
+                className={classes.collapse}
+              >
+                <AuthorSelect
+                  value={bookParams.authorId}
+                  onChange={(value) => {
+                    setBooksParams({
+                      ...bookParams,
+                      author: value,
+                      authorId: value.id,
+                    });
+                  }}
+                />
               </Grid>
             </ProductDataContainer>
           </Grid>

@@ -16,5 +16,8 @@ namespace Domain
         public bool IsDeleted { get; set; }
         public DateTime CreateDate { get; set; }
         public ICollection<BookCoupon> Books{ get; set; }
+        public Media Media { get; set; }
+        public ICollection<UserCoupon> Users { get; set; }
+        public bool IsExpired => IsDeleted == false && ExpireDate <= DateTime.Now;
     }
 }

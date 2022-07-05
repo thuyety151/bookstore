@@ -42,12 +42,15 @@ export default function Types() {
 
   return (
     <div className={classes.rootAppBar}>
-      <AppBar id="/description" position="static" color="default" >
-        <Tabs centered value={value}
+      <AppBar id="/description" position="static" color="default" elevation={0}>
+        <Tabs
+          centered
+          value={value}
           indicatorColor="primary"
           textColor="primary"
           onChange={handleChange}
-          aria-label="disabled tabs example">
+          aria-label="disabled tabs example"
+        >
           <Tab label="Description" disabled />
           <Tab label="Product Details" className={classes.text} />
           <Tab label="Reviews" disabled />
@@ -55,57 +58,65 @@ export default function Types() {
         <Divider />
       </AppBar>
       <Box p={3} className={classes.tab}>
-        {data && 
-          <Grid container spacing={3} >
-          <Grid item container justifyContent="space-between">
-            <Grid item >
-              <Typography className={classes.textDetail}>Dimensions:</Typography>
+        {data && (
+          <Grid container spacing={3}>
+            <Grid item container justifyContent="space-between">
+              <Grid item>
+                <Typography className={classes.textDetail}>
+                  Dimensions:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>{data.dimensions}</Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography>{data.dimensions}</Typography>
-            </Grid>
-          </Grid>
 
-          <Grid item container justifyContent="space-between">
-            <Grid item >
-              <Typography className={classes.textDetail}>Publication date:</Typography>
+            <Grid item container justifyContent="space-between">
+              <Grid item>
+                <Typography className={classes.textDetail}>
+                  Publication date:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>{data.publicationDate.split("T")[0]}</Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography>{data.publicationDate.split("T")[0]}</Typography>
-            </Grid>
-          </Grid>
 
-          <Grid item container justifyContent="space-between">
-            <Grid item >
-              <Typography className={classes.textDetail}>Publisher:</Typography>
+            <Grid item container justifyContent="space-between">
+              <Grid item>
+                <Typography className={classes.textDetail}>
+                  Publisher:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>{data.publisher}</Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography>{data.publisher}</Typography>
-            </Grid>
-          </Grid>
 
-          <Grid item container justifyContent="space-between">
-            <Grid item >
-              <Typography className={classes.textDetail}>Publication Country::</Typography>
+            <Grid item container justifyContent="space-between">
+              <Grid item>
+                <Typography className={classes.textDetail}>
+                  Publication Country::
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>{data.publicationCountry}</Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography>{data.publicationCountry}</Typography>
-            </Grid>
-          </Grid>
 
-          <Grid item container justifyContent="space-between">
-            <Grid item >
-              <Typography className={classes.textDetail}>Language:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>{data.language}</Typography>
+            <Grid item container justifyContent="space-between">
+              <Grid item>
+                <Typography className={classes.textDetail}>
+                  Language:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>{data.language}</Typography>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        }
-      
+        )}
       </Box>
-
     </div>
   );
 }

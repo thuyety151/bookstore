@@ -10,10 +10,12 @@ import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import { ListItem } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import "./styles.scss";
+import { ROUTE_PROFILE_PREDICATE } from "../../../routers/types";
+// import { ROUTE_WISHLIST } from "../../../routers/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
     // marginRight: "2rem",
   },
   paper: {
-    padding: theme.spacing(2),
+    // padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
     flex: "1 0 auto",
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     display: "flex",
   },
   listItem: {
@@ -52,11 +54,14 @@ const HeaderComponent: React.FC<{
   };
 
   const handlePersonOutLine = () => {
-    history.push("/profile");
+    history.push(
+      generatePath(ROUTE_PROFILE_PREDICATE, {
+        tabName: "dashboard",
+      })
+    );
   };
   return (
     <div className={classes.root}>
-      {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
       <div className={clsx(classes.container, "main-header")}>
         <div className={classes.listItem}>
           <ListItem
@@ -78,7 +83,16 @@ const HeaderComponent: React.FC<{
               <LocationOnOutlinedIcon />
             </Tooltip>
           </ListItem>
-          <ListItem button>
+          <ListItem
+            button
+            onClick={() =>
+              history.push(
+                generatePath(ROUTE_PROFILE_PREDICATE, {
+                  tabName: "wishlist",
+                })
+              )
+            }
+          >
             <Tooltip title="Wishlist" aria-label="Wishlist">
               <FavoriteBorderOutlinedIcon />
             </Tooltip>

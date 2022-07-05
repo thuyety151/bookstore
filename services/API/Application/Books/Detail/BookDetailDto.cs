@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Application.Books.Detail
 {
@@ -28,5 +29,6 @@ namespace Application.Books.Detail
         public bool IsPublic { get; set; }
         public DateTime UpdateDate { get; set; }
         public List<string> CategoryIds { get; set; }
+        public bool? CanReview { get; set; }
     }
 }

@@ -50,7 +50,7 @@ const PlaceOrderPage: React.FC = () => {
   };
   const subTotal = () => {
     return placeOrder.coupon
-      ? sum(placeOrder.items?.flatMap((x) => x.price))?.toFixed(2)
+      ? sum(placeOrder.items?.flatMap((x) => x.price))
       : placeOrder?.subTotal;
   };
   return (

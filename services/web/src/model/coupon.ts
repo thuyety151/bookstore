@@ -1,11 +1,15 @@
 export type Coupon = {
   id: string;
-  couponAmount: number;
   code: string;
+  description: string;
+  couponAmount: number;
   discountType: DiscountType;
+  expireDate: string;
+  imageUrl: string;
+  minSpend: number;
 };
 export enum DiscountType {
-  FixedCart = "FixedCart",
-  Percentage = "Percentage",
-  FixedProduct = "FixedProduct",
+  FixedCart = 0,
+  Percentage = 1,
 }
+

@@ -16,6 +16,7 @@ namespace Application.Authors
     {
         public class Query : IRequest<Result<PagedList<AuthorDto>>>
         {
+            public string Predicate { get; set; }
             public PagingParams Params { get; set; }
         }
 
@@ -32,13 +33,25 @@ namespace Application.Authors
 
             public async Task<Result<PagedList<AuthorDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var authors = _context.Authors
-                    .Include(x => x.Media)
-                    .Where(x => x.IsDeleted == false)
-                    .ProjectTo<AuthorDto>(_mapper.ConfigurationProvider).AsQueryable();
-
-                return Result<PagedList<AuthorDto>>.Success(
-                    await PagedList<AuthorDto>.CreatePage(authors, request.Params.PageIndex, request.Params.PageSize));
+                if (request.Predicate == "all")
+                {
+                    var authors = _context.Authors
+                        .Include(x => x.Media).Where(x => x.IsDeleted == false)
+                        .ProjectTo<AuthorDto>(_mapper.ConfigurationProvider).AsQueryable();
+                    return Result<PagedList<AuthorDto>>.Success(
+                        await PagedList<AuthorDto>.CreatePage(authors, request.Params.PageIndex,
+                            request.Params.PageSize));
+                }
+                else
+                {
+                    var authors = _context.Authors
+                        .Include(x => x.Media).Where(x =>
+                            x.IsDeleted == false && x.Name.Substring(0, 1) == request.Predicate)
+                        .ProjectTo<AuthorDto>(_mapper.ConfigurationProvider).AsQueryable();
+                    return Result<PagedList<AuthorDto>>.Success(
+                        await PagedList<AuthorDto>.CreatePage(authors, request.Params.PageIndex,
+                            request.Params.PageSize));
+                }
             }
         }
     }

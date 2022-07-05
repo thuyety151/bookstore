@@ -14,6 +14,7 @@ namespace Application.Books
         public int Rates { get; set; }
         
         public string Predicate { get; set; }
+        public string Keywords { get; set; }
         
     }
 }

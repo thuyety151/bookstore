@@ -20,6 +20,7 @@ export const deleteOrder =
         pagination: orderState.pagination,
         onSuccess: () => {},
         onFailure: () => {},
+        status: "",
       });
       props.onSuccess();
     } else {
