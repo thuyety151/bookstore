@@ -3,9 +3,12 @@ using System.Threading.Tasks;
 using Application.Carts;
 using Application.Core;
 using Application.Notification;
+using Application.Notification.Admin;
 using Application.Notification.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+
 namespace API.Controllers
 {
     [Authorize]
@@ -34,6 +37,18 @@ namespace API.Controllers
         public async Task<IActionResult> GetAdminTokens()
         {
             return HandleResult(await Mediator.Send(new ListAdminToken.Query(){}));
+        }
+        [HttpGet]
+        [Route("list-admin-noti")]
+        public async Task<IActionResult> ListAdmin([FromQuery] PagingParams pagingParams)
+        {
+            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() { Params = pagingParams}));
+        }
+        [HttpPost]
+        [Route("send")]
+        public async Task<IActionResult> Send(SendNotiParams notiParams)
+        {
+            return HandleResult(await Mediator.Send(new SendNoti.Command(){SendNotiParams = notiParams}));
         }
     }
 }

@@ -8,5 +8,7 @@ namespace Application.Notification
         public string Metadata { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsRead { get; set; }
+        public bool IsCustom { get; set; }
+        public int Count { get; set; }
     }
 }

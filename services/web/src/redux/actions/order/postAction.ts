@@ -216,6 +216,7 @@ export const cancelOrder =
                 orderCode: props.orderCode,
                 orderId: props.orderId,
                 contents: `Order ${props.orderCode} was canceled `,
+i                custom: false,
               },
               mutable_content: true,
               sound: "Tri-tone",

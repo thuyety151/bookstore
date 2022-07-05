@@ -12,14 +12,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Notification
+namespace Application.Notification.Admin
 {
-    public class List
+    public class ListAdmin
     {
         public class Query : IRequest<Result<PagedList<NotiDto>>>
         {
             public PagingParams Params { get; set; }
-            public bool IsCustom { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<NotiDto>>>
@@ -35,15 +34,14 @@ namespace Application.Notification
 
             public async Task<Result<PagedList<NotiDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var notis = _context.UserNotis.Include(x => x.Notification)
-                    .Where(x =>
-                        x.UserId == _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier))
+                var notis = _context.Notifications.Include(x=>x.Users).Where(x =>
+                        x.IsCustom==true)
                     .Select(x => new NotiDto()
                     {
-                        Id = x.NotificationId,
-                        Metadata = x.Notification.Metadata,
-                        CreatedDate = x.Notification.CreatedDate,
-                        IsRead = x.IsRead
+                        Id = x.Id,
+                        Metadata = x.Metadata,
+                        CreatedDate = x.CreatedDate,
+                        Count= x.Users.Count
                     })
                     .OrderByDescending(x => x.CreatedDate);
 

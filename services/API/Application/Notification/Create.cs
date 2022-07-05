@@ -50,7 +50,8 @@ namespace Application.Notification
                 {
                     Id = new Guid(),
                     Metadata = request.NotiParams.Metadata,
-                    CreatedDate = request.NotiParams.CreatedDate
+                    CreatedDate = request.NotiParams.CreatedDate,
+                    IsCustom = request.NotiParams.IsCustom
                 };
                 
                 _context.Notifications.Add(noti);
@@ -67,7 +68,6 @@ namespace Application.Notification
                 }
 
                 await _context.UserNotis.AddRangeAsync(listUserNoti);
-
                 await _context.SaveChangesAsync(cancellationToken);
                 return Result<Unit>.Success(Unit.Value);
             }

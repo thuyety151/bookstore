@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -229,6 +230,21 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
             return Unit.Value;
         }
-        
+        [Authorize]
+        [HttpGet("all")]
+        public async Task<ActionResult<List<UserOptionDto>>> GetAllAccount()
+        {
+            var user = await _context.Users.Include(x=>x.Photo).Where(x => x.IsDeleted == false && x.Role == Role.Customer)
+                .Select(x=>new UserOptionDto()
+                {
+                    Id=x.Id,
+                    Name = x.UserName,
+                    PhotoUrl = x.Photo.Url,
+                    FcmTokens = x.FcmTokens.Select(x=>x.Token).ToList()
+                }).ToListAsync();
+            
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }

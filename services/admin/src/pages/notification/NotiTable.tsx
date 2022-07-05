@@ -74,12 +74,16 @@ const NotiTable: React.FC = (props) => {
   const { requesting, data, pagination } = useSelector(
     (state: RootStore) => state.notis.admin
   );
+  const { requestingSend } = useSelector((state: RootStore) => state.notis);
   const dispatch = useDispatch();
   const [modelDetail, setModelDetail] = React.useState<Notification | null>(
     null
   );
 
   useEffect(() => {
+    if (requestingSend) {
+      return;
+    }
     dispatch(
       getAllAdmin({
         ...pagination,
@@ -88,7 +92,7 @@ const NotiTable: React.FC = (props) => {
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, requestingSend]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

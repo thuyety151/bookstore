@@ -70,12 +70,7 @@ const NotiCreate: React.FC = () => {
           enqueueSnackbar("Send notification successfully", {
             variant: "success",
           });
-          dispatch(
-            getAllAdmin({
-              ...pagination,
-              pageIndex: 1,
-            })
-          );
+        
         },
         onFailure: (e: any) => {
           enqueueSnackbar(e.message, {

@@ -8,5 +8,6 @@ namespace Application.Notification
         public List<string> UserIds { get; set; }
         public List<string> FcmTokens { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsCustom { get; set; }
     }
 }
