@@ -35,6 +35,7 @@ const authorReducer = (
           ...x,
           medias: [x.media],
         })),
+        pagination: JSON.parse(payload.pagination),
       };
     case ACTION_NAMES.UPSERT.UPSERT_AUTHOR:
       return {

@@ -11,14 +11,17 @@ import "./styles.scss";
 
 const AuthorPage: React.FC = () => {
   const [modelEdit, setModelEdit] = useState(null);
+  const [keywords, setKeywords] = useState("");
   const { success } = useSelector((state: RootStore) => state.authors);
+  const onSearch = (e: string) => setKeywords(e);
+  
   return (
     <div className="authors" style={{ margin: "0 5rem" }}>
       <HeaderPage title="Authors" />
-      <FilterContainer />
+      <FilterContainer onSearch={onSearch} />
       <Grid container justifyContent="space-between" className="pt-md">
         <Grid item xs={6}>
-          <AuthorTable setModelEdit={setModelEdit} />
+          <AuthorTable setModelEdit={setModelEdit} keywords={keywords} />
         </Grid>
         <Grid item xs={5} key={Number(success)}>
           <AddForm />

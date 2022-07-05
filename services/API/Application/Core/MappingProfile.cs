@@ -45,7 +45,8 @@ namespace Application.Core
             CreateMap<Domain.Attribute, AttributeDto>();
             CreateMap<Domain.Coupon, CouponDto>()
                 .ForMember(x => x.DiscountType, o => o.MapFrom(x => (DiscountType) x.DiscountType));
-            CreateMap<Book, BooksDto>();
+            CreateMap<Book, BooksDto>()
+                .ForMember(x => x.PictureUrl, o => o.MapFrom(x => x.Media.FirstOrDefault(m => m.IsMain).Url));
             CreateMap<Order, OrderDto>()
                 .ForMember(x=>x.PaymentMethod,o=>o.MapFrom(x=>(PaymentMethod)x.PaymentMethod));
             CreateMap<BookAttribute, BooksDto>()

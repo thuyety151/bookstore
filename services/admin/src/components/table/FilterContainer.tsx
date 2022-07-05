@@ -11,80 +11,53 @@ import { useEffect, useRef } from "react";
 import { ChangeEvent } from "ag-grid-community/dist/lib/widgets/agCheckbox";
 
 export type FilterType = {
+  placeholderSearch?: string;
   onAdd?: () => void;
-  add?: boolean;
-  download?: boolean;
-  search?: boolean;
-  isUploadFile?: boolean;
-  onUploadFile?: (e: any) => void;
+  onDownload?: () => void;
+  onSearch?: (keywords: string) => void;
+  onReload?: () => void;
 };
-
 const FilterContainer: React.FC<FilterType> = (props) => {
-  const { add, download, search, isUploadFile, onUploadFile } =
-    props as FilterType;
-  const uploadInputRef = useRef<HTMLInputElement>(null);
+  const { placeholderSearch, onSearch, onDownload, onReload, onAdd } = props;
 
-  const handleAdd = () => {
-    if (isUploadFile && uploadInputRef.current) {
-      uploadInputRef?.current?.click();
+  const onChange = (e: any) => {
+    if (typeof onSearch !== "undefined" && e.key === "Enter") {
+      onSearch(e.target.value);
     }
   };
 
-  useEffect(() => {
-    console.log("????", uploadInputRef.current?.value);
-  }, [uploadInputRef?.current]);
-
   return (
     <div className="filter-container">
-      {typeof search === "undefined" ? (
-        <TextField
-          variant="outlined"
-          placeholder="Search by ..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon style={{ color: "var(--text-grey)" }} />
-              </InputAdornment>
-            ),
-          }}
-        />
-      ) : (
-        <div></div>
-      )}
-      <div style={{ display: "flex" }}>
-        {typeof download === "undefined" ? (
+      <TextField
+        variant="outlined"
+        placeholder={placeholderSearch || "Search by ..."}
+        onChange={onChange}
+        onKeyDown={onChange}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon style={{ color: "var(--text-grey)" }} />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <div>
+        {typeof onDownload !== "undefined" && (
           <Button className="btn-outlined">
             <span className="material-icons-outlined">file_download</span>
             <Typography style={{ paddingLeft: 4 }}>Download</Typography>
           </Button>
-        ) : (
-          <div></div>
         )}
-        {typeof add === "undefined" ? (
-          <>
-            {isUploadFile && (
-              <input
-                ref={uploadInputRef}
-                type="file"
-                accept=".xlsx"
-                onChange={onUploadFile}
-                hidden
-              />
-            )}
-
-            <Button
-              className="btn-fill"
-              onClick={isUploadFile ? handleAdd : props.onAdd}
-            >
-              <Icon>add</Icon>
-            </Button>
-          </>
-        ) : (
-          <div></div>
+        {typeof onAdd !== "undefined" && (
+          <Button className="btn-fill" onClick={props.onAdd}>
+            <Icon>add</Icon>
+          </Button>
         )}
-        <Button className="btn-fill">
-          <Icon>replay</Icon>
-        </Button>
+        {typeof onReload !== "undefined" && (
+          <Button className="btn-fill">
+            <Icon>replay</Icon>
+          </Button>
+        )}
       </div>
     </div>
   );
