@@ -6,4 +6,5 @@ export interface Media {
   isVideo: boolean;
   isSuccess?: boolean;
   createdAt?: any;
+  description?: string;
 }

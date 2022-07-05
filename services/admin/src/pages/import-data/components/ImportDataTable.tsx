@@ -44,6 +44,12 @@ const headCells: HeadCell[] = [
     label: "Status",
   },
   {
+    id: "description",
+    numeric: true,
+    disablePadding: false,
+    label: "Description",
+  },
+  {
     id: "actions",
     numeric: true,
     disablePadding: false,
@@ -85,7 +91,6 @@ const ImportDataTable: React.FC = () => {
 
   useEffect(() => {
     if (state.success) {
-      // props.setModelEdit(null);
       dispatch(
         getImportDataPagination({
           pagination: {
@@ -102,6 +107,10 @@ const ImportDataTable: React.FC = () => {
   }, [state.success]);
 
   useEffect(() => {
+    if (state.create.requesting) {
+      return;
+    }
+
     dispatch(
       getImportDataPagination({
         pagination: {
@@ -114,7 +123,7 @@ const ImportDataTable: React.FC = () => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, state.create.requesting]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -161,7 +170,7 @@ const ImportDataTable: React.FC = () => {
                     >
                       {row.isSuccess ? "Success" : "Failed"}
                     </TableCell>
-
+                    <TableCell>{row.description || "--"}</TableCell>
                     <TableCell
                       style={{ display: "flex", justifyContent: "center" }}
                     >

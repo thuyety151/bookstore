@@ -7,7 +7,8 @@ import {
 } from "@material-ui/core";
 import "./styles.scss";
 import SearchIcon from "@material-ui/icons/Search";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { ChangeEvent } from "ag-grid-community/dist/lib/widgets/agCheckbox";
 
 export type FilterType = {
   onAdd?: () => void;
@@ -15,10 +16,12 @@ export type FilterType = {
   download?: boolean;
   search?: boolean;
   isUploadFile?: boolean;
+  onUploadFile?: (e: any) => void;
 };
 
 const FilterContainer: React.FC<FilterType> = (props) => {
-  const { add, download, search, isUploadFile } = props as FilterType;
+  const { add, download, search, isUploadFile, onUploadFile } =
+    props as FilterType;
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const handleAdd = () => {
@@ -26,6 +29,10 @@ const FilterContainer: React.FC<FilterType> = (props) => {
       uploadInputRef?.current?.click();
     }
   };
+
+  useEffect(() => {
+    console.log("????", uploadInputRef.current?.value);
+  }, [uploadInputRef?.current]);
 
   return (
     <div className="filter-container">
@@ -56,7 +63,13 @@ const FilterContainer: React.FC<FilterType> = (props) => {
         {typeof add === "undefined" ? (
           <>
             {isUploadFile && (
-              <input ref={uploadInputRef} type="file" accept=".csv" hidden />
+              <input
+                ref={uploadInputRef}
+                type="file"
+                accept=".xlsx"
+                onChange={onUploadFile}
+                hidden
+              />
             )}
 
             <Button

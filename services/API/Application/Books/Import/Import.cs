@@ -38,18 +38,17 @@ namespace Application.Books.Import
             public async Task<Result<Media>> Handle(Command request, CancellationToken cancellationToken)
             {
                 // upload file
-                // var mediaUploadResult = await _mediaAccessor.AddMedia(request.File);
+                var mediaUploadResult = await _mediaAccessor.AddMedia(request.File);
 
                 var excel = new Media()
                 {
                     Id = DateTime.Now.Ticks.ToString(),
                     Name = request.File!.FileName,
-                    // Url = mediaUploadResult.Url,
-                    Url="",
+                    Url = mediaUploadResult.Url,
                     IsExcel = true,
                     CreatedAt = DateTime.Now
                 };
-                const string mesage = "";
+                string mesage = "";
                 try
                 {
                     await using Stream stream = request.File.OpenReadStream();
@@ -217,14 +216,15 @@ namespace Application.Books.Import
                 catch(Exception e)
                 {
                     excel.IsSuccess = false;
-                    return Result<Media>.Failure(e.Message);
+                    excel.Description = e.Message;
+                    mesage = e.Message;
                 }
                 finally
                 {
                     _context.Media.Add(excel);
                 }
                 var result = await _context.SaveChangesAsync() > 0;
-                if (result)
+                if (result && excel.Description==null)
                     return Result<Media>.Success(excel);
 
                 return Result<Media>.Failure(mesage);
