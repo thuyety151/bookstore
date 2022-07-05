@@ -46,7 +46,7 @@ const AddressDashboard: React.FC = () => {
         </Grid>
         <Grid container>
           {state.addresses.map((address: Address, index: number) => (
-            <div key={`address-item-${index}`}>
+            <div key={`address-item-${index}`} style={{ width: "100%" }}>
               <AddressItem {...address} />
             </div>
           ))}

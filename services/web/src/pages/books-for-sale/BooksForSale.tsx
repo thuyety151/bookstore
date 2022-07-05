@@ -426,7 +426,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
               <Collapse in={isOpen.review} collapsedSize={82}>
                 <Paper variant="outlined" className={classes.paper}>
                   <div>
-                    <h3>By Reivew</h3>
+                    <h3>By Review</h3>
                     <span
                       className="curso r-pointer icon"
                       onClick={() =>
@@ -786,7 +786,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
             <Collapse in={isOpen.review} collapsedSize={82}>
               <Paper variant="outlined" className={classes.paper}>
                 <div>
-                  <h3>By Reivew</h3>
+                  <h3>By Review</h3>
                   <span
                     className="curso r-pointer icon"
                     onClick={() =>

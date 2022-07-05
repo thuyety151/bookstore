@@ -120,10 +120,16 @@ const WishlistPage: React.FC = () => {
                       />
                       <Grid item style={{ width: "50%" }}>
                         <Grid>
+                          <span className={classes.author}>
+                            {row.attributeName}
+                          </span>
+                        </Grid>
+                        <Grid>
                           <span className={classes.bookname}>
                             {row.productName}
                           </span>
                         </Grid>
+
                         <span className={classes.author}>{row.authorName}</span>
                       </Grid>
                     </Grid>
