@@ -16,5 +16,7 @@ namespace Application.Orders
         public Address Address { get; set; }
         public double OrderFee { get; set; }
         public int PaymentMethod { get; set; }
+        public int ServiceTypeId { get; set; }
+        public int ServiceId  { get; set; }
     }
 }

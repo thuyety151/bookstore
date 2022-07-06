@@ -9,8 +9,8 @@ import {
 import { format } from "date-fns";
 import { useSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
-import { Order } from "../../../model/order";
-import { cancelOrder } from "../../../redux/actions/order/postAction";
+import { Order } from "../../../../model/order";
+import { cancelOrder } from "../../../../redux/actions/order/postAction";
 import "./styles.scss";
 
 const OrderCard: React.FC<{

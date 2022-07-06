@@ -87,6 +87,7 @@ const ProductPage: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = React.useState("");
+  const [keywords, setKeywords] = React.useState("");
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: any) => {
     setValue(newValue);
@@ -96,10 +97,14 @@ const ProductPage: React.FC = () => {
     history.push(generatePath(ROUTE_PRODUCT_ADD));
   };
 
+  const onSearch = (e: string) => {
+    setKeywords(e);
+  }
+
   return (
     <div className={classes.root}>
       <HeaderPage title="Products" />
-      <FilterContainer onAdd={onAdd} />
+      <FilterContainer onAdd={onAdd} onSearch={onSearch} />
       <Grid container className={clsx(classes.actionsContainer, "pb-lg mt-md")}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
           <AntTab label="All" value="" />
@@ -107,7 +112,7 @@ const ProductPage: React.FC = () => {
           <AntTab label="Out Of Stock" value="OutOfStock" />
         </AntTabs>
         <TabPanel value={value} key={`product-${value}`}>
-          <ProductTable status={value} />
+          <ProductTable status={value} keywords={keywords} />
         </TabPanel>
       </Grid>
     </div>
@@ -119,7 +124,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: "0 5rem",
     },
-    actionsContainer: {},
+    actionsContainer: {
+      display: "grid",
+    },
     title: {
       padding: theme.spacing(2, 0),
     },

@@ -63,7 +63,7 @@ const CartTable: React.FC = () => {
         addOrUpdateItem({
           item: model as AddOrUpdateItem,
           onSuccess: () => {
-            enqueueSnackbar("Add to cart successfully!", {
+            enqueueSnackbar("Change quantity successfully!", {
               variant: "success",
             });
           },
@@ -107,12 +107,12 @@ const CartTable: React.FC = () => {
 
   return (
     <div>
-      <TableContainer component={Paper}>
+      <TableContainer >
         <Table className={classes.table}>
           <TableHead className={classes.header}>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell width="400">Product</TableCell>
+              <TableCell width="450">Product</TableCell>
               <TableCell width="80">Price</TableCell>
               <TableCell width="100">Quantity</TableCell>
               <TableCell width="90">Total</TableCell>
@@ -202,7 +202,7 @@ const CartTable: React.FC = () => {
                     </Grid>
                   </TableCell>
                   <TableCell className={classes.textBold} style={{textAlign: "center"} }>
-                    ${row.price * row.quantity}
+                    ${(row.price * row.quantity).toFixed(2)}
                   </TableCell>
                   <TableCell>
                     <CloseIcon
@@ -241,7 +241,7 @@ const CartTable: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   table: {
-    minWidth: 750,
+    minWidth: 820,
     backgroundColor: "#fff",
   },
   header: {

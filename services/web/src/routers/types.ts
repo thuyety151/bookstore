@@ -7,9 +7,8 @@ export const ROUTE_LOGIN = "/login";
 export const ROUTE_REGISTER = "/register";
 export const ROUTE_BOOK_DETAIL = "/book-detail/:bookId/:attributeId";
 export const ROUTE_BOOK_DETAIL_ADMIN = "/book-detail/:bookId";
-export const ROUTE_PROFILE = "/profile";
-export const ROUTE_PROFILE_PREDICATE = "/profile-address/:tabName";
-export const ROUTE_AUTHOR = "/author";
+export const ROUTE_PROFILE_PREDICATE = "/profile/:tabName";
+export const ROUTE_AUTHOR = "/authors";
 export const ROUTE_BOOK = "/book";
 export const ROUTE_CATEGORY = "/category";
 export const ROUTE_BLOGS = "/blogs";
@@ -19,8 +18,11 @@ export const ROUTE_CART = "/cart";
 export const ROUTE_PLACE_ORDER = "/place-order/:orderId";
 export const ROUTE_CHECK_OUT = "/check-out";
 export const ROUTE_BOOKS_FOR_SALE = "/books-for-sale/:predicate/:keywords?";
+export const ROUTE_BOOKS_FOR_SALE_AUTHOR =
+  "/books-for-sale-author/:predicate/:authorId";
 export const ROUTE_BOOKS_FOR_SALE_CATE = "/books-for-sale-category/:categoryId";
 export const ROUTE_WISHLIST = "/wishlist";
+export const ROUTE_AUTHOR_DETAIL = "/author/:id";
 
 export type RouteConfig = {
   permissions: sharedTypes.AppPermission[];
@@ -41,9 +43,6 @@ export const PRIVATE_ROUTES = {
   [ROUTE_SHOPS]: { permissions: [] },
   [ROUTE_AUTHOR]: { permissions: [] },
   [ROUTE_CHECK_OUT]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
-  [ROUTE_PROFILE]: {
-    permissions: [sharedTypes.ROLE_CUSTOMER],
-  },
   [ROUTE_PROFILE_PREDICATE]: {
     permissions: [sharedTypes.ROLE_CUSTOMER],
   },
@@ -55,7 +54,9 @@ export const PRIVATE_ROUTES = {
   },
   [ROUTE_BOOKS_FOR_SALE]: { permissions: [] },
   [ROUTE_BOOKS_FOR_SALE_CATE]: { permissions: [] },
+  [ROUTE_BOOKS_FOR_SALE_AUTHOR]: { permissions: [] },
   [ROUTE_WISHLIST]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
+  [ROUTE_AUTHOR_DETAIL]: { permissions: [] },
 };
 
 export type AppRoute =

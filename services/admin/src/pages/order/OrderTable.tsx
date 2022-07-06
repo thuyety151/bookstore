@@ -83,7 +83,10 @@ const headCells: HeadCell[] = [
   },
 ];
 
-const OrderTable: React.FC<{ status: string }> = ({ status }) => {
+const OrderTable: React.FC<{ status: string; keywords: string }> = ({
+  status,
+  keywords,
+}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -97,6 +100,9 @@ const OrderTable: React.FC<{ status: string }> = ({ status }) => {
   const [confirmCancel, setconfirmCancel] = useState(false);
 
   useEffect(() => {
+    if (keywords) {
+      setPage(0);
+    }
     dispatch(
       getOrderPagination({
         pagination: {
@@ -110,7 +116,7 @@ const OrderTable: React.FC<{ status: string }> = ({ status }) => {
       })
     );
     // eslint-disable-next-line
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, keywords]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

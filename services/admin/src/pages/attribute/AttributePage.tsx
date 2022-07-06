@@ -12,15 +12,18 @@ import EditForm from "./components/EditForm";
 const AttributePage: React.FC = () => {
   const classes = useStyles();
   const [modelEdit, setModelEdit] = useState(null);
+  const [keywords, setKeywords] = useState("");
   const { success } = useSelector((state: RootStore) => state.attributes);
+
+  const onSearch = (e: string) => setKeywords(e);
 
   return (
     <div style={{ margin: "0 5rem" }}>
       <HeaderPage title="Attributes" />
-      <FilterContainer />
+      <FilterContainer onSearch={onSearch} />
       <Grid container justifyContent="space-between" className="pt-md">
         <Grid item xs={6} className={classes.table}>
-          <AttributeTable setModelEdit={setModelEdit} />
+          <AttributeTable setModelEdit={setModelEdit} keywords={keywords} />
         </Grid>
         <Grid item xs={5} key={Number(success)}>
           <AddForm />

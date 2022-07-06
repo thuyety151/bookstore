@@ -18,7 +18,11 @@ const AuthorSelect: React.FC<InputSelectProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const res = await api.get("/authors");
+      const res = await api.get("/authors", {
+        params: {
+          predicate: "all",
+        },
+      });
       if (res.data.isSuccess) {
         setOptions(res.data.value);
         setValue(res.data.value.find((x: any) => x.id === props.value));
@@ -28,7 +32,7 @@ const AuthorSelect: React.FC<InputSelectProps> = (props) => {
   }, [props.value]);
   return (
     <>
-      {options.length && (
+      {options.length > 0 && (
         <Autocomplete
           id="fixed-tags-demo"
           value={value || null}
@@ -49,7 +53,7 @@ const AuthorSelect: React.FC<InputSelectProps> = (props) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Category"
+              label="Author"
               variant="outlined"
               error={!value}
             />

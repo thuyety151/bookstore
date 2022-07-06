@@ -57,27 +57,27 @@ const BookItem: React.FC<{ item: Book }> = (props) => {
     );
   };
 
-    const addToWishlist = () => {
-      dispatch(
-        addToWL({
-          item: {
-            productId: item.id,
-            attributeId: item.attributeId,
-            // TODO: Remove params quantity in BE & FE
-            quantity: 1,
-          },
-          onSuccess: () => {
-            enqueueSnackbar("Add to wishlist successfully!", {
-              variant: "success",
-            });
-          },
-          onFailure: (e) => {
-            enqueueSnackbar(e, { variant: "error" });
-          },
-        })
-      );
-    };
-  
+  const addToWishlist = () => {
+    dispatch(
+      addToWL({
+        item: {
+          productId: item.id,
+          attributeId: item.attributeId,
+          // TODO: Remove params quantity in BE & FE
+          quantity: 1,
+        },
+        onSuccess: () => {
+          enqueueSnackbar("Add to wishlist successfully!", {
+            variant: "success",
+          });
+        },
+        onFailure: (e) => {
+          enqueueSnackbar(e, { variant: "error" });
+        },
+      })
+    );
+  };
+
   return (
     <div className={clsx(classes.root, "featured-item")}>
       <Paper className={classes.paper} variant="outlined" square>

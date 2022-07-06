@@ -55,9 +55,6 @@ const AddForm: React.FC<AddFormProps> = (props) => {
 
   const handleSubmit = () => {
     setIsSubmit(true);
-    /**
-     *  handle data again
-     */
     const x = ["name"].map((key: string) => {
       return !!get(formValue, key); // false is invalid
     });
@@ -65,10 +62,12 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     if (x.includes(false)) {
       return;
     }
-
-    /**
-     *  integrate api
-     */
+    if (!formValue.medias.length) {
+      enqueueSnackbar("Please choose at least 1 image", {
+        variant: "error",
+      });
+      return;
+    }
     dispatch(
       upsertAuthor({
         data: formValue,

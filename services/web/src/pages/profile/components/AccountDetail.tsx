@@ -8,11 +8,15 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Account } from "../../model/account";
+import { Account } from "../../../model/account";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useSnackbar } from "notistack";
 import api from "../../boot/axios";
+import ImageUploadWidget from "../imagesUpload/ImageUploadWidget";
+import { useEffect, useState } from "react";
+import "./styles.scss";
+import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,11 +45,22 @@ export default function AccountDetail() {
     lastName: "",
     token: "",
     email: "",
+    photoUrl: "",
   };
+  const [files, setFiles] = useState<any>([]);
   const userStorage = localStorage.getItem("user");
   if (userStorage) {
     user = JSON.parse(userStorage) as Account;
   }
+
+  useEffect(() => {
+    setFiles([
+      {
+        preview: user.photoUrl,
+      },
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const validationSchemaInfo = yup.object({
     firstName: yup.string().required("First name is required"),
@@ -55,33 +70,45 @@ export default function AccountDetail() {
   const validationSchemaPassword = yup.object({
     currentPassword: yup.string().required("Password is required"),
     newPassword: yup.string().required("New password is required"),
-    confirmPassword: yup.string().required("Confirm password is required")
+    confirmPassword: yup.string().required("Confirm password is required"),
   });
-
-
 
   const formikInfor = useFormik({
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
+      photo: null,
     },
     validationSchema: validationSchemaInfo,
     onSubmit: async (values) => {
-      try{
+      if (files.length > 0 && files[0]?.preview !== user.photoUrl) {
+        // update
+        let formData = new FormData();
+        formData.append("File", files[0]);
+        const res = await api.post("/medias", formData, {
+          headers: { "Content-type": "multipart/form-data" },
+        });
+        if (res.data.isSuccess) {
+          values.photo = res.data.value;
+        }
+      }
+      try {
         var result = await api.post("/account/update-account-information", {
           firstName: values.firstName,
           lastName: values.lastName,
+          photo: values.photo,
         });
         if (result.data.token) {
           localStorage.setItem("user", JSON.stringify(result.data));
-          enqueueSnackbar("Update account information successfully", {variant: "success"});
+          enqueueSnackbar("Update account information successfully", {
+            variant: "success",
+          });
         } else {
           enqueueSnackbar(result, {
             variant: "error",
           });
         }
-      }
-      catch {
+      } catch {
         enqueueSnackbar("Error when updating account information", {
           variant: "error",
         });
@@ -97,32 +124,31 @@ export default function AccountDetail() {
     },
     validationSchema: validationSchemaPassword,
     onSubmit: async (values) => {
-      console.log(values)
       if (values.confirmPassword !== values.newPassword) {
         enqueueSnackbar("Confirm password is incorect", {
           variant: "error",
         });
       } else {
-        try{
+        try {
           var result = await api.post("/account/update-account-password", {
             currentPassword: values.currentPassword,
             newPassword: values.newPassword,
           });
           if (result.data.token) {
             localStorage.setItem("user", JSON.stringify(result.data));
-            enqueueSnackbar("Update account password successfully", {variant: "success"});
+            enqueueSnackbar("Update account password successfully", {
+              variant: "success",
+            });
           } else {
             enqueueSnackbar(result, {
               variant: "error",
             });
           }
-        }
-        catch {
+        } catch {
           enqueueSnackbar("Error when updating account: Password incorrect", {
             variant: "error",
           });
         }
-        
       }
     },
   });
@@ -131,11 +157,32 @@ export default function AccountDetail() {
     <div>
       <form onSubmit={formikInfor.handleSubmit}>
         <Paper className={classes.root}>
+          <Grid container justifyContent="center" className="avatar">
+            {files.length > 0 ? (
+              <div className="avatar__container">
+                <img
+                  src={files[0].preview}
+                  className="avatar__display"
+                  alt="avatar"
+                />
+                <div className="avatar__clear">
+                  <span onClick={() => setFiles([])}>
+                    <CloseIcon fontSize="small" />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <ImageUploadWidget
+                setFiles={(files: any) => {
+                  setFiles(files);
+                }}
+              />
+            )}
+          </Grid>
           <Grid container spacing={3}>
             <Grid item>
               <Typography variant="h6">Edit Account</Typography>
             </Grid>
-
             <Grid item container direction="row" spacing={3}>
               <Grid item xs={6} container direction="column">
                 <Grid item>
@@ -154,7 +201,8 @@ export default function AccountDetail() {
                       Boolean(formikInfor.errors.firstName)
                     }
                     helperText={
-                      formikInfor.touched.firstName && formikInfor.errors.firstName
+                      formikInfor.touched.firstName &&
+                      formikInfor.errors.firstName
                     }
                   />
                 </Grid>
@@ -173,10 +221,12 @@ export default function AccountDetail() {
                     value={formikInfor.values.lastName}
                     onChange={formikInfor.handleChange}
                     error={
-                      formikInfor.touched.lastName && Boolean(formikInfor.errors.lastName)
+                      formikInfor.touched.lastName &&
+                      Boolean(formikInfor.errors.lastName)
                     }
                     helperText={
-                      formikInfor.touched.lastName && formikInfor.errors.lastName
+                      formikInfor.touched.lastName &&
+                      formikInfor.errors.lastName
                     }
                   />
                 </Grid>
@@ -197,14 +247,14 @@ export default function AccountDetail() {
               </Grid>
             </Grid>
           </Grid>
-           <Button variant="contained" className={classes.btn} type="submit">
+          <Button variant="contained" className={classes.btn} type="submit">
             Save Changes
           </Button>
         </Paper>
-        </form>
-        <Divider />
+      </form>
+      <Divider />
 
-        <form onSubmit={formikPassword.handleSubmit}>
+      <form onSubmit={formikPassword.handleSubmit}>
         <Paper className={classes.root}>
           <Grid container spacing={3}>
             <Grid item>
@@ -224,8 +274,14 @@ export default function AccountDetail() {
                   value={formikPassword.values.currentPassword}
                   onChange={formikPassword.handleChange}
                   type="password"
-                  error= {formikPassword.touched.currentPassword && Boolean(formikPassword.errors.currentPassword)}
-                  helperText= {formikPassword.touched.currentPassword && formikPassword.errors.currentPassword}
+                  error={
+                    formikPassword.touched.currentPassword &&
+                    Boolean(formikPassword.errors.currentPassword)
+                  }
+                  helperText={
+                    formikPassword.touched.currentPassword &&
+                    formikPassword.errors.currentPassword
+                  }
                 />
               </Grid>
             </Grid>
@@ -243,8 +299,14 @@ export default function AccountDetail() {
                   id="newPassword"
                   name="newPassword"
                   type="password"
-                  error={formikPassword.touched.newPassword && Boolean(formikPassword.errors.newPassword)}
-                  helperText={formikPassword.touched.newPassword && formikPassword.errors.newPassword}
+                  error={
+                    formikPassword.touched.newPassword &&
+                    Boolean(formikPassword.errors.newPassword)
+                  }
+                  helperText={
+                    formikPassword.touched.newPassword &&
+                    formikPassword.errors.newPassword
+                  }
                 />
               </Grid>
             </Grid>
@@ -262,8 +324,14 @@ export default function AccountDetail() {
                   onChange={formikPassword.handleChange}
                   id="confirmPassword"
                   name="confirmPassword"
-                  error={formikPassword.touched.confirmPassword && Boolean(formikPassword.errors.confirmPassword)}
-                  helperText={formikPassword.touched.confirmPassword && formikPassword.errors.confirmPassword}
+                  error={
+                    formikPassword.touched.confirmPassword &&
+                    Boolean(formikPassword.errors.confirmPassword)
+                  }
+                  helperText={
+                    formikPassword.touched.confirmPassword &&
+                    formikPassword.errors.confirmPassword
+                  }
                 />
               </Grid>
             </Grid>
@@ -272,10 +340,7 @@ export default function AccountDetail() {
             Save Changes
           </Button>
         </Paper>
-        </form>
-   
+      </form>
     </div>
   );
 }
-
-

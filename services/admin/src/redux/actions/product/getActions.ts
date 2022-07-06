@@ -4,6 +4,7 @@ import { ACTION_NAMES } from "./actionTypes";
 
 export type getPaginationType = {
   pagination: Pagination;
+  keywords: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
   status: string;
@@ -26,6 +27,7 @@ export const getProductPagination =
         pageSize: props.pagination.pageSize,
         pageIndex: props.pagination.pageIndex,
         status: props.status,
+        keywords: props.keywords,
       },
     });
 

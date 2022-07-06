@@ -49,7 +49,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function CouponCard(props: { coupon: Coupon , isUserCoupon: boolean, isSelection: boolean}) {
+export default function CouponCard(props: { coupon: Coupon , isUserCoupon: boolean, isSelection: boolean, calTotalCart: () => void}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -71,6 +71,7 @@ export default function CouponCard(props: { coupon: Coupon , isUserCoupon: boole
 
   const handleApplyCoupon = () => {
     console.log("apply")
+    props.calTotalCart()
     dispatch(
       setSelectedCoupon({
         couponId: props.coupon.id,
@@ -82,6 +83,8 @@ export default function CouponCard(props: { coupon: Coupon , isUserCoupon: boole
         }
       })
     )
+
+
   }
 
   return (

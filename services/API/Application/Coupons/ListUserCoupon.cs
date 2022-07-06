@@ -7,6 +7,7 @@ using Application.Books;
 using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace Application.Coupons
     {
         public class Query : IRequest<Result<List<Admin.CouponDto>>>
         {
-            
+            public string Status { get; set; }
         }
         
         public class Handler : IRequestHandler<Query, Result<List<Admin.CouponDto>>>
@@ -37,11 +38,26 @@ namespace Application.Coupons
             {
                 var userId = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var couponDtos = await _context.UserCoupons.Include(x => x.Coupon).ThenInclude(x => x.Media)
-                    .Where(x => x.UserId == userId && x.Coupon.IsDeleted == false)
-                    .ProjectTo<Admin.CouponDto>(_mapper.ConfigurationProvider).ToListAsync();
+                var coupons = await  _context.UserCoupons.Include(x => x.Coupon).ThenInclude(x => x.Media)
+                    .Where(x => x.UserId == userId && x.Coupon.IsDeleted == false).ProjectTo<Admin.CouponDto>(_mapper.ConfigurationProvider).ToListAsync();
 
-                return Result<List<Admin.CouponDto>>.Success(couponDtos);
+                if (!string.IsNullOrEmpty(request.Status))
+                {
+                    if (request.Status == CouponStatus.Used.ToString())
+                    {
+                        coupons = coupons.Where(x => x.IsUsed).ToList();
+                    }
+                    else if (request.Status == CouponStatus.Expired.ToString())
+                    {
+                        coupons = coupons.Where(x => x.IsExpired).ToList();
+                    }
+                }
+                else
+                {
+                    coupons = coupons.Where(x => !x.IsExpired && !x.IsUsed).ToList();
+                }
+                
+               return Result<List<Admin.CouponDto>>.Success(coupons);
             }
         }
     }
