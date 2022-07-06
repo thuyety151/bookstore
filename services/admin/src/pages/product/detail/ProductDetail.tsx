@@ -126,6 +126,7 @@ export default function ProductDetail() {
     public: true,
     language: true,
     publication: true,
+    author: true,
   });
   const [attributeSelected, setAttributeSelected] = useState("");
   const [bookAttributeSelected, setBookAttributeSelected] = useState<
@@ -861,9 +862,9 @@ export default function ProductDetail() {
 
           <Grid item className={classes.collapse}>
             <ProductDataContainer
-              title="Public"
-              isOpen={isOpen.public}
-              setOpen={() => setOpen({ ...isOpen, public: !isOpen.public })}
+              title="Author"
+              isOpen={isOpen.author}
+              setOpen={() => setOpen({ ...isOpen, author: !isOpen.author })}
             >
               <Grid
                 item

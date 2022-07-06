@@ -11,5 +11,6 @@ namespace Application.Books.Detail
         public double SalePrice { get; set; }
         public DateTime SalePriceStartDate { get; set; }
         public DateTime SalePriceEndDate { get; set; }
+        public string PictureUrl { get; set; }
     }
 }

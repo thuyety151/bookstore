@@ -13,6 +13,7 @@ export default function ImageUploadWidget({ setFiles }: Props) {
     paddingTop: "30px",
     textAlign: "center" as "center",
     height: 100,
+    minWidth: "25rem",
   };
 
   const dzActive = {

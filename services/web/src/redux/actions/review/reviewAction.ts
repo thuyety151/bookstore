@@ -55,6 +55,8 @@ export const addReview = (props: CreateReviewType) => async (dispatch: any) => {
         ...reviewData,
         media: results,
       });
+      const user = JSON.parse(localStorage.getItem("user")!);
+
       const temp: Review = {
         id: props.review.id,
         title: props.review.title,
@@ -63,6 +65,8 @@ export const addReview = (props: CreateReviewType) => async (dispatch: any) => {
         bookId: props.review.bookId,
         createDate: Date().toLocaleString(),
         media: results,
+        avatarUrl: user.photo?.url,
+        userName: user.userName,
       };
       if (response.data.isSuccess) {
         dispatch({

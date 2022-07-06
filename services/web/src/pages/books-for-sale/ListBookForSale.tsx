@@ -214,7 +214,7 @@ const ListBookForSale: React.FC = () => {
               )}
             </div>
           ) : (
-            <div>
+            <div className="container">
               {booksState.data.length > 0 ? (
                 <Grid
                   container
