@@ -87,10 +87,12 @@ const headCells: HeadCell[] = [
 
 export type CouponTableProps = {
   setModelEdit: any;
-  status: string
+  keywords: string;
+  status: string;
 };
 
 const CouponTable: React.FC<CouponTableProps> = (props) => {
+  const { keywords, status } = props;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -110,7 +112,8 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
             pageIndex: page + 1,
             pageSize: rowsPerPage,
           },
-          predicate: props.status,
+          predicate: status,
+          keywords,
           onSuccess: () => {},
           onFailure: () => {},
         })
@@ -120,6 +123,10 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
   }, [couponState.success]);
 
   useEffect(() => {
+    if (keywords) {
+      setPage(0);
+    }
+
     dispatch(
       getCouponPagination({
         pagination: {
@@ -127,13 +134,14 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
-        predicate: props.status,
+        predicate: status,
+        keywords,
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, keywords, status]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

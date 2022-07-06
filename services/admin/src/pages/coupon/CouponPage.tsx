@@ -1,6 +1,5 @@
 import { Grid, Theme,
   createStyles,
-  makeStyles,
   Tab,
   withStyles,
   Tabs, } from "@material-ui/core";
@@ -84,25 +83,40 @@ function TabPanel(props: TabPanelProps) {
 
 const CouponsPage: React.FC = () => {
   const [modelEdit, setModelEdit] = useState(null);
+  const [keywords, setKeywords] = useState<string>("");
   const { success } = useSelector((state: RootStore) => state.coupons);
   const [value, setValue] = useState("");
+
+  const onSearch = (keywords: string) => {
+    setKeywords(keywords);
+  };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: any) => {
     setValue(newValue);
   };
+
   return (
     <div style={{ margin: "0 5rem" }}>
       <HeaderPage title="Coupon" />
-      <FilterContainer />
+      <FilterContainer placeholderSearch="Search by code" onSearch={onSearch} />
       <Grid container justifyContent="space-between" className="pt-md">
         <Grid item xs={7}>
-        <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-          <AntTab label="Unexpired" value="unExpired" />
-          <AntTab label="Expired" value="expired" />
-        </AntTabs>
-        <TabPanel value={value} key={`coupon-${value}`}>
-          <CouponTable setModelEdit={setModelEdit} status={value} />
-        </TabPanel>
+          <AntTabs
+            value={value}
+            onChange={handleChange}
+            aria-label="ant example"
+          >
+            <AntTab label="All" value="" />
+            <AntTab label="Available" value="unExpired" />
+            <AntTab label="Expired" value="expired" />
+          </AntTabs>
+          <TabPanel value={value} key={`order-${value}`}>
+            <CouponTable
+              setModelEdit={setModelEdit}
+              keywords={keywords}
+              status={value}
+            />
+          </TabPanel>
         </Grid>
         <Grid item xs={4} key={Number(success)}>
           <AddForm />

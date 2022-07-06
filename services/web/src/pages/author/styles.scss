@@ -1,0 +1,21 @@
+.author-detail {
+  &__header {
+    background: #fff6f6;
+    padding: 3rem 0;
+  }
+  &__contents {
+    padding: 2rem 0;
+    gap: 1rem;
+  }
+  .view-all {
+    display: flex;
+    align-items: center;
+    &:hover {
+      cursor: pointer;
+      color: red;
+      & .icon {
+        fill: red;
+      }
+    }
+  }
+}

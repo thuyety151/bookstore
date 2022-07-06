@@ -19,6 +19,7 @@ namespace Application.Books
         {
             public PagingParams Params { get; set; }
             public string Status { get; set; }
+            public string Keywords { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<BooksDto>>>
@@ -47,11 +48,15 @@ namespace Application.Books
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Attribute)
-                    .Where(x => x.Book.IsDeleted == false && x.AttributeId == defaultAttributeId)
-                    .OrderByDescending(x => x.Book.CreateDate);
+                    .Where(x => x.Book.IsDeleted == false && x.AttributeId == defaultAttributeId )
+                    .OrderByDescending(x => x.Book.CreateDate).AsQueryable();
                 if (request.Status != null)
                 {
                     books = (IOrderedQueryable<BookAttribute>) books.Where(x => x.StockStatus.Equals((StockStatus) Enum.Parse(typeof(StockStatus), request.Status)));
+                }
+                if (!string.IsNullOrWhiteSpace(request.Keywords))
+                {
+                    books =  books.Where((x)=>x.Book.Name.ToLower().Contains(request.Keywords.ToLower()));
                 }
                 var booksDto = books.ProjectTo<BooksDto>(_mapper.ConfigurationProvider);
                 return Result<PagedList<BooksDto>>.Success

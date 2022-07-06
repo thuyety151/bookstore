@@ -52,3 +52,28 @@ export const addBook = (props: EditProductType) => async (dispatch: any) => {
       props.onFailure(err.message);
     });
 };
+
+export type importParams = {
+  file: File;
+  onSuccess: (e?: any) => void;
+  onFailure: (e?: any) => void;
+};
+
+export const importFromFile =
+  (props: importParams) => async (dispatch: any) => {
+    dispatch({ type: ACTION_NAMES.IMPORT.IMPORT });
+    try {
+      let formData = new FormData();
+      formData.append("File", props.file);
+      const res = await api.post("/books/import", formData, {
+        headers: { "Content-type": "multipart/form-data" },
+      });
+      if (res.data.isSuccess) {
+        props.onSuccess();
+      } else {
+        props.onFailure(res.data.error);
+      }
+    } finally {
+      dispatch({ type: ACTION_NAMES.IMPORT.IMPORT_FINALLY });
+    }
+  };

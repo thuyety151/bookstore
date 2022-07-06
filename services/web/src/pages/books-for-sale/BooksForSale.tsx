@@ -64,8 +64,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { predicate, categoryId } = useParams() as any;
-
+  const { predicate, categoryId, authorId } = useParams() as any;
   //Selector
   const categories = useSelector((state: RootStore) => state.categoryBfs.data);
   const languages = useSelector((state: RootStore) => state.languages.data);
@@ -399,7 +398,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     <div>
       <Grid container direction="row">
         {/*-------------------------------Desktop Filter--------------------------------*/}
-        <Grid md={4} className={classes.desktop}>
+        <Grid item md={4} className={classes.desktop}>
           <Grid container>
             <Button
               variant="contained"
@@ -742,7 +741,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
             <Collapse in={isOpen.review} collapsedSize={82}>
               <Paper variant="outlined" className={classes.paper}>
                 <div>
-                  <h3>By Reivew</h3>
+                  <h3>By Review</h3>
                   <span
                     className="curso r-pointer icon"
                     onClick={() =>

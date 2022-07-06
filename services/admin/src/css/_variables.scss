@@ -56,3 +56,10 @@ $var-pixel: (
     margin: #{$value}px !important;
   }
 }
+
+.success {
+  color: #33b650;
+}
+.failed {
+  color: #de2c00;
+}
