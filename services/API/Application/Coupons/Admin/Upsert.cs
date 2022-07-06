@@ -56,6 +56,19 @@ namespace Application.Coupons.Admin
                         CreateDate = DateTime.Now
                     };
 
+                    //Set photo
+                    if (!string.IsNullOrWhiteSpace(request.CouponParams.MediaId))
+                    {
+                        var media = _context.Media.FirstOrDefault(x => x.Id == request.CouponParams.MediaId);
+                        if (media != null)
+                        {
+                            media.IsMain = true;
+                            media.Name = coupon.Code;
+                            media.IsVideo = false;
+
+                            coupon.Media = media;
+                        }
+                    }
                     _context.Coupons.Add(coupon);
                     var result = await _context.SaveChangesAsync() > 0;
 
@@ -82,6 +95,18 @@ namespace Application.Coupons.Admin
                     coupon.DiscountType = request.CouponParams.DiscountType;
                     coupon.ExpireDate = request.CouponParams.ExpireDate;
                     coupon.MinSpend = request.CouponParams.MinSpend;
+                    
+                    if (coupon.Media==null || (!string.IsNullOrWhiteSpace(request.CouponParams.MediaId) && coupon.Media.Id != request.CouponParams.MediaId))
+                    {
+                        var media = _context.Media.FirstOrDefault(x => x.Id == request.CouponParams.MediaId);
+                        if (media != null)
+                        {
+                            media.IsMain = true;
+                            media.Name = coupon.Code;
+                            media.IsVideo = false;
+                            coupon.Media = media;
+                        }
+                    }
 
                     await _context.SaveChangesAsync();
                     return Result<Guid>.Success(coupon.Id);

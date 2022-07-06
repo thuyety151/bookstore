@@ -23,6 +23,11 @@ import { Coupon } from "redux/reducers/couponReducer";
 import { format } from "date-fns";
 import { deleteCoupon } from "redux/actions/coupon/postAction";
 
+export enum ProductStatusEnum {
+  InStock = "Unexpired",
+  OutOfStock = "Expired",
+}
+
 const headCells: HeadCell[] = [
   {
     id: "id",
@@ -36,6 +41,12 @@ const headCells: HeadCell[] = [
     disablePadding: true,
     label: "Code",
     width: "20%",
+  },
+  {
+    id: "image",
+    numeric: false,
+    disablePadding: true,
+    label: "Image",
   },
   {
     id: "description",
@@ -194,6 +205,13 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                       {index + 1}
                     </TableCell>
                     <TableCell>{row.code}</TableCell>
+                    <TableCell>
+                      <img
+                        src={row.imageUrl || "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"}
+                        alt="meida"
+                        style={{width: "50px"}}
+                      />
+                    </TableCell>
                     <TableCell>{row.description}</TableCell>
                     <TableCell>{row.couponAmount}</TableCell>
                     <TableCell>

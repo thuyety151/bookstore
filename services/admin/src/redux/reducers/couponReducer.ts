@@ -1,4 +1,5 @@
 import { Pagination, paginationValue } from "helper/paginationValue";
+import { Media } from "model/media";
 import { ACTION_NAMES } from "redux/actions/coupon/actionType";
 
 export type Coupon = {
@@ -8,6 +9,9 @@ export type Coupon = {
     couponAmount: number;
     discountType: number;
     expireDate: Date | null;
+    imageUrl: string;
+    media: Media[];
+    mediaId?: string;
 };
 
 export type CouponState = {

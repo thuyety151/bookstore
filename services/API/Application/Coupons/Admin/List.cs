@@ -42,7 +42,8 @@ namespace Application.Coupons.Admin
                     ExpireDate = x.ExpireDate,
                     ImageUrl = x.Media.Url,
                     MinSpend = x.MinSpend,
-                    IsExpired = x.IsExpired
+                    IsExpired = x.IsExpired,
+                    Media = x.Media
                 }).ToList();
 
                 if (!string.IsNullOrWhiteSpace(request.Predicate))

@@ -1,13 +1,85 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Theme,
+  createStyles,
+  Tab,
+  withStyles,
+  Tabs, } from "@material-ui/core";
 import HeaderPage from "components/headerPage/HeaderPage";
 import FilterContainer from "components/table/FilterContainer";
-import { AntTab, AntTabs, TabPanel } from "pages/order/OrderPage";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootStore } from "redux/store";
 import AddForm from "./components/AddForm";
 import CouponTable from "./components/CouponTable";
 import EditForm from "./components/EditForm";
+
+interface StyledTabProps {
+  label: string;
+  value?: string;
+}
+
+const AntTabs = withStyles({
+  root: {
+    borderBottom: "1px solid #e8e8e8",
+  },
+  indicator: {
+    backgroundColor: "#1890ff",
+  },
+})(Tabs);
+
+const AntTab = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      textTransform: "none",
+      minWidth: 72,
+      marginRight: theme.spacing(4),
+      fontFamily: [
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(","),
+      "&:hover": {
+        color: "#40a9ff",
+        opacity: 1,
+      },
+      "&$selected": {
+        color: "#1890ff",
+        fontWeight: theme.typography.fontWeightMedium,
+      },
+      "&:focus": {
+        color: "#40a9ff",
+      },
+    },
+    selected: {},
+  })
+)((props: StyledTabProps) => <Tab disableRipple {...props} />);
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  value: any;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      id={`vertical-tabpanel-${value}`}
+      aria-labelledby={`vertical-tab-${value}`}
+      {...other}
+    >
+      {children}
+    </div>
+  );
+}
+
 
 const CouponsPage: React.FC = () => {
   const [modelEdit, setModelEdit] = useState(null);
