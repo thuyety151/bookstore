@@ -7,8 +7,9 @@ import {
 } from "@material-ui/core";
 import "./styles.scss";
 import SearchIcon from "@material-ui/icons/Search";
-import { useEffect, useRef } from "react";
-import { ChangeEvent } from "ag-grid-community/dist/lib/widgets/agCheckbox";
+import { useRef } from "react";
+import { getDataExport } from "redux/actions/importData/getAction";
+import { useDispatch } from "react-redux";
 
 export type FilterType = {
   onAdd?: () => void;
@@ -23,6 +24,8 @@ const FilterContainer: React.FC<FilterType> = (props) => {
   const { add, download, search, isUploadFile, onUploadFile } =
     props as FilterType;
   const uploadInputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
+  
 
   const handleAdd = () => {
     if (isUploadFile && uploadInputRef.current) {
@@ -30,10 +33,10 @@ const FilterContainer: React.FC<FilterType> = (props) => {
     }
   };
 
-  useEffect(() => {
-    console.log("????", uploadInputRef.current?.value);
-  }, [uploadInputRef?.current]);
-
+  function handleDownload(){
+    dispatch(getDataExport())
+  }
+ 
   return (
     <div className="filter-container">
       {typeof search === "undefined" ? (
@@ -53,7 +56,7 @@ const FilterContainer: React.FC<FilterType> = (props) => {
       )}
       <div style={{ display: "flex" }}>
         {typeof download === "undefined" ? (
-          <Button className="btn-outlined">
+          <Button className="btn-outlined" onClick={handleDownload}>
             <span className="material-icons-outlined">file_download</span>
             <Typography style={{ paddingLeft: 4 }}>Download</Typography>
           </Button>

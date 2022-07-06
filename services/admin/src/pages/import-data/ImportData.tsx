@@ -34,7 +34,6 @@ const ImportData: React.FC = () => {
     <div style={{ margin: "0 5rem" }}>
       <HeaderPage title="Import Data" />
       <FilterContainer
-        download={false}
         isUploadFile={true}
         onUploadFile={handleUpload}
       />

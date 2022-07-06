@@ -29,3 +29,21 @@ export const getImportDataPagination =
       props.onFailure(response.data.error);
     }
   };
+
+  export const  getDataExport =
+  () => async (dispatch: any) => {
+    dispatch({ type: ACTION_NAMES.EXPORT.EXPORT});
+    const response = await api.get("/export", {
+      responseType: 'arraybuffer'
+  });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Import-data-samples.zip'); //or any other extension
+    document.body.appendChild(link);
+    link.click();
+
+    
+  };
+
