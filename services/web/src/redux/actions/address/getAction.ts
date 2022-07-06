@@ -1,5 +1,6 @@
 import apiGHN from "../../../boot/apiGHN";
 import api from "../../../boot/axios";
+import { Address } from "../../../model/address";
 import { NAME_ACTIONS } from "../../constants/address/actionTypes";
 
 export const getProvince = () => async (dispatch: any) => {
@@ -77,7 +78,10 @@ export const getWard = (districtId: number) => async (dispatch: any) => {
   }
 };
 
-export const getDefaultAddress = (onSuccess: any) => async (dispatch: any) => {
+type getDefaultAddressProps = {
+  onSuccess: (defaultAddresss : Address) => void
+};
+export const getDefaultAddress = (props : getDefaultAddressProps) => async (dispatch: any) => {
   try {
     dispatch({ type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT });
     const response = await api.get("/addresses/get-default");
@@ -86,7 +90,7 @@ export const getDefaultAddress = (onSuccess: any) => async (dispatch: any) => {
         type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
         data: response.data?.value,
       });
-      onSuccess();
+      props.onSuccess(response.data?.value);
     }
   } catch (error: any) {
     dispatch({

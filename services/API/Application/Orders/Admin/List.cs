@@ -8,6 +8,7 @@ using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Constant;
+using Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -84,7 +85,15 @@ namespace Application.Orders.Admin
                // await _context.SaveChangesAsync();
                 if (request.Status != null)
                 {
-                    orders = orders.Where(x => x.Status == request.Status);
+                    if (request.Status == "Payment Failed")
+                    {
+                        orders = orders.Where(x => x.PaymentStatus == PaymentStatus.Failed );
+                    }
+                    else
+                    {
+                        orders = orders.Where(x => x.Status == request.Status && x.PaymentStatus != PaymentStatus.Failed);
+
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(request.Keywords))
                 {

@@ -27,8 +27,6 @@ import { RootStore } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { formatAddress } from "../../../helper/format";
 import { subTotal } from "../../../redux/reducers/cartReducer";
-import { getFee } from "../../../redux/actions/order/getActions";
-import { getServices } from "../../../redux/actions/delivery/getAction";
 import { NAME_ACTIONS } from "../../../redux/constants/cart/actionTypes";
 import PrimaryButton from "../../../components/button/PrimaryButton";
 import { createOrder } from "../../../redux/actions/order/postAction";
@@ -44,7 +42,6 @@ import api from "../../../boot/axios";
 import LocalAtmRoundedIcon from "@material-ui/icons/LocalAtmRounded";
 import momo from "../../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../../shared/enum/stockStatus";
-import { PaymentMethod } from "../../../shared/enum/paymentMethod";
 import { sum } from "lodash";
 import { DiscountType } from "../../../model/coupon";
 
@@ -97,14 +94,13 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
-          paymentMethod: PaymentMethod.CashOnDelivery,
-          onSuccess: (code: string, orderId: string) => {
+          paymentMethod: 0,
+          onSuccess: (orderId: string) => {
             history.push(
               generatePath(ROUTE_PLACE_ORDER, {
                 orderId,
               })
             );
-            dispatch(getPageCart());
           },
           onFailure: (error: any) => {
             enqueueSnackbar(error, { variant: "error" });
@@ -115,17 +111,15 @@ export default function BillInfo(props: Props) {
       dispatch(
         createOrder({
           note: props.note,
-          paymentMethod: PaymentMethod.Momo,
-          onSuccess: async (code: string, orderId: string) => {
+          paymentMethod: 1,
+          onSuccess: async (orderId: string) => {
             var response = await api.post("/momo", { orderId: orderId });
 
             if (response.data?.isSuccess) {
-              window.open(response.data.value);
+              window.open(response.data.value, "_self");
             } else {
               enqueueSnackbar("Error when payment", { variant: "error" });
             }
-
-            dispatch(getPageCart());
           },
           onFailure: (error: any) => {
             enqueueSnackbar(error, { variant: "error" });
@@ -148,20 +142,20 @@ export default function BillInfo(props: Props) {
     /**
      * get fee based on default address
      */
-    dispatch(
-      getServices({
-        onSuccess: () => {
-          if (!fee) {
-            dispatch(
-              getFee({
-                onSuccess: () => {},
-                onFailure: () => {},
-              })
-            );
-          }
-        },
-      })
-    );
+    // dispatch(
+    //   getServices({
+    //     onSuccess: () => {
+    //       if (!fee) {
+    //         dispatch(
+    //           getFee({
+    //             onSuccess: () => {},
+    //             onFailure: () => {},
+    //           })
+    //         );
+    //       }
+    //     },
+    //   })
+    // );
     calCouponAmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemToCheckout]);
@@ -265,7 +259,7 @@ export default function BillInfo(props: Props) {
       {/* shippine */}
       <Collapse in={openSection.shipping} collapsedSize={82}>
         <Paper variant="outlined" className={classes.paper}>
-          <div>placeOrder?.subTotal.toFixed(2)
+          <div>
             <h3>Shipping</h3>
             <span
               className="cursor-pointer"

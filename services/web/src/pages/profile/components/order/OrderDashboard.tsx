@@ -10,9 +10,9 @@ import {
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Order } from "../../../model/order";
-import { getAllOrder } from "../../../redux/actions/order/getActions";
-import { RootStore } from "../../../redux/store";
+import { Order } from "../../../../model/order";
+import { getAllOrder } from "../../../../redux/actions/order/getActions";
+import { RootStore } from "../../../../redux/store";
 import OrderCard from "./OrderCard";
 
 interface TabPanelProps {
@@ -21,7 +21,7 @@ interface TabPanelProps {
   value: any;
 }
 
-const DeliveryStatus = ["Ready To Pick", "Cancel"];
+const DeliveryStatus = ["Ready To Pick", "Cancel", "Payment Failed"];
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
   return (

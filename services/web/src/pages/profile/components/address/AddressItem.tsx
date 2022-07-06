@@ -11,16 +11,16 @@ import {
   Typography,
   DialogActions,
 } from "@material-ui/core";
-import { formatAddress } from "../../../helper/format";
-import { Address } from "../../../model/address";
-import CreateAddressForm from "../../../pages/shoppingcart/components/address/CreateAddressForm";
+import { formatAddress } from "../../../../helper/format";
+import { Address } from "../../../../model/address";
+import CreateAddressForm from "../../../shoppingcart/components/address/CreateAddressForm";
 import CloseIcon from "@material-ui/icons/Close";
 import { useState } from "react";
 import {
   deleteAddress,
   setDefaultAddress,
-} from "../../../redux/actions/address/postAction";
-import { getAllAddresses } from "../../../redux/actions/address/getAction";
+} from "../../../../redux/actions/address/postAction";
+import { getAllAddresses } from "../../../../redux/actions/address/getAction";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 

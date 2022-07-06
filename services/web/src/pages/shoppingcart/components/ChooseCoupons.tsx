@@ -5,8 +5,9 @@ import CouponCard from "../../../components/homepage/coupon/CouponCard";
 import { Coupon } from "../../../model/coupon";
 import { getUserCoupons } from "../../../redux/actions/coupon/getAction";
 import { RootStore } from "../../../redux/store";
+import emptyCart from "../../../assets/icons/cartempty.jpg";
 
-export default function ChooseCoupons() {
+export default function ChooseCoupons(props: {calTotalCart: () => void}) {
   const classes = useStyles();
   const couponsState = useSelector((state: RootStore) => state.coupons);
 
@@ -18,7 +19,7 @@ export default function ChooseCoupons() {
 
   return (
     <div className={classes.root}>
-      {couponsState.userCoupons.map((coupon: Coupon, index: number) => {
+      { couponsState.userCoupons.length > 0 ? couponsState.userCoupons.map((coupon: Coupon, index: number) => {
         const isSelection =
           couponsState.selectedCoupon !== undefined &&
           couponsState.selectedCoupon.id === coupon.id
@@ -29,9 +30,17 @@ export default function ChooseCoupons() {
             coupon={coupon}
             isUserCoupon={true}
             isSelection={isSelection}
+            calTotalCart = {props.calTotalCart}
           />
         );
-      })}
+      }): <>
+      <img
+        src={emptyCart}
+        style={{ height: 200 }}
+        alt="no-data"
+      />
+      <span>Empty Coupons</span>
+    </>}
     </div>
   );
 }
@@ -40,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "grid",
+      justifyItems: 'center'
     },
     item: {
       padding: theme.spacing(2),

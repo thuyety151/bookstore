@@ -1,3 +1,4 @@
+import internal from "stream";
 import { Address } from "./address";
 import { Coupon } from "./coupon";
 import Item from "./item";
@@ -17,4 +18,6 @@ export type Order = {
   addressToShip: Address;
   total: number;
   coupon: Coupon;
+  serviceTypeId: number;
+  serviceId: number;
 };

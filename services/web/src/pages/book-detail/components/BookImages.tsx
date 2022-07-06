@@ -37,7 +37,9 @@ const BookImages: React.FC<{ images: Media[] }> = (props) => {
     <Grid direction="column" className="book-images-container">
       <div id="image" hidden>
         {props.images.map((media, index) => (
-          <img src={media.url} alt={`none-${index}`} />
+          <div key={index}>
+            <img src={media.url} alt={`none-${index}`} />
+          </div>
         ))}
       </div>
       <Grid item id="viewer" onClick={onViewDetail}>

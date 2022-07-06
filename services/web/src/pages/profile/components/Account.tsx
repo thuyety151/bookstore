@@ -11,12 +11,12 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountDetail from "./AccountDetail";
-import { userService } from "../../service/auth.service";
+import { userService } from "../../../service/auth.service";
 import { createBrowserHistory } from "history";
 import AddressDashboard from "./address/AddressDashBoard";
 import OrderDashboard from "./order/OrderDashboard";
 import { useParams } from "react-router-dom";
-import WishlistPage from "../../pages/wishlist/WishlistPage";
+import WishlistPage from "../../wishlist/WishlistPage";
 
 interface TabPanelProps {
   children?: React.ReactNode;

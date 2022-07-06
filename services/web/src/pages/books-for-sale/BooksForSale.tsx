@@ -108,7 +108,9 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     categoryChips: [],
   };
 
-  const [checkedCategory, setCheckedCategory] = useState([] as string[]);
+  const initCheckedCategory: string [] = categoryId ? [categoryId] : [];
+
+  const [checkedCategory, setCheckedCategory] = useState(initCheckedCategory);
 
   const [chipFilterParams, setChipFilterParams] = useState(
     initChipFilterParams
@@ -347,6 +349,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
         onFailure: () => {},
       })
     );
+    handleCategoryChange(checkedCategory);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
