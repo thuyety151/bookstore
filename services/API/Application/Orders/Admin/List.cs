@@ -23,6 +23,7 @@ namespace Application.Orders.Admin
         {
             public PagingParams Params { get; set; }
             public string Status { get; set; }
+            public string Keywords { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<PagedList<OrderDto>>>
@@ -94,7 +95,10 @@ namespace Application.Orders.Admin
 
                     }
                 }
-
+                if (!string.IsNullOrWhiteSpace(request.Keywords))
+                {
+                    orders = orders.Where(x => x.OrderCode.ToLower().Contains(request.Keywords.ToLower()));
+                }
                 var orderDtos = orders.ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
 
                 return Result<PagedList<OrderDto>>.Success(

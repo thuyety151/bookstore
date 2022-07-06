@@ -14,14 +14,16 @@ const CategoryPage: React.FC = () => {
   const classes = useStyles();
   const [modelEdit, setModelEdit] = useState(null);
   const { success } = useSelector((state: RootStore) => state.categories);
+  const [keywords, setKeywords] = useState("");
+  const onSearch = (e: string) => setKeywords(e);
 
   return (
     <div className="category-page ">
       <HeaderPage title="Categories" />
-      <FilterContainer />
+      <FilterContainer onSearch={onSearch} />
       <Grid container justifyContent="space-between" className="pt-lg">
         <Grid item xs={8} className={classes.table}>
-          <CategoryTable setModelEdit={setModelEdit} />
+          <CategoryTable setModelEdit={setModelEdit} keywords={keywords} />
         </Grid>
         <Grid item xs={4} key={Number(success)}>
           <AddForm />

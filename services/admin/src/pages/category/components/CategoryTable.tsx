@@ -77,6 +77,7 @@ const headCells: HeadCell[] = [
 
 export type AttributeTableProps = {
   setModelEdit: any;
+  keywords: string;
 };
 
 const CategoryTable: React.FC<AttributeTableProps> = (props) => {
@@ -102,6 +103,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
             pageIndex: page + 1,
             pageSize: rowsPerPage,
           },
+          keywords: props.keywords,
           onSuccess: () => {},
           onFailure: (error) => {
             enqueueSnackbar(error, { variant: "error" });
@@ -113,6 +115,9 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
   }, [success]);
 
   useEffect(() => {
+    if (props.keywords) {
+      setPage(0);
+    }
     dispatch(
       getCategoryPagination({
         pagination: {
@@ -120,6 +125,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
+        keywords: props.keywords,
         onSuccess: () => {},
         onFailure: (error) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -127,7 +133,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, props.keywords]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -168,6 +174,7 @@ const CategoryTable: React.FC<AttributeTableProps> = (props) => {
                 pageIndex: page + 1,
                 pageSize: rowsPerPage,
               },
+              keywords: props.keywords,
               onSuccess: () => {},
               onFailure: () => {},
             })

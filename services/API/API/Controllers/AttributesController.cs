@@ -26,9 +26,9 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("admin")]
-        public async Task<IActionResult> GetAtributesAdmin([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetAtributesAdmin([FromQuery] PagingParams pagingParams,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() {Params = pagingParams}));
+            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() {Params = pagingParams,Keywords = keywords}));
         }
     }
 }

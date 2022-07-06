@@ -10,9 +10,9 @@ namespace API.Controllers
     public class CouponsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> ListCoupons([FromQuery] PagingParams pagingParams, string predicate)
+        public async Task<IActionResult> ListCoupons([FromQuery] PagingParams pagingParams, string predicate,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams, Predicate = predicate}));
+            return HandlePagedResult(await Mediator.Send(new List.Query() {Params = pagingParams, Predicate = predicate,Keywords = keywords}));
         }
 
         [HttpPost]

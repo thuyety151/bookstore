@@ -15,9 +15,10 @@ namespace Application.Coupons.Admin
         public class Query : IRequest<Result<PagedList<CouponDto>>>
         {
             public PagingParams Params { get; set; }
+            public string Keywords { get; set; }
             public string Predicate { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Query, Result<PagedList<CouponDto>>>
         {
             private readonly DataContext _context;
@@ -31,7 +32,7 @@ namespace Application.Coupons.Admin
                 var coupons = _context.Coupons.Where(x => x.IsDeleted == false);
 
 
-                var couponsDto =  coupons.OrderByDescending(x => x.CreateDate).Select(x => new CouponDto()
+                var couponsDto = coupons.OrderByDescending(x => x.CreateDate).Select(x => new CouponDto()
                 {
                     Id = x.Id,
                     Description = x.Description,
@@ -43,7 +44,7 @@ namespace Application.Coupons.Admin
                     MinSpend = x.MinSpend,
                     IsExpired = x.IsExpired
                 }).ToList();
-                
+
                 if (!string.IsNullOrWhiteSpace(request.Predicate))
                 {
                     switch (request.Predicate)
@@ -54,7 +55,14 @@ namespace Application.Coupons.Admin
                         case "unExpired":
                             couponsDto = couponsDto.Where(x => x.IsExpired == false).ToList();
                             break;
+
                     }
+                }
+                if (!string.IsNullOrWhiteSpace(request.Keywords))
+                {
+                    couponsDto = couponsDto.Where(x => x.Code.ToLower().Contains(request.Keywords.ToLower()) ||
+                                                       x.Description.ToLower().Contains(request.Keywords.ToLower())
+                    ).ToList();
                 }
 
                 return Result<PagedList<CouponDto>>.Success(

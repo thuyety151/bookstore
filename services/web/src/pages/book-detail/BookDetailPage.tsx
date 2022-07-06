@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import BreadcrumbComponent from "../../components/Breadcrumb";
 import BookComponent from "./components/Book";
 import InformationComponent from "./components/Information";
 import { getBook } from "../../redux/actions/book-detail/getAction";
@@ -32,7 +31,6 @@ const BookDetailPage: React.FunctionComponent<{}> = (props) => {
 
   return (
     <div className="App">
-      <BreadcrumbComponent />
       <BookComponent />
       <InformationComponent />
     </div>

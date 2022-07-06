@@ -185,9 +185,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -370,37 +367,6 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.ChatMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Body")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FromId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ToId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromId");
-
-                    b.HasIndex("ToId");
-
-                    b.ToTable("ChatMessages");
-                });
-
             modelBuilder.Entity("Domain.ConfigHomePage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -451,15 +417,10 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MediaId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<double>("MinSpend")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MediaId");
 
                     b.ToTable("Coupons");
                 });
@@ -484,9 +445,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsReviewed")
-                        .HasColumnType("bit");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -545,7 +503,19 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("BookId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExcel")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsVideo")
@@ -679,24 +649,6 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("Domain.UserCoupon", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CouponId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("bit");
-
-                    b.HasKey("UserId", "CouponId");
-
-                    b.HasIndex("CouponId");
-
-                    b.ToTable("UserCoupons");
                 });
 
             modelBuilder.Entity("Domain.WishList", b =>
@@ -930,24 +882,6 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Domain.ChatMessage", b =>
-                {
-                    b.HasOne("Domain.AppUser", "From")
-                        .WithMany()
-                        .HasForeignKey("FromId");
-
-                    b.HasOne("Domain.AppUser", "To")
-                        .WithMany()
-                        .HasForeignKey("ToId");
-                });
-
-            modelBuilder.Entity("Domain.Coupon", b =>
-                {
-                    b.HasOne("Domain.Media", "Media")
-                        .WithMany()
-                        .HasForeignKey("MediaId");
-                });
-
             modelBuilder.Entity("Domain.Item", b =>
                 {
                     b.HasOne("Domain.Cart", null)
@@ -996,21 +930,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Domain.UserCoupon", b =>
-                {
-                    b.HasOne("Domain.Coupon", "Coupon")
-                        .WithMany("Users")
-                        .HasForeignKey("CouponId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.AppUser", "User")
-                        .WithMany("Coupons")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

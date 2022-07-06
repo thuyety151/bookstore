@@ -1,57 +1,20 @@
-import SideBar, { Currency, Language, SideBarChildren } from "../model/sidebar";
+import { generatePath } from "react-router-dom";
+import { SideBarChildren } from "../model/sidebar";
+import { ROUTE_LOGIN, ROUTE_PROFILE_PREDICATE } from "../routers/types";
 
-const data: SideBar[] = [
-  {
-    id: "1",
-    name: "Arts & Photography",
-    children: [
-      { id: "art-1", name: "Architecture", path: "" },
-      { id: "art-2", name: "Business of Art", path: "" },
-      { id: "art-3", name: "Drawing", path: "" },
-    ],
-  },
-  {
-    id: "2",
-    name: "History",
-    children: [
-      { id: "his-1", name: "VietNam", path: "" },
-      { id: "his-2", name: "Amed", path: "" },
-      { id: "his-3", name: "Mardin", path: "" },
-    ],
-  },
-  {
-    id: "3",
-    name: "Fiction",
-    children: [
-      { id: "his-1", name: "VietNam", path: "" },
-      { id: "his-2", name: "Amed", path: "" },
-      { id: "his-3", name: "Mardin", path: "" },
-    ],
-  },
-];
 export const dataHelpSetting: SideBarChildren[] = [
   {
     id: "1",
     name: "Your Account",
-    path: "/account",
-  },
-  {
-    id: "2",
-    name: "Help",
-    path: "/help",
+    path: generatePath(ROUTE_PROFILE_PREDICATE, {
+      tabName: "dashboard",
+    }),
+    isLogOut: false,
   },
   {
     id: "3",
-    name: "Sign In",
-    path: "/sign-in",
+    name: Boolean(localStorage.getItem("user")) ? "Log out" : "Sign In",
+    path: ROUTE_LOGIN,
+    isLogOut: true,
   },
 ];
-export const lstLanguage: Language[] = [
-  { id: "1", name: "English (United States)" },
-  { id: "2", name: "English (UK)" },
-];
-export const lstCurrency: Currency[] = [
-  { id: "1", name: "$ USD" },
-  { id: "2", name: "VND" },
-];
-export default data;

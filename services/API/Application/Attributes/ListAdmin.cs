@@ -14,6 +14,8 @@ namespace Application.Attributes
         public class  Query : IRequest<Result<PagedList<Attribute>>>
         {
             public PagingParams Params { get; set; }
+            public string Keywords { get; set; }
+
         }
         
         public class Handler : IRequestHandler<Query, Result<PagedList<Attribute>>>
@@ -27,7 +29,11 @@ namespace Application.Attributes
             public async Task<Result<PagedList<Attribute>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var attributes = _context.Attributes.Where(x => x.IsDeleted == false).OrderByDescending(x => x.CreateDate).AsQueryable();
-
+                if (!string.IsNullOrWhiteSpace(request.Keywords))
+                {
+                    attributes = attributes.Where(x => x.Name.ToLower().Contains(request.Keywords.ToLower()));
+                }
+                
                 return Result<PagedList<Attribute>>.Success(await PagedList<Attribute>.CreatePage(attributes, request.Params.PageIndex, request.Params.PageSize));
             }
         }
