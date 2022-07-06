@@ -64,7 +64,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { predicate, categoryId, authorId } = useParams() as any;
+  const { predicate, categoryId } = useParams() as any;
   //Selector
   const categories = useSelector((state: RootStore) => state.categoryBfs.data);
   const languages = useSelector((state: RootStore) => state.languages.data);

@@ -6,7 +6,6 @@ import {
   InputAdornment,
   makeStyles,
   OutlinedInput,
-  Paper,
   Table,
   TableBody,
   TableCell,
