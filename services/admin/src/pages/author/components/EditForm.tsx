@@ -58,7 +58,7 @@ const EditForm: React.FC<EditAuthorProps> = (props) => {
           </Toolbar>
         </AppBar>
         <Divider />
-        <Grid className={classes.form} item xs={6}>
+        <Grid className={classes.form} item>
           <AddForm model={props.model} />
         </Grid>
       </Dialog>

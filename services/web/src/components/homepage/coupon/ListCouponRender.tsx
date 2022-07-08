@@ -40,7 +40,7 @@ const ListCouponRender: React.FC = () => {
   const items = coupons.homepageCoupons.map((item, index) => {
     return (
       <div key={index}>
-        <CouponCard coupon={item} isUserCoupon={false} isSelection={false} />
+        <CouponCard coupon={item} isUserCoupon={false} isSelection={false} calTotalCart={() => null}/>
       </div>
     );
   });

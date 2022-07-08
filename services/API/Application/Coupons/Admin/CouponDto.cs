@@ -1,4 +1,5 @@
 using System;
+using Domain;
 
 namespace Application.Coupons.Admin
 {
@@ -14,5 +15,6 @@ namespace Application.Coupons.Admin
         public double MinSpend { get; set; }
         public bool IsUsed { get; set; }
         public bool IsExpired { get; set; }
+        public Media Media { get; set; }
     }
 }

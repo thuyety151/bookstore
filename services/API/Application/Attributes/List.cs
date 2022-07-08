@@ -5,17 +5,18 @@ using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Persistence;
 
 namespace Application.Attributes
 {
     public class List
     {
-        public class  Query : IRequest<Result<PagedList<AttributeDto>>>
+        public class Query : IRequest<Result<PagedList<AttributeDto>>>
         {
             public PagingParams Params { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Query, Result<PagedList<AttributeDto>>>
         {
             private readonly DataContext _context;

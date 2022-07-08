@@ -13,6 +13,7 @@ namespace Application.Categories.Admin
         public class Query : IRequest<Result<PagedList<CategoryDto>>>
         {
             public PagingParams Params { get; set; }
+            public string Keywords { get; set; }
         }
         
         public class Handler : IRequestHandler<Query, Result<PagedList<CategoryDto>>>
@@ -41,6 +42,11 @@ namespace Application.Categories.Admin
                         Count = x.Books.Count,
                         ParentId = x.ParentId
                     }).AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(request.Keywords))
+                {
+                    categoryDtos = categoryDtos.Where(x => x.Name.ToLower().Contains(request.Keywords.ToLower())).AsQueryable();
+                }
 
                 return Result<PagedList<CategoryDto>>.Success(
                     await PagedList<CategoryDto>.CreatePage(categoryDtos, request.Params.PageIndex,

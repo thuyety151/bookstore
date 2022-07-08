@@ -10,14 +10,14 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Address } from "../../../model/address";
-import { getAllAddresses } from "../../../redux/actions/address/getAction";
-import { RootStore } from "../../../redux/store";
-import PrimaryButton from "../../button/PrimaryButton";
+import { Address } from "../../../../model/address";
+import { getAllAddresses } from "../../../../redux/actions/address/getAction";
+import { RootStore } from "../../../../redux/store";
+import PrimaryButton from "../../../../components/button/PrimaryButton";
 import AddressItem from "./AddressItem";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
-import CreateAddressForm from "../../../pages/shoppingcart/components/address/CreateAddressForm";
+import CreateAddressForm from "../../../shoppingcart/components/address/CreateAddressForm";
 
 const AddressDashboard: React.FC = () => {
   const classes = useStyles();
@@ -46,7 +46,7 @@ const AddressDashboard: React.FC = () => {
         </Grid>
         <Grid container>
           {state.addresses.map((address: Address, index: number) => (
-            <div key={`address-item-${index}`}>
+            <div key={`address-item-${index}`} style={{ width: "100%" }}>
               <AddressItem {...address} />
             </div>
           ))}

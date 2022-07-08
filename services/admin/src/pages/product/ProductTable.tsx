@@ -95,8 +95,9 @@ const headCells: HeadCell[] = [
 
 type Props = {
   status: string;
+  keywords: string;
 };
-export default function ProductTable({ status }: Props) {
+export default function ProductTable({ status, keywords }: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -130,6 +131,7 @@ export default function ProductTable({ status }: Props) {
                 pageIndex: pageIndex + 1,
                 pageSize: rowsPerPage,
               },
+              keywords,
               status,
               onSuccess: () => {},
               onFailure: () => {},
@@ -154,6 +156,9 @@ export default function ProductTable({ status }: Props) {
   // }, [isDelete]);
 
   useEffect(() => {
+    if (keywords) {
+      setPageIndex(0);
+    }
     dispatch(
       getProductPagination({
         pagination: {
@@ -161,13 +166,14 @@ export default function ProductTable({ status }: Props) {
           pageIndex: pageIndex + 1,
           pageSize: rowsPerPage,
         },
+        keywords,
         status,
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
     // eslint-disable-next-line
-  }, [pageIndex, rowsPerPage]);
+  }, [pageIndex, rowsPerPage, keywords]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPageIndex(newPage);

@@ -5,6 +5,13 @@ export interface Category {
   description?: any;
   mediaUrl?: any;
   count: number;
+  subCategories: Category[]
+}
+
+export interface CategoryBooksForSale {
+  value: string;
+  label: string;
+  children: Category[]
 }
 export interface CategoryType {
   id: string;

@@ -8,16 +8,15 @@ import { Button, Grid, Paper } from "@material-ui/core";
 import ReceiptIcon from "@material-ui/icons/Receipt";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountDetail from "./AccountDetail";
-import { userService } from "../../service/auth.service";
+import { userService } from "../../../service/auth.service";
 import { createBrowserHistory } from "history";
 import AddressDashboard from "./address/AddressDashBoard";
 import OrderDashboard from "./order/OrderDashboard";
 import { useParams } from "react-router-dom";
-import WishlistPage from "../../pages/wishlist/WishlistPage";
+import WishlistPage from "../../wishlist/WishlistPage";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -73,7 +72,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "268px",
     height: "208px",
     position: "relative",
-    border: "1px",
     [theme.breakpoints.down("sm")]: {
       width: "168px",
       height: "108px",
@@ -84,10 +82,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100px",
     height: "100px",
     borderRadius: "50%",
-    backgroundColor: "#f52f2f",
+    backgroundColor: "#f75454",
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: "#f11b1b",
+      backgroundColor: "#fff6f6",
+      color: "#f75454",
     },
     position: "absolute",
     top: "50%",
@@ -98,6 +97,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: "80px",
       margin: "10px 0px",
     },
+    color: "#fff",
   },
   icon: {
     width: "40px",
@@ -124,14 +124,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const tabs = [
-  "dashboard",
-  "orders",
-  "address",
-  "shopping_cart",
-  "account",
-  "wishlist",
-];
+export const tabs = ["dashboard", "orders", "address", "account", "wishlist"];
 
 export default function MyAccount() {
   const classes = useStyles();
@@ -164,9 +157,8 @@ export default function MyAccount() {
             <Tab label="Dashboard" {...a11yProps(0)} />
             <Tab label="Orders" {...a11yProps(1)} />
             <Tab label="Addresses" {...a11yProps(2)} />
-            <Tab label="Shopping Cart" {...a11yProps(3)} />
-            <Tab label="Account Detail" {...a11yProps(4)} />
-            <Tab label="Wishlist" {...a11yProps(5)} />
+            <Tab label="Account Detail" {...a11yProps(3)} />
+            <Tab label="Wishlist" {...a11yProps(4)} />
           </Tabs>
         </Grid>
         <Grid item sm={9} xs={12}>
@@ -175,40 +167,35 @@ export default function MyAccount() {
               Dashboard
             </Typography>
             <Typography>Hello</Typography>
-            <Typography>
+            <Typography style={{ paddingBottom: "16px" }}>
               From your account dashboard you can view your recent orders,
               manage your shipping and billing addresses, and edit your password
               and account details.
             </Typography>
             <Grid container direction="row" className={classes.gridContainer}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} variant="outlined">
                 <Button className={classes.box} onClick={() => setValue(1)}>
                   <ReceiptIcon className={classes.icon} />
                 </Button>
               </Paper>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} variant="outlined">
                 <Button className={classes.box} onClick={() => setValue(2)}>
                   <LocationOnIcon className={classes.icon} />
                 </Button>
               </Paper>
-              <Paper className={classes.paper}>
-                <Button className={classes.box} onClick={() => setValue(3)}>
-                  <ShoppingBasketIcon className={classes.icon} />
-                </Button>
-              </Paper>
-            </Grid>
-            <Grid container direction="row" className={classes.gridContainer}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} variant="outlined">
                 <Button className={classes.box} onClick={() => setValue(4)}>
                   <PersonOutlineIcon className={classes.icon} />
                 </Button>
               </Paper>
-              <Paper className={classes.paper}>
+            </Grid>
+            <Grid container direction="row" className={classes.gridContainer}>
+              <Paper className={classes.paper} variant="outlined">
                 <Button className={classes.box} onClick={() => setValue(5)}>
                   <FavoriteBorderIcon className={classes.icon} />
                 </Button>
               </Paper>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} variant="outlined">
                 <Button className={classes.box} onClick={() => handleLogout()}>
                   <ExitToAppIcon className={classes.icon} />
                 </Button>
@@ -224,14 +211,11 @@ export default function MyAccount() {
             <AddressDashboard />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <Typography variant="h5">Your Cart</Typography>
-          </TabPanel>
-          <TabPanel value={value} index={4}>
             <Typography variant="h5">Account Details</Typography>
             <AccountDetail />
           </TabPanel>
-          <TabPanel value={value} index={5}>
-            <Typography variant="h5">Wishlish</Typography>
+          <TabPanel value={value} index={4}>
+            <Typography variant="h5">Wishlist</Typography>
             <WishlistPage />
           </TabPanel>
         </Grid>

@@ -51,7 +51,7 @@ export default function Types() {
 
   return (
     <div className={classes.rootAppBar}>
-      <AppBar id="/description" position="static" color="default">
+      <AppBar id="/description" position="static" color="default" elevation={0}>
         <Tabs
           centered
           value={value}

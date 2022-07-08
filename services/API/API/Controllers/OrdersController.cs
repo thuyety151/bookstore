@@ -25,10 +25,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(command));
         }
-        
+
         [HttpPost]
         [Route("update-order-status")]
-        public async Task<IActionResult> UpdateOrderStatus( UpdateOrderStatus.Command command )
+        public async Task<IActionResult> UpdateOrderStatus(UpdateOrderStatus.Command command)
         {
             return HandleResult(await Mediator.Send(command));
         }
@@ -41,9 +41,9 @@ namespace API.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> ListOrder([FromQuery] PagingParams pagingParams,string status)
+        public async Task<IActionResult> ListOrder([FromQuery] PagingParams pagingParams, string status, string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams ,Status = status}));
+            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams, Status = status, Keywords = keywords }));
         }
 
         [HttpDelete]
@@ -64,7 +64,7 @@ namespace API.Controllers
         }
         [HttpPost]
         [Route("update-order-note")]
-        public async Task<IActionResult> UpdateOrderNote( UpdateOrderNote.Command command )
+        public async Task<IActionResult> UpdateOrderNote(UpdateOrderNote.Command command)
         {
             return HandleResult(await Mediator.Send(command));
         }

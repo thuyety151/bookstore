@@ -5,6 +5,7 @@ namespace Domain.Enum
         Pending,
         Completed,
         Refund,
-        Cancel
+        Cancel,
+        Failed
     }
 }

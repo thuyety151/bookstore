@@ -22,6 +22,7 @@ import attributeReducer from "./attributeReducer";
 import wishlistReducer from "./wishlistReducer";
 import couponsReducer from "./couponsReducer";
 import shopLocationReducer from "./shopLocationReducer";
+import flattenCategoryReducer from "./books-for-sale/flattenCategoryReducer";
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -46,7 +47,8 @@ const rootReducer = combineReducers({
   attributes: attributeReducer,
   wishlist: wishlistReducer,
   coupons: couponsReducer,
-  shopLocation:shopLocationReducer
+  shopLocation:shopLocationReducer,
+  flattenCategories: flattenCategoryReducer,
 });
 
 const root = (state: any, action: any) => rootReducer(state, action);

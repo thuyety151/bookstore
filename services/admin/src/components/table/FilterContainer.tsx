@@ -7,16 +7,33 @@ import {
 } from "@material-ui/core";
 import "./styles.scss";
 import SearchIcon from "@material-ui/icons/Search";
+import { useRef } from "react";
+import { getDataExport } from "redux/actions/importData/getAction";
+import { useDispatch } from "react-redux";
 
 export type FilterType = {
-  onAdd: () => void;
+  placeholderSearch?: string;
+  onAdd?: () => void;
+  onDownload?: () => void;
+  onSearch?: (keywords: string) => void;
+  onReload?: () => void;
 };
-const FilterContainer: React.FC<{ onAdd?: () => void }> = (props) => {
+const FilterContainer: React.FC<FilterType> = (props) => {
+  const { placeholderSearch, onSearch, onDownload, onReload, onAdd } = props;
+
+  const onChange = (e: any) => {
+    if (typeof onSearch !== "undefined" && e.key === "Enter") {
+      onSearch(e.target.value);
+    }
+  };
+
   return (
     <div className="filter-container">
       <TextField
         variant="outlined"
-        placeholder="Search by ..."
+        placeholder={placeholderSearch || "Search by ..."}
+        onChange={onChange}
+        onKeyDown={onChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -26,16 +43,22 @@ const FilterContainer: React.FC<{ onAdd?: () => void }> = (props) => {
         }}
       />
       <div>
-        <Button className="btn-outlined">
-          <span className="material-icons-outlined">file_download</span>
-          <Typography style={{ paddingLeft: 4 }}>Download</Typography>
-        </Button>
-        <Button className="btn-fill" onClick={props.onAdd}>
-          <Icon>add</Icon>
-        </Button>
-        <Button className="btn-fill">
-          <Icon>replay</Icon>
-        </Button>
+        {typeof onDownload !== "undefined" && (
+          <Button className="btn-outlined">
+            <span className="material-icons-outlined">file_download</span>
+            <Typography style={{ paddingLeft: 4 }}>Download</Typography>
+          </Button>
+        )}
+        {typeof onAdd !== "undefined" && (
+          <Button className="btn-fill" onClick={props.onAdd}>
+            <Icon>add</Icon>
+          </Button>
+        )}
+        {typeof onReload !== "undefined" && (
+          <Button className="btn-fill">
+            <Icon>replay</Icon>
+          </Button>
+        )}
       </div>
     </div>
   );

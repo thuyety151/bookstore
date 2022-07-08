@@ -75,13 +75,15 @@ namespace Application.Orders
                     OrderDate = DateTime.Now,
                     Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name,
                     PaymentMethod = request.OrderParams.PaymentMethod,
-                    PaymentStatus = PaymentStatus.Pending,
+                    PaymentStatus = request.OrderParams.PaymentMethod == (int) PaymentMethod.MoMo ? PaymentStatus.Failed : PaymentStatus.Pending ,
                     SubTotal = items.Select(x => x.Price * x.Quantity).Sum(),
                     OrderFee = request.OrderParams.OrderFee,
                     OrderNote = request.OrderParams.OrderNote,
                     UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
                     AddressToShip = request.OrderParams.Address,
-                    Items = new List<Item>()
+                    Items = new List<Item>(),
+                    ServiceTypeId = request.OrderParams.ServiceTypeId,
+                    ServiceId = request.OrderParams.ServiceId
                 };
 
                 // CHECK COUPON
@@ -101,7 +103,7 @@ namespace Application.Orders
                     }
                     else if (coupon.Coupon.DiscountType == (int) DiscountType.FixedCart)
                     {
-                        order.SubTotal = Math.Round(order.SubTotal - coupon.Coupon.CouponAmount , 2) ;
+                        order.SubTotal = Math.Round(order.SubTotal - coupon.Coupon.CouponAmount , 2) > 0 ? Math.Round(order.SubTotal - coupon.Coupon.CouponAmount , 2) : 0  ;
                     }
                     order.Coupon = coupon.Coupon;
                 }
