@@ -75,7 +75,6 @@ const OrderDetailContent: React.FC<Props> = (props) => {
                 //   orderBy={orderBy}
                 //   rowCount={orderState.data.length}
                 headerCells={headCells}
-                loading={false}
               />
               <TableBody>
                 {order?.items?.map((item: Item, index: number) => {

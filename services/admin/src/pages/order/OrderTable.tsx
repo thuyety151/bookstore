@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -39,6 +38,7 @@ import OrderDetailContent from "./OrderDetailContent";
 import { useSnackbar } from "notistack";
 import { deleteOrder } from "redux/actions/order/deleteActions";
 import { cancelOrder } from "redux/actions/order/postActions";
+import EnhancedTableBody from "components/table/EnhancedTableBody";
 
 const headCells: HeadCell[] = [
   {
@@ -111,6 +111,7 @@ const OrderTable: React.FC<{ status: string; keywords: string }> = ({
           pageIndex: page + 1,
         },
         status,
+        keywords,
         onSuccess: () => {},
         onFailure: () => {},
       })
@@ -143,6 +144,7 @@ const OrderTable: React.FC<{ status: string; keywords: string }> = ({
           pageSize: rowsPerPage,
         },
         status,
+        keywords,
         onSuccess: () => {},
         onFailure: () => {},
       })
@@ -212,46 +214,51 @@ const OrderTable: React.FC<{ status: string; keywords: string }> = ({
               headerCells={headCells}
               loading={orderState.requesting}
             />
-            <TableBody>
-              {orderState.data.map((row: Order, index: number) => {
-                return (
-                  <TableRow hover tabIndex={-1} key={row.id}>
-                    <TableCell align="center" padding="checkbox">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell className="primary bolder">{`#${
-                      row.orderCode
-                    } ${formatFullName(row.addressToShip)}`}</TableCell>
-                    <TableCell>
-                      {moment(new Date(row.orderDate)).format("ll")}
-                    </TableCell>
-                    <TableCell>
-                      <OrderStatus status={row.status} />
-                    </TableCell>
-                    <TableCell>{`$${
-                      Math.floor(row.total * 100) / 100
-                    }`}</TableCell>
-                    <TableCell>
-                      <Button
-                        className="btn-view"
-                        startIcon={<Visibility />}
-                        onClick={() => handleOpenDetail(row)}
-                      />
-                      <Button
-                        className="btn-edit"
-                        startIcon={<Edit />}
-                        onClick={() => handleEdit(row.id)}
-                      />
-                      <Button
-                        className="btn-delete"
-                        onClick={() => handleOpenDelete(row.id)}
-                        startIcon={<Delete />}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+            <EnhancedTableBody
+              loading={Boolean(orderState.requesting)}
+              length={orderState.data.length}
+            >
+              <>
+                {orderState.data.map((row: Order, index: number) => {
+                  return (
+                    <TableRow hover tabIndex={-1} key={row.id}>
+                      <TableCell align="center" padding="checkbox">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="primary bolder">{`#${
+                        row.orderCode
+                      } ${formatFullName(row.addressToShip)}`}</TableCell>
+                      <TableCell>
+                        {moment(new Date(row.orderDate)).format("ll")}
+                      </TableCell>
+                      <TableCell>
+                        <OrderStatus status={row.status} />
+                      </TableCell>
+                      <TableCell>{`$${
+                        Math.floor(row.total * 100) / 100
+                      }`}</TableCell>
+                      <TableCell>
+                        <Button
+                          className="btn-view"
+                          startIcon={<Visibility />}
+                          onClick={() => handleOpenDetail(row)}
+                        />
+                        <Button
+                          className="btn-edit"
+                          startIcon={<Edit />}
+                          onClick={() => handleEdit(row.id)}
+                        />
+                        <Button
+                          className="btn-delete"
+                          onClick={() => handleOpenDelete(row.id)}
+                          startIcon={<Delete />}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </>
+            </EnhancedTableBody>
           </Table>
         </TableContainer>
         <TablePagination

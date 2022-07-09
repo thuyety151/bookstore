@@ -93,7 +93,10 @@ const OrderPage: React.FC = () => {
   return (
     <div className={classes.root}>
       <HeaderPage title="Orders" />
-      <FilterContainer onSearch={onSearch} />
+      <FilterContainer
+        onSearch={onSearch}
+        placeholderSearch="Search by order code"
+      />
       <Grid container className={clsx(classes.actionsContainer, "pt-md")}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
           <AntTab label="All" value="" />

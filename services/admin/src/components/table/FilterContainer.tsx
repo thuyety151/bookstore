@@ -15,29 +15,33 @@ export type FilterType = {
   onDownload?: () => void;
   onSearch?: (keywords: string) => void;
   onReload?: () => void;
-  add?: boolean;
   download?: boolean;
   search?: boolean;
-  isUploadFile?: boolean;
   onUploadFile?: (e: any) => void;
 };
 const FilterContainer: React.FC<FilterType> = (props) => {
-  const { add, search, isUploadFile, onUploadFile, onDownload, onReload } =
-    props as FilterType;
+  const {
+    placeholderSearch,
+    onSearch,
+    onUploadFile,
+    onDownload,
+    onReload,
+    onAdd,
+  } = props as FilterType;
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const handleAdd = () => {
-    if (isUploadFile && uploadInputRef.current) {
+    if (typeof onUploadFile !== "undefined" && uploadInputRef.current) {
       uploadInputRef?.current?.click();
     }
   };
 
   return (
     <div className="filter-container">
-      {typeof search === "undefined" ? (
+      {typeof onSearch !== "undefined" ? (
         <TextField
           variant="outlined"
-          placeholder="Search by ..."
+          placeholder={placeholderSearch || "Search by ..."}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -45,6 +49,7 @@ const FilterContainer: React.FC<FilterType> = (props) => {
               </InputAdornment>
             ),
           }}
+          onChange={(value) => onSearch(value.target.value)}
         />
       ) : (
         <div></div>
@@ -56,9 +61,9 @@ const FilterContainer: React.FC<FilterType> = (props) => {
             <Typography style={{ paddingLeft: 4 }}>Download</Typography>
           </Button>
         )}
-        {typeof add === "undefined" ? (
+        {typeof onAdd !== "undefined" || typeof onUploadFile !== "undefined" ? (
           <>
-            {isUploadFile && (
+            {typeof onUploadFile !== "undefined" && (
               <input
                 ref={uploadInputRef}
                 type="file"
@@ -70,7 +75,9 @@ const FilterContainer: React.FC<FilterType> = (props) => {
 
             <Button
               className="btn-fill"
-              onClick={isUploadFile ? handleAdd : props.onAdd}
+              onClick={
+                typeof onUploadFile !== "undefined" ? handleAdd : props.onAdd
+              }
             >
               <Icon>add</Icon>
             </Button>

@@ -21,6 +21,7 @@ export const deleteOrder =
         onSuccess: () => {},
         onFailure: () => {},
         status: "",
+        keywords: "",
       });
       props.onSuccess();
     } else {

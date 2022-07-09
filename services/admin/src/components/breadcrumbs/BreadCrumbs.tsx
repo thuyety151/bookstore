@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import "./styles.scss";
 import Route from "model/route";
 import { routes } from "routers/routes";
@@ -23,9 +23,17 @@ export const sampleData: BreadCrumbsType[] = [
 
 const BreadCrumbs: React.FC = () => {
   const history = useHistory();
-  const currentRoute = routes.find(
-    (r: Route) => r.path === history.location.pathname
-  );
+  const params = useParams();
+
+  const currentPathName =
+    typeof params === "undefined"
+      ? history.location.pathname
+      : history.location.pathname.replace(
+          Object.values(params)[0] as string,
+          `:${Object.keys(params)[0]}`
+        );
+
+  const currentRoute = routes.find((r: Route) => r.path === currentPathName);
 
   const onNavigate = (route: string) => {
     history.push(route);

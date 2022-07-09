@@ -130,6 +130,7 @@ export const routes: Route[] = [
     name: "Edit Order",
     component: OrderEditPage,
     exact: true,
+    parents: [ROUTE_ORDERS],
   },
   {
     path: ROUTE_PRODUCT_DETAIL,
