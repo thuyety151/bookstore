@@ -69,9 +69,9 @@ namespace API.Controllers
         
         [HttpGet]
         [Route("import")]
-        public async Task<IActionResult> GetImportHistory([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetImportHistory([FromQuery] PagingParams pagingParams,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new ListImport.Query() { Params = pagingParams }));
+            return HandlePagedResult(await Mediator.Send(new ListImport.Query() { Params = pagingParams,Keywords = keywords}));
 
         }
     }

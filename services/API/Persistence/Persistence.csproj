@@ -17,4 +17,9 @@
       <Folder Include="Migrations" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\20220503091200_Update Media.cs" />
+      <Compile Remove="Migrations\20220503091200_Update Media.Designer.cs" />
+    </ItemGroup>
+
 </Project>
