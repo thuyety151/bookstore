@@ -22,5 +22,7 @@ namespace Application.Orders.Admin
         public ICollection<ItemDto> Items { get; set; }
         public Address AddressToShip { get; set; }
         public double Total { get; set; }
+        public int ServiceId { get; set; }
+        public int ServiceTypeId { get; set; }
     }
 }
