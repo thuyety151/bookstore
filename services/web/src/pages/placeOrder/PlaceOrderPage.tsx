@@ -311,7 +311,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       backgroundColor: "#fff6f6",
       minHeight: "100vh",
-      height: "100%",
+      height: "1020px",
       "& .MuiGrid-root .MuiGrid-container": {
         padding: theme.spacing(4),
       },
@@ -392,6 +392,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 14,
       position: "absolute",
       right: 10,
+      marginTop: 40
     },
     circleProcess: {
       margin: 'auto'
