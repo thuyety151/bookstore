@@ -59,6 +59,7 @@ export default function BillInfo(props: Props) {
   const currentAddress = useSelector(
     (state: RootStore) => state.address.currentAddress
   );
+
   const loading = useSelector((state: RootStore) => state.order.requesting);
 
   //State
@@ -167,6 +168,8 @@ export default function BillInfo(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  
+
   const total = () => {
     var total =
       sum(itemToCheckout.map((x) => x.quantity * x.price)) - couponAmount > 0
@@ -177,7 +180,6 @@ export default function BillInfo(props: Props) {
 
   const calCouponAmount = () => {
     var amountDiscount = 0;
-    console.log("discount type:" + couponState.selectedCoupon?.discountType);
     if (couponState.selectedCoupon !== undefined) {
       if (couponState.selectedCoupon.discountType === DiscountType.Percentage) {
         amountDiscount =
