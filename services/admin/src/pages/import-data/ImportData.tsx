@@ -6,6 +6,7 @@ import { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { importFromFile } from "redux/actions/product/postAction";
 import ImportDataTable from "./components/ImportDataTable";
+import { getDataExport } from "redux/actions/importData/getAction";
 
 const ImportData: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,12 +31,17 @@ const ImportData: React.FC = () => {
     );
   };
 
+  const onDownload = () => {
+    dispatch(getDataExport());
+  };
+
   return (
     <div style={{ margin: "0 5rem" }}>
       <HeaderPage title="Import Data" />
       <FilterContainer
         isUploadFile={true}
         onUploadFile={handleUpload}
+        onDownload={onDownload}
       />
       <Grid container justifyContent="space-between" className="pt-md">
         <ImportDataTable />
