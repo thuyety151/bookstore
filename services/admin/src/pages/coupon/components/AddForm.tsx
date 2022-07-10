@@ -52,7 +52,9 @@ const AddForm: React.FC<AddFormProps> = (props) => {
   const dispatch = useDispatch();
   const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
-  const loading = useSelector((state: RootStore) => state.coupons.requesting);
+  const loading: boolean = useSelector(
+    (state: RootStore) => state.coupons.requesting
+  );
 
   const handleDateChange = (date: Date | null) => {
     setFormValue({

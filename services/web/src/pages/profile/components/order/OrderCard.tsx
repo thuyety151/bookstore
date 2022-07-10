@@ -9,8 +9,10 @@ import {
 import { format } from "date-fns";
 import { useSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
+import { generatePath, useHistory } from "react-router-dom";
 import { Order } from "../../../../model/order";
 import { cancelOrder } from "../../../../redux/actions/order/postAction";
+import { ROUTE_BOOK_DETAIL } from "../../../../routers/types";
 import "./styles.scss";
 
 const OrderCard: React.FC<{
@@ -21,6 +23,7 @@ const OrderCard: React.FC<{
   const { order, loadingCancel, setloadingCancel } = modelValue;
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
   const handleCancelOrder = () => {
     setloadingCancel(true);
@@ -65,6 +68,23 @@ const OrderCard: React.FC<{
                 </Grid>
                 <Grid item xs={2} className="order-card__item__price">
                   <Typography align="right">${item.price}</Typography>
+                  {!item.isReviewed && (
+                    <Button
+                      variant="outlined"
+                      disableRipple
+                      size="large"
+                      onClick={() =>
+                        history.push(
+                          generatePath(ROUTE_BOOK_DETAIL, {
+                            bookId: item.productId,
+                            attributeId: item.attributeId,
+                          })
+                        )
+                      }
+                    >
+                      Review
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
               <Divider />

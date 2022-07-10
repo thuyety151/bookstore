@@ -10,7 +10,9 @@ namespace Application.Coupons
         public int Quantity { get; set; }
         public double Price { get; set; }
         public string AttributeName { get; set; }
+        public Guid AttributeId { get; set; }
         public Guid ProductId { get; set; }
         public double SalePrice { get; set; }
+        public bool IsReviewed { get; set; }
     }
 }

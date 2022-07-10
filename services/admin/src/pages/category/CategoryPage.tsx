@@ -20,7 +20,7 @@ const CategoryPage: React.FC = () => {
   return (
     <div className="category-page ">
       <HeaderPage title="Categories" />
-      <FilterContainer onSearch={onSearch} />
+      <FilterContainer onSearch={onSearch} placeholderSearch="Search by name" />
       <Grid container justifyContent="space-between" className="pt-lg">
         <Grid item xs={8} className={classes.table}>
           <CategoryTable setModelEdit={setModelEdit} keywords={keywords} />

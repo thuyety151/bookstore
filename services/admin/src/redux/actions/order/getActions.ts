@@ -6,6 +6,7 @@ import { ACTION_NAMES } from "./actionTypes";
 export type getPaginationType = {
   pagination: Pagination;
   status: string;
+  keywords: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -20,6 +21,7 @@ export const getOrderPagination =
         params: {
           ...omit(props.pagination, ["totalPage", "totalCount"]),
           status: props.status,
+          keywords: props.keywords,
         },
       });
       // const response = await api.get("/orders",{data:{}}, {

@@ -1,8 +1,11 @@
-import { Grid, Theme,
+import {
+  Grid,
+  Theme,
   createStyles,
   Tab,
   withStyles,
-  Tabs, } from "@material-ui/core";
+  Tabs,
+} from "@material-ui/core";
 import HeaderPage from "components/headerPage/HeaderPage";
 import FilterContainer from "components/table/FilterContainer";
 import { useState } from "react";
@@ -79,7 +82,6 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
-
 
 const CouponsPage: React.FC = () => {
   const [modelEdit, setModelEdit] = useState(null);
