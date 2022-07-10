@@ -48,6 +48,7 @@ namespace Application.Core
             CreateMap<Book, BooksDto>()
                 .ForMember(x => x.PictureUrl, o => o.MapFrom(x => x.Media.FirstOrDefault(m => m.IsMain).Url));
             CreateMap<Order, OrderDto>()
+                .ForMember(x => x.Total, o => o.MapFrom((s => s.SubTotal + s.OrderFee)))
                 .ForMember(x=>x.PaymentMethod,o=>o.MapFrom(x=>(PaymentMethod)x.PaymentMethod));
             CreateMap<BookAttribute, BooksDto>()
                 .ForMember(x => x.AttributeName, o => o.MapFrom(x => x.Attribute.Name))
