@@ -10,13 +10,15 @@ import {
 export type CustomButtonProps = {
   props?: ButtonProps;
   text: string;
-  loading?: boolean;
+  loading?: any;
 };
 
 const ContainedButton: React.FC<
-  { text: string; loading?: boolean } & ButtonProps
+  { text: string; loading?: any } & ButtonProps
 > = (props) => {
   const classes = useStyles();
+  // to remove loading out of props. loading create warning cause it is valid HTML attribute
+  const { loading, ...btnProps } = props;
 
   return (
     <Button
@@ -25,10 +27,14 @@ const ContainedButton: React.FC<
       color="primary"
       fullWidth
       className={classes.btn}
-      {...props}
+      {...btnProps}
       disableElevation
     >
-      {props.loading ? <CircularProgress size="20px" /> : props.text}
+      {Boolean(props.loading) && typeof props.loading !== "undefined" ? (
+        <CircularProgress size="20px" />
+      ) : (
+        props.text
+      )}
     </Button>
   );
 };

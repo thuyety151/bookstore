@@ -16,9 +16,10 @@
       object-fit: contain;
     }
     &__price {
-      align-items: center;
+      align-items: end;
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column;
+      justify-content: center;
     }
   }
   &__footer {

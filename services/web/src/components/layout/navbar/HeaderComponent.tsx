@@ -14,7 +14,10 @@ import { generatePath, useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import "./styles.scss";
-import { ROUTE_PROFILE_PREDICATE } from "../../../routers/types";
+import {
+  ROUTE_LOCATION,
+  ROUTE_PROFILE_PREDICATE,
+} from "../../../routers/types";
 // import { ROUTE_WISHLIST } from "../../../routers/types";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +81,7 @@ const HeaderComponent: React.FC<{
           </ListItem>
         </div>
         <div className={classes.listItem}>
-          <ListItem button>
+          <ListItem button onClick={() => history.push(ROUTE_LOCATION)}>
             <Tooltip title="Shop location" aria-label="Shop location">
               <LocationOnOutlinedIcon />
             </Tooltip>

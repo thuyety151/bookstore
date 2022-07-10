@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -11,12 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import EnhancedTableHead, {
   HeadCell,
 } from "components/table/EnhancedTableHead";
-import { Button } from "@material-ui/core";
+import { Backdrop, Button, CircularProgress } from "@material-ui/core";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
 import { format } from "date-fns";
 import { getImportDataPagination } from "redux/actions/importData/getAction";
 import { Media } from "model/media";
+import EnhancedTableBody from "components/table/EnhancedTableBody";
 
 const headCells: HeadCell[] = [
   {
@@ -77,11 +77,8 @@ const sampleData = [
     status: true,
   },
 ];
-export type CouponTableProps = {
-  setModelEdit: any;
-};
 
-const ImportDataTable: React.FC = () => {
+const ImportDataTable: React.FC<{ keywords: string }> = (props) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -98,6 +95,7 @@ const ImportDataTable: React.FC = () => {
             pageIndex: page + 1,
             pageSize: rowsPerPage,
           },
+          keywords: props.keywords,
           onSuccess: () => {},
           onFailure: () => {},
         })
@@ -118,12 +116,13 @@ const ImportDataTable: React.FC = () => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
+        keywords: props.keywords,
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage, state.create.requesting]);
+  }, [dispatch, page, rowsPerPage, state.create.requesting, props.keywords]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -138,6 +137,9 @@ const ImportDataTable: React.FC = () => {
 
   return (
     <div className={classes.root}>
+      <Backdrop className={classes.backdrop} open={state.create.requesting}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Paper className={classes.paper} variant="outlined">
         <TableContainer>
           <Table
@@ -152,38 +154,44 @@ const ImportDataTable: React.FC = () => {
               headerCells={headCells}
               loading={state.requesting}
             />
-            <TableBody>
-              {state.data?.map((row: Media, index: number) => {
-                return (
-                  <TableRow hover tabIndex={-1} key={`import-data-${index}`}>
-                    <TableCell align="center" padding="checkbox">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>
-                      {format(new Date(row.createdAt), "dd/MM/yyyy")}
-                    </TableCell>
-                    <TableCell
-                      className={
-                        row.isSuccess ? classes.success : classes.failed
-                      }
-                    >
-                      {row.isSuccess ? "Success" : "Failed"}
-                    </TableCell>
-                    <TableCell>{row.description || "--"}</TableCell>
-                    <TableCell
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <Button variant="outlined" href={row.url}>
-                        <span className="material-icons-outlined px-lg">
-                          file_download
-                        </span>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+            <EnhancedTableBody
+              loading={state.requesting}
+              length={sampleData.length}
+            >
+              <div>
+                {state.data?.map((row: Media, index: number) => {
+                  return (
+                    <TableRow hover tabIndex={-1} key={`import-data-${index}`}>
+                      <TableCell align="center" padding="checkbox">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>
+                        {row.createdAt &&
+                          format(new Date(row.createdAt), "dd/MM/yyyy")}
+                      </TableCell>
+                      <TableCell
+                        className={
+                          row.isSuccess ? classes.success : classes.failed
+                        }
+                      >
+                        {row.isSuccess ? "Success" : "Failed"}
+                      </TableCell>
+                      <TableCell>{row.description || "--"}</TableCell>
+                      <TableCell
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <Button variant="outlined" href={row.url}>
+                          <span className="material-icons-outlined px-lg">
+                            file_download
+                          </span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ) as ReactElement;
+                })}
+              </div>
+            </EnhancedTableBody>
           </Table>
         </TableContainer>
         <TablePagination
@@ -246,6 +254,10 @@ const useStyles = makeStyles((theme: Theme) =>
     failed: {
       color: "#de2c00",
       fontWeight: 600,
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
     },
   })
 );

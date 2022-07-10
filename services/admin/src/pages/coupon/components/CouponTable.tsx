@@ -207,9 +207,12 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                     <TableCell>{row.code}</TableCell>
                     <TableCell>
                       <img
-                        src={row.imageUrl || "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"}
+                        src={
+                          row.imageUrl ||
+                          "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"
+                        }
                         alt="meida"
-                        style={{width: "50px"}}
+                        style={{ width: "50px" }}
                       />
                     </TableCell>
                     <TableCell>{row.description}</TableCell>

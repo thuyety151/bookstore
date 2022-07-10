@@ -99,12 +99,16 @@ const ProductPage: React.FC = () => {
 
   const onSearch = (e: string) => {
     setKeywords(e);
-  }
+  };
 
   return (
     <div className={classes.root}>
       <HeaderPage title="Products" />
-      <FilterContainer onAdd={onAdd} onSearch={onSearch} />
+      <FilterContainer
+        onAdd={onAdd}
+        onSearch={onSearch}
+        placeholderSearch="Search by name"
+      />
       <Grid container className={clsx(classes.actionsContainer, "pb-lg mt-md")}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
           <AntTab label="All" value="" />
