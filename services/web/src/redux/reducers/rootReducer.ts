@@ -21,6 +21,7 @@ import languageReducer from "./languageReducer";
 import attributeReducer from "./attributeReducer";
 import wishlistReducer from "./wishlistReducer";
 import couponsReducer from "./couponsReducer";
+import shopLocationReducer from "./shopLocationReducer";
 import flattenCategoryReducer from "./books-for-sale/flattenCategoryReducer";
 
 const rootReducer = combineReducers({
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   attributes: attributeReducer,
   wishlist: wishlistReducer,
   coupons: couponsReducer,
+  shopLocation:shopLocationReducer,
   flattenCategories: flattenCategoryReducer,
 });
 

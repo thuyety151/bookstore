@@ -22,6 +22,7 @@ export const ROUTE_BOOKS_FOR_SALE_AUTHOR =
   "/books-for-sale-author/:predicate/:authorId";
 export const ROUTE_BOOKS_FOR_SALE_CATE = "/books-for-sale-category/:categoryId";
 export const ROUTE_WISHLIST = "/wishlist";
+export const ROUTE_LOCATION = "/location";
 export const ROUTE_AUTHOR_DETAIL = "/author/:id";
 
 export type RouteConfig = {
@@ -56,6 +57,7 @@ export const PRIVATE_ROUTES = {
   [ROUTE_BOOKS_FOR_SALE_CATE]: { permissions: [] },
   [ROUTE_BOOKS_FOR_SALE_AUTHOR]: { permissions: [] },
   [ROUTE_WISHLIST]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
+  [ROUTE_LOCATION]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
   [ROUTE_AUTHOR_DETAIL]: { permissions: [] },
 };
 
