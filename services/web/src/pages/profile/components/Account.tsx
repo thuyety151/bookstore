@@ -184,14 +184,14 @@ export default function MyAccount() {
                 </Button>
               </Paper>
               <Paper className={classes.paper} variant="outlined">
-                <Button className={classes.box} onClick={() => setValue(4)}>
+                <Button className={classes.box} onClick={() => setValue(3)}>
                   <PersonOutlineIcon className={classes.icon} />
                 </Button>
               </Paper>
             </Grid>
             <Grid container direction="row" className={classes.gridContainer}>
               <Paper className={classes.paper} variant="outlined">
-                <Button className={classes.box} onClick={() => setValue(5)}>
+                <Button className={classes.box} onClick={() => setValue(4)}>
                   <FavoriteBorderIcon className={classes.icon} />
                 </Button>
               </Paper>
