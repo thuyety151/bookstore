@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { Coupon } from "../../../model/coupon";
 import { setSelectedCoupon } from "../../../redux/actions/coupon/applyCouponAction";
 import { saveCoupon } from "../../../redux/actions/coupon/saveCouponAction";
+import couponDefaultImage from "../../../assets/images/default-coupon.jpeg";
 
 const useStyles = makeStyles({
   root: {
@@ -94,7 +95,7 @@ export default function CouponCard(props: { coupon: Coupon , isUserCoupon: boole
           <Grid item>
             <img
               className={classes.media}
-              src={props.coupon.imageUrl}
+              src={props.coupon.imageUrl ?? couponDefaultImage}
               alt={props.coupon.description}
             />
           </Grid>

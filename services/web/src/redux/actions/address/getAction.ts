@@ -25,8 +25,9 @@ export const getDistrict = (provinceId: number) => async (dispatch: any) => {
   });
   if (!provinceId) {
     dispatch({
-      type: NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
-        .GET_DISTRICT_BY_PROVINCE_ID_SUCCESS,
+      type:
+        NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
+          .GET_DISTRICT_BY_PROVINCE_ID_SUCCESS,
       data: [],
     });
     return;
@@ -36,14 +37,16 @@ export const getDistrict = (provinceId: number) => async (dispatch: any) => {
   );
   if (response.status === 200) {
     dispatch({
-      type: NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
-        .GET_DISTRICT_BY_PROVINCE_ID_SUCCESS,
+      type:
+        NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
+          .GET_DISTRICT_BY_PROVINCE_ID_SUCCESS,
       data: response.data.data,
     });
   } else {
     dispatch({
-      type: NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
-        .GET_DISTRICT_BY_PROVINCE_ID_FAIL,
+      type:
+        NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
+          .GET_DISTRICT_BY_PROVINCE_ID_FAIL,
       message: response.data.message,
     });
   }
@@ -54,8 +57,8 @@ export const getWard = (districtId: number) => async (dispatch: any) => {
   });
   if (!districtId) {
     dispatch({
-      type: NAME_ACTIONS.GET_WARD_BY_DISTRICT_ID
-        .GET_WARD_BY_DISTRICT_ID_SUCCESS,
+      type:
+        NAME_ACTIONS.GET_WARD_BY_DISTRICT_ID.GET_WARD_BY_DISTRICT_ID_SUCCESS,
       data: [],
     });
     return;
@@ -65,38 +68,44 @@ export const getWard = (districtId: number) => async (dispatch: any) => {
   );
   if (response.status === 200) {
     dispatch({
-      type: NAME_ACTIONS.GET_WARD_BY_DISTRICT_ID
-        .GET_WARD_BY_DISTRICT_ID_SUCCESS,
+      type:
+        NAME_ACTIONS.GET_WARD_BY_DISTRICT_ID.GET_WARD_BY_DISTRICT_ID_SUCCESS,
       data: response.data.data,
     });
   } else {
     dispatch({
-      type: NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
-        .GET_DISTRICT_BY_PROVINCE_ID_FAIL,
+      type:
+        NAME_ACTIONS.GET_DISTRICT_BY_PROVINCE_ID
+          .GET_DISTRICT_BY_PROVINCE_ID_FAIL,
       message: response.data.message,
     });
   }
 };
 
 type getDefaultAddressProps = {
-  onSuccess: (defaultAddresss : Address) => void
+  onSuccess: (defaultAddresss: Address) => void;
 };
-export const getDefaultAddress = (props : getDefaultAddressProps) => async (dispatch: any) => {
-  try {
-    dispatch({ type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT });
-    const response = await api.get("/addresses/get-default");
-    if (response.data) {
+export const getDefaultAddress = (props: getDefaultAddressProps) => async (
+  dispatch: any
+) => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    try {
+      dispatch({ type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT });
+      const response = await api.get("/addresses/get-default");
+      if (response.data) {
+        dispatch({
+          type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
+          data: response.data?.value,
+        });
+        props.onSuccess(response.data?.value);
+      }
+    } catch (error: any) {
       dispatch({
-        type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_SUCCESS,
-        data: response.data?.value,
+        type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_FAIL,
+        message: error.message,
       });
-      props.onSuccess(response.data?.value);
     }
-  } catch (error: any) {
-    dispatch({
-      type: NAME_ACTIONS.GET_DEFAULT.GET_DEFAULT_FAIL,
-      message: error.message,
-    });
   }
 };
 

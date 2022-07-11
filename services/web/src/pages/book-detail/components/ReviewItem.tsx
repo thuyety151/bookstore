@@ -35,7 +35,7 @@ export default function ReviewItem({ review }: Props) {
   return (
     <div className={classes.root}>
       <Grid container direction="column" spacing={2}>
-        <Grid container alignItems="center" style={{ gap: 8 }}>
+        <Grid container alignItems="center" style={{ gap: 8 , marginTop: 15}}>
           <Avatar
             src={review.avatarUrl || "assetes/icons/default-avatar.png"}
           />
