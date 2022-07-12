@@ -78,7 +78,7 @@ namespace Application.Books.Import
                         {
                             break;
                         }
-                        var imgUrls = item.ItemArray[7].ToString()!.Split(",").ToList();
+                        var imgUrls = item.ItemArray[8].ToString()!.Split(",").ToList();
 
                         // create medias
                         var listMedia = imgUrls.Select(url => new Media()
@@ -123,11 +123,16 @@ namespace Application.Books.Import
                         book.Categories = new List<BookCategory>();
                         book.Attributes = new List<BookAttribute>();
                         book.Media = _context.Media.Where(x => listMedia.Select(m => m.Id).Contains(x.Id)).ToList();
-                        book.IsPublic = (bool) item.ItemArray[8] || item.ItemArray[8].ToString()!.ToLower() == "true";
-                        book.Dimensions = item.ItemArray[27].ToString();
-                        book.Publisher = item.ItemArray[28].ToString();
-                        book.PublicationCountry = item.ItemArray[29].ToString();
-                        book.PublicationDate = DateTime.Parse(item.ItemArray[30].ToString()!);
+                        book.Author = _context.Authors.FirstOrDefault(x => x.Id == Guid.Parse(item.ItemArray[7].ToString()));
+                        if (book.Author == null)
+                        {
+                            throw new InvalidOperationException("Author doesnt exist");
+                        }
+                        book.IsPublic = (bool) item.ItemArray[9] || item.ItemArray[9].ToString()!.ToLower() == "true";
+                        book.Dimensions = item.ItemArray[25].ToString();
+                        book.Publisher = item.ItemArray[26].ToString();
+                        book.PublicationCountry = item.ItemArray[27].ToString();
+                        book.PublicationDate = DateTime.Parse(item.ItemArray[28].ToString()!);
                         book.CreateDate = DateTime.Now;
                         book.UpdateDate = DateTime.Now;
                         var categoryIds = item.ItemArray[6].ToString()!.Split(",").Select(x => x.Trim()).ToList();
@@ -142,62 +147,28 @@ namespace Application.Books.Import
                             book.Categories.Add(bookCategory);
                         }
                         // Add attributes
-                        if (item.ItemArray[9].ToString() != "")
+                        int[] startAtIndexs = { 10,15,21};
+                        foreach (var startIndex in startAtIndexs)
                         {
-                            string? errorMsg= CheckAttribute(item, 9, row.IndexOf(item));
-                            if (errorMsg != null)
+                            if (item.ItemArray[startIndex].ToString() != "")
                             {
-                                throw new InvalidOperationException(errorMsg);
+                                string? errorMsg= CheckAttribute(item, startIndex, row.IndexOf(item));
+                                if (errorMsg != null)
+                                {
+                                    throw new InvalidOperationException(errorMsg);
+                                }
+                                // ADD PAPERBACK
+                                book.Attributes.Add(new BookAttribute()
+                                {
+                                    BookId = book.Id,
+                                    AttributeId = _context.Attributes.FirstOrDefault(x => x.Name.Contains("Paperback"))!.Id,
+                                    Price = Double.Parse(item.ItemArray[startIndex].ToString() ?? string.Empty),
+                                    SalePrice = Double.Parse(item.ItemArray[startIndex+1].ToString() ?? "0"),
+                                    TotalStock = Int32.Parse(item.ItemArray[startIndex+2].ToString() ?? "0"),
+                                    SalePriceStartDate = DateTime.Parse(item.ItemArray[startIndex+3].ToString() ?? string.Empty),
+                                    SalePriceEndDate = DateTime.Parse(item.ItemArray[startIndex+4].ToString() ?? string.Empty),
+                                });
                             }
-                            // ADD PAPERBACK
-                            book.Attributes.Add(new BookAttribute()
-                            {
-                                BookId = book.Id,
-                                AttributeId = _context.Attributes.FirstOrDefault(x => x.Name.Contains("Paperback"))!.Id,
-                                Price = Double.Parse(item.ItemArray[10].ToString() ?? string.Empty),
-                                SalePrice = Double.Parse(item.ItemArray[11].ToString() ?? "0"),
-                                TotalStock = Int32.Parse(item.ItemArray[12].ToString() ?? "0"),
-                                SalePriceStartDate = DateTime.Parse(item.ItemArray[13].ToString() ?? string.Empty),
-                                SalePriceEndDate = DateTime.Parse(item.ItemArray[14].ToString() ?? string.Empty),
-                            });
-                        }
-                        if (item.ItemArray[15].ToString() != "")
-                        {
-                            string? errorMsg= CheckAttribute(item, 15, row.IndexOf(item));
-                            if (errorMsg != null)
-                            {
-                                throw new InvalidOperationException(errorMsg);
-                            }
-                            // ADD KINDLEBOOK
-                            book.Attributes.Add(new BookAttribute()
-                            {
-                                BookId = book.Id,
-                                Attribute = _context.Attributes.FirstOrDefault(x => x.Name.Contains("Kindle")),
-                                Price = Double.Parse(item.ItemArray[16].ToString() ?? string.Empty),
-                                SalePrice = Double.Parse(item.ItemArray[17].ToString() ?? string.Empty),
-                                TotalStock = Int32.Parse(item.ItemArray[18].ToString() ?? string.Empty),
-                                SalePriceStartDate = DateTime.Parse(item.ItemArray[19].ToString() ?? string.Empty),
-                                SalePriceEndDate = DateTime.Parse(item.ItemArray[20].ToString() ?? string.Empty),
-                            });
-                        }
-                        if (item.ItemArray[21].ToString() != "")
-                        {
-                            string? errorMsg= CheckAttribute(item, 21, row.IndexOf(item));
-                            if (errorMsg != null)
-                            {
-                                throw new InvalidOperationException(errorMsg);
-                            }
-                            // ADD HARDCOVER
-                            book.Attributes.Add(new BookAttribute()
-                            {
-                                BookId = book.Id,
-                                Attribute = _context.Attributes.FirstOrDefault(x => x.Name.Contains("Hardcover")),
-                                Price = Double.Parse(item.ItemArray[22].ToString() ?? string.Empty),
-                                SalePrice = Double.Parse(item.ItemArray[23].ToString() ?? string.Empty),
-                                TotalStock = Int32.Parse(item.ItemArray[24].ToString() ?? string.Empty),
-                                SalePriceStartDate = DateTime.Parse(item.ItemArray[25].ToString() ?? string.Empty),
-                                SalePriceEndDate = DateTime.Parse(item.ItemArray[26].ToString() ?? string.Empty),
-                            });
                         }
                         if (item.ItemArray[1].ToString() == "")
                         {
@@ -206,7 +177,6 @@ namespace Application.Books.Import
                         else
                         {
                             await _context.SaveChangesAsync(cancellationToken);
-
                         }
                     }
                     await _context.AddRangeAsync(listBookToAdd, cancellationToken);
@@ -235,16 +205,16 @@ namespace Application.Books.Import
         {
             // Is Public is not null
             // return item.ItemArray[8] != null;
-            if (item.ItemArray[8] == null)
+            if (item.ItemArray[9] == null)
             {
                 return "Got error at column 7 row "+ rowIndex;
             }
-            if (DateTime.TryParse(item.ItemArray[30].ToString(),out DateTime Temp)==false)
+            if (DateTime.TryParse(item.ItemArray[28].ToString(),out DateTime Temp)==false)
             {
-                return "Got error at column 7 row "+ rowIndex;
+                return "Got error at column 29 row "+ rowIndex;
             }
             // Required
-            int[] requiredIndex = { 2, 3, 4, 5, 6, 7, };
+            int[] requiredIndex = { 2, 3, 4, 5, 6, 7, 8};
 
             foreach (var index in requiredIndex)
             {
@@ -258,22 +228,22 @@ namespace Application.Books.Import
         }
         private static String? CheckAttribute(DataRow item,int indexStart,int rowIndex)
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 try
                 {
                     switch (i)
                     {
+                        case 0 :
                         case 1:
-                        case 2:
                             double.Parse(item.ItemArray[i + indexStart].ToString()!);
 
                             break;
-                        case 3:
+                        case 2:
                             int.Parse(item.ItemArray[i + indexStart].ToString()!);
                             break;
+                        case 3:
                         case 4:
-                        case 5:
                             DateTime.Parse(item.ItemArray[i + indexStart].ToString()!);
                             break;
                     }

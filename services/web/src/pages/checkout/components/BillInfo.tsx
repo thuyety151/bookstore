@@ -44,6 +44,9 @@ import momo from "../../../assets/icons/momo_icon_circle_pinkbg.svg";
 import StockStatus from "../../../shared/enum/stockStatus";
 import { sum } from "lodash";
 import { DiscountType } from "../../../model/coupon";
+import { getDefaultAddress } from "../../../redux/actions/address/getAction";
+import { getServices } from "../../../redux/actions/delivery/getAction";
+import { getFee } from "../../../redux/actions/order/getActions";
 
 type Props = {
   note: string;
@@ -56,8 +59,8 @@ export default function BillInfo(props: Props) {
 
   //Selector
   const cart = useSelector((state: RootStore) => state.cart);
-  const currentAddress = useSelector(
-    (state: RootStore) => state.address.currentAddress
+  const { currentAddress, requesting } = useSelector(
+    (state: RootStore) => state.address
   );
   const loading = useSelector((state: RootStore) => state.order.requesting);
 
@@ -142,20 +145,20 @@ export default function BillInfo(props: Props) {
     /**
      * get fee based on default address
      */
-    // dispatch(
-    //   getServices({
-    //     onSuccess: () => {
-    //       if (!fee) {
-    //         dispatch(
-    //           getFee({
-    //             onSuccess: () => {},
-    //             onFailure: () => {},
-    //           })
-    //         );
-    //       }
-    //     },
-    //   })
-    // );
+    dispatch(
+      getServices({
+        onSuccess: () => {
+          if (!fee) {
+            dispatch(
+              getFee({
+                onSuccess: () => {},
+                onFailure: () => {},
+              })
+            );
+          }
+        },
+      })
+    );
     calCouponAmount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemToCheckout]);
@@ -164,6 +167,11 @@ export default function BillInfo(props: Props) {
     if (!itemToCheckout.length) {
       dispatch(getPageCart());
     }
+    dispatch(
+      getDefaultAddress({
+        onSuccess: () => {},
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -394,7 +402,7 @@ export default function BillInfo(props: Props) {
         />
       </Grid>
       <Dialog
-        open={!currentAddress?.id ? true : false}
+        open={!currentAddress?.id && !requesting ? true : false}
         // onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
