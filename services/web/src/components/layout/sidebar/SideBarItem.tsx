@@ -5,7 +5,7 @@ import { generatePath, useHistory } from "react-router-dom";
 import { SidebarCategoryResponse } from "../../../model/category";
 import { getSub } from "../../../redux/actions/category/getAction";
 import { RootStore } from "../../../redux/store";
-import { ROUTE_BOOKS_FOR_SALE_CATE } from "../../../routers/types";
+import { ROUTE_BOOKS_FOR_SALE } from "../../../routers/types";
 
 const ChildSideBarComponent: React.FC<{
   idCategory: string;
@@ -35,10 +35,18 @@ const ChildSideBarComponent: React.FC<{
         })
       );
     } else {
+      if (window.location.pathname.includes("books-for-sale")) {
+        window.location.reload();
+      }
       handleChildNavigate();
-      history.push(
-        generatePath(ROUTE_BOOKS_FOR_SALE_CATE, { categoryId: item.id })
-      );
+      history.push({
+        pathname: generatePath(ROUTE_BOOKS_FOR_SALE, {
+          predicate: "popular",
+        }),
+        state: {
+          categoryId: item.id,
+        },
+      });
     }
   };
   return (

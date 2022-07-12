@@ -154,6 +154,7 @@ const useStyles = makeStyles((theme: Theme) =>
     image: {
       maxHeight: "10rem",
       width: "100%",
+      minWidth: "7rem",
       height: "auto",
     },
     paper: {
@@ -167,6 +168,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderColor: "#000",
         zIndex: 1,
       },
+      minWidth: "20rem",
     },
     name: {
       fontWeight: 700,

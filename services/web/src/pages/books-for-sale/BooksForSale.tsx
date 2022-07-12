@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { RootStore } from "../../redux/store";
 import ListBookForSale from "./ListBookForSale";
 import AddIcon from "@material-ui/icons/Add";
@@ -64,7 +64,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   /*-------------------------------Desktop Filter--------------------------------*/
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { predicate, categoryId } = useParams() as any;
+  const { predicate } = useParams() as any;
   //Selector
   const categories = useSelector((state: RootStore) => state.categoryBfs.data);
   const languages = useSelector((state: RootStore) => state.languages.data);
@@ -75,7 +75,8 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     (state: RootStore) => state.flattenCategories.data
   );
   const { keywords } = useSelector((state: RootStore) => state.books);
-
+  const location: any = useLocation();
+  const history = useHistory();
   //State
   const [isOpen, setOpen] = useState({
     category: true,
@@ -88,17 +89,16 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
   });
 
   const initBookFilterParams: filterParams = {
-    categoryIds: categoryId || "",
-    authorIds: "",
+    categoryIds: location.state?.categoryId || "",
+    authorIds: location.state?.authorId || "",
     languageIds: "",
     attributeIds: "",
     minPrice: 0,
     maxPrice: 500,
     rates: "",
   };
-  const [bookFilterParams, setBookFilterParams] = useState(
-    initBookFilterParams
-  );
+  const [bookFilterParams, setBookFilterParams] =
+    useState(initBookFilterParams);
 
   const initChipFilterParams: filterChips = {
     authorChips: [],
@@ -108,13 +108,23 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
     categoryChips: [],
   };
 
-  const initCheckedCategory: string [] = categoryId ? [categoryId] : [];
+  useEffect(() => {
+    if (location.state?.authorId) {
+      const index = authours.map((x, index) =>
+        x.id === location.state?.authorId ? index : null
+      );
+      handleAuthorChange(index.find((x) => Boolean(x))?.toString() || "-1");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
+  const initCheckedCategory: string[] = location.state?.categoryId
+    ? [location.state.categoryId]
+    : [];
 
   const [checkedCategory, setCheckedCategory] = useState(initCheckedCategory);
 
-  const [chipFilterParams, setChipFilterParams] = useState(
-    initChipFilterParams
-  );
+  const [chipFilterParams, setChipFilterParams] =
+    useState(initChipFilterParams);
 
   const [authorsCheckedState, setAuthorsCheckedState] = useState(
     new Array(authours.length).fill(false)
@@ -350,6 +360,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
       })
     );
     handleCategoryChange(checkedCategory);
+    history.replace({ state: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

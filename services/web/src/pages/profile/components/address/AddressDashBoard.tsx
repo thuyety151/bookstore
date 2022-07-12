@@ -62,7 +62,7 @@ const AddressDashboard: React.FC = () => {
           <Grid container justifyContent="space-between">
             <Typography variant="h6">New address</Typography>
             <Button
-              style={{ justifyContent: "end", minWidth: "0px" }}
+              style={{ justifyContent: "flex-end", minWidth: "0px" }}
               onClick={() => setOpenAddAddress(false)}
             >
               <CloseIcon />

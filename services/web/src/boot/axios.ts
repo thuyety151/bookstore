@@ -20,7 +20,6 @@ api.interceptors.response.use(
   },
   async (error) => {
     const history = createBrowserHistory();
-    console.log("h:" + history.location.pathname);
 
     if (error.response?.status === 401 && history.location.pathname !== '/login') {
       const history = createBrowserHistory({ forceRefresh: true });
