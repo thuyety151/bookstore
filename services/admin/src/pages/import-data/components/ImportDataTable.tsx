@@ -156,9 +156,9 @@ const ImportDataTable: React.FC<{ keywords: string }> = (props) => {
             />
             <EnhancedTableBody
               loading={state.requesting}
-              length={sampleData.length}
+              length={state.data.length}
             >
-              <div>
+              <>
                 {state.data?.map((row: Media, index: number) => {
                   return (
                     <TableRow hover tabIndex={-1} key={`import-data-${index}`}>
@@ -168,7 +168,7 @@ const ImportDataTable: React.FC<{ keywords: string }> = (props) => {
                       <TableCell>{row.name}</TableCell>
                       <TableCell>
                         {row.createdAt &&
-                          format(new Date(row.createdAt), "dd/MM/yyyy")}
+                          format(new Date(row.createdAt), "HH:mm dd/MM/yyyy")}
                       </TableCell>
                       <TableCell
                         className={
@@ -190,7 +190,7 @@ const ImportDataTable: React.FC<{ keywords: string }> = (props) => {
                     </TableRow>
                   ) as ReactElement;
                 })}
-              </div>
+              </>
             </EnhancedTableBody>
           </Table>
         </TableContainer>

@@ -1,13 +1,13 @@
 import { Avatar, Grid, SvgIcon, Typography } from "@material-ui/core";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { generatePath, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import BookItem from "../../components/homepage/feature-books/BookItem";
 import { getAuthorById } from "../../redux/actions/author/getActions";
 import { RootStore } from "../../redux/store";
 import "./styles.scss";
 import { ReactComponent as Icon } from "../../assets/images/themifyIcon/angle-right.svg";
-import { ROUTE_BOOKS_FOR_SALE_AUTHOR } from "../../routers/types";
+import { ROUTE_BOOKS_FOR_SALE } from "../../routers/types";
 
 const AuthorDetail: React.FC = () => {
   const history = useHistory();
@@ -44,12 +44,12 @@ const AuthorDetail: React.FC = () => {
           item
           className="view-all"
           onClick={() =>
-            history.push(
-              generatePath(ROUTE_BOOKS_FOR_SALE_AUTHOR, {
-                predicate: "popular",
-                authorId: detail?.id || "",
-              })
-            )
+            history.push({
+              pathname: ROUTE_BOOKS_FOR_SALE,
+              state: {
+                authorId: detail?.id,
+              },
+            })
           }
         >
           <Typography variant="subtitle1" gutterBottom>

@@ -3,16 +3,13 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { color } from "../../../model/category";
-import { generatePath, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
 import { Skeleton } from "@material-ui/lab";
 import "./styles.scss";
 import clsx from "clsx";
-import {
-  ROUTE_BOOKS_FOR_SALE,
-  ROUTE_BOOKS_FOR_SALE_CATE,
-} from "../../../routers/types";
+import { ROUTE_BOOKS_FOR_SALE } from "../../../routers/types";
 import { getCategoriesForHomepage } from "../../../redux/actions/category/getAction";
 
 function Categories() {
@@ -22,7 +19,12 @@ function Categories() {
   const rootCategoryState = useSelector((state: RootStore) => state.category);
 
   const handleNavigateToCate = (id: string) => {
-    history.push(generatePath(ROUTE_BOOKS_FOR_SALE_CATE, { categoryId: id }));
+    history.push({
+      pathname: ROUTE_BOOKS_FOR_SALE,
+      state: {
+        categoryId: id,
+      },
+    });
   };
   useEffect(() => {
     dispatch(getCategoriesForHomepage());

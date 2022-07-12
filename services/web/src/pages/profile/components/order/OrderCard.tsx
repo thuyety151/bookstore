@@ -68,7 +68,7 @@ const OrderCard: React.FC<{
                 </Grid>
                 <Grid item xs={2} className="order-card__item__price">
                   <Typography align="right">${item.price}</Typography>
-                  {!item.isReviewed && (
+                  {!item.isReviewed && order.status !== "Cancel" && (
                     <Button
                       variant="outlined"
                       disableRipple

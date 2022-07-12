@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#fff",
       display: "flex",
       width: "100%",
-      justifyContent: "end",
+      justifyContent: "flex-end",
       opacity: 0.7,
       cursor: "pointer",
     },

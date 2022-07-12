@@ -1,5 +1,4 @@
 import { TableBody } from "@material-ui/core";
-import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
 const EnhancedTableBody: React.FC<{
@@ -12,7 +11,7 @@ const EnhancedTableBody: React.FC<{
     <TableBody>
       {!loading && !length ? (
         <TableRow>
-          <TableCell>No data</TableCell>
+          <div className="px-lg pt-lg">No data</div>
         </TableRow>
       ) : (
         typeof props.children !== "undefined" && props.children

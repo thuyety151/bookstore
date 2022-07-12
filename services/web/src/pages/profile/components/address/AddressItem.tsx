@@ -121,7 +121,7 @@ const AddressItem: React.FC<Address> = (address) => {
           <Grid container justifyContent="space-between">
             <Typography variant="h6">Edit address</Typography>
             <Button
-              style={{ justifyContent: "end", minWidth: "0px" }}
+              style={{ justifyContent: "flex-end", minWidth: "0px" }}
               onClick={() => setOpenDialog(false)}
             >
               <CloseIcon />
