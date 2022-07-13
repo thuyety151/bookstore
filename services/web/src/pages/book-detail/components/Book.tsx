@@ -162,7 +162,7 @@ export default function DetailBook() {
                 </Grid>
 
                 <Grid item>
-                  {attribute && (
+                  {attribute && attribute.salePrice === 0 ? (
                     <Typography
                       gutterBottom
                       variant="h5"
@@ -170,6 +170,25 @@ export default function DetailBook() {
                     >
                       {attribute.price} $
                     </Typography>
+                  ) : (
+                    <>
+                      <Grid className={classes.priceSection}>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          className={classes.text}
+                        >
+                          {attribute.salePrice} $
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          className={classes.crossPrice}
+                        >
+                          {attribute.price} $
+                        </Typography>
+                      </Grid>
+                    </>
                   )}
                 </Grid>
 
@@ -330,5 +349,14 @@ const useStyles = makeStyles((theme: Theme) =>
         textAlign: "justify",
       },
     },
+    priceSection: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    crossPrice: {
+      textDecoration: "line-through",
+      color: 'gray',
+      marginLeft: 10
+    }
   })
 );
