@@ -168,7 +168,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderColor: "#000",
         zIndex: 1,
       },
-      minWidth: "20rem",
+      minWidth: "11rem",
     },
     name: {
       fontWeight: 700,
