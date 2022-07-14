@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
 import { addToWL } from "../../../redux/actions/wishlist/postActions";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
 
 const BookItem: React.FC<{ item: Book }> = (props) => {
   const { item } = props;
@@ -49,6 +50,7 @@ const BookItem: React.FC<{ item: Book }> = (props) => {
         },
         onSuccess: () => {
           enqueueSnackbar("Add to cart successfully!", { variant: "success" });
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });

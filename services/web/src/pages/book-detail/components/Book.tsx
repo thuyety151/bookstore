@@ -22,6 +22,7 @@ import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import BookImages from "./BookImages";
 import { addToWL } from "../../../redux/actions/wishlist/postActions";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
 
 export default function DetailBook() {
   const classes = useStyles();
@@ -96,6 +97,7 @@ export default function DetailBook() {
         item,
         onSuccess: () => {
           enqueueSnackbar("Add to cart successfully!", { variant: "success" });
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -189,7 +191,7 @@ export default function DetailBook() {
                       variant="h5"
                       className={classes.text}
                     >
-                      {attribute.price} $
+                      {attribute?.price } $
                     </Typography>
                   )}
                 </Grid>
