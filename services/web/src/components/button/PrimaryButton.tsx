@@ -23,6 +23,7 @@ const PrimaryButton: React.FC<{
         fullWidth
         className={classes.btn}
         {...props}
+        disabled = {loading}
       >
         {loading ? <CircularProgress /> : text}
       </Button>

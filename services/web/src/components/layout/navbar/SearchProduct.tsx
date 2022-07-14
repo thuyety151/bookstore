@@ -103,13 +103,13 @@ const SearchProduct: React.FC = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder="Search by Keywords"
+            placeholder="Search..."
             classes={{
               root: classes.inputInput,
             }}
             variant="standard"
             onKeyDown={onSearch}
-            style={{ paddingLeft: 8, width: 380 }}
+            style={{ paddingLeft: 8}}
             value={value}
             InputProps={{
               ...params.InputProps,
