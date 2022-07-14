@@ -33,7 +33,7 @@ const SlideEffect: React.FC = () => {
         <AliceCarousel
           mouseTracking
           autoPlay
-          autoPlayInterval={1000}
+          autoPlayInterval={3000}
           infinite
           disableDotsControls
           items={items}
