@@ -39,6 +39,7 @@ import SelectedFilters from "./components/SelectedFilters";
 import PriceFilter from "./components/PriceFilter";
 import ReviewFilter from "./components/ReviewFilter";
 import CategorySelectTreeView from "./components/CategorySelectTreeView";
+import ClearIcon from '@material-ui/icons/Clear';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
@@ -415,10 +416,10 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
               variant="contained"
               color="secondary"
               size="medium"
-              style={{ marginLeft: "110px" }}
+              style={{ marginLeft: "110px" , textTransform: 'none'}}
               onClick={handleClearAllFilter}
             >
-              Clear all filter
+              <ClearIcon fontSize="small"/>Clear filters
             </Button>
             <Grid container direction="column" className={classes.grid}>
               <Collapse in={isOpen.category} collapsedSize={82}>
@@ -637,7 +638,7 @@ const BooksForSalePage: React.FunctionComponent<{}> = (props) => {
           style={{ width: 200, textTransform: "none" }}
           onClick={handleClearAllFilter}
         >
-          Clear all filter
+          Clear filters
         </Button>
         <Grid container>
           <Grid container direction="column">

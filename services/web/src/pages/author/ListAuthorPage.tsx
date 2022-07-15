@@ -50,7 +50,7 @@ const ListAuthorPage: React.FC = () => {
           {author.name}
         </Typography>
         <Typography variant="caption" gutterBottom color="inherit">
-          {author.totalBook || 0} Publish Books
+          {author.count} Publish Books
         </Typography>
       </CardContent>
     </Card>
@@ -94,7 +94,7 @@ const ListAuthorPage: React.FC = () => {
           ))}
         </Grid>
 
-        <Grid container>
+        <Grid container className ={ classes.listAuthors}>
           {listAuthor.length > 0 ? (
             listAuthor.map((author) => AuthorCard(author))
           ) : (
@@ -128,6 +128,7 @@ const useStyles = makeStyles({
     boxShadow: "none",
     padding: "16px",
     justifyItems: "center",
+    cursor: 'pointer'
   },
   media: {
     height: 140,
@@ -137,6 +138,9 @@ const useStyles = makeStyles({
   },
   emptyImg: {
     height: 500,
+  },
+  listAuthors:{
+    justifyContent: 'center'
   },
   pagination: {
     display: "flex",
