@@ -1,4 +1,5 @@
 using System;
+using Domain;
 
 namespace Application.Coupons.Admin
 {
@@ -12,5 +13,8 @@ namespace Application.Coupons.Admin
         public DateTime ExpireDate { get; set; }
         public string ImageUrl { get; set; }
         public double MinSpend { get; set; }
+        public bool IsUsed { get; set; }
+        public bool IsExpired { get; set; }
+        public Media Media { get; set; }
     }
 }

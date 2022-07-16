@@ -1,15 +1,24 @@
 import { Divider, Grid } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../../assets/images/book-worm.png";
 import FooterContactComponent from "./FooterContactInfo";
 import footerData from "../../../mocks/footer";
 import FooterBottomComponent from "./FooterBottom";
 import clsx from "clsx";
 import "./styles.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { getShopLocation } from "../../../redux/actions/shopLocation/getActions";
+import { RootStore } from "../../../redux/store";
 
 const FooterComponent: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { data } = useSelector((state: RootStore) => state.shopLocation);
+
+  useEffect(() => {
+    dispatch(getShopLocation());
+  }, [dispatch]);
 
   return (
     <div className={clsx(classes.root, "footer")}>
@@ -38,9 +47,7 @@ const FooterComponent: React.FC = () => {
             />
             <Grid container className="footer__shop-info address">
               <Grid item>
-                <span>
-                  1418 River Drive, Suite 35 Cottonhall, CA 9622 United States
-                </span>
+                <span>{data?.FullAddress}</span>
               </Grid>
 
               <Grid item style={{ display: "grid" }}>

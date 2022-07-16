@@ -10,6 +10,7 @@ export default interface Item {
   price: number;
   quantity: number;
   stockStatus: string;
+  isReviewed: boolean;
 }
 
 export enum ItemStatus {

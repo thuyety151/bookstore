@@ -23,6 +23,11 @@ import { Coupon } from "redux/reducers/couponReducer";
 import { format } from "date-fns";
 import { deleteCoupon } from "redux/actions/coupon/postAction";
 
+export enum ProductStatusEnum {
+  InStock = "Unexpired",
+  OutOfStock = "Expired",
+}
+
 const headCells: HeadCell[] = [
   {
     id: "id",
@@ -36,6 +41,12 @@ const headCells: HeadCell[] = [
     disablePadding: true,
     label: "Code",
     width: "20%",
+  },
+  {
+    id: "image",
+    numeric: false,
+    disablePadding: true,
+    label: "Image",
   },
   {
     id: "description",
@@ -76,9 +87,12 @@ const headCells: HeadCell[] = [
 
 export type CouponTableProps = {
   setModelEdit: any;
+  keywords: string;
+  status: string;
 };
 
 const CouponTable: React.FC<CouponTableProps> = (props) => {
+  const { keywords, status } = props;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -98,6 +112,8 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
             pageIndex: page + 1,
             pageSize: rowsPerPage,
           },
+          predicate: status,
+          keywords,
           onSuccess: () => {},
           onFailure: () => {},
         })
@@ -107,6 +123,10 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
   }, [couponState.success]);
 
   useEffect(() => {
+    if (keywords) {
+      setPage(0);
+    }
+
     dispatch(
       getCouponPagination({
         pagination: {
@@ -114,12 +134,14 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
+        predicate: status,
+        keywords,
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, keywords, status]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -183,6 +205,16 @@ const CouponTable: React.FC<CouponTableProps> = (props) => {
                       {index + 1}
                     </TableCell>
                     <TableCell>{row.code}</TableCell>
+                    <TableCell>
+                      <img
+                        src={
+                          row.imageUrl ||
+                          "https://res.cloudinary.com/dnjhqv3qw/image/upload/v1638976103/cjndkz21bnu9fyw82sao.png"
+                        }
+                        alt="meida"
+                        style={{ width: "50px" }}
+                      />
+                    </TableCell>
                     <TableCell>{row.description}</TableCell>
                     <TableCell>{row.couponAmount}</TableCell>
                     <TableCell>

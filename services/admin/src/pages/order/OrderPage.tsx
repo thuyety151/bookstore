@@ -18,7 +18,7 @@ interface StyledTabProps {
   value?: string;
 }
 
-const AntTabs = withStyles({
+export const AntTabs = withStyles({
   root: {
     borderBottom: "1px solid #e8e8e8",
   },
@@ -27,7 +27,7 @@ const AntTabs = withStyles({
   },
 })(Tabs);
 
-const AntTab = withStyles((theme: Theme) =>
+export const AntTab = withStyles((theme: Theme) =>
   createStyles({
     root: {
       textTransform: "none",
@@ -66,7 +66,7 @@ interface TabPanelProps {
   value: any;
 }
 
-function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: TabPanelProps) {
   const { children, value, ...other } = props;
 
   return (
@@ -84,7 +84,8 @@ function TabPanel(props: TabPanelProps) {
 const OrderPage: React.FC = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState("");
-
+  const [keywords, setKeywords] = React.useState("");
+  const onSearch = (e: string) => setKeywords(e);
   const handleChange = (event: React.ChangeEvent<{}>, newValue: any) => {
     setValue(newValue);
   };
@@ -92,7 +93,10 @@ const OrderPage: React.FC = () => {
   return (
     <div className={classes.root}>
       <HeaderPage title="Orders" />
-      <FilterContainer />
+      <FilterContainer
+        onSearch={onSearch}
+        placeholderSearch="Search by order code"
+      />
       <Grid container className={clsx(classes.actionsContainer, "pt-md")}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
           <AntTab label="All" value="" />
@@ -100,7 +104,7 @@ const OrderPage: React.FC = () => {
           <AntTab label="Cancel" value="Cancel" />
         </AntTabs>
         <TabPanel value={value} key={`order-${value}`}>
-          <OrderTable status={value} />
+          <OrderTable status={value} keywords={keywords} />
         </TabPanel>
       </Grid>
     </div>
@@ -112,7 +116,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: "0 5rem",
     },
-    actionsContainer: {},
+    actionsContainer: {
+      display: "grid",
+    },
     title: {
       padding: theme.spacing(2, 0),
     },

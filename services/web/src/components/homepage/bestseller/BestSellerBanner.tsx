@@ -1,4 +1,5 @@
 import {
+  Button,
   createStyles,
   Grid,
   makeStyles,
@@ -14,6 +15,8 @@ import { ROUTE_BOOK_DETAIL } from "../../../routers/types";
 import { useSnackbar } from "notistack";
 import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
 import { useDispatch } from "react-redux";
+import { addToWL } from "../../../redux/actions/wishlist/postActions";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
 
 const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
   const { item } = props;
@@ -46,6 +49,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
           enqueueSnackbar("Add to cart successfully!", {
             variant: "success",
           });
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -53,8 +57,29 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
       })
     );
   };
+
+  const addToWishlist = () => {
+    dispatch(
+      addToWL({
+        item: {
+          productId: item.id,
+          attributeId: item.attributeId,
+          // TODO: Remove params quantity in BE & FE
+          quantity: 1,
+        },
+        onSuccess: () => {
+          enqueueSnackbar("Add to wishlist successfully!", {
+            variant: "success",
+          });
+        },
+        onFailure: (e) => {
+          enqueueSnackbar(e, { variant: "error" });
+        },
+      })
+    );
+  };
+
   return (
-    // <div className={classes.root}>
     <Paper className={classes.paper} variant="outlined" square>
       <Grid
         container
@@ -66,7 +91,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
         <Grid item onClick={handleNavBook}>
           <img className={classes.image} src={item.pictureUrl} alt="img" />
         </Grid>
-        <Grid item xs container direction="column" className= {classes.grid}>
+        <Grid item xs container direction="column" className={classes.grid}>
           <Grid item>
             <Typography
               gutterBottom
@@ -112,7 +137,9 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
             >
               ADD TO CART
             </Typography>
-            <FavoriteBorderOutlined className={classes.favorite} />
+            <Button onClick={addToWishlist}>
+              <FavoriteBorderOutlined className={classes.favorite} />
+            </Button>
           </Grid>
         </Grid>
       </Grid>
@@ -129,6 +156,7 @@ const useStyles = makeStyles((theme: Theme) =>
     image: {
       maxHeight: "10rem",
       width: "100%",
+      minWidth: "7rem",
       height: "auto",
     },
     paper: {
@@ -141,7 +169,8 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         borderColor: "#000",
         zIndex: 1,
-      }
+      },
+      minWidth: "11rem",
     },
     name: {
       fontWeight: 700,
@@ -193,8 +222,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     grid: {
-      minHeight: 250
-    }
+      minHeight: 250,
+    },
   })
 );
 

@@ -10,28 +10,31 @@ import ShoppingCartPage from "../pages/shoppingcart/ShoppingCartPage";
 import RegisterPage from "../pages/login/RegisterPage";
 import BookDetailPage from "../pages/book-detail/BookDetailPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
-import PlaceOrderPage from "../pages/home/placeOrder/PlaceOrderPage";
+import PlaceOrderPage from "../pages/placeOrder/PlaceOrderPage";
 import BooksForSalePage from "../pages/books-for-sale/BooksForSale";
 
 import {
   ROUTE_AUTHOR,
+  ROUTE_AUTHOR_DETAIL,
   ROUTE_BOOK,
   ROUTE_BOOKS_FOR_SALE,
-  ROUTE_BOOKS_FOR_SALE_CATE,
   ROUTE_BOOK_DETAIL,
   ROUTE_BOOK_DETAIL_ADMIN,
   ROUTE_CART,
   ROUTE_CATEGORY,
   ROUTE_CHECK_OUT,
   ROUTE_HOME,
+  ROUTE_LOCATION,
   ROUTE_LOGIN,
   ROUTE_PLACE_ORDER,
-  ROUTE_PROFILE,
   ROUTE_PROFILE_PREDICATE,
   ROUTE_REGISTER,
   ROUTE_WISHLIST,
 } from "./types";
 import WishlistPage from "../pages/wishlist/WishlistPage";
+import Location from "../pages/location/Location";
+import ListAuthorPage from "../pages/author/ListAuthorPage";
+import AuthorDetail from "../pages/author/AuthorDetail";
 
 export const routes: Route[] = [
   {
@@ -80,7 +83,13 @@ export const routeMainLayout: Route[] = [
     exact: false,
   },
   {
-    path: ROUTE_BOOKS_FOR_SALE_CATE,
+    path: ROUTE_BOOKS_FOR_SALE,
+    name: "Books For Sale",
+    component: BooksForSalePage,
+    exact: false,
+  },
+  {
+    path: ROUTE_BOOKS_FOR_SALE,
     name: "Books For Sale",
     component: BooksForSalePage,
     exact: false,
@@ -98,12 +107,6 @@ export const routeMainLayout: Route[] = [
     exact: true,
   },
   {
-    path: ROUTE_PROFILE,
-    name: "My Account",
-    component: ProfilePage,
-    exact: false,
-  },
-  {
     path: ROUTE_PROFILE_PREDICATE,
     name: "My Account",
     component: ProfilePage,
@@ -112,8 +115,14 @@ export const routeMainLayout: Route[] = [
   {
     path: ROUTE_AUTHOR,
     name: "Author",
-    component: CategoryPage,
+    component: ListAuthorPage,
     exact: false,
+  },
+  {
+    path: ROUTE_AUTHOR_DETAIL,
+    name: "detail",
+    component: AuthorDetail,
+    exact: true,
   },
   {
     path: ROUTE_BOOK,
@@ -167,6 +176,12 @@ export const routeMainLayout: Route[] = [
     path: ROUTE_WISHLIST,
     name: "Cart",
     component: WishlistPage,
+    exact: false,
+  },
+  {
+    path: ROUTE_LOCATION,
+    name: "Location",
+    component: Location,
     exact: false,
   },
   {

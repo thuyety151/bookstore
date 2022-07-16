@@ -30,6 +30,7 @@ export const getAttributes =
 
 export type getPaginationType = {
   pagination: Pagination;
+  keywords: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -37,7 +38,10 @@ export const getAttributePagination =
   (props: getPaginationType) => async (dispatch: any) => {
     dispatch({ type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION });
     const response = await api.get("/attributes/admin", {
-      params: props.pagination,
+      params: {
+        ...props.pagination,
+        keywords: props.keywords,
+      },
     });
 
     if (response.data.isSuccess) {

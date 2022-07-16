@@ -10,6 +10,7 @@ export type getAtributeType = {
 
 export type getPaginationType = {
   pagination: Pagination;
+  keywords: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -18,7 +19,11 @@ export const getAuthorPagination =
   (props: getPaginationType) => async (dispatch: any) => {
     dispatch({ type: ACTION_NAMES.LIST.GET_LIST });
     const response = await api.get("/authors", {
-      params: props.pagination,
+      params: {
+        ...props.pagination,
+        keywords: props.keywords,
+        predicate: "all",
+      },
     });
 
     if (response.data.isSuccess) {

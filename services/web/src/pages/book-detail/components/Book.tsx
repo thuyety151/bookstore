@@ -11,7 +11,6 @@ import {
   Select,
 } from "@material-ui/core";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
-import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../../../redux/store";
@@ -22,6 +21,8 @@ import Item from "../../../model/item";
 import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import BookImages from "./BookImages";
+import { addToWL } from "../../../redux/actions/wishlist/postActions";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
 
 export default function DetailBook() {
   const classes = useStyles();
@@ -96,6 +97,7 @@ export default function DetailBook() {
         item,
         onSuccess: () => {
           enqueueSnackbar("Add to cart successfully!", { variant: "success" });
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -103,6 +105,28 @@ export default function DetailBook() {
       })
     );
   }
+
+  const addToWishlist = () => {
+    dispatch(
+      addToWL({
+        item: {
+          productId: data?.id || "",
+          attributeId: attribute.id,
+          // TODO: Remove params quantity in BE & FE
+          quantity: 1,
+        },
+        onSuccess: () => {
+          enqueueSnackbar("Add to wishlist successfully!", {
+            variant: "success",
+          });
+        },
+        onFailure: (e) => {
+          enqueueSnackbar(e, { variant: "error" });
+        },
+      })
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -140,13 +164,34 @@ export default function DetailBook() {
                 </Grid>
 
                 <Grid item>
-                  {attribute && (
+                  {attribute &&
+                  attribute.salePrice &&
+                  attribute.salePrice > 0 ? (
+                    <>
+                      <Grid className={classes.priceSection}>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          className={classes.text}
+                        >
+                          {attribute.salePrice} $
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          className={classes.crossPrice}
+                        >
+                          {attribute.price} $
+                        </Typography>
+                      </Grid>
+                    </>
+                  ) : (
                     <Typography
                       gutterBottom
                       variant="h5"
                       className={classes.text}
                     >
-                      {attribute.price} $
+                      {attribute?.price } $
                     </Typography>
                   )}
                 </Grid>
@@ -215,6 +260,7 @@ export default function DetailBook() {
                     container
                     direction="row"
                     className={classes.favorite}
+                    onClick={addToWishlist}
                   >
                     <Grid item>
                       <FavoriteBorderOutlined />
@@ -222,22 +268,6 @@ export default function DetailBook() {
                     <Grid item>
                       <Typography gutterBottom variant="body1">
                         Add to Wishlist
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    container
-                    direction="row"
-                    className={classes.favorite}
-                  >
-                    <Grid item>
-                      <ShareOutlinedIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography gutterBottom variant="body1">
-                        Share
                       </Typography>
                     </Grid>
                   </Grid>
@@ -322,6 +352,15 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 350,
         textAlign: "justify",
       },
+    },
+    priceSection: {
+      display: "flex",
+      alignItems: "center",
+    },
+    crossPrice: {
+      textDecoration: "line-through",
+      color: "gray",
+      marginLeft: 10,
     },
   })
 );

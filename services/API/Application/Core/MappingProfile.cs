@@ -45,8 +45,10 @@ namespace Application.Core
             CreateMap<Domain.Attribute, AttributeDto>();
             CreateMap<Domain.Coupon, CouponDto>()
                 .ForMember(x => x.DiscountType, o => o.MapFrom(x => (DiscountType) x.DiscountType));
-            CreateMap<Book, BooksDto>();
+            CreateMap<Book, BooksDto>()
+                .ForMember(x => x.PictureUrl, o => o.MapFrom(x => x.Media.FirstOrDefault(m => m.IsMain).Url));
             CreateMap<Order, OrderDto>()
+                .ForMember(x => x.Total, o => o.MapFrom((s => s.SubTotal + s.OrderFee)))
                 .ForMember(x=>x.PaymentMethod,o=>o.MapFrom(x=>(PaymentMethod)x.PaymentMethod));
             CreateMap<BookAttribute, BooksDto>()
                 .ForMember(x => x.AttributeName, o => o.MapFrom(x => x.Attribute.Name))
@@ -77,6 +79,11 @@ namespace Application.Core
                 .ForMember(x => x.ExpireDate, o=> o.MapFrom(x => x.Coupon.ExpireDate))
                 .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.Coupon.Media.Url))
                 .ForMember(x => x.MinSpend, o => o.MapFrom(x => x.Coupon.MinSpend));
+
+            CreateMap<Category, CategoryDtosBooksForSale>()
+                .ForMember(x => x.Value, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.Label, o => o.MapFrom(x => x.Name))
+                .ForMember(x => x.Children, o => o.MapFrom(x => x.SubCategories));
 
         }
     }

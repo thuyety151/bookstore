@@ -14,5 +14,7 @@ namespace Application.Review
         public DateTime UpdateDate { get; set; }
         
         public ICollection<Media> Media { get; set; }
+        public string AvatarUrl { get; set; }
+        public string UserName { get; set; }
     }
 }

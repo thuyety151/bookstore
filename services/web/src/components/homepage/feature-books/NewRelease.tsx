@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "white",
     boxShadow: "none",
     "& .MuiTabs-centered ": {
-      justifyContent: "end",
+      justifyContent: "flex-end",
     },
   },
 }));

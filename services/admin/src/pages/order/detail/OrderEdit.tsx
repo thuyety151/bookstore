@@ -24,6 +24,7 @@ import { updateOrderNote } from "redux/actions/order/postActions";
 import { useSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
+import HeaderPage from "components/headerPage/HeaderPage";
 
 const OrderEdit: React.FC = () => {
   const classes = useStyles();
@@ -66,90 +67,93 @@ const OrderEdit: React.FC = () => {
     );
   };
   return (
-    <div className={clsx(classes.root, "px-lg")}>
-      <Grid container direction="column">
-        <Paper variant="outlined" square className={classes.container}>
-          <Grid className={classes.header}>
-            <Typography className="bolder">
-              Order #{order.orderCode} details
-            </Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              {/* 
+    <div className={classes.root}>
+      <HeaderPage title="Edit order" />
+      <div style={{ display: "flex" }}>
+        <Grid container direction="column">
+          <Paper variant="outlined" square className={classes.container}>
+            <Grid className={classes.header}>
+              <Typography className="bolder">
+                Order #{order.orderCode} details
+              </Typography>
+              <Grid container direction="row" justifyContent="space-between">
+                {/* 
               General
             */}
-              <Grid item>
-                <General />
-              </Grid>
-              {/* 
+                <Grid item>
+                  <General />
+                </Grid>
+                {/* 
               Billing
             */}
-              <Grid item xs={3}>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  className={classes.title}
-                >
-                  <Typography className="bolder">Billing</Typography>
-                  <IconButton
-                    size="small"
-                    onClick={() => setUpdateBilling(true)}
+                <Grid item xs={3}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    className={classes.title}
                   >
-                    <EditIcon />
-                  </IconButton>
+                    <Typography className="bolder">Billing</Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => setUpdateBilling(true)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                  <Billing open={updateBilling} setOpen={setUpdateBilling} />
                 </Grid>
-                <Billing open={updateBilling} setOpen={setUpdateBilling} />
-              </Grid>
-              {/* 
+                {/* 
               Shipping
             */}
-              <Grid item xs={3}>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  className={classes.title}
-                >
-                  <Typography className="bolder">Shipping</Typography>
-                  <IconButton
-                    size="small"
-                    onClick={() => setUpdateShipping(true)}
+                <Grid item xs={3}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    className={classes.title}
                   >
-                    <EditIcon />
-                  </IconButton>
+                    <Typography className="bolder">Shipping</Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => setUpdateShipping(true)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                  <Shipping open={updateShipping} setOpen={setUpdateShipping} />
                 </Grid>
-                <Shipping open={updateShipping} setOpen={setUpdateShipping} />
               </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-        <Paper variant="outlined" square className={classes.container}>
-          <ProductTable />
-        </Paper>
-      </Grid>
-      <Grid item xs={3} className={classes.containerOrder}>
-        <Paper variant="outlined" square style={{ padding: 0 }}>
-          <Grid container direction="column" className={classes.orderNote}>
-            <Typography className="bolder">Order Note</Typography>
-            <Divider />
-            <hr />
-            <TextareaAutosize
-              aria-label="minimum height"
-              minRows={3}
-              placeholder="Order note"
-              style={{ marginBottom: "16px" }}
-              value={orderNoteState}
-              onChange={(e) => handleChangeOrderNote(e)}
-            />
-            <ContainedButton
-              text={order.orderNote ? "Update" : "Add"}
-              style={{ width: "fit-content" }}
-              onClick={handleOrderNote}
-              loading={requesting}
-            />
-          </Grid>
-        </Paper>
-      </Grid>
+          </Paper>
+          <Paper variant="outlined" square className={classes.container}>
+            <ProductTable />
+          </Paper>
+        </Grid>
+        <Grid item xs={3} className={classes.containerOrder}>
+          <Paper variant="outlined" square style={{ padding: 0 }}>
+            <Grid container direction="column" className={classes.orderNote}>
+              <Typography className="bolder">Order Note</Typography>
+              <Divider />
+              <hr />
+              <TextareaAutosize
+                aria-label="minimum height"
+                minRows={3}
+                placeholder="Order note"
+                style={{ marginBottom: "16px" }}
+                value={orderNoteState}
+                onChange={(e) => handleChangeOrderNote(e)}
+              />
+              <ContainedButton
+                text={order.orderNote ? "Update" : "Add"}
+                style={{ width: "fit-content" }}
+                onClick={handleOrderNote}
+                loading={requesting}
+              />
+            </Grid>
+          </Paper>
+        </Grid>
+      </div>
     </div>
   );
 };
@@ -157,7 +161,7 @@ const OrderEdit: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
+      margin: "0 5rem",
     },
     actionsContainer: {},
     title: {

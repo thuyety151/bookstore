@@ -30,5 +30,13 @@ namespace Application.Core
 
             return new PagedList<T>(items, count, pageIndex, pageSize);
         }
+        
+        public static async Task<PagedList<T>> CreatePageEnumerable(IList<T> source, int pageIndex, int pageSize)
+        {
+            int count = source.Count();
+            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return new PagedList<T>(items, count, pageIndex, pageSize);
+        }
     }
 }

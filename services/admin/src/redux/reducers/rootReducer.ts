@@ -12,6 +12,7 @@ import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
 import reportReducer from "./reportReducer";
 import settingsReducer from "./settingsReducer";
+import importDataReducer from "./importDataReducer";
 
 const rootReducer = combineReducers({
   orders: ordersReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   reports: reportReducer,
   settings: settingsReducer,
   authentication: authenticationReducer,
+  importData: importDataReducer,
   authors: authorReducer,
   notis: notiReducer,
 });

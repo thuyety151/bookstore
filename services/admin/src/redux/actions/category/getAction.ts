@@ -4,6 +4,7 @@ import { ACTION_NAMES } from "./actionTypes";
 
 export type getPaginationType = {
   pagination: Pagination;
+  keywords: string;
   onSuccess: () => void;
   onFailure: (error: any) => void;
 };
@@ -30,7 +31,10 @@ export const getCategoryPagination =
   (props: getPaginationType) => async (dispatch: any) => {
     dispatch({ type: ACTION_NAMES.GET_PAGINATION.GET_PAGINATION });
     const response = await api.get("/categories/all", {
-      params: props.pagination,
+      params: {
+        ...props.pagination,
+        keywords: props.keywords,
+      },
     });
 
     if (response.data.isSuccess) {

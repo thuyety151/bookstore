@@ -9,8 +9,8 @@ export const upsertCoupon =
     try {
       dispatch({ type: ACTION_NAMES.UPSERT_COUPON.UPSERT_COUPON});
       const response = props.data.id
-        ? await api.post("/coupons", props.data)
-        : await api.post("/coupons", omit(props.data, "id"));
+        ? await api.post("/coupons", omit(props.data, "media"))
+        : await api.post("/coupons", omit(props.data, ["media", "id", "mediaUrl"]));
 
       if (response.data.isSuccess) {
         dispatch({

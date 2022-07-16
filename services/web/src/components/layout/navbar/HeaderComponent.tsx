@@ -10,11 +10,15 @@ import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import { ListItem } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
 import { RootStore } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import "./styles.scss";
 import ListNoti from "../../noti/ListNoti";
+import {
+  ROUTE_LOCATION,
+  ROUTE_PROFILE_PREDICATE,
+} from "../../../routers/types";
 // import { ROUTE_WISHLIST } from "../../../routers/types";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
     // marginRight: "2rem",
   },
   paper: {
-    padding: theme.spacing(2),
+    // padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
     flex: "1 0 auto",
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     display: "flex",
   },
   listItem: {
@@ -54,14 +58,17 @@ const HeaderComponent: React.FC<{
   };
 
   const handlePersonOutLine = () => {
-    history.push("/profile");
+    history.push(
+      generatePath(ROUTE_PROFILE_PREDICATE, {
+        tabName: "dashboard",
+      })
+    );
   };
 
   const user = localStorage.getItem("user");
 
   return (
     <div className={classes.root}>
-      {/* <AppBar position="fixed" color="inherit" elevation={0}> */}
       <div className={clsx(classes.container, "main-header")}>
         <div className={classes.listItem}>
           <ListItem
@@ -74,7 +81,7 @@ const HeaderComponent: React.FC<{
           </ListItem>
           <ListItem button className="main-header__phone-number">
             <SettingsCellOutlinedIcon />
-            <span>+84 123 456 789</span>
+            <span>+84 866 933 178</span>
           </ListItem>
         </div>
         <div className={classes.listItem}>
@@ -85,12 +92,21 @@ const HeaderComponent: React.FC<{
               </Tooltip>
             </ListItem>
           )}
-          <ListItem button>
+          <ListItem button onClick={() => history.push(ROUTE_LOCATION)}>
             <Tooltip title="Shop location" aria-label="Shop location">
               <LocationOnOutlinedIcon />
             </Tooltip>
           </ListItem>
-          <ListItem button onClick={() => history.push("/wishlist")}>
+          <ListItem
+            button
+            onClick={() =>
+              history.push(
+                generatePath(ROUTE_PROFILE_PREDICATE, {
+                  tabName: "wishlist",
+                })
+              )
+            }
+          >
             <Tooltip title="Wishlist" aria-label="Wishlist">
               <FavoriteBorderOutlinedIcon />
             </Tooltip>

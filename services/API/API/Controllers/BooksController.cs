@@ -2,10 +2,13 @@ using System;
 using System.Threading.Tasks;
 using Application.Books;
 using Application.Books.Detail;
+using Application.Books.Import;
 using Application.Books.Upsert;
 using Application.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using List = Application.Books.List;
+using ListImport = Application.Books.Import.List;
 
 namespace API.Controllers
 {
@@ -26,9 +29,9 @@ namespace API.Controllers
         
         [HttpGet]
         [Route("admin")]
-        public async Task<IActionResult> GetListAdmin([FromQuery] PagingParams pagingParams,string status)
+        public async Task<IActionResult> GetListAdmin([FromQuery] PagingParams pagingParams,string status,string keywords)
         {
-            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() { Params = pagingParams ,Status = status}));
+            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() { Params = pagingParams ,Status = status,Keywords = keywords}));
         }
 
 
@@ -55,6 +58,21 @@ namespace API.Controllers
         public async Task<IActionResult> GetBestselling()
         {
             return HandleResult(await Mediator.Send(new BestSelling.Query() { }));
+        }
+        
+        [HttpPost]
+        [Route("import")]
+        public async Task<IActionResult> ImportData([FromForm] Import.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
+        
+        [HttpGet]
+        [Route("import")]
+        public async Task<IActionResult> GetImportHistory([FromQuery] PagingParams pagingParams,string keywords)
+        {
+            return HandlePagedResult(await Mediator.Send(new ListImport.Query() { Params = pagingParams,Keywords = keywords}));
+
         }
     }
 }

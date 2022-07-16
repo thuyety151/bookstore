@@ -24,6 +24,8 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { get } from "lodash";
+import ProductImage from "pages/product/detail/components/ProductImage";
+import { Media } from "model/media";
 
 export enum DisCountType {
   FixedCart,
@@ -42,12 +44,17 @@ const AddForm: React.FC<AddFormProps> = (props) => {
     couponAmount: props.model?.couponAmount || 0,
     discountType: props.model?.discountType || DisCountType.FixedCart,
     expireDate: props.model?.expireDate || new Date(),
+    imageUrl: props.model?.imageUrl || "",
+    media: ([props.model?.media || {}] || []) as Media[],
+    mediaId: props.model?.mediaId || "",
   });
   const [formValue, setFormValue] = useState<Coupon>(getInitForm());
   const dispatch = useDispatch();
   const { resquesting } = useSelector((state: RootStore) => state.media);
   const { enqueueSnackbar } = useSnackbar();
-  const loading = useSelector((state: RootStore) => state.coupons.requesting);
+  const loading: boolean = useSelector(
+    (state: RootStore) => state.coupons.requesting
+  );
 
   const handleDateChange = (date: Date | null) => {
     setFormValue({
@@ -106,6 +113,14 @@ const AddForm: React.FC<AddFormProps> = (props) => {
         },
       })
     );
+  };
+
+  const handleImageChange = (media: any) => {
+    setFormValue({
+      ...formValue,
+      mediaId: media[0].id,
+      media: media,
+    });
   };
 
   return (
@@ -181,6 +196,12 @@ const AddForm: React.FC<AddFormProps> = (props) => {
               />
             </Grid>
           </MuiPickersUtilsProvider>
+          <br />
+          <Typography>Image</Typography>
+          <ProductImage
+            media={formValue.media}
+            changeImage={handleImageChange}
+          />
           <br />
           <ContainedButton
             text={props.model ? "Save" : "Add coupon"}

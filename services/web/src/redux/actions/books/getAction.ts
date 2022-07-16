@@ -73,19 +73,20 @@ export type paginationParams = {
   pageIndex: number;
 };
 export type filterParams = {
-  categoryId: string | null;
-  authorId: string | null;
+  categoryIds: string | null;
+  authorIds: string | null;
   languageIds: string | null;
-  attributeId: string | null;
+  attributeIds: string | null;
   minPrice: number;
   maxPrice: number;
-  rates: number;
+  rates: string;
   keywords?: string;
 };
 export const getBooksForSale =
   (predicate: string, filterParams?: filterParams, params?: paginationParams) =>
   async (dispatch: any) => {
     dispatch({ type: booksContant.GET_BOOKS_FOR_SALE.GET_BOOKS_FOR_SALE });
+    console.log("params: " + filterParams?.authorIds)
     const response = await api.get("/books/books-for-sale", {
       params: {
         predicate,

@@ -563,6 +563,21 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExcel")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSuccess")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsVideo")
                         .HasColumnType("bit");
 
@@ -638,6 +653,12 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ResultCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -717,6 +738,9 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("CouponId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
 
                     b.HasKey("UserId", "CouponId");
 

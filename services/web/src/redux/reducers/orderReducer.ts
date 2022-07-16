@@ -82,18 +82,21 @@ const orderReducer = (
       return {
         ...state,
         requesting: true,
+        success: false,
       };
     case NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
       .CREATE_DELIVERY_FOR_ORDER_SUCCESS:
       return {
         ...state,
-        // requesting: false,
+        requesting: false,
+        success: true,
       };
     case NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER.CREATE_DELIVERY_FOR_ORDER_FAIL:
       return {
         ...state,
         requesting: false,
         message: payload.message,
+        success: false,
       };
     case NAME_ACTIONS.GET_FEE.GET_FEE:
       return {
@@ -142,11 +145,27 @@ const orderReducer = (
     case NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER:
       return {
         ...state,
+        requesting: true,
+      };
+    case NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
         placeOrder: payload.data,
+      };
+    case NAME_ACTIONS.GET_PLACE_ORDER.GET_PLACE_ORDER_FAILED:
+      return {
+        ...state,
+        requesting: false,
+        placeOrder: {} as Order,
+        message: payload.message,
       };
     case CART_NAME_ACTIONS.PAGE_CART.GET_ALL_ITEMS:
     case NAME_ACTIONS.CHECKOUT.CLEAR_ORDER_STATE:
-      return initState;
+      return {
+        ...initState,
+        placeOrder: state.placeOrder, // keep data to show on place order page
+      };
     case NAME_ACTIONS.CANCCEL_ORDER.REMOVE_ORDER_FROM_ARRAY:
       return {
         ...state,

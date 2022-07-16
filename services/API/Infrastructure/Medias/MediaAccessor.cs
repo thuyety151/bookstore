@@ -30,7 +30,8 @@ namespace Infrastructure.Medias
                     File = new FileDescription(file.FileName, stream)
                 };
 
-                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                var uploadResult = await _cloudinary.UploadAsync("auto", null,
+                    new FileDescription(file.FileName, stream));
 
                 if (uploadResult.Error != null)
                 {

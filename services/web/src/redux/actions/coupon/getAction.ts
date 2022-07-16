@@ -27,3 +27,58 @@ export const verifyCoupon = (code: string) => async (dispatch: any) => {
     });
   }
 };
+
+export const getCoupons = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: NAME_ACTIONS.COUPON_HOMEPAGE.GET_COUPON_HOMEPAGE });
+
+    const response = await api.get("/coupons", {
+      params: {
+        pageSize: 50,
+        predicate: "unExpired",
+      },
+    });
+
+    if (response.data.isSuccess) {
+      dispatch({
+        type: NAME_ACTIONS.COUPON_HOMEPAGE.GET_COUPON_HOMEPAGE_SUCCESS,
+        data: response.data.value,
+      });
+    } else if (!response.data.isSuccess) {
+      dispatch({
+        type: NAME_ACTIONS.COUPON_HOMEPAGE.GET_COUPON_HOMEPAGE_FAILED,
+        message: response.data.error,
+      });
+    }
+  } catch (error: any) {
+    dispatch({
+      type: NAME_ACTIONS.COUPON_HOMEPAGE.GET_COUPON_HOMEPAGE_FAILED,
+      message: error.message,
+    });
+  }
+};
+
+export const getUserCoupons = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: NAME_ACTIONS.COUPON_USER.GET_COUPON_USER });
+
+    const response = await api.get("/coupons/user-coupons");
+
+    if (response.data.isSuccess) {
+      dispatch({
+        type: NAME_ACTIONS.COUPON_USER.GET_COUPON_USER_SUCCESS,
+        data: response.data.value,
+      });
+    } else if (!response.data.isSuccess) {
+      dispatch({
+        type: NAME_ACTIONS.COUPON_USER.GET_COUPON_USER_FAILED,
+        message: response.data.error,
+      });
+    }
+  } catch (error: any) {
+    dispatch({
+      type: NAME_ACTIONS.COUPON_USER.GET_COUPON_USER_FAILED,
+      message: error.message,
+    });
+  }
+};

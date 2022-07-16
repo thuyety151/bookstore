@@ -14,7 +14,7 @@ export const getBook = (id: any) => async (dispatch: any) => {
   } catch (error: any) {
     dispatch({
       type: bookDetailConstant.GET_FAILURE,
-      data: error.messages,
+      data: error.message,
     });
   }
 };

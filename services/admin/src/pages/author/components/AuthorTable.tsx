@@ -17,7 +17,6 @@ import Delete from "@material-ui/icons/Delete";
 import DialogConfirm from "components/dialog/DialogConfirm";
 import { RootStore } from "redux/store";
 import { rowsPerPageOptions } from "helper/paginationValue";
-import { getAttributePagination } from "redux/actions/attribute/getAction";
 import { useSnackbar } from "notistack";
 import { Author } from "model/author";
 import { getAuthorPagination } from "redux/actions/author/getAction";
@@ -58,6 +57,7 @@ const headCells: HeadCell[] = [
 
 export type AttributeTableProps = {
   setModelEdit: any;
+  keywords: string;
 };
 
 const AuthorTable: React.FC<AttributeTableProps> = (props) => {
@@ -67,7 +67,6 @@ const AuthorTable: React.FC<AttributeTableProps> = (props) => {
   const authorState = useSelector((state: RootStore) => state.authors);
   const dispatch = useDispatch();
   const { pagination } = useSelector((state: RootStore) => state.authors);
-  // const history = useHistory();
   const [modelToDelete, setModelToDelete] = useState<Author | null>(null);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -75,12 +74,13 @@ const AuthorTable: React.FC<AttributeTableProps> = (props) => {
     if (authorState.success) {
       props.setModelEdit(null);
       dispatch(
-        getAttributePagination({
+        getAuthorPagination({
           pagination: {
             ...pagination,
             pageIndex: page + 1,
             pageSize: rowsPerPage,
           },
+          keywords: props.keywords,
           onSuccess: () => {},
           onFailure: () => {},
         })
@@ -97,12 +97,14 @@ const AuthorTable: React.FC<AttributeTableProps> = (props) => {
           pageIndex: page + 1,
           pageSize: rowsPerPage,
         },
+        keywords: props.keywords,
+
         onSuccess: () => {},
         onFailure: () => {},
       })
     );
     // eslint-disable-next-line
-  }, [dispatch, page, rowsPerPage]);
+  }, [dispatch, page, rowsPerPage, props.keywords]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

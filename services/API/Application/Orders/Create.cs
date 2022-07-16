@@ -75,40 +75,37 @@ namespace Application.Orders
                     OrderDate = DateTime.Now,
                     Status = _context.OrderStatus.FirstOrDefault(x => x.Key == "ready_to_pick")?.Name,
                     PaymentMethod = request.OrderParams.PaymentMethod,
-                    PaymentStatus = PaymentStatus.Pending,
+                    PaymentStatus = request.OrderParams.PaymentMethod == (int) PaymentMethod.MoMo ? PaymentStatus.Failed : PaymentStatus.Pending ,
                     SubTotal = items.Select(x => x.Price * x.Quantity).Sum(),
                     OrderFee = request.OrderParams.OrderFee,
                     OrderNote = request.OrderParams.OrderNote,
                     UserId = new Guid(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
                     AddressToShip = request.OrderParams.Address,
-                    Items = new List<Item>()
+                    Items = new List<Item>(),
+                    ServiceTypeId = request.OrderParams.ServiceTypeId,
+                    ServiceId = request.OrderParams.ServiceId
                 };
 
                 // CHECK COUPON
-                if (request.OrderParams.Coupon?.Code != null)
+                if (!string.IsNullOrWhiteSpace(request.OrderParams.CouponId))
                 {
-                    var coupon = await _context.Coupons.Include(x => x.Books)
+                    var coupon = await _context.UserCoupons.Include(x => x.Coupon)
                         .SingleOrDefaultAsync((x) =>
-                            x.Code.ToLower() == request.OrderParams.Coupon.Code.Trim().ToLower() && x.IsDeleted == false);
+                            x.Coupon.Id.ToString().ToLower() == request.OrderParams.CouponId.ToLower() && x.Coupon.IsDeleted == false && x.IsUsed == false);
                     if (coupon == null)
                     {
                         return Result<Guid>.Failure("Coupon is not exist");
                     }
 
-                    if (DateTime.Now > coupon.ExpireDate)
+                    if (coupon.Coupon.DiscountType == (int) DiscountType.Percentage)
                     {
-                        return Result<Guid>.Failure("Coupon is expired");
+                        order.SubTotal = Math.Round(order.SubTotal - (coupon.Coupon.CouponAmount * order.SubTotal) / 100 , 2) ;
                     }
-
-                    if (coupon.DiscountType == (int) DiscountType.Percentage)
+                    else if (coupon.Coupon.DiscountType == (int) DiscountType.FixedCart)
                     {
-                        order.SubTotal = Math.Round(order.SubTotal - (coupon.CouponAmount * order.SubTotal) / 100 , 2) ;
+                        order.SubTotal = Math.Round(order.SubTotal - coupon.Coupon.CouponAmount , 2) > 0 ? Math.Round(order.SubTotal - coupon.Coupon.CouponAmount , 2) : 0  ;
                     }
-                    else if (coupon.DiscountType == (int) DiscountType.FixedCart)
-                    {
-                        order.SubTotal = Math.Round(order.SubTotal - coupon.CouponAmount , 2) ;
-                    }
-                    order.Coupon = coupon;
+                    order.Coupon = coupon.Coupon;
                 }
 
                 var cart = _context.Carts.Include(x => x.Items)
@@ -125,14 +122,9 @@ namespace Application.Orders
                     }
 
                 await _context.Orders.AddAsync(order);
-                var result = await _context.SaveChangesAsync() > 0;
+              
 
-                if (result == false)
-                {
-                    return Result<Guid>.Failure("Error when create order");
-                }
-
-                //Remove coupon in user coupon
+                //Remove coupon in user coupons
                 if (order.Coupon != null)
                 {
                     var userCoupon = _context.UserCoupons.FirstOrDefault(x =>
@@ -140,9 +132,16 @@ namespace Application.Orders
 
                     if (userCoupon != null)
                     {
-                        _context.UserCoupons.Remove(userCoupon);
+                        userCoupon.IsUsed = true;
                     }
                   
+                }
+                
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (result == false)
+                {
+                    return Result<Guid>.Failure("Error when create order");
                 }
 
                 return Result<Guid>.Success(order.Id);

@@ -23,10 +23,9 @@ namespace Domain
         public PaymentStatus PaymentStatus { get; set; }
         public long TransId { get; set; }
         public int ResultCode { get; set; }
-
-        public double GetTotal()
-        {
-            return SubTotal + OrderFee;
-        }
+        public int ServiceTypeId { get; set; }
+        public int ServiceId { get; set; }
+        
+        
     }
 }
