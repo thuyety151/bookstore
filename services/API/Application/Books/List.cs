@@ -144,7 +144,7 @@ namespace Application.Books
                             request.Params.PageSize = configQuantityOnSale?.Quantity ??
                                                       request.Params.PageSize;
 
-                            query = query.Where(x => x.SalePriceEndDate >= DateTime.Now)
+                            query = query.Where(x => x.SalePriceEndDate >= DateTime.Now && DateTime.Now >= x.SalePriceStartDate)
                                 .OrderByDescending(x => x.SalePriceEndDate);
                             break;
                         case "deal-of-week":
@@ -153,7 +153,7 @@ namespace Application.Books
                             request.Params.PageSize = configQuantityDealOfWeek?.Quantity ??
                                                       request.Params.PageSize;
 
-                            query = query.Where(x => x.SalePriceEndDate >= DateTime.Now)
+                            query = query.Where(x => x.SalePriceEndDate >= DateTime.Now && DateTime.Now >= x.SalePriceStartDate)
                                 .OrderByDescending(x => x.TotalStock);
                             break;
                         default:

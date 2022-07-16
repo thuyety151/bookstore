@@ -52,6 +52,15 @@ namespace Application.Books.Detail
                 bookDetailDto.StockStatus = bookDetailDto.TotalStock > 0
                     ? StockStatus.InStock.ToString()
                     : StockStatus.OutOfStock.ToString();
+
+                foreach (var bookAttributeDto in bookDetailDto.Attributes)
+                {
+                    if (!(bookAttributeDto.SalePriceStartDate <= DateTime.Now &&
+                        bookAttributeDto.SalePriceEndDate >= DateTime.Now))
+                    {
+                        bookAttributeDto.SalePrice = 0;
+                    }
+                }
                 var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (userId != null)
                 {

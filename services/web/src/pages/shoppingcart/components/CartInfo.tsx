@@ -133,8 +133,6 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
         })
       );
     }
-    subTotal();
-
     // eslint-disable-next-line
   }, [serviceType, defaultAddress, itemsToCheckout?.length]);
 
@@ -143,6 +141,11 @@ const CartInfo: React.FC<{ chooseAddress: boolean; setChooseAddress: any }> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subTotalCart, couponState, serviceType]);
+
+  useEffect(() => {
+    subTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemsToCheckout]);
 
   const subTotal = () => {
     var sub = sum(

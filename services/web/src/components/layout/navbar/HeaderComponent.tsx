@@ -77,7 +77,7 @@ const HeaderComponent: React.FC<{
           </ListItem>
           <ListItem button className="main-header__phone-number">
             <SettingsCellOutlinedIcon />
-            <span>+84 123 456 789</span>
+            <span>+84 866 933 178</span>
           </ListItem>
         </div>
         <div className={classes.listItem}>

@@ -31,6 +31,7 @@ import {
 } from "../../routers/types";
 import { Order } from "../../model/order";
 import { Address } from "../../model/address";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const PlaceOrderPage: React.FC = () => {
   const classes = useStyles();
@@ -101,7 +102,6 @@ const PlaceOrderPage: React.FC = () => {
               order: placeOrderRes,
               address: currentAddress,
               onSuccess: (code: string, orderId: string) => {
-                console.log("222");
                 enqueueSnackbar("Order success", { variant: "success" });
                 dispatch(getPageCart());
                 
@@ -289,14 +289,15 @@ const PlaceOrderPage: React.FC = () => {
                       </Grid>
                     </Grid>
                   </Paper>
-                  <Button
+                
+                </Paper>
+                <Button
                     variant="contained"
                     className={classes.continueButton}
                     onClick={handleContinueClick}
                   >
-                    Continue shopping
+                    Continue shopping <ArrowForwardIcon fontSize="small" style={{marginLeft: 2}}/>
                   </Button>
-                </Paper>
               </Grid>
             </Grid>
           </>
@@ -311,10 +312,11 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       backgroundColor: "#fff6f6",
       minHeight: "100vh",
-      height: "1100px",
+      //height: "1100px",
       "& .MuiGrid-root .MuiGrid-container": {
         padding: theme.spacing(4),
       },
+     
     },
     justifyRight: {
       display: "grid",
@@ -329,7 +331,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       textAlign: "center",
-      padding: theme.spacing(1, 0),
+     // padding: theme.spacing(1, 0),
       color: green[700],
     },
     subTotal: {
@@ -355,13 +357,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paperOutside: {
       backgroundColor: green[500],
-      height: 900,
+     // height: 900,
       paddingTop: 20,
     },
     paperInside: {
       borderRadius: 0,
-      position: "relative",
-      height: 900,
+      //height: 900,
     },
     red: {
       color: "#fff",
@@ -388,14 +389,16 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 700,
       borderRadius: 50,
       textTransform: "none",
-      margin: 20,
       fontSize: 14,
-      position: "absolute",
-      right: 10,
-      marginTop: 20
+      marginTop: 10,
+      float: 'right'
     },
     circleProcess: {
-      margin: 'auto'
+      margin: 'auto',
+      position: 'absolute',
+      right: 0,
+      left: 0,
+      top: 200
     }
   })
 );

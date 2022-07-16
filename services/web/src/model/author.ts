@@ -4,7 +4,7 @@ export default interface Author {
   id: string;
   name: string;
   imageUrl: string;
-  totalBook?: number;
+  count: number;
   description?: string;
   books: Book[];
 }

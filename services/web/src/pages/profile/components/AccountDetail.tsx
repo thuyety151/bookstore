@@ -17,6 +17,7 @@ import ImageUploadWidget from "../../../components/imagesUpload/ImageUploadWidge
 import { useEffect, useState } from "react";
 import "./styles.scss";
 import CloseIcon from "@material-ui/icons/Close";
+import defaultAvater from  "../../../assets/images/default-avatar.png"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -160,11 +161,18 @@ export default function AccountDetail() {
           <Grid container justifyContent="center" className="avatar">
             {files.length > 0 ? (
               <div className="avatar__container">
-                <img
-                  src={files[0].preview}
+                {
+                  files[0].preview ? <img
+                  src={files[0].preview }
                   className="avatar__display"
                   alt="avatar"
-                />
+                /> :<img
+                src={defaultAvater }
+                className="avatar__display"
+                alt="avatar"
+              />
+                }
+                
                 <div className="avatar__clear">
                   <span onClick={() => setFiles([])}>
                     <CloseIcon fontSize="small" />

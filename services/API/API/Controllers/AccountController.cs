@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Service;
+using Application.Core;
 using Domain;
 using Domain.Constant;
 using Microsoft.AspNetCore.Authorization;
@@ -63,11 +64,11 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<Result<UserDto>>> Register(RegisterDto registerDto)
         {
             if (_userManager.Users.Any(x => x.Email == registerDto.Email))
             {
-                return BadRequest("Email is existed");
+                return Result<UserDto>.Failure("Email is existed");
             }
 
             var user = new AppUser()
@@ -83,10 +84,10 @@ namespace API.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest("Sign up fail");
+                return Result<UserDto>.Failure(result.Errors.FirstOrDefault()?.Description);
             }
 
-            return CreateUserObject(user);
+            return Result<UserDto>.Success(CreateUserObject(user));
         }
 
         [Authorize]

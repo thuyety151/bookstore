@@ -22,6 +22,7 @@ import { useParams } from "react-router";
 import { useSnackbar } from "notistack";
 import BookImages from "./BookImages";
 import { addToWL } from "../../../redux/actions/wishlist/postActions";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
 
 export default function DetailBook() {
   const classes = useStyles();
@@ -96,6 +97,7 @@ export default function DetailBook() {
         item,
         onSuccess: () => {
           enqueueSnackbar("Add to cart successfully!", { variant: "success" });
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -162,13 +164,34 @@ export default function DetailBook() {
                 </Grid>
 
                 <Grid item>
-                  {attribute && (
+                  {attribute &&
+                  attribute.salePrice &&
+                  attribute.salePrice > 0 ? (
+                    <>
+                      <Grid className={classes.priceSection}>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          className={classes.text}
+                        >
+                          {attribute.salePrice} $
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          className={classes.crossPrice}
+                        >
+                          {attribute.price} $
+                        </Typography>
+                      </Grid>
+                    </>
+                  ) : (
                     <Typography
                       gutterBottom
                       variant="h5"
                       className={classes.text}
                     >
-                      {attribute.price} $
+                      {attribute?.price } $
                     </Typography>
                   )}
                 </Grid>
@@ -329,6 +352,15 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 350,
         textAlign: "justify",
       },
+    },
+    priceSection: {
+      display: "flex",
+      alignItems: "center",
+    },
+    crossPrice: {
+      textDecoration: "line-through",
+      color: "gray",
+      marginLeft: 10,
     },
   })
 );
