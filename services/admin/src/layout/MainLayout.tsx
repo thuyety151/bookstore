@@ -28,6 +28,7 @@ import PrivateRoute from "../components/route/PrivateRoute";
 import { Badge, Grid } from "@material-ui/core";
 import MenuAccount from "./components/MenuAccount";
 import "./styles.scss";
+import bell from "../assets/icons/bell.svg"
 
 const drawerWidth = 280;
 
@@ -78,7 +79,7 @@ const MainLayout: React.FC = () => {
                     color="secondary"
                     className="icon-noti"
                   >
-                    <img src="img/icons/bell.svg" alt="icon-noti" />
+                    <img src={bell} alt="icon-noti" />
                   </IconButton>
                 </Badge>
                 <Typography>Admin</Typography>

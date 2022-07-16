@@ -119,7 +119,7 @@ export default function LoginComponent() {
           });
         }
       },
-      { scope: "public_profile, email" }
+      { scope: "public_profile, email", auth_type: 'reauthorize'  },
     );
   };
 
