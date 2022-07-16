@@ -52,7 +52,7 @@ export const PRIVATE_ROUTES = {
   },
   [ROUTE_BOOKS_FOR_SALE]: { permissions: [] },
   [ROUTE_WISHLIST]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
-  [ROUTE_LOCATION]: { permissions: [sharedTypes.ROLE_CUSTOMER] },
+  [ROUTE_LOCATION]: { permissions: [] },
   [ROUTE_AUTHOR_DETAIL]: { permissions: [] },
 };
 
