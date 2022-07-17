@@ -38,13 +38,13 @@ const NotiCreate: React.FC = () => {
     /**
      *  handle data again
      */
-    const x = keys(formValue).map((key: string) => {
-      return !!get(formValue, key) || key === "id"; // false is invalid
-    });
+    // const x = keys(formValue).map((key: string) => {
+    //   return !!get(formValue, key) || key === "id"; // false is invalid
+    // });
 
-    if (x.includes(false)) {
-      return;
-    }
+    // if (x.includes(false)) {
+    //   return;
+    // }
 
     if (
       formValue.contents ===

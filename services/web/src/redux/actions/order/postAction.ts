@@ -191,15 +191,20 @@ export const createOrderGHN =
               .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
           });
           const tokens = await api.get("/notis/list-admin-token");
-          await apiFCM.post("/send", {
-            to: JSON.stringify(tokens.data.value),
-            notification: {
-              title: `New order`,
-              body: `You have a new order - ${createDelivery.data.data.order_code} `,
-              mutable_content: true,
-              sound: "Tri-tone",
-            },
-          });
+          Promise.all(
+            tokens.data.value.map(async (token: string) => {
+              await apiFCM.post("/send", {
+                to: token,
+                notification: {
+                  title: `New order`,
+                  body: `You have a new order - ${createDelivery.data.data.order_code} `,
+                  mutable_content: true,
+                  sound: "Tri-tone",
+                },
+              });
+            })
+          );
+
           await api.post("/notis/create", {
             fcmTokens: tokens.data.value,
             metadata: JSON.stringify({
