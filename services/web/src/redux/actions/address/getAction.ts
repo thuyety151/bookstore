@@ -118,6 +118,7 @@ export const getAllAddresses = () => async (dispatch: any) => {
         type: NAME_ACTIONS.GET_ALL_ADDRESS.GET_ALL_SUCCESS,
         data: response.data?.value,
       });
+      getDefaultAddress({onSuccess: () => {}});
     }
   } catch (error: any) {
     dispatch({

@@ -78,15 +78,21 @@ export default function RegisterComponent() {
           email,
           password,
         });
-        if (response.data.token) {
+        if (response.data.isSuccess) {
           setLoading(false);
-          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("user", JSON.stringify(response.data.value));
           enqueueSnackbar("Login successfully", { variant: "success" });
           history.push("/");
         }
+        else{
+          setLoading(false);
+        enqueueSnackbar(response.data.error, {
+          variant: "error",
+        });
+        }
       } catch {
         setLoading(false);
-        enqueueSnackbar("Email already exists!", {
+        enqueueSnackbar("Something went wrong while create account!", {
           variant: "error",
         });
       }

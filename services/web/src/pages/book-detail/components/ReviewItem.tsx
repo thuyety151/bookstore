@@ -6,6 +6,7 @@ import { Avatar, Divider, Typography } from "@material-ui/core";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
 import Rating from "@mui/material/Rating";
+import defaultAvatar from  "../../../assets/images/default-avatar.png"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,7 +38,7 @@ export default function ReviewItem({ review }: Props) {
       <Grid container direction="column" spacing={2}>
         <Grid container alignItems="center" style={{ gap: 8 , marginTop: 15}}>
           <Avatar
-            src={review.avatarUrl || "assetes/icons/default-avatar.png"}
+            src={review.avatarUrl || defaultAvatar}
           />
           <Typography variant="body1" className={classes.title}>
             {review?.userName}

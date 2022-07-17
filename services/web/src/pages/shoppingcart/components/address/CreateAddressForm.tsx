@@ -53,7 +53,7 @@ const CreateAddressForm: React.FC<{
       code: address?.wardCode || "",
     },
     street: address?.streetAddress || "",
-    isDefault: false,
+    isDefault: address?.isMain || false,
   });
   const [formValue, setFormValue] = React.useState<AddressFormSchema>(
     getInitValue()

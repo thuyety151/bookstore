@@ -72,10 +72,11 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
       };
     case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_ITEM_TO_CHECK_OUT:
       if (!state.itemToCheckOut.find((x) => x.id === payload.item.id)) {
-        // add
+        // update
         return {
           ...state,
           itemToCheckOut: [...state.itemToCheckOut, payload.item],
+
           subTotal: subTotal([...state.itemToCheckOut, payload.item]),
         };
       } else {
@@ -89,6 +90,28 @@ const cartReducer = (state: CartState = initState, payload: any): CartState => {
           ]),
         };
       }
+    case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.UPDATE_ITEM_TO_CHECK_OUT:
+      console.log('pay:' + JSON.stringify(payload));
+      console.log('items:' + JSON.stringify(state.itemToCheckOut));
+      if (state.itemToCheckOut.find((x) => x.id === payload.item.id)) {
+        console.log('up')
+        // update
+        return {
+          ...state,
+          itemToCheckOut: state.itemToCheckOut.map((x) =>
+            x.id === payload.item.id ? payload.item : x
+          ),
+          subTotal: subTotal(
+            state.itemToCheckOut.map((x) =>
+              x.id === payload.item.id ? payload.item : x
+            )
+          ),
+        };
+      }
+      else{
+        return {...state}
+      }
+
     case NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.SET_LIST_ITEM_TO_CHECK_OUT:
       return {
         ...state,

@@ -16,6 +16,7 @@ import { useSnackbar } from "notistack";
 import { addOrUpdateItem } from "../../../redux/actions/cart/addOrUpdateAction";
 import { useDispatch } from "react-redux";
 import { addToWL } from "../../../redux/actions/wishlist/postActions";
+import { getPageCart } from "../../../redux/actions/cart/getAction";
 
 const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
   const { item } = props;
@@ -48,6 +49,7 @@ const BestSellerComponent: React.FC<{ item: Book }> = (props) => {
           enqueueSnackbar("Add to cart successfully!", {
             variant: "success",
           });
+          dispatch(getPageCart());
         },
         onFailure: (error: any) => {
           enqueueSnackbar(error, { variant: "error" });
@@ -168,7 +170,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderColor: "#000",
         zIndex: 1,
       },
-      minWidth: "20rem",
+      minWidth: "11rem",
     },
     name: {
       fontWeight: 700,

@@ -14,7 +14,7 @@ import {
   TableRow,
   Theme,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -39,11 +39,18 @@ const CartTable: React.FC = () => {
   const data = useSelector((state: RootStore) => state.cart);
   const { enqueueSnackbar } = useSnackbar();
 
+  const [cart, setCart] = useState(data.data);
+
   useEffect(() => {
     if (!data.data.length) {
       dispatch(getPageCart());
     }
   }, [dispatch, data.data.length]);
+
+  useEffect(() => {
+    setCart(data.data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const idItemsToCheckout = () => {
     return data.itemToCheckOut.flatMap((x) => x.id);
@@ -55,9 +62,11 @@ const CartTable: React.FC = () => {
     } else {
       model = { ...model, quantity: model.quantity - 1 };
     }
-    if (!model.quantity) {
+    if (model.quantity === 0) {
       handleRemoveItem(model.id);
     } else {
+    handleUpdateToCheckout(model);
+
       dispatch(
         addOrUpdateItem({
           item: model as AddOrUpdateItem,
@@ -65,6 +74,11 @@ const CartTable: React.FC = () => {
             enqueueSnackbar("Change quantity successfully!", {
               variant: "success",
             });
+            setCart((prev) => {
+              return prev.map((x) => (x.id === model.id ? model : x));
+            });
+
+
           },
           onFailure: (error: any) => {
             enqueueSnackbar(error, { variant: "error" });
@@ -95,6 +109,13 @@ const CartTable: React.FC = () => {
     });
   };
 
+  const handleUpdateToCheckout = (item: Item) => {
+    dispatch({
+      type: NAME_ACTIONS.SET_ITEM_TO_CHECK_OUT.UPDATE_ITEM_TO_CHECK_OUT,
+      item,
+    });
+  };
+
   const handleViewBook = (item: Item) => {
     history.push(
       generatePath(ROUTE_BOOK_DETAIL, {
@@ -106,7 +127,7 @@ const CartTable: React.FC = () => {
 
   return (
     <div>
-      <TableContainer >
+      <TableContainer>
         <Table className={classes.table}>
           <TableHead className={classes.header}>
             <TableRow>
@@ -119,8 +140,8 @@ const CartTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.data.length > 0 ? (
-              data.data.map((row: Item, index: number) => (
+            {cart.length > 0 ? (
+              cart.map((row: Item, index: number) => (
                 <TableRow
                   key={index}
                   className={classes.row}
@@ -200,7 +221,10 @@ const CartTable: React.FC = () => {
                       />
                     </Grid>
                   </TableCell>
-                  <TableCell className={classes.textBold} style={{textAlign: "center"} }>
+                  <TableCell
+                    className={classes.textBold}
+                    style={{ textAlign: "center" }}
+                  >
                     ${(row.price * row.quantity).toFixed(2)}
                   </TableCell>
                   <TableCell>
