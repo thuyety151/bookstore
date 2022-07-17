@@ -8,6 +8,8 @@ using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Persistence;
 namespace Application.Notification
 {
@@ -39,7 +41,17 @@ namespace Application.Notification
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var users = _context.Users.Where(x => request.NotiParams.UserIds.Contains(x.Id)).ToList();
+                var users=new List<AppUser>();
+                if (request.NotiParams.UserIds == null)
+                {
+                    users= _context.Users.Include(x => x.FcmTokens)
+                        .Where(x => request.NotiParams.FcmTokens.Contains(x.FcmTokens.FirstOrDefault().Token)).ToList();
+                }
+                else
+                {
+                    users = _context.Users.Where(x => request.NotiParams.UserIds.Contains(x.Id)).ToList();
+                }
+                
                 if (request.NotiParams.FcmTokens.Count > 0)
                 {
                     users = new List<AppUser>(_context.Users
@@ -58,7 +70,7 @@ namespace Application.Notification
 
                 var listUserNoti = new List<UserNoti>();
 
-                foreach (var user in users)
+                foreach (var user in users.Distinct().ToList())
                 {
                     listUserNoti.Add(new Domain.UserNoti()
                     {

@@ -560,9 +560,6 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 

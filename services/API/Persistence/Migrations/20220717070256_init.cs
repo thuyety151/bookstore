@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class UpdateMigrations : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,6 +72,20 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Metadata = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    IsCustom = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -292,6 +306,18 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FcmTokens",
+                columns: table => new
+                {
+                    Token = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FcmTokens", x => x.Token);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
@@ -320,6 +346,25 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserCoupons", x => new { x.UserId, x.CouponId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserNotis",
+                columns: table => new
+                {
+                    NotificationId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    IsRead = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserNotis", x => new { x.UserId, x.NotificationId });
+                    table.ForeignKey(
+                        name: "FK_UserNotis_Notifications_NotificationId",
+                        column: x => x.NotificationId,
+                        principalTable: "Notifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -676,6 +721,11 @@ namespace Persistence.Migrations
                 column: "MediaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FcmTokens_UserId",
+                table: "FcmTokens",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_CartId",
                 table: "Items",
                 column: "CartId");
@@ -724,6 +774,11 @@ namespace Persistence.Migrations
                 name: "IX_UserCoupons_CouponId",
                 table: "UserCoupons",
                 column: "CouponId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserNotis_NotificationId",
+                table: "UserNotis",
+                column: "NotificationId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Orders_Coupons_CouponId",
@@ -798,6 +853,14 @@ namespace Persistence.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_FcmTokens_AspNetUsers_UserId",
+                table: "FcmTokens",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_AspNetUsers_UserId",
                 table: "Reviews",
                 column: "UserId",
@@ -826,6 +889,14 @@ namespace Persistence.Migrations
                 table: "UserCoupons",
                 column: "CouponId",
                 principalTable: "Coupons",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_UserNotis_AspNetUsers_UserId",
+                table: "UserNotis",
+                column: "UserId",
+                principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -887,6 +958,9 @@ namespace Persistence.Migrations
                 name: "ConfigHomePages");
 
             migrationBuilder.DropTable(
+                name: "FcmTokens");
+
+            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
@@ -894,6 +968,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserCoupons");
+
+            migrationBuilder.DropTable(
+                name: "UserNotis");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -912,6 +989,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "WishLists");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

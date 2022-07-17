@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220626173320_AddFieldCustomToNoti")]
-    partial class AddFieldCustomToNoti
+    [Migration("20220717070256_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -562,7 +562,19 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("BookId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExcel")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsVideo")
@@ -642,6 +654,12 @@ namespace Persistence.Migrations
                     b.Property<int>("ResultCode")
                         .HasColumnType("int");
 
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -719,6 +737,9 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("CouponId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
 
                     b.HasKey("UserId", "CouponId");
 
