@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
 import InfiniteScroll from "components/infinityscroll/InfinityScroll";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { generatePath, useHistory } from "react-router-dom";
@@ -118,6 +119,9 @@ const ListNoti: React.FC = () => {
                     <Typography variant="caption">
                       {item?.metadata?.body?.contents}
                     </Typography>
+                    <Typography variant="caption" style={{ color: "gray" }}>
+                      {format(new Date(item?.createdDate), "HH:mm dd/MM/yyyy")}
+                    </Typography>
                   </Grid>
                 </MenuItem>
               ))
@@ -127,25 +131,6 @@ const ListNoti: React.FC = () => {
               </Grid>
             )}
           </InfiniteScroll>
-          {/* {listNoti.map((item, index) => (
-            <MenuItem
-              className="list-noti__item"
-              style={{
-                background: item?.isRead ? "#fff" : "aliceblue",
-              }}
-              onClick={() => readNoti(item)}
-              key={`${item?.id} ${index}`}
-            >
-              <Grid container direction="column">
-                <Typography variant="subtitle2" style={{ fontWeight: 600 }}>
-                  {item?.metadata?.title}
-                </Typography>
-                <Typography variant="caption">
-                  {item?.metadata?.body?.contents}
-                </Typography>
-              </Grid>
-            </MenuItem>
-          ))} */}
         </Paper>
       </Snackbar>
     </Stack>

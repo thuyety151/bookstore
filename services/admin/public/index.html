@@ -44,6 +44,69 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
-  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-messaging.js"></script>
+
+  <script>
+    // App's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCZbclkRcIIIS9oAsKP-V25X4a2_Seiu5o",
+      authDomain: "internship-august-2021-b1566.firebaseapp.com",
+      databaseURL:
+        "https://internship-august-2021-b1566-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "internship-august-2021-b1566",
+      storageBucket: "internship-august-2021-b1566.appspot.com",
+      messagingSenderId: "648438980588",
+      appId: "1:648438980588:web:fe49df0e71a421489a2ac9",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    // Service Worker explicit registration to explicitly define sw location at a path
+    const swRegistration = async () => {
+      try {
+        await navigator.serviceWorker.register(
+          "./firebase-messaging-sw.js"
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const messaging = firebase.messaging();
+    messaging
+      .getToken({
+        serviceWorkerRegistration: swRegistration,
+        vapidKey: Config.webpushKey
+      })
+      .then((currentToken) => {
+        if (currentToken) {
+          console.log(currentToken);
+        } else {
+          console.log(
+            "No registration token available. Request permission to generate one."
+          );
+          askForPermissioToReceiveNotifications();
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+      });
+
+    messaging.onMessage(function (payload) {
+      console.log("Message received. ", JSON.stringify(payload));
+    });
+    messaging.onTokenRefresh(function () {
+      messaging
+        .getToken()
+        .then(function (refreshedToken) {
+          console.log("Token refreshed.");
+        })
+        .catch(function (err) {
+          console.log("Unable to retrieve refreshed token ", err);
+        });
+    });
+  </script>
 </html>
