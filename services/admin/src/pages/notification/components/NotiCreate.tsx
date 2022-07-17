@@ -8,16 +8,16 @@ import { ValidationName } from "helper/useValidator";
 import UserSelect from "./UserSelect";
 import ContainedButton from "components/button/ContainedButton";
 import { convertToHTML } from "draft-convert";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { sendToUsers } from "redux/actions/noti/postActions";
 import { useSnackbar } from "notistack";
 import { get, keys } from "lodash";
-import { RootStore } from "redux/store";
 
 const NotiCreate: React.FC = () => {
   const [content, setContent] = useState(EditorState.createEmpty());
   const [formValue, setFormValue] = useState({
     title: "",
+    subtitle: "",
     contents: "",
     users: [],
   });

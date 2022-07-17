@@ -186,10 +186,6 @@ const NotiTable: React.FC = (props) => {
               <Typography>{modelDetail?.metadata?.title}</Typography>
             </Grid>
             <Grid container justifyContent="space-between">
-              <Typography>Contents:</Typography>
-              <Typography>{modelDetail?.metadata?.body?.contents}</Typography>
-            </Grid>
-            <Grid container justifyContent="space-between">
               <Typography>Users:</Typography>
               <Typography>{modelDetail?.count}</Typography>
             </Grid>
@@ -201,6 +197,16 @@ const NotiTable: React.FC = (props) => {
                     new Date(modelDetail?.createdDate),
                     "HH:mm dd/MM/yyyy"
                   )}
+              </Typography>
+            </Grid>
+            <Grid container justifyContent="space-between">
+              <Typography>Contents:</Typography>
+              <Typography>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: modelDetail?.metadata?.body?.contents || "<p></p>",
+                  }}
+                />
               </Typography>
             </Grid>
           </Grid>

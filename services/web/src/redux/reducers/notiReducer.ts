@@ -12,6 +12,7 @@ export type Notification = {
   };
   createdDate: any;
   isRead: boolean;
+  isCustom: boolean;
 };
 
 export type NotiState = {

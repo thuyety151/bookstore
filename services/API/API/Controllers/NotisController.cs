@@ -40,9 +40,9 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("list-admin-noti")]
-        public async Task<IActionResult> ListAdmin()
+        public async Task<IActionResult> ListAdmin([FromQuery] PagingParams pagingParams)
         {
-            return HandleResult(await Mediator.Send(new ListAdmin.Query()));
+            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() { Params = pagingParams }));
         }
         [HttpPost]
         [Route("send")]

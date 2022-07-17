@@ -41,7 +41,8 @@ namespace Application.Notification
                         Id = x.NotificationId,
                         Metadata = x.Notification.Metadata,
                         CreatedDate = x.Notification.CreatedDate,
-                        IsRead = x.IsRead
+                        IsRead = x.IsRead,
+                        IsCustom = x.Notification.IsCustom
                     })
                     .OrderByDescending(x => x.CreatedDate);
                 return Result<ListNotiDto>.Success( new ListNotiDto()

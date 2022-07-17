@@ -10,6 +10,7 @@ export type NotiContent = {
   orderId: string;
   contents: string;
   title: string;
+  subtitle: string;
 };
 
 export type RealtimeNoti = {

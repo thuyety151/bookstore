@@ -116,13 +116,11 @@ const ListNoti: React.FC = () => {
                     <Typography variant="subtitle2" style={{ fontWeight: 600 }}>
                       {item?.metadata?.title}
                     </Typography>
-                    <Typography variant="caption">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: item?.metadata?.body?.contents || "<p></p>",
-                        }}
-                      />
-                    </Typography>
+                    {!item?.isCustom && (
+                      <Typography variant="caption">
+                        {item?.metadata?.body?.contents}
+                      </Typography>
+                    )}
                     <Typography variant="caption" style={{ color: "gray" }}>
                       {format(new Date(item?.createdDate), "HH:mm dd/MM/yyyy")}
                     </Typography>

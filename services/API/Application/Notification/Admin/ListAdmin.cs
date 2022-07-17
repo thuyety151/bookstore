@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Books;
 using Application.Core;
 using Domain;
+using Domain.Constant;
 using Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,19 +35,17 @@ namespace Application.Notification.Admin
 
             public async Task<Result<PagedList<NotiDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var notis = _context.Notifications.Include(x=>x.Users).Where(x =>
-                        x.IsCustom==true)
-                    .Select(x => new NotiDto()
+                var notis = _context.Notifications.Include(x => x.Users).Where(x =>
+                        x.IsCustom == true)
+                    // .OrderByDescending(n => n.CreatedDate)
+                    .Select(n => new NotiDto()
                     {
-                        Id = x.Id,
-                        Metadata = x.Metadata,
-                        CreatedDate = x.CreatedDate,
-                        Count= x.Users.Count
-                    })
-                    .OrderByDescending(x => x.CreatedDate);
-
-                return Result<PagedList<NotiDto>>.Success(
-                    await PagedList<NotiDto>.CreatePage(notis, request.Params.PageIndex, request.Params.PageSize));
+                        Id = n.Id,
+                        Metadata = n.Metadata,
+                        CreatedDate = n.CreatedDate,
+                        Count = n.Users.Count
+                    }).OrderByDescending(x => x.CreatedDate).AsQueryable();
+                return Result<PagedList<NotiDto>>.Success(await PagedList<NotiDto>.CreatePage(notis, request.Params.PageIndex, request.Params.PageSize));
             }
         }
     }

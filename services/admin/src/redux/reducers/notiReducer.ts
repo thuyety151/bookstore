@@ -11,6 +11,7 @@ export type Notification = {
   };
   createdDate: any;
   isRead: boolean;
+  isCustom: boolean;
   count: number;
 };
 

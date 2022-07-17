@@ -192,7 +192,7 @@ export const createOrderGHN =
           });
           const tokens = await api.get("/notis/list-admin-token");
           await apiFCM.post("/send", {
-            to: tokens.data.value,
+            to: JSON.stringify(tokens.data.value),
             notification: {
               title: `New order`,
               body: `You have a new order - ${createDelivery.data.data.order_code} `,

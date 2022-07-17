@@ -7,6 +7,10 @@ import {
   Paper,
   Snackbar,
   Typography,
+  AppBar,
+  Dialog,
+  Divider,
+  Toolbar,
 } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
 import { format } from "date-fns";
@@ -19,6 +23,7 @@ import { RootStore } from "redux/store";
 import { ROUTE_ORDER_DETAIL } from "routers/types";
 import "./styles.scss";
 import bell from "assets/icons/bell.svg";
+import CloseIcon from "@material-ui/icons/Close";
 
 const ListNoti: React.FC = () => {
   const { listNoti, unread } = useSelector((state: RootStore) => state.notis);
@@ -99,9 +104,11 @@ const ListNoti: React.FC = () => {
                     <Typography variant="subtitle2" style={{ fontWeight: 600 }}>
                       {item?.metadata?.title}
                     </Typography>
-                    <Typography variant="caption">
-                      {item?.metadata?.body?.contents}
-                    </Typography>
+                    {!item?.isCustom && (
+                      <Typography variant="caption">
+                        {item?.metadata?.body?.contents}
+                      </Typography>
+                    )}
                     <Typography variant="caption" style={{ color: "gray" }}>
                       {format(new Date(item?.createdDate), "HH:mm dd/MM/yyyy")}
                     </Typography>
@@ -116,6 +123,65 @@ const ListNoti: React.FC = () => {
           </Grid>
         </Paper>
       </Snackbar>
+      {/* <Dialog
+        fullScreen
+        open={!!modelDetail}
+        onClose={() => setModelDetail(null)}
+        style={{ display: "flex", justifyContent: "end", width: "100%" }}
+      >
+        <Paper style={{ width: "40vw" }} elevation={0}>
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                style={{ color: "#000" }}
+                onClick={() => setModelDetail(null)}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                Notification
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Divider />
+          <Grid container className={classes.form}>
+            <Grid container justifyContent="space-between">
+              <Typography>Title:</Typography>
+              <Typography>{modelDetail?.metadata?.title}</Typography>
+            </Grid>
+            <Grid container justifyContent="space-between">
+              <Typography>Subtitle:</Typography>
+              <Typography>{modelDetail?.metadata?.body?.subtitle}</Typography>
+            </Grid>
+            <Grid container justifyContent="space-between">
+              <Typography>Users:</Typography>
+              <Typography>{modelDetail?.count}</Typography>
+            </Grid>
+            <Grid container justifyContent="space-between">
+              <Typography>Created At:</Typography>
+              <Typography>
+                {modelDetail?.createdDate &&
+                  format(
+                    new Date(modelDetail?.createdDate),
+                    "HH:mm dd/MM/yyyy"
+                  )}
+              </Typography>
+            </Grid>
+            <Grid container justifyContent="space-between">
+              <Typography>Contents:</Typography>
+              <Typography>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: modelDetail?.metadata?.body?.contents || "<p></p>",
+                  }}
+                />
+              </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Dialog> */}
     </Stack>
   );
 };
