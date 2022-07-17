@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { generatePath, useHistory } from "react-router-dom";
@@ -121,6 +122,9 @@ const ListNoti: React.FC = () => {
                           __html: item?.metadata?.body?.contents || "<p></p>",
                         }}
                       />
+                    </Typography>
+                    <Typography variant="caption" style={{ color: "gray" }}>
+                      {format(new Date(item?.createdDate), "HH:mm dd/MM/yyyy")}
                     </Typography>
                   </Grid>
                 </MenuItem>

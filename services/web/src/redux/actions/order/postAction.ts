@@ -37,129 +37,6 @@ export const createOrder =
     const response = await api.post("/orders/create", data);
 
     if (response.data.isSuccess) {
-      // dispatch({ type: NAME_ACTIONS.CREATE_ORDER.CREATE_ORDER_SUCCESS });
-      // //call api GHN
-      // const order = {
-      //   payment_type_id: 2,
-      //   note: props.note,
-      //   return_phone: address.phone,
-      //   return_address: formatAddress(address),
-      //   return_district_id: shopAddress.district_id,
-      //   return_ward_code: shopAddress.ward_code,
-      //   to_name: address.firstName + " " + address.lastName,
-      //   to_phone: address.phone,
-      //   to_address: formatAddress(address),
-      //   to_district_id: address.districtId,
-      //   to_ward_code: address.wardCode,
-      //   required_note: "KHONGCHOXEMHANG",
-      //   deliver_station_id: null,
-      //   weight: 200,
-      //   order_value: Math.round(total() * 23000),
-      //   service_type_id: state.order.currentService.service_type_id,
-      //   service_id: state.order.currentService.service_id,
-      //   insurance_value: Math.round(total() * 23000),
-      //   cod_amount:
-      //     props.paymentMethod === PaymentMethod.Momo
-      //       ? 0
-      //       : Math.round(total() * 23000),
-      //   pick_station_id: 1444,
-      //   items: state.cart.itemToCheckOut.map((item) => {
-      //     return {
-      //       name: item.productName,
-      //       quantity: item.quantity,
-      //       price: Math.round(item.price * 23000),
-      //       category: {
-      //         level1: "book",
-      //       },
-      //     };
-      //   }),
-      // };
-      // try {
-      //   const createDelivery = await apiGHN.post(
-      //     "/v2/shipping-order/create",
-      //     order
-      //   );
-      //   if (createDelivery.data.code === 200) {
-      //     // TODO: Integrate API UPDATE ORDER CODE
-      //     const resultUpdateOrderCode = await api.post(
-      //       "/orders/update-order-code",
-      //       {
-      //         id: response.data.value,
-      //         orderCode: createDelivery.data.data.order_code,
-      //       }
-      //     );
-      //     if (resultUpdateOrderCode.data.isSuccess) {
-      //       props.onSuccess(
-      //         createDelivery.data.data.order_code,
-      //         resultUpdateOrderCode.data.value
-      //       );
-      //       dispatch({
-      //         type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-      //           .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
-      //       });
-      //       const tokens = await api.get("/notis/list-admin-token");
-      //       Promise.all(
-      //         tokens.data.value.map(async (token: string) => {
-      //           await apiFCM.post("/send", {
-      //             to: token,
-      //             notification: {
-      //               title: `You have a new order - ${createDelivery.data.data.order_code} `,
-      //               body: `You have a new order - ${createDelivery.data.data.order_code} `,
-      //               mutable_content: true,
-      //               sound: "Tri-tone",
-      //             },
-      //           });
-      //           await api.post("/notis/create", {
-      //             fcmTokens: tokens.data.value,
-      //             userIds: ["b6ae2fe7-9059-4ab3-a618-2e37086f84e7"],
-      //             metadata: JSON.stringify({
-      //               title: `You have a new order - ${createDelivery.data.data.order_code}`,
-      //               body: {
-      //                 type: "Canceled",
-      //                 orderCode: createDelivery.data.data.order_code,
-      //                 orderId: response.data.value,
-      //                 contents: `You have a new order - ${createDelivery.data.data.order_code}`,
-      //               },
-      //               mutable_content: true,
-      //               sound: "Tri-tone",
-      //             }),
-      //             createdDate: new Date(),
-      //           });
-      //         })
-      //       );
-      //     } else {
-      //       /**
-      //        * Delete order when create GHN fail
-      //        */
-      //       await api.delete("/orders/delete-order-fail", {
-      //         params: {
-      //           id: response.data.value,
-      //         },
-      //       });
-      //       props.onFailure("Create order fail!");
-      //       dispatch({
-      //         type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-      //           .CREATE_DELIVERY_FOR_ORDER_FAIL,
-      //         message: resultUpdateOrderCode.data.message,
-      //       });
-      //     }
-      //   }
-      // } catch (error: any) {
-      //   /**
-      //    * Delete order when create GHN fail
-      //    */
-      //   await api.delete("/orders/delete-order-fail", {
-      //     params: {
-      //       id: response.data.value,
-      //     },
-      //   });
-      //   props.onFailure(error.response?.data?.message);
-      //   dispatch({
-      //     type: NAME_ACTIONS.CREATE_DELIVERY_FOR_ORDER
-      //       .CREATE_DELIVERY_FOR_ORDER_FAIL,
-      //     message: error?.message,
-      //   });
-      // }
       props.onSuccess(response.data.value);
       dispatch({ type: NAME_ACTIONS_ORDER.CREATE_ORDER.CREATE_ORDER_SUCCESS });
       dispatch({
@@ -207,7 +84,7 @@ export const cancelOrder =
               await apiFCM.post("/send", {
                 to: token,
                 notification: {
-                  title: `Order ${props.orderCode} was canceled `,
+                  title: `Order was canceled `,
                   body: `Order ${props.orderCode} was canceled `,
                   mutable_content: true,
                   sound: "Tri-tone",
@@ -312,6 +189,31 @@ export const createOrderGHN =
           dispatch({
             type: NAME_ACTIONS_ORDER.CREATE_DELIVERY_FOR_ORDER
               .CREATE_DELIVERY_FOR_ORDER_SUCCESS,
+          });
+          const tokens = await api.get("/notis/list-admin-token");
+          await apiFCM.post("/send", {
+            to: tokens.data.value,
+            notification: {
+              title: `New order`,
+              body: `You have a new order - ${createDelivery.data.data.order_code} `,
+              mutable_content: true,
+              sound: "Tri-tone",
+            },
+          });
+          await api.post("/notis/create", {
+            fcmTokens: tokens.data.value,
+            metadata: JSON.stringify({
+              title: `New order`,
+              body: {
+                type: "Ready To Pick",
+                orderCode: createDelivery.data.data.order_code,
+                orderId: props.order.id,
+                contents: `You have a new order - ${createDelivery.data.data.order_code}`,
+              },
+              mutable_content: true,
+              sound: "Tri-tone",
+            }),
+            createdDate: new Date(),
           });
         } else {
           /**
