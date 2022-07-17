@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendToUsers } from "redux/actions/noti/postActions";
 import { useSnackbar } from "notistack";
 import { get, keys } from "lodash";
-import { getAllAdmin } from "redux/actions/noti/getActions";
 import { RootStore } from "redux/store";
 
 const NotiCreate: React.FC = () => {
@@ -23,7 +22,6 @@ const NotiCreate: React.FC = () => {
     users: [],
   });
   const { enqueueSnackbar } = useSnackbar();
-  const { pagination } = useSelector((state: RootStore) => state.notis);
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -70,7 +68,6 @@ const NotiCreate: React.FC = () => {
           enqueueSnackbar("Send notification successfully", {
             variant: "success",
           });
-        
         },
         onFailure: (e: any) => {
           enqueueSnackbar(e.message, {
@@ -91,7 +88,7 @@ const NotiCreate: React.FC = () => {
             <Divider />
           </div>
           <br />
-          <Typography>Tile</Typography>
+          <Typography>Title</Typography>
           <VInput
             value={formValue.title}
             onChange={handleChange("title")}

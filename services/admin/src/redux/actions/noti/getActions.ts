@@ -13,11 +13,11 @@ export const getAll = (pageIndex?: number) => async (dispatch: any) => {
 
   dispatch({
     type: ACTION_NAMES.GET_ALL.GET_NOTI_PAGINATION_SUCCESS,
-    pagination: JSON.parse(res.headers.pagination),
-    data: res.data.value.map((x: any) => ({
+    data: res.data.value.data.map((x: any) => ({
       ...x,
       metadata: JSON.parse(x.metadata),
     })),
+    unread: res.data.value.unRead,
   });
 };
 

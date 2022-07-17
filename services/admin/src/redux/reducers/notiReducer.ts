@@ -19,6 +19,7 @@ export type NotiState = {
   message: string;
   data: Media;
   listNoti: Notification[];
+  unread: number;
   pagination: Pagination;
   requestingSend: boolean;
   admin: {
@@ -40,6 +41,7 @@ const initialState: NotiState = {
     pagination: { ...paginationValue },
     data: [],
   },
+  unread: 0,
 };
 
 const notiReducer = (
@@ -61,7 +63,7 @@ const notiReducer = (
           payload.pagination?.pageIndex === 1
             ? payload.data
             : [...state.listNoti, ...payload.data],
-        pagination: payload.pagination,
+        unread: payload.unread,
       };
     case ACTION_NAMES.SET_READ_NOTI.SET_READ_NOTI_SUCCESS:
       return {
@@ -74,6 +76,7 @@ const notiReducer = (
               }
             : item
         ),
+        unread: payload.isReadAll ? 0 : state.unread - 1,
       };
     case ACTION_NAMES.CATCH_NEW_NOTI:
       return {

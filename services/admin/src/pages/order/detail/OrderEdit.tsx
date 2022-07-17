@@ -23,7 +23,6 @@ import ContainedButton from "components/button/ContainedButton";
 import { updateOrderNote } from "redux/actions/order/postActions";
 import { useSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
-import clsx from "clsx";
 import HeaderPage from "components/headerPage/HeaderPage";
 
 const OrderEdit: React.FC = () => {

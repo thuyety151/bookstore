@@ -21,9 +21,9 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Create.Command(){NotiParams = notiParams}));
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetAll()
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams}));
+            return HandleResult(await Mediator.Send(new List.Query() ));
         }
         [HttpPost]
         [Route("read")]
@@ -40,9 +40,9 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("list-admin-noti")]
-        public async Task<IActionResult> ListAdmin([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> ListAdmin()
         {
-            return HandlePagedResult(await Mediator.Send(new ListAdmin.Query() { Params = pagingParams}));
+            return HandleResult(await Mediator.Send(new ListAdmin.Query()));
         }
         [HttpPost]
         [Route("send")]
@@ -52,9 +52,9 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("list-noti")]
-        public async Task<IActionResult> List([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> List()
         {
-            return HandlePagedResult(await Mediator.Send(new List.Query() { Params = pagingParams}));
+            return HandleResult(await Mediator.Send(new List.Query() ));
         }
         [HttpGet]
         [Route("total-unread")]

@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import "./styles.scss";
 import SearchIcon from "@material-ui/icons/Search";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export type FilterType = {
   placeholderSearch?: string;

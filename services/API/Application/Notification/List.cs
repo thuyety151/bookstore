@@ -16,12 +16,11 @@ namespace Application.Notification
 {
     public class List
     {
-        public class Query : IRequest<Result<PagedList<NotiDto>>>
+        public class Query : IRequest<Result<ListNotiDto>>
         {
-            public PagingParams Params { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<PagedList<NotiDto>>>
+        public class Handler : IRequestHandler<Query, Result<ListNotiDto>>
         {
             private readonly DataContext _context;
             private readonly IHttpContextAccessor _httpContext;
@@ -32,7 +31,7 @@ namespace Application.Notification
                 _httpContext = httpContext;
             }
 
-            public async Task<Result<PagedList<NotiDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<ListNotiDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var notis = _context.UserNotis.Include(x => x.Notification)
                     .Where(x =>
@@ -45,8 +44,11 @@ namespace Application.Notification
                         IsRead = x.IsRead
                     })
                     .OrderByDescending(x => x.CreatedDate);
-                return Result<PagedList<NotiDto>>.Success(
-                    await PagedList<NotiDto>.CreatePage(notis, request.Params.PageIndex, request.Params.PageSize));
+                return Result<ListNotiDto>.Success( new ListNotiDto()
+                {
+                    UnRead = notis.Count(x=>x.IsRead==false),
+                    Data = notis.ToList()
+                });
             }
         }
     }

@@ -29,7 +29,6 @@ import { Grid } from "@material-ui/core";
 import MenuAccount from "./components/MenuAccount";
 import "./styles.scss";
 import ListNoti from "./ListNoti";
-import bell from "../assets/icons/bell.svg"
 
 const drawerWidth = 280;
 

@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
-import InfiniteScroll from "components/infinityscroll/InfinityScroll";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,11 +18,10 @@ import { readNotis } from "redux/actions/noti/postActions";
 import { RootStore } from "redux/store";
 import { ROUTE_ORDER_DETAIL } from "routers/types";
 import "./styles.scss";
+import bell from "assets/icons/bell.svg";
 
 const ListNoti: React.FC = () => {
-  const { listNoti, pagination, requesting } = useSelector(
-    (state: RootStore) => state.notis
-  );
+  const { listNoti, unread } = useSelector((state: RootStore) => state.notis);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const history = useHistory();
@@ -62,25 +60,16 @@ const ListNoti: React.FC = () => {
     dispatch(readNotis("", true));
   };
 
-  const onLoadMore = () => {
-    console.log(
-      listNoti.length < pagination.totalCount,
-      listNoti.length,
-      pagination.totalCount
-    );
-    dispatch(getAll(pagination.pageIndex + 1));
-  };
-
   return (
     <Stack spacing={2} sx={{ width: "100%" }} style={{ alignItems: "center" }}>
       <Badge
-        badgeContent={pagination.totalCount}
+        badgeContent={unread > 0 ? unread : null}
         color="secondary"
         className="mr-md"
         onClick={handleClick}
       >
         <IconButton size="small" color="secondary" className="icon-noti">
-          <img src="img/icons/bell.svg" alt="icon-noti" />
+          <img src={bell} alt="icon-noti" />
         </IconButton>
       </Badge>
       <Snackbar
@@ -95,13 +84,7 @@ const ListNoti: React.FC = () => {
           <MenuItem className="mt-sm">
             <Chip label="Read all" onClick={readAll} />
           </MenuItem>
-          <InfiniteScroll
-            // hasMoreData={listNoti.length < pagination.totalCount}
-            isLoading={requesting}
-            hasMoreData={true}
-            onBottomHit={onLoadMore}
-            loadOnMount={true}
-          >
+          <Grid container>
             {listNoti.length > 0 ? (
               listNoti.map((item, index) => (
                 <MenuItem
@@ -130,7 +113,7 @@ const ListNoti: React.FC = () => {
                 <Typography>Empty</Typography>
               </Grid>
             )}
-          </InfiniteScroll>
+          </Grid>
         </Paper>
       </Snackbar>
     </Stack>

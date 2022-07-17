@@ -80,6 +80,7 @@ const SettingsPage: React.FC = () => {
         latitude: data.Latitude,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settiingsState.requesting]);
 
   useEffect(() => {
