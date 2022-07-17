@@ -66,7 +66,7 @@ namespace Application.Coupons
                     return Result<Unit>.Failure("Coupon is expired");
                 }
 
-                var userCoupon = _context.UserCoupons.FirstOrDefault(x => x.CouponId.ToString() == request.CouponId);
+                var userCoupon = _context.UserCoupons.FirstOrDefault(x => x.CouponId.ToString() == request.CouponId && x.UserId == userId);
 
                 if (userCoupon != null)
                 {
