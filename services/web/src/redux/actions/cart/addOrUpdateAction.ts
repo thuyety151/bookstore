@@ -1,7 +1,6 @@
 import api from "../../../boot/axios";
 import AddOrUpdateItem from "../../../model/AddOrUpdateItem";
 import { NAME_ACTIONS } from "../../constants/cart/actionTypes";
-import { getPageCart } from "./getAction";
 
 export type AddToCartProps = {
   item: AddOrUpdateItem;

@@ -120,7 +120,7 @@ export const NAVIGATION_LIST: NavigationItem[] = [
     pathName: ROUTE_AUTHORS,
   },
   {
-    title: "Authors",
+    title: "Notifications",
     icon: "campaign",
     pathName: ROUTE_NOTI,
   },

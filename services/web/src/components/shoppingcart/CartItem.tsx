@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 import { deleteItem } from "../../redux/actions/cart/deleteAction";
 import StockStatus from "../../shared/enum/stockStatus";
-import { getPageCart } from "../../redux/actions/cart/getAction";
 
 const CartItem: React.FC<{ item: Item; closeCart: any }> = (
   item,

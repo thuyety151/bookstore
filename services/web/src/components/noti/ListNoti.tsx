@@ -12,7 +12,6 @@ import Stack from "@mui/material/Stack";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { generatePath, useHistory } from "react-router-dom";
 import { getAll } from "../../redux/actions/noti/getActions";
 import { readNotis } from "../../redux/actions/noti/postActions";
 import { RootStore } from "../../redux/store";
@@ -25,7 +24,6 @@ const ListNoti: React.FC = () => {
   );
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const history = useHistory();
 
   const handleClick = () => {
     setOpen(true);

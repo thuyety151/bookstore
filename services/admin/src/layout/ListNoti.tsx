@@ -7,10 +7,6 @@ import {
   Paper,
   Snackbar,
   Typography,
-  AppBar,
-  Dialog,
-  Divider,
-  Toolbar,
 } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
 import { format } from "date-fns";
@@ -23,7 +19,6 @@ import { RootStore } from "redux/store";
 import { ROUTE_ORDER_DETAIL } from "routers/types";
 import "./styles.scss";
 import bell from "assets/icons/bell.svg";
-import CloseIcon from "@material-ui/icons/Close";
 
 const ListNoti: React.FC = () => {
   const { listNoti, unread } = useSelector((state: RootStore) => state.notis);

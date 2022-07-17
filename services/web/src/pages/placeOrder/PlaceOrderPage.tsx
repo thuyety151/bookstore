@@ -174,7 +174,7 @@ const PlaceOrderPage: React.FC = () => {
                       <Grid item>
                         <Typography>Total:</Typography>
                         <Typography variant="inherit" className="text-bold">
-                          {placeOrder.total}
+                          {placeOrder.total.toFixed(2)}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -210,7 +210,7 @@ const PlaceOrderPage: React.FC = () => {
                             </Typography>
                           </Grid>
                           <Grid item>x {item.quantity}</Grid>
-                          <Grid item>$ {item.price * item.quantity}</Grid>
+                          <Grid item>$ {(item.price * item.quantity).toFixed(2)}</Grid>
                         </Grid>
                       ))}
                     </Grid>
